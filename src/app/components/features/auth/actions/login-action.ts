@@ -1,0 +1,25 @@
+'use server'
+
+import { createClient } from '@/app/utils/supabase/server'
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { ILoginFormData } from '../components/LoginForm'
+
+export async function login(formData: ILoginFormData) {
+  const supabase = await createClient()
+
+  const data = {
+    email: formData.email,
+    password: formData.password,
+  }  
+
+  const { error } = await supabase.auth.signInWithPassword(data)
+ console.log(error);
+ 
+  if (error) {
+    redirect('/auth/error')
+  }
+
+  revalidatePath('/', 'layout')
+  redirect('/menu')
+}
