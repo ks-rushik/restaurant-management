@@ -7,24 +7,25 @@ import FormGroup from "@/app/components/forms/FormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
+import { login } from "../actions/login-action";
 const loginSchema = z.object({
   email: z.string().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
 });
 
-export type LoginFormData = z.infer<typeof loginSchema>;
+export type ILoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
+  } = useForm<ILoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("Login Data:", data);
+  const onSubmit = (data: ILoginFormData) => {
+    return login(data);
   };
 
   return (

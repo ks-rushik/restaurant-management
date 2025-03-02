@@ -7,6 +7,7 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { signUp } from "../actions/signup-action";
 
 const SignUpSchema = z
   .object({
@@ -35,13 +36,13 @@ const SignUpForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ISignUpFormData>({
     resolver: zodResolver(SignUpSchema),
   });
 
   const onSubmit = (data: ISignUpFormData) => {
-    console.log("SignUp Data:", data);
+    return signUp(data);
   };
   return (
     <>
@@ -106,6 +107,7 @@ const SignUpForm = () => {
             classNames={{
               root: "mb-2 w-full py-2 rounded-md",
             }}
+            loading={isSubmitting}
           >
             Submit
           </BaseButton>
