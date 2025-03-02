@@ -73,9 +73,9 @@ const LoginForm = () => {
             Login
           </BaseButton>
           <div className="flex justify-between text-md mb-4">
-            <Link href="/auth/reset-link">Forget password?</Link>
+            <Link href="/auth/resetpassword">Forget password?</Link>
             <div className="flex gap-1 justify-end">
-              <span>Don't have account?</span>
+              <span>Do Not have account?</span>
               <Link
                 href="/auth/signup"
                 className="text-blue-600 hover:underline"
