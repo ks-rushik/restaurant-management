@@ -18,11 +18,11 @@ export async function signUp(formData: ISignUpFormData) {
   }
 
   const { error } = await supabase.auth.signUp(Objdata)
-  
+   
   if (error) {
     redirect('/error')
   }
 
   revalidatePath('/', 'layout')
-  redirect('/auth/login')
+  return{ message: "User Register successfully"}
 }
