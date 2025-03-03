@@ -30,7 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MantineProvider>{children}</MantineProvider>
+        <QueryProvider>
+        <MantineProvider>
+          <Notifications/>
+          {children}</MantineProvider>
+        </QueryProvider>
+       
       </body>
     </html>
   );
