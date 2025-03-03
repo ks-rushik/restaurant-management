@@ -78,7 +78,7 @@ const ResetPassword = () => {
 
           <BaseButton
            type="submit"
-            intent="success"
+            intent="primary"
             classNames={{
               root: "mb-2 w-full py-2 rounded-md",
             }}
