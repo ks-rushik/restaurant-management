@@ -8,6 +8,7 @@ import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { login } from "../actions/login-action";
+import { useState } from "react";
 const loginSchema = z.object({
   email: z.string().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
@@ -23,9 +24,13 @@ const LoginForm = () => {
   } = useForm<ILoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+  const[error , setError] = useState('')
 
-  const onSubmit = (data: ILoginFormData) => {
-    return login(data);
+  const onSubmit = async(data: ILoginFormData) => {
+    const error = await login(data);
+    if(error){
+      setError(error.message)
+    }
   };
 
   return (
@@ -62,6 +67,8 @@ const LoginForm = () => {
               classNames={{ input: "focus-within " }}
             />
           </FormField>
+          <p className="text-red-500 mb-2">{error}</p>
+
           <BaseButton
             type="submit"
             intent="primary"

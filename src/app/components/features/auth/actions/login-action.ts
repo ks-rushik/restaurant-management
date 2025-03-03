@@ -17,7 +17,7 @@ export async function login(formData: ILoginFormData) {
  console.log(error);
  
   if (error) {
-    redirect('/auth/error')
+    return error
   }
 
   revalidatePath('/', 'layout')
