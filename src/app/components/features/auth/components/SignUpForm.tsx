@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUp } from "../actions/signup-action";
+import { notifications } from "@mantine/notifications";
 
 const SignUpSchema = z
   .object({
@@ -41,8 +42,9 @@ const SignUpForm = () => {
     resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = (data: ISignUpFormData) => {
-    return signUp(data);
+  const onSubmit = async(data: ISignUpFormData) => {
+    const {message} = await signUp(data)
+    notifications.show({message: message})
   };
   return (
     <>
