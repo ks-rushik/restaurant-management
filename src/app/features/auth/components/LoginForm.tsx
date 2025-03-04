@@ -24,12 +24,12 @@ const LoginForm = () => {
   } = useForm<ILoginFormData>({
     resolver: zodResolver(loginSchema),
   });
-  const[error , setError] = useState('')
+  const [error, setError] = useState("");
 
-  const onSubmit = async(data: ILoginFormData) => {
+  const onSubmit = async (data: ILoginFormData) => {
     const error = await login(data);
-    if(error){
-      setError(error.message)
+    if (error) {
+      setError(error.message);
     }
   };
 
@@ -79,10 +79,12 @@ const LoginForm = () => {
           >
             Login
           </BaseButton>
-          <div className="flex justify-between text-md mb-4">
-            <Link href="/auth/resetpassword">Forget password?</Link>
-            <div className="flex gap-1 justify-end">
-              <span>Do Not have account?</span>
+          <div className="flex flex-col sm:flex-row sm:justify-between text-md mb-4 text-center sm:text-left">
+            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0">
+              Forgot password?
+            </Link>
+            <div className="flex gap-1 justify-center sm:justify-end">
+              <span>Not account yet?</span>
               <Link
                 href="/auth/signup"
                 className="text-blue-600 hover:underline"
