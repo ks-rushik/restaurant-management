@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
-import '@mantine/notifications/styles.css';
-import { Notifications } from '@mantine/notifications';
+import "@mantine/notifications/styles.css";
+import { Notifications } from "@mantine/notifications";
 import "./globals.css";
 import QueryProvider from "./components/QueryProvider";
 
@@ -31,11 +31,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <QueryProvider>
-        <MantineProvider>
-          <Notifications/>
-          {children}</MantineProvider>
+          <MantineProvider>
+            <Notifications position="top-right" />
+            {children}
+          </MantineProvider>
         </QueryProvider>
-       
       </body>
     </html>
   );
