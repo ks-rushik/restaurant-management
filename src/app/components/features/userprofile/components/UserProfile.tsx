@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Center, FileButton, Loader, Space, Textarea } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import FormGroup from "@/app/components/forms/FormGroup";
 import FormField from "@/app/components/forms/FormField";
@@ -32,24 +32,21 @@ const UserProfileForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<IUserFormData>({
     resolver: zodResolver(userformSchema),
+    defaultValues: userData
+    ? {
+        name: userData.name ?? "",
+        phone: userData.phone ?? "",
+        address: userData.address ?? "",
+      }
+    : { name: "", phone: "", address: "" },
   });
 
-  useEffect(() => {
-    if (userData) {
-      reset({
-        name: userData.name || "",
-        phone: userData.phone || "",
-        address: userData.address || "",
-      });
-      if (userData.logo) {
-        setPreview(userData.logo);
-      }
-    }
-  }, [userData, reset]);
+  if (userData?.logo && !preview) {
+    setPreview(userData.logo);
+  }
 
   if (isLoading) {
     return (
