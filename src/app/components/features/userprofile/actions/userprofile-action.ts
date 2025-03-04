@@ -31,7 +31,7 @@ export async function submitUserForm(formData: FormData) {
     logoUrl = data.publicUrl;
   }
 
-  const { error } = await supabase
+  const { data:UserData ,error } = await supabase
     .from("user_profile")
     .upsert([
       {
@@ -47,5 +47,5 @@ export async function submitUserForm(formData: FormData) {
     redirect("/error");
   }
 
-  redirect("/");
+  return UserData
 }
