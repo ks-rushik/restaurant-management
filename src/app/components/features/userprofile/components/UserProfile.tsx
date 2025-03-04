@@ -144,7 +144,7 @@ const UserProfileForm = () => {
           classNames={{ root: "mb-2 w-full py-2 rounded-md" }}
           loading={isSubmitting}
         >
-          Update Changes
+          Save Profile
         </BaseButton>
       </FormGroup>
     </form>
