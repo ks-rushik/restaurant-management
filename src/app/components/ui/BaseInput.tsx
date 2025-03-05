@@ -24,8 +24,7 @@ import {
       classNames={{
         ...otherElement,
         input: clsx(
-          "bg-blue-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-red-500 block w-full p-2.5 ",
-          "dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+          "bg-[#F5F5F5] border border-none text-gray-900 font-bold text-sm focus-within:ring-2 focus-within:ring-[#2a85ff]  rounded-xl h-12 focus-within:border-[#2a85ff] focus:border-[#2a85ff] block w-full p-2.5 ",
           input
         ),
       }}
@@ -38,8 +37,7 @@ import {
       <Input
         classNames={{
           input: clsx(
-            "bg-blue-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-700 block w-full p-2.5",
-            "dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+            "bg-[#F5F5F5] border border-none text-gray-900 font-bold text-sm  rounded-xl h-12 focus:ring-2 focus:ring-[#2a85ff] focus:border-none  block w-full p-2.5",
             {
               "mb-6  text-sm rounded-lg block w-full p-2.5 cursor-not-allowed":
                 disabled,
