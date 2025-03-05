@@ -3,7 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import FormGroup from "@/app/components/forms/FormGroup";
+import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
@@ -46,6 +46,7 @@ const LoginForm = () => {
             name="email"
             error={errors.email?.message}
             required={true}
+            size="md"
           >
             <BaseInput
               {...register("email")}
@@ -59,6 +60,7 @@ const LoginForm = () => {
             name="password"
             error={errors.password?.message}
             required={true}
+            size="md"
           >
             <BaseInput
               {...register("password")}

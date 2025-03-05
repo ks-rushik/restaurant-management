@@ -1,6 +1,6 @@
 "use client";
 import { z } from "zod";
-import FormGroup from "@/app/components/forms/FormGroup";
+import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUp } from "../actions/signup-action";
 import { notifications } from "@mantine/notifications";
+import { Title } from "@mantine/core";
 
 const SignUpSchema = z
   .object({
@@ -42,17 +43,17 @@ const SignUpForm = () => {
     resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = async(data: ISignUpFormData) => {
-    const {message} = await signUp(data)
-    notifications.show({message: message})
+  const onSubmit = async (data: ISignUpFormData) => {
+    const { message } = await signUp(data);
+    notifications.show({ message: message });
   };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-            SignUp Form
-          </h1>
+          <Title order={2} ta="center" mt="lg" mb={50}>
+            Create your account
+          </Title>
           <FormField
             label="Name"
             name="name"
