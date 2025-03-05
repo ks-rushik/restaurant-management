@@ -9,7 +9,6 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { login } from "../actions/login-action";
 import { useState } from "react";
-import { Title } from "@mantine/core";
 const loginSchema = z.object({
   email: z.string().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
@@ -38,9 +37,9 @@ const LoginForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <FormGroup>
-          <Title order={2}  ta="center" mt="lg" mb={50} >
+          <h2 className="text-3xl font-bold mb-10" >
           Welcome to Digidine!
-        </Title>
+        </h2>
           <FormField
             label="Email"
             name="email"
@@ -52,7 +51,7 @@ const LoginForm = () => {
               {...register("email")}
               type="email"
               name="email"
-              placeholder="Enter your email..."
+              placeholder="Enter your email"
             />
           </FormField>
           <FormField
@@ -76,23 +75,24 @@ const LoginForm = () => {
             type="submit"
             intent="primary"
             classNames={{
-              root: "mb-2 w-full py-2 rounded-md",
+              root: "mb-2 w-full py-2 rounded-md mt-5 h-12",
+              inner:'font-bold text-white text-sm'
             }}
             loading={isSubmitting}
           >
             Login
           </BaseButton>
-          <div className="flex flex-col sm:flex-row sm:justify-between text-md mb-4 text-center sm:text-left">
-            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0">
-              Forgot password?
+          <div className="flex flex-col sm:flex-row sm:justify-between text-md mb-4 mt-2 text-center sm:text-left ">
+            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm ">
+              Forgot password
             </Link>
-            <div className="flex gap-1 justify-center sm:justify-end">
+            <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  font-medium ">
               <span>Not account yet?</span>
               <Link
                 href="/auth/signup"
-                className="text-blue-600 hover:underline"
+                className="text-[#171717] font-bold hover:underline"
               >
-                SignUp
+                Sign up
               </Link>
             </div>
           </div>

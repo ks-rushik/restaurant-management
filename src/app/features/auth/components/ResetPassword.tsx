@@ -9,6 +9,8 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { resetPassword } from "../actions/resetpassword-action";
 import { Text, Title } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+
 import Link from "next/link";
 
 const resetPasswordSchema = z.object({
@@ -26,9 +28,10 @@ const ResetPasswordForm = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = (data: IResetPasswordData) => {
-    console.log("Login Data:", data);
-    return resetPassword(data.email);
+  const onSubmit = async(data: IResetPasswordData) => {
+    const {message} = await resetPassword(data.email);
+    notifications.show({ message: message });
+    
   };
 
   return (
@@ -61,7 +64,8 @@ const ResetPasswordForm = () => {
               type="submit"
               intent="primary"
               classNames={{
-                root: "mb-2 w-full py-2 rounded-md md:w-1/2 ",
+                root: "mb-2 w-full py-2 rounded-md md:w-1/2 h-12",
+                inner:'font-bold text-white text-sm'
               }}
               loading={isSubmitting}
             >
@@ -70,7 +74,7 @@ const ResetPasswordForm = () => {
 
             <Link
               href="/auth/login"
-              className="mb-2 pt-2 sm:justify-start opacity-50"
+              className="mt-3  sm:justify-start opacity-50"
             >
               Back to the login
             </Link>
