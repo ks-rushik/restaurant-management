@@ -7,6 +7,7 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updatePassword } from "../actions/updatepassword-action";
+import { Title } from "@mantine/core";
 
 const ResetPasswordSchema = z
   .object({
@@ -38,17 +39,17 @@ const ResetPassword = () => {
     resolver: zodResolver(ResetPasswordSchema),
   });
 
-  const onSubmit = (data: IResetPasswordData) => {
+  const onSubmit = (data: IResetPasswordData) => {df
     console.log("SignUp Data:", data);
-    return updatePassword(data.password)
+    return updatePassword(data.password);
   };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-            Reset Password
-          </h1>
+          <Title order={2} ta="center" mt="lg" mb={50}>
+            Reset password
+          </Title>
           <FormField
             label="Password"
             name="password"
@@ -77,7 +78,7 @@ const ResetPassword = () => {
           </FormField>
 
           <BaseButton
-           type="submit"
+            type="submit"
             intent="primary"
             classNames={{
               root: "mb-2 w-full py-2 rounded-md",
