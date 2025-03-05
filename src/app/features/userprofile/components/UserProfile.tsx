@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Center, FileButton, Loader, Space, Textarea } from "@mantine/core";
+import { Center, FileButton, Loader, Space, Textarea, Title } from "@mantine/core";
 import { useState } from "react";
 import Image from "next/image";
 import FormGroup from "@/app/components/forms/FormGroup";
@@ -77,14 +77,15 @@ const UserProfileForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <FormGroup>
-        <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-          My Profile
-        </h1>
+        <Title order={2}  ta="center" mt="lg" mb={50} >
+                 Welcome to Digidine!
+               </Title>
         <FormField
           label="Restaurant Name"
           name="name"
           error={errors.name?.message}
           required
+          size="sm"
         >
           <BaseInput
             {...register("name")}
