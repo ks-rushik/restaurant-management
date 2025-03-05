@@ -9,6 +9,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { login } from "../actions/login-action";
 import { useState } from "react";
+import { Title } from "@mantine/core";
 const loginSchema = z.object({
   email: z.string().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
@@ -37,9 +38,9 @@ const LoginForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <FormGroup>
-          <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-            Login Form
-          </h1>
+          <Title order={2}  ta="center" mt="lg" mb={50} >
+          Welcome to Digidine!
+        </Title>
           <FormField
             label="Email"
             name="email"

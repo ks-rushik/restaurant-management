@@ -1,5 +1,6 @@
-import { BackgroundImage, Box, Center } from "@mantine/core";
 import { FC, ReactNode } from "react";
+import background from "./../../images/background.jpg";
+import Image from "next/image";
 
 type IFormGroupProps = {
   children: ReactNode;
@@ -7,9 +8,20 @@ type IFormGroupProps = {
 
 const FormGroup: FC<IFormGroupProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-6 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="w-full max-w-md p-6 sm:p-8 bg-white  rounded-xl shadow-2xl border">
-        {children}
+    <div className="flex min-h-screen w-full">
+      <div className="hidden md:flex w-1/2 h-screen">
+        <Image
+          src={background}
+          layout="responsive"
+          width={500}
+          height={500}
+          alt="Website Logo"
+          className="w-full h-full object-cover opacity-80"
+          priority
+        />
+      </div>
+      <div className="flex w-full md:w-1/2 items-center justify-center px-4 py-6 sm:px-6 lg:px-8 opacity-90">
+        <div className="w-full max-w-md p-6 sm:p-8">{children}</div>
       </div>
     </div>
   );
