@@ -19,7 +19,7 @@ const Navbar = () => {
         opened={opened}
         onChange={setOpened}
         zIndex={0}
-        classNames={{ item: "font-[650]" }}
+        classNames={{ item: "font-[650] z-10 " }}
       >
         <Menu.Target>
           <Avatar
