@@ -20,7 +20,7 @@ export async function signUp(formData: ISignUpFormData) {
   const { error } = await supabase.auth.signUp(Objdata)
    
   if (error) {
-    redirect('/error')
+    redirect('/auth/error')
   }
 
   revalidatePath('/', 'layout')
