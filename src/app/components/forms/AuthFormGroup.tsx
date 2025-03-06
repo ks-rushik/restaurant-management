@@ -20,7 +20,7 @@ const AuthFormGroup: FC<IFormGroupProps> = ({ children }) => {
           priority
         />
       </div>
-      <div className="flex w-full md:w-1/2 items-center justify-center px-4 py-6 sm:px-6 lg:px-8 opacity-90">
+      <div className="flex w-full md:w-1/2 items-center justify-center px-4  sm:px-6 lg:px-8 opacity-90">
         <div className="w-full max-w-md p-6 sm:p-8">{children}</div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export async function updatePassword(newPassword: string) {
   });
 
   if (error) {
-    redirect("/error");
+    redirect("/auth/error");
   }
 
   redirect("/auth/login");

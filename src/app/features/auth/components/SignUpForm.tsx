@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUp } from "../actions/signup-action";
 import { notifications } from "@mantine/notifications";
-import { Title } from "@mantine/core";
 
 const SignUpSchema = z
   .object({
@@ -51,9 +50,7 @@ const SignUpForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <Title order={2} ta="center" mt="lg" mb={50}>
-            Create your account
-          </Title>
+          <h2 className="text-3xl font-bold mb-8">Sign Up</h2>
           <FormField
             label="Name"
             name="name"
@@ -108,15 +105,19 @@ const SignUpForm = () => {
           <BaseButton
             type="submit"
             classNames={{
-              root: "mb-2 w-full py-2 rounded-md",
+              root: "mb-2 w-full py-2 rounded-md h-12",
+              inner: "font-bold text-white text-sm",
             }}
             loading={isSubmitting}
           >
-            Submit
+            Sign Up
           </BaseButton>
-          <div className="flex gap-2 justify-end mb-4 mt-4">
+          <div className="flex gap-2 justify-end mb-4 mt-6 text-[#737373] text-md  font-medium">
             <span> Already have an account?</span>
-            <Link href="/auth/login" className="text-blue-600 hover:underline">
+            <Link
+              href="/auth/login"
+              className="text-[#171717] font-bold  hover:underline"
+            >
               Login
             </Link>
           </div>
