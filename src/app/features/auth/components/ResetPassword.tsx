@@ -31,7 +31,6 @@ const ResetPasswordForm = () => {
   const onSubmit = async(data: IResetPasswordData) => {
     const {message} = await resetPassword(data.email);
     notifications.show({ message: message });
-    
   };
 
   return (
@@ -64,7 +63,7 @@ const ResetPasswordForm = () => {
               type="submit"
               intent="primary"
               classNames={{
-                root: "mb-2 w-full py-2 rounded-md md:w-1/2 h-12",
+                root: "mb-2 w-full py-2 rounded-md md:w-1/2 h-12 sm:w-1/3",
                 inner:'font-bold text-white text-sm'
               }}
               loading={isSubmitting}

@@ -9,6 +9,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { login } from "../actions/login-action";
 import { useState } from "react";
+
 const loginSchema = z.object({
   email: z.string().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
@@ -82,11 +83,11 @@ const LoginForm = () => {
           >
             Login
           </BaseButton>
-          <div className="flex flex-col sm:flex-row sm:justify-between text-md mb-4 mt-2 text-center sm:text-left ">
-            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm ">
+          <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:text-md md:mt-2 md:text-center text-md mb-4 mt-2 text-center  sm:text-left ">
+            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm md:mb-2">
               Forgot password
             </Link>
-            <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  font-medium ">
+            <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  md:justify-center md:gap-1 font-medium ">
               <span>Not account yet?</span>
               <Link
                 href="/auth/signup"
