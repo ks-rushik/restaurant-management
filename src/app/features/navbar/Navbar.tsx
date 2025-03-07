@@ -32,8 +32,8 @@ const Navbar = () => {
           />
         </Menu.Target>
 
-        <Menu.Dropdown>
-          <Menu.Item classNames={{ item: "hover:bg-gray-200" }}>
+        <Menu.Dropdown style={{zIndex:20}}>
+          <Menu.Item classNames={{ item: "hover:bg-gray-200 " }}>
             <Link href="/userprofile" className="block px-4 py-2">
               Profile Page
             </Link>
