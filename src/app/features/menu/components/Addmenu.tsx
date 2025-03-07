@@ -4,16 +4,18 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Database } from "../../../../../database.types";
-import { menu } from "../actions/addmenu-action";
+import BaseModal from "@/app/components/ui/BaseModal";
+import { FC } from "react";
+import { IModalData } from "../types/type";
 
-export type IMenudata = Database["public"]["Tables"]["menus"]["Row"];
+export type IMenuModalProps = {
+  onAddMenu: (data: IModalData) => Promise<void>;
+};
 
-const addmenu = () => {
+const addmenu: FC<IMenuModalProps> = ({ onAddMenu }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const Addmenuschema = z.object({
     menu_name: z.string().min(1, "Menu name is required"),
@@ -25,21 +27,23 @@ const addmenu = () => {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors ,isSubmitting },
     handleSubmit,
     control,
   } = useForm<IAddmenudata>({
     resolver: zodResolver(Addmenuschema),
   });
 
-  const onSubmit = (data: IAddmenudata) => {
-    menu(data)
+  const onSubmit = async(data: IAddmenudata) => {
+    await onAddMenu(data);
+    close()
     console.log(data);
+    return 
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close}>
+      <BaseModal opened={opened} onClose={close} title="Add menu" padding="lg">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             label="Menu name"
@@ -86,9 +90,18 @@ const addmenu = () => {
               )}
             />
           </FormField>
-          <BaseButton type="submit" onClick={close}>Submit</BaseButton>
+          <BaseButton
+            type="submit"
+            classNames={{
+              root: "h-12 w-full rounded-xl",
+              inner: "font-bold text-white text-sm",
+            }}
+            loading={isSubmitting}
+          >
+            Submit
+          </BaseButton>
         </form>
-      </Modal>
+      </BaseModal>
       <BaseButton
         type="submit"
         onClick={open}
