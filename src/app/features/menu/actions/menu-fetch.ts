@@ -11,7 +11,8 @@ const fetchMenudata = async () => {
   const { data } = await supabase
     .from("menus")
     .select("*")
-    .eq("restaurant_id", userId!);
+    .eq("restaurant_id", userId!)
+    .order("created_at", { ascending: true });
 
   return data;
 };

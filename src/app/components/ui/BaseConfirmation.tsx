@@ -3,16 +3,26 @@ import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
 import { FC, ReactNode } from "react";
 import BaseButton from "./BaseButton";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 type IBaseConfirmationProps = ModalProps & {
   classNames?: Partial<Record<ModalStylesNames, string>> | undefined;
 } & {
   text: string;
   children: ReactNode;
-  confirmationbutton: string;
+  intent?:
+    | "primary"
+    | "warning"
+    | "danger"
+    | "inverse"
+    | "success"
+    | "purple"
+    | "default"
+    | null
+    | undefined;
 };
 const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
-  const { text, children, confirmationbutton, classNames } = props;
+  const { text, children, classNames, intent = "primary" } = props;
   const { title, content, ...otherElement } = classNames || {};
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -34,13 +44,9 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
           {children}
         </div>
       </Modal>
-      <BaseButton
-        onClick={open}
-        className="h-12 w-1/4"
-        classNames={{ inner: "font-sm text-white" }}
-      >
-        {confirmationbutton}
-      </BaseButton>
+      <div onClick={open}>
+        <RiDeleteBinLine size={28} color="red" />
+      </div>
     </>
   );
 };

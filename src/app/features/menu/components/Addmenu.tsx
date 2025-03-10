@@ -8,45 +8,81 @@ import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import BaseModal from "@/app/components/ui/BaseModal";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { IModalData } from "../types/type";
 
 export type IMenuModalProps = {
   onAddMenu: (data: IModalData) => Promise<void>;
+  onEditMenu: (data: IModalData) => Promise<void>;
+  selectedMenu?: IModalData | null;
+  setSelectedMenu: (menu: IModalData | null) => void;
 };
 
-const addmenu: FC<IMenuModalProps> = ({ onAddMenu }) => {
+const Addmenu: FC<IMenuModalProps> = ({
+  onAddMenu,
+  onEditMenu,
+  selectedMenu,
+  setSelectedMenu,
+}) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const Addmenuschema = z.object({
+
+  const AddMenuSchema = z.object({
     menu_name: z.string().min(1, "Menu name is required"),
-    currency: z.string({ required_error: "currency is required" }),
-    status: z.string({ required_error: "status is required" }),
+    currency: z.string({ required_error: "Currency is required" }),
+    status: z.string({ required_error: "Status is required" }),
   });
 
-  type IAddmenudata = z.infer<typeof Addmenuschema>;
+  type IAddMenuData = z.infer<typeof AddMenuSchema>;
 
   const {
     register,
-    formState: { errors ,isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     control,
-  } = useForm<IAddmenudata>({
-    resolver: zodResolver(Addmenuschema),
+    reset,
+  } = useForm<IAddMenuData>({
+    resolver: zodResolver(AddMenuSchema),
+    defaultValues: { menu_name: "", currency: "", status: "" },
   });
 
-  const onSubmit = async(data: IAddmenudata) => {
-    await onAddMenu(data);
-    close()
-    console.log(data);
-    return 
+  useEffect(() => {
+    if (selectedMenu) {
+      reset(selectedMenu);
+      open();
+    } else {
+      reset({ menu_name: "", currency: "", status: "" });
+    }
+  }, [selectedMenu, reset]);
+
+  const onSubmit = async (data: IAddMenuData) => {
+    if (selectedMenu) {
+      const updatedItem = { ...selectedMenu, ...data };
+      await onEditMenu(updatedItem);
+    } else {
+      await onAddMenu(data);
+    }
+    close();
+    setSelectedMenu(null);
+    reset({ menu_name: "", currency: "", status: "" });
+  };
+
+  const handleClose = () => {
+    close();
+    setSelectedMenu(null);
+    reset({ menu_name: "", currency: "", status: "" });
   };
 
   return (
     <>
-      <BaseModal opened={opened} onClose={close} title="Add menu" padding="lg">
+      <BaseModal
+        opened={opened}
+        onClose={handleClose}
+        title={selectedMenu ? "Edit Menu" : "Add Menu"}
+        padding="lg"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
-            label="Menu name"
+            label="Menu Name"
             name="menu_name"
             error={errors.menu_name?.message}
           >
@@ -74,7 +110,7 @@ const addmenu: FC<IMenuModalProps> = ({ onAddMenu }) => {
             />
           </FormField>
           <FormField
-            label="status"
+            label="Status"
             name="status"
             error={errors.status?.message}
           >
@@ -92,27 +128,30 @@ const addmenu: FC<IMenuModalProps> = ({ onAddMenu }) => {
           </FormField>
           <BaseButton
             type="submit"
+            loading={isSubmitting}
             classNames={{
               root: "h-12 w-full rounded-xl",
               inner: "font-bold text-white text-sm",
             }}
-            loading={isSubmitting}
           >
-            Submit
+            {selectedMenu ? "Update" : "Submit"}
           </BaseButton>
         </form>
       </BaseModal>
+
       <BaseButton
-        type="submit"
-        onClick={open}
+        onClick={() => {
+          setSelectedMenu(null);
+          open();
+        }}
         classNames={{
-          root: "h-12 rouded-md",
+          root: "h-12 rounded-md",
           inner: "font-bold text-white text-md",
         }}
       >
-        Add new menu
+        Add New Menu
       </BaseButton>
     </>
   );
 };
-export default addmenu;
+export default Addmenu;
