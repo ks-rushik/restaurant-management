@@ -11,7 +11,7 @@ const Navbar = () => {
   const [opened, setOpened] = useState(false);
 
   return (
-    <nav className="bg-[#fff] border-gray-200 mt-2 text-white border-b-2 border-b-gray-150 flex justify-between items-center shadow-lg">
+    <nav className="bg-[#fff] border-gray-200 pt-2 pb-2 px-2 text-white sm:px-4 lg:px-6 md:px-6 border-b-2  border-b-gray-150 flex justify-between items-center shadow-lg">
       <div className="flex items-center ">
         <Image src={website} width={100} height={100} alt="Website Logo" />
       </div>

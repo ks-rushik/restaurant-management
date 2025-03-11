@@ -1,32 +1,79 @@
 import { Table, TableProps, TableStylesNames } from "@mantine/core";
+import { MouseEventHandler, ReactNode, useState } from "react";
 import clsx from "clsx";
-import { FC } from "react";
+import BaseButton from "./BaseButton";
 
-type IBaseTableProps = TableProps & {
-  classNames?: Partial<Record<TableStylesNames, string>> | undefined;
+type IColumn<T> = {
+  label: string;
+  render: (item: T) => ReactNode;
 };
 
-const BaseTable: FC<IBaseTableProps> = (props) => {
-  const { classNames, ...other } = props;
-  const { table, th, tr, td, thead, ...otherelements } = classNames || {};
+type IBaseTableProps<T> = TableProps & {
+  classNames?: Partial<Record<TableStylesNames, string>>;
+  columns: IColumn<T>[];
+  data: T[];
+  getKey: (item: T) => string | number;
+  initialSize?: number;
+  loadMoreSize?: number;
+};
+
+const BaseTable = <T,>({
+  classNames,
+  columns,
+  data,
+  getKey,
+  initialSize = 7,
+  loadMoreSize = 7,
+  ...other
+}: IBaseTableProps<T>) => {
+  const { table, th, td, thead, ...otherelements } = classNames || {};
+  const [visibleCount, setVisibleCount] = useState(initialSize);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + loadMoreSize, data.length));
+  };
 
   return (
-    <Table
-      classNames={{
-        table: clsx(
-          "rounded-2xl m-8 border border-gray-300 bg-white w-full",
-          table
-        ),
-        thead: clsx("text-bold p-8", thead),
-        th: clsx("text-gray-600 text-sm font-bold", th),
-        td: clsx("text-gray-500 text-sm font-semibold", td),
-        tr: clsx("h-14"),
-        ...otherelements,
-      }}
-      {...other}
-    >
-     
-    </Table>
+    <div className="flex items-center w-full overflow-hidden rounded-2xl border-2 border-gray-200 bg-white">
+      <div className="w-full overflow-x-auto">
+        <Table
+          classNames={{
+            table: clsx("w-full min-w-[600px]", table),
+            thead: clsx("text-bold p-8 ", thead),
+            th: clsx("text-gray-600 text-sm h-12 font-bold  ", th),
+            td: clsx("text-gray-500 text-sm h-12 font-semibold ", td),
+            ...otherelements,
+          }}
+          {...other}
+        >
+          <Table.Thead>
+            <Table.Tr>
+              {columns.map((col, index) => (
+                <Table.Th key={index}>{col.label}</Table.Th>
+              ))}
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {(data ?? []).slice(0, visibleCount).map((row) => (
+              <Table.Tr
+                key={getKey(row)}
+            
+                className="cursor-pointer hover:bg-gray-100 transition"
+              >
+                {columns.map((col, index) => (
+                  <Table.Td key={index}>{col.render(row)}</Table.Td>
+                ))}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
+      {Array.isArray(data) && visibleCount < data.length && (
+        <BaseButton onClick={handleLoadMore} className="mt-4">
+          Load More
+        </BaseButton>
+      )}
+    </div>
   );
 };
 
