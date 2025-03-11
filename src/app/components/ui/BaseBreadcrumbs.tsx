@@ -36,7 +36,7 @@ import {
         separator={separator}
         separatorMargin={separatorMargin}
         classNames={{
-          root: clsx("pl-12 pt-8", root),
+          root: clsx(" pt-8", root),
           breadcrumb: clsx(
             "font-md font-bold text-black hover:text-blue-400",
             breadcrumb
