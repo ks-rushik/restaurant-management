@@ -28,8 +28,12 @@ const Addmenu: FC<IMenuModalProps> = ({
 
   const AddMenuSchema = z.object({
     menu_name: z.string().min(1, "Menu name is required"),
-    currency: z.string({ required_error: "Currency is required" }),
-    status: z.string({ required_error: "Status is required" }),
+    currency: z.enum(["$", "₹", "€", "¥"], {
+      errorMap: () => ({ message: "Currency is required" }),
+    }),
+    status: z.enum(["Active", "InActive"], {
+      errorMap: () => ({ message: "Status is required" }),
+    }),
   });
 
   type IAddMenuData = z.infer<typeof AddMenuSchema>;
@@ -42,15 +46,19 @@ const Addmenu: FC<IMenuModalProps> = ({
     reset,
   } = useForm<IAddMenuData>({
     resolver: zodResolver(AddMenuSchema),
-    defaultValues: { menu_name: "", currency: "", status: "" },
+    defaultValues: { menu_name: "", currency: undefined, status: undefined },
   });
 
   useEffect(() => {
     if (selectedMenu) {
-      reset(selectedMenu);
+      reset({
+        menu_name: selectedMenu.menu_name,
+        currency: selectedMenu.currency as "$" | "₹" | "€" | "¥",
+        status: selectedMenu.status as "Active" | "InActive",
+      });
       open();
     } else {
-      reset({ menu_name: "", currency: "", status: "" });
+      reset({ menu_name: "", currency: "" as "$" | "₹" | "€" | "¥", status: "" as "Active" | "InActive" });
     }
   }, [selectedMenu, reset]);
 
@@ -63,13 +71,13 @@ const Addmenu: FC<IMenuModalProps> = ({
     }
     close();
     setSelectedMenu(null);
-    reset({ menu_name: "", currency: "", status: "" });
+    reset({ menu_name: "", currency: undefined, status: undefined });
   };
 
   const handleClose = () => {
     close();
     setSelectedMenu(null);
-    reset({ menu_name: "", currency: "", status: "" });
+    reset({ menu_name: "", currency: undefined, status: undefined });
   };
 
   return (
@@ -110,7 +118,7 @@ const Addmenu: FC<IMenuModalProps> = ({
             />
           </FormField>
           <FormField
-            label="Status"
+            label="status"
             name="status"
             error={errors.status?.message}
           >
@@ -126,6 +134,7 @@ const Addmenu: FC<IMenuModalProps> = ({
               )}
             />
           </FormField>
+
           <BaseButton
             type="submit"
             loading={isSubmitting}
@@ -134,14 +143,14 @@ const Addmenu: FC<IMenuModalProps> = ({
               inner: "font-bold text-white text-sm",
             }}
           >
-            {selectedMenu ? "Update" : "Submit"}
+            Submit
           </BaseButton>
         </form>
       </BaseModal>
 
       <BaseButton
         onClick={() => {
-          setSelectedMenu(null);
+          setSelectedMenu(null)
           open();
         }}
         classNames={{
