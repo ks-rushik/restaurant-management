@@ -32,10 +32,8 @@ export default function DashBoardLayout({
     <QueryProvider>
       <MantineProvider>
         <Notifications position="top-right" />
-        <div className=" min-h-screen bg-[#F0F0F0] ">
-          <Navbar />
-          {children}
-        </div>
+        <Navbar />
+        {children}
       </MantineProvider>
     </QueryProvider>
   );
