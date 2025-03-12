@@ -11,7 +11,7 @@ type IColumn<T> = {
 type IBaseTableProps<T> = TableProps & {
   classNames?: Partial<Record<TableStylesNames, string>>;
   columns: IColumn<T>[];
-  data: T[];
+  data?: T[];
   getKey: (item: T) => string | number;
   initialSize?: number;
   loadMoreSize?: number;
@@ -30,7 +30,7 @@ const BaseTable = <T,>({
   const [visibleCount, setVisibleCount] = useState(initialSize);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + loadMoreSize, data.length));
+    setVisibleCount((prev) => Math.min(prev + loadMoreSize, data!.length));
   };
 
   return (
@@ -54,7 +54,7 @@ const BaseTable = <T,>({
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {(data ?? []).slice(0, visibleCount).map((row) => (
+            {data?.slice(0, visibleCount).map((row) => (
               <Table.Tr
                 key={getKey(row)}
             
@@ -68,7 +68,7 @@ const BaseTable = <T,>({
           </Table.Tbody>
         </Table>
       </div>
-      {Array.isArray(data) && visibleCount < data.length && (
+      { visibleCount < data!.length && (
         <BaseButton onClick={handleLoadMore} className="mt-4">
           Load More
         </BaseButton>
