@@ -1,13 +1,12 @@
 import CustomBreadcrumbs from "@/app/components/ui/BaseBreadcrumbs";
 import { FC, ReactNode } from "react";
-import { CgMenuBoxed } from "react-icons/cg";
 
 type IMenuHeaderProps = {
   children: ReactNode;
 };
 const MenuHeader: FC<IMenuHeaderProps> = (props) => {
   const { children } = props;
-  const item = [{ title: "Menus", icon: <CgMenuBoxed />, href: "/menu" }];
+  const item = [{ title: "Menus", href: "/menu" }];
   return (
     <>
       <CustomBreadcrumbs items={item} children={undefined}></CustomBreadcrumbs>

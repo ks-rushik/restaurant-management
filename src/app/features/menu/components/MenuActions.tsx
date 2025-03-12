@@ -8,7 +8,7 @@ import { FC } from "react";
 
 type IMenuActionsProps = {
   item: IMenudata;
-  handleView: (menu_name: string) => void;
+  handleView: (menu_name: string , id:string) => void;
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
@@ -32,7 +32,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
   return (
     <span className="inline-flex items-center">
       <div
-        onClick={() => handleView(item.menu_name!)}
+        onClick={() => handleView(item.menu_name!,item.id)}
         className="mr-6 cursor-pointer"
       >
         <BiCategory size={22} />

@@ -5,7 +5,7 @@ import { FC } from "react";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
-  handleView: (menu_name: string) => void;
+  handleView: (menu_name: string , id:string) => void;
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
