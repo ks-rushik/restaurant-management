@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchCategorydata from "../actions/category-fetch";
 
-const useMenuItem = () => {
+const useMenuItem = (menuId : string) => {
   const { data } = useQuery({
     queryKey: ["category"],
-    queryFn: fetchCategorydata,
+    queryFn: () => fetchCategorydata(menuId),
     staleTime:1000 * 60
   });
 

@@ -9,11 +9,11 @@ const MenuHeader: FC<IMenuHeaderProps> = (props) => {
   const item = [{ title: "Menus", href: "/menu" }];
   return (
     <>
-      <CustomBreadcrumbs items={item} children={undefined}></CustomBreadcrumbs>
-      <div className="flex flex-row justify-between p-1 pb-8">
+      <div className="flex flex-row justify-between pt-8 pl-1">
         <h1 className="text-2xl font-bold">Menus</h1>
         {children}
       </div>
+      <CustomBreadcrumbs items={item} children={undefined}></CustomBreadcrumbs>
     </>
   );
 };
