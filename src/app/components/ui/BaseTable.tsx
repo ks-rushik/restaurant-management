@@ -34,14 +34,15 @@ const BaseTable = <T,>({
   };
 
   return (
+    <>
     <div className="flex items-center w-full overflow-hidden rounded-2xl border-2 border-gray-200 bg-white">
       <div className="w-full overflow-x-auto">
         <Table
           classNames={{
             table: clsx("w-full min-w-[600px]", table),
             thead: clsx("text-bold p-8 ", thead),
-            th: clsx("text-gray-600 text-sm h-12 font-bold  ", th),
-            td: clsx("text-gray-500 text-sm h-12 font-semibold ", td),
+            th: clsx("text-gray-600 text-sm h-12 font-bold ", th),
+            td: clsx("text-gray-500 text-sm h-12 font-semibold  ", td),
             ...otherelements,
           }}
           {...other}
@@ -68,12 +69,16 @@ const BaseTable = <T,>({
           </Table.Tbody>
         </Table>
       </div>
-      { visibleCount < data!.length && (
-        <BaseButton onClick={handleLoadMore} className="mt-4">
+     
+    </div>
+    { visibleCount < data!.length && (
+      <div className="flex justify-center">
+        <BaseButton onClick={handleLoadMore} className="mt-4 ">
           Load More
         </BaseButton>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
