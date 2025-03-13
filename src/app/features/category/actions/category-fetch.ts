@@ -8,13 +8,14 @@ const fetchCategorydata = async () => {
   .select("id")
   .limit(1)  
   .single();
+  
 
-  const { data } = await supabase
+  const { data ,error } = await supabase
     .from("category")
-    .select("menu_id(*)")
+    .select("*")
     .eq("menu_id", menuData?.id)
-    .order("created_at", { ascending: true });
-
+    .order("create_at", { ascending: true });
+  
   return data;
 };
 

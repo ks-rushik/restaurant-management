@@ -18,6 +18,14 @@ function CategoryPage() {
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
   const router = useRouter();
+  const data = useCategoryItem();
+  console.log(data);
+  
+  useEffect(() =>{
+    if(data){
+      setCategoryItem(data)
+    }
+  },[data])
 
   const handleView = (category_name: string) => {
     router.push(`/menu/${category_name}`);
@@ -26,11 +34,14 @@ function CategoryPage() {
     const addedItem = await categories(newItem);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
-    notifications.show({ message: `${newItem.category_name} added to menus` });
+    notifications.show({ message: `${newItem.category_name} added to category` });
   };
+
   const handleEditCategory = async (updatedmenu: ICategorydata) => {
     await updateCategory(updatedmenu);
-    notifications.show({ message: "Menu updated" });
+    console.log(updatedmenu,"categorypage");
+    
+    notifications.show({ message: "Category updated" });
   };
 
   const handleDelete = async (id: string) => {
