@@ -2,10 +2,14 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { FC } from "react";
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
+import Loader from "@/app/components/ui/BaseLoader";
+import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
   handleSelectCategory: (item: ICategorydata) => void;
+  handleMoveUp: (index: number) => void;
+  handleMoveDown: (index: number) => void;
   handleView: (category_name: string) => void;
   handleDelete: (
     id: string,
@@ -29,6 +33,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
   const {
     data,
     handleView,
+    handleMoveUp,
+    handleMoveDown,
     handleSelectCategory,
     handleDelete,
     loading,
@@ -37,7 +43,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
   } = props;
 
   return !data ? (
-    <p className="flex justify-center">Loading categories...</p>
+    <Loader></Loader>
   ) : data?.length === 0 ? (
     <p className="text-center text-gray-500 mt-4">
       No Category available. Click "Add New Category" to create one.
@@ -45,12 +51,33 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
   ) : (
     <BaseTable
       highlightOnHover
+      classNames={{
+        th: "text-gray-600 text-sm h-12 font-bold [&:first-child]:w-[70px] ",
+        td: "text-gray-500 text-sm h-12 font-semibold [&:first-child]:w-[70px] ",
+      }}
       data={data!}
       getKey={(item) => item.id!}
       columns={[
         {
+          label: "",
+          render: (item) => (
+            <div className="flex flex-row">
+              <div onClick={() => handleMoveUp(item.position!)}>
+                <FaUpLong size={22} />
+              </div>
+              <div onClick={() => handleMoveDown(item.position!)}>
+                <FaDownLong size={22} />
+              </div>
+            </div>
+          ),
+        },
+        {
           label: "CATEGORY NAME",
-          render: (item) => `${item.category_name}`,
+          render: (item) => item.category_name,
+        },
+        {
+          label: "AVAILABILITY",
+          render: (item) => item.status,
         },
         {
           label: "CREATED AT",
@@ -79,3 +106,4 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
 };
 
 export default CategoryTable;
+//in this what if i want to give custom style to first up and down column using tailwind
