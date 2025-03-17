@@ -1,9 +1,9 @@
-
 import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
 import { FC } from "react";
 import { IItemdata } from "./AddItemModal";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 type IMenuActionsProps = {
   item: IItemdata;
@@ -11,21 +11,23 @@ type IMenuActionsProps = {
     id: string,
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
+  handleSelectItem: (item: IItemdata) => void;
   loading: string;
   opened: boolean;
   close: () => void;
 };
 
 const CategoryActions: FC<IMenuActionsProps> = (props) => {
-  const {
-    item,
-    handleDelete,
-    loading,
-    opened,
-    close,
-  } = props;
+  const { item, handleDelete, handleSelectItem, loading, opened, close } =
+    props;
   return (
     <span className="inline-flex items-center">
+      <div
+        onClick={() => handleSelectItem(item)}
+        className="mr-6 cursor-pointer"
+      >
+        <MdOutlineModeEdit size={22} color="#f2cc50" />
+      </div>
       <BaseConfirmation
         opened={opened}
         onClose={close}

@@ -20,14 +20,22 @@ export type IItemdata = {
   price: string | null;
   status: string | null;
   position?: number | null | undefined;
+  category?: {
+    menu: {
+      currency: string;
+    };
+  };
 };
 
 export type IItemModalProps = {
     onAddItem:  (data: IItemdata) => Promise<void>;
+    onEditItem: (updateditem: IItemdata) => Promise<void>;
+    selectedItem: IItemdata | null;
+    setSelectedItem: (value: IItemdata | null) => void;
 };
 
 const AddItemModal: FC<IItemModalProps> = (props) => {
-  const { onAddItem } = props;
+  const { onAddItem , onEditItem , selectedItem , setSelectedItem } = props;
   const AddItemschema = z.object({
     name: z.string().min(1, "Category name is required"),
     status: z.enum(["Active", "InActive"], {
@@ -43,21 +51,50 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
     control,
   } = useForm<IAddItemData>({
     resolver: zodResolver(AddItemschema),
+    defaultValues: {name: "",description:"" , price:"" , status: undefined }
   });
 
-  const onSubmit = async (data: IItemdata) => {
-    onAddItem(data)
-    console.log(data);
-  };
+    useEffect(() => {
+      if (selectedItem) {
+        reset({
+          name: selectedItem.name!,
+          description: selectedItem.description!,
+          price: selectedItem.price!,
+          status: selectedItem.status as "Active" | "InActive",
+        });
+        open();
+      } else {
+        reset({ name: "",description:"" ,price:"" , status: undefined });
+      }
+    }, [selectedItem, reset]);
+
+    const onSubmit = async (data: IAddItemData) => {
+        if (selectedItem) {
+          const updatedItem = { ...selectedItem, ...data };
+          await onEditItem(updatedItem);
+        } else {
+          await onAddItem(data);
+        }
+        close();
+        setSelectedItem(null);
+        reset({ name: "",description:"" ,price:"" , status: undefined });
+      };
+    
+      const handleClose = () => {
+        close();
+        setSelectedItem(null);
+        reset({ name: "",description:"" , price:"" , status: undefined });
+      };
 
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div>
-      <BaseModal opened={opened} onClose={close} title="Add new category">
+      <BaseModal opened={opened} onClose={handleClose}  title={selectedItem ? "Edit Item" : "Add Item"}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField label="Item name" name="name" error={errors.name?.message}>
             <BaseInput
@@ -114,8 +151,10 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       </BaseModal>
       <BaseButton
         onClick={() => {
-          open();
-        }}
+            setSelectedItem(null);
+            reset({ name: "", description:"" ,price:"" , status: undefined })
+            open();
+          }}
         classNames={{
           root: "h-12 rounded-md",
           inner: "font-bold text-white text-md",
