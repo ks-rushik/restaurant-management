@@ -1,20 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemHeader from "./ItemHeader";
 import ItemTable from "./ItemTable";
 import AddItemModal, { IItemdata } from "./AddItemModal";
 import { notifications } from "@mantine/notifications";
 import { item } from "../actions/additem-action";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import { updateItemOrder } from "../actions/updateposition-action";
 import deleteitem from "../actions/deleteitem-action";
+import useItem from "../hook/useItem";
 const ItemPage = () => {
   const pathname = usePathname();
-  const searchParam = useSearchParams();
-  const categoryname = searchParam.get("name")!;
   const categoryId = pathname.split("/")[3];
-  console.log(categoryId, categoryname, "item[page]");
+  const data = useItem(categoryId);
+  console.log(data  , "hook data");
+  
+  useEffect(() => {
+    if (data) {
+        setItem(
+          data.map((item) => ({
+            ...item,
+            position: item.position || 0,
+          }))
+        );
+      }
+  } , [data])
 
   const [Item, setItem] = useState<IItemdata[]>();
   const [loading, setLoading] = useState("");
