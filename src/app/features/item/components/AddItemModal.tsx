@@ -12,7 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 export type IItemdata = {
-  create_at?: string;
+  created_at?: string;
   id?: string;
   name: string | null;
   description: string | null;
@@ -22,11 +22,12 @@ export type IItemdata = {
   position?: number | null | undefined;
 };
 
-// export type IItemModalProps = {
-//   onAddItem: (data: IItemdata) => Promise<void>;
-// };
+export type IItemModalProps = {
+    onAddItem:  (data: IItemdata) => Promise<void>;
+};
 
-const AddItemModal = () => {
+const AddItemModal: FC<IItemModalProps> = (props) => {
+  const { onAddItem } = props;
   const AddItemschema = z.object({
     name: z.string().min(1, "Category name is required"),
     status: z.enum(["Active", "InActive"], {
@@ -48,6 +49,7 @@ const AddItemModal = () => {
   });
 
   const onSubmit = async (data: IItemdata) => {
+    onAddItem(data)
     console.log(data);
   };
 
@@ -74,12 +76,12 @@ const AddItemModal = () => {
               placeholder="Enter Description..."
             />
           </FormField>
-          
+
           <FormField label="Price" name="price" error={errors.price?.message}>
             <BaseInput
               type="text"
               placeholder="Enter price..."
-              {...register('price')}
+              {...register("price")}
             ></BaseInput>
           </FormField>
           <FormField
