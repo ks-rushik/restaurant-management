@@ -87,9 +87,9 @@ function CategoryPage() {
   };
 
   const handleView = (category_name: string, category_id: string) => {
-    router.push(`/menu/${menuId}/${category_id}?name=${category_name}`);
+    router.push(`/menu/${menuId}/${category_id}?name=${category_name}&menuname=${menuname}`);
   };
-
+  
   const handleAddCategory = async (newItem: ICategorydata) => {
     const addedItem = await categories(newItem, menuId);
     if (addedItem)
