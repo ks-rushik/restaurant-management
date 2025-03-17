@@ -130,7 +130,8 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       </BaseModal>
       <BaseButton
         onClick={() => {
-          setSelectedCategory(null)
+          setSelectedCategory(null);
+          reset({ category_name: "", status: undefined })
           open();
         }}
         classNames={{
