@@ -63,7 +63,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           render: (item) => {
             const index = data!.findIndex((dataItem) => dataItem.id === item.id);
             return (
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 <button
                   onClick={() => handleMoveUp(index)}
                   disabled={index === 0} 
