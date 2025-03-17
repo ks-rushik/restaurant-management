@@ -12,11 +12,5 @@ import { createClient } from "@/app/utils/supabase/server";
                 Items ( id, name, price, status )
             )
         `);
-
-    if (error) {
-        console.error("Error fetching menus:", error);
-    } else {
-        console.log("Menus Data:", data);
-    }
 }
 

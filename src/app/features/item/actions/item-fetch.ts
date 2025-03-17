@@ -1,6 +1,5 @@
 "use server";
 import { createClient } from "@/app/utils/supabase/server";
-import { fetchMenus } from "./sample-action";
 
 const fetchItemdata = async (categoryId: string) => {
   const supabase = await createClient();
@@ -13,6 +12,4 @@ const fetchItemdata = async (categoryId: string) => {
   if (error) throw error;
   return data;
 };
-
-fetchMenus();
 export default fetchItemdata;
