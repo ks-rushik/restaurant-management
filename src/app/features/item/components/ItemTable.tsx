@@ -87,6 +87,14 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           render: (item) => item.status,
         },
         {
+            label:"DESCRIPTION",
+            render: (item) => item.description
+        },
+        {
+           label:"PRICE",
+           render: (item) => item.price  
+        },
+        {
           label: "CREATED AT",
           render: (item) => {
             const date = new Date(item.created_at!);
