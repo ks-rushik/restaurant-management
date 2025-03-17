@@ -13,6 +13,10 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const pathname = usePathname();
 
   const segments = pathname.split("/")[1];    
+  console.log(menuname  , "menuname");
+  console.log(pathname , "pathname");
+  
+  
 
   const breadcrumbItems = [
     {
