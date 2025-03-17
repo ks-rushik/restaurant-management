@@ -24,7 +24,7 @@ export async function item(ItemData: IItemdata , categoryId: string) {
     price: ItemData.price,
     status:ItemData.status,
     description: ItemData.description,
-    position: ItemData.position
+    position: newPosition
   };
 
   const { data: InsertData  , error} = await supabase
