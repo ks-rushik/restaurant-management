@@ -4,13 +4,13 @@ import CategoryHeader from "./CategoryHeader";
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
 import CategoryTable from "./CategoryTable";
 import useCategoryItem from "../hook/useCategoryItem";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import categories from "../actions/addcategory-action";
 import { notifications } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
 import deletecategory from "../actions/deletecategory-action";
 import { updateCategory } from "../actions/updatecategory-action";
-import { updateCategoryOrder } from "../actions/updataPosition-action";
+import { updateCategoryOrder } from "../actions/updatePosition-action";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
@@ -20,6 +20,8 @@ function CategoryPage() {
   const [opened, { close }] = useDisclosure(false);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParam = useSearchParams();
+  const menuname = searchParam.get("name")!;
   const menuId = pathname.split("/")[2];
   const data = useCategoryItem(menuId);
 
@@ -28,7 +30,7 @@ function CategoryPage() {
       setCategoryItem(
         data.map((item) => ({
           ...item,
-          position: item.position || 0, 
+          position: item.position || 0,
         }))
       );
     }
@@ -57,11 +59,10 @@ function CategoryPage() {
       id: newCategoryItem[index - 1].id!,
       position: newCategoryItem[index - 1].position!,
     });
-
   };
 
   const handleMoveDown = async (index: number) => {
-    if (!CategoryItem || index === CategoryItem.length - 1) return; 
+    if (!CategoryItem || index === CategoryItem.length - 1) return;
 
     const newCategoryItem = [...CategoryItem];
     [newCategoryItem[index + 1].position, newCategoryItem[index].position] = [
@@ -86,8 +87,9 @@ function CategoryPage() {
   };
 
   const handleView = (category_name: string, category_id: string) => {
-    router.push(`/menu/${menuId}/category/${category_id}?name=${category_name}`);
+    router.push(`/menu/${menuId}/${category_id}?name=${category_name}`);
   };
+
   const handleAddCategory = async (newItem: ICategorydata) => {
     const addedItem = await categories(newItem, menuId);
     if (addedItem)
