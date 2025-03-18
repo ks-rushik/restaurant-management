@@ -3,6 +3,7 @@ import { IMenudata } from "../types/type";
 import MenuActions from "./MenuActions";
 import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";
+import ShareMenu from "./ShareMenu";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -59,6 +60,12 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
             const date = new Date(item.created_at);
             return IndianTime.format(date);
           },
+        },
+        {
+          label:"SHARE MENU",
+          render: (item) => (
+            <ShareMenu item={item}></ShareMenu>
+          )
         },
         {
           label: "",
