@@ -1,0 +1,26 @@
+"use server";
+
+import { createClient } from "@/app/utils/supabase/server";
+import { revalidatePath } from "next/cache";
+import { ICategorydata } from "../components/AddCategoryModal";
+
+export async function updateCategory(CategoryData: ICategorydata , menuId : string) {
+  const supabase = await createClient();
+
+  const categorydata = {
+    menu_id: menuId,
+    category_name: CategoryData.category_name,
+    status:CategoryData.status
+  };
+
+  const { data: UpdatedData , error} = await supabase
+    .from("category")
+    .update(categorydata)
+    .eq("id", CategoryData.id!)
+    .select();
+  console.log("update error" , error);
+  
+  revalidatePath("/", "page");
+
+  return UpdatedData?.[0];
+}
