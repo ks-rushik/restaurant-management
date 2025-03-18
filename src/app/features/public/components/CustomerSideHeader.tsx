@@ -1,9 +1,9 @@
-'use client'
+"use client";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { getUserProfile } from "../../userprofile/actions/userprofile-fetch";
-import { fetchMenus } from "../../item/actions/sample-action";
 import Image from "next/image";
+import useProfileData from "../hook/useProfileData";
 
 const CustomerSideHeader = () => {
   const { menuId } = useParams();
@@ -12,17 +12,14 @@ const CustomerSideHeader = () => {
     name: string;
     logo: string;
   } | null>(null);
+  const profile = useProfileData();
+  console.log(profile ,"profiledata");
+  console.log(profiledata ,'img');
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const profile = await getUserProfile();
-        setProfileData(profile);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+    if (profile) {
+      setProfileData(profile);
+    }
   }, [menuId]);
   return (
     <div className="flex flex-col items-center p-6 pb-12">
