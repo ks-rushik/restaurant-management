@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import "./globals.css";
+import QueryProvider from "./components/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +25,16 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>){ return(
-   <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#F0F0F0]`}
-        >
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#F0F0F0] `}
+      >
+        <QueryProvider>
           <MantineProvider>{children}</MantineProvider>
-        </body>
-      </html>
-)}
+        </QueryProvider>
+      </body>
+    </html>
+  );
+}
