@@ -7,8 +7,6 @@ const fetchCategoryItemData = async (id: string) => {
   .from("category")
   .select("*, \"Items\"(*)") 
   .eq("menu_id", id);
-
- console.log(categories ,"this is data");
  
   return { categories };
 };

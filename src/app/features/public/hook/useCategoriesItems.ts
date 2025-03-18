@@ -7,7 +7,6 @@ const useCategoriesItems = (Id : string) => {
     queryFn: () => fetchCategoryItemData(Id),
     staleTime:1000 * 60
   });
- console.log(data , 'fetchcategoryItemdata');
  
   return data;
 };
