@@ -1,5 +1,5 @@
 import { Table, TableProps, TableStylesNames } from "@mantine/core";
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import clsx from "clsx";
 import BaseButton from "./BaseButton";
 
@@ -17,6 +17,7 @@ type IBaseTableProps<T> = TableProps & {
   initialSize?: number;
   loadMoreSize?: number;
 };
+
 const BaseTable = <T,>({
   classNames,
   columns,
@@ -35,17 +36,14 @@ const BaseTable = <T,>({
 
   return (
     <>
-      <div className="w-full overflow-hidden rounded-2xl border-2 border-gray-200 bg-white">
-        <div className="w-full overflow-x-auto md:overflow-hidden">
+      <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <div className="w-full overflow-x-auto">
           <Table
             classNames={{
-              table: clsx(
-                "w-full min-w-full md:min-w-[600px] table-auto",
-                table
-              ),
-              thead: clsx("text-bold p-8", thead),
-              th: clsx("text-gray-600 text-sm h-12 font-bold px-4", th),
-              td: clsx("text-gray-500 text-sm h-12 font-semibold px-4", td),
+              table: clsx("w-full table-auto", table),
+              thead: clsx("text-bold", thead),
+              th: clsx("text-gray-600 text-sm font-bold px-4 py-2", th),
+              td: clsx("text-gray-500 text-sm px-4 py-2", td),
               ...otherelements,
             }}
             {...other}
@@ -56,9 +54,7 @@ const BaseTable = <T,>({
                   <Table.Th
                     key={index}
                     className={clsx(
-                      col.width
-                        ? `w-[${col.width}] md:min-w-[${col.width}]`
-                        : "w-full md:w-auto",
+                      col.width ? `w-[${col.width}]` : "w-auto",
                       "p-3"
                     )}
                   >
@@ -69,19 +65,14 @@ const BaseTable = <T,>({
             </Table.Thead>
             <Table.Tbody>
               {data?.slice(0, visibleCount).map((row) => (
-                <Table.Tr
-                  key={getKey(row)}
-                  className="cursor-pointer hover:bg-gray-100 transition"
-                >
+                <Table.Tr key={getKey(row)} className="hover:bg-gray-100">
                   {columns.map((col, index) => (
                     <Table.Td
                       key={index}
                       className={clsx(
-                        col.width
-                          ? `w-[${col.width}] md:min-w-[${col.width}]`
-                          : "w-full md:w-auto",
+                        col.width ? `w-[${col.width}]` : "w-auto",
                         col.label === "DESCRIPTION"
-                          ? "break-words whitespace-normal line-clamp-3 md:line-clamp-1"
+                          ? "max-w-[200px] whitespace-normal break-words overflow-auto"
                           : "",
                         "p-3"
                       )}

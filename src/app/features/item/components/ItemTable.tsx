@@ -1,5 +1,5 @@
 import BaseTable from "@/app/components/ui/BaseTable";
-import { FC } from "react";
+import { FC, useState } from "react";
 import ItemActions from "./ItemActions";
 import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
@@ -31,6 +31,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     opened,
     close,
   } = props;
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   return !data ? (
     <Loader></Loader>
@@ -78,10 +79,18 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           label: "ITEM NAME",
           render: (item) => item.name
         },
-        {
-          label: "DESCRIPTION",
-          render: (item) => item.description ,width: "400px"
-        },
+       
+{
+  label: "DESCRIPTION",
+  render: (item) => (
+    <span
+      className={`cursor-pointer ${expandedRow === item.id ? "" : "truncate block max-w-[200px]"}`}
+      onClick={() => setExpandedRow(expandedRow === item.id ? null : item.id)}
+    >
+      {item.description}
+    </span>
+  ),
+},
         {
           label: "PRICE",
           render: (item) =>
