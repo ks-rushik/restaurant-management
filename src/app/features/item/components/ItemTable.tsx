@@ -77,20 +77,24 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         },
         {
           label: "ITEM NAME",
-          render: (item) => item.name
+          render: (item) => item.name,
         },
-       
-{
-  label: "DESCRIPTION",
-  render: (item) => (
-    <span
-      className={`cursor-pointer ${expandedRow === item.id ? "" : "truncate block max-w-[200px]"}`}
-      onClick={() => setExpandedRow(expandedRow === item.id ? null : item.id)}
-    >
-      {item.description}
-    </span>
-  ),
-},
+
+        {
+          label: "DESCRIPTION",
+          render: (item) => (
+            <span
+              className={`cursor-pointer ${
+                expandedRow === item.id ? "" : "truncate block max-w-[200px]"
+              }`}
+              onClick={() =>
+                setExpandedRow(expandedRow === item.id ? null : item.id!)
+              }
+            >
+              {item.description}
+            </span>
+          ),
+        },
         {
           label: "PRICE",
           render: (item) =>
