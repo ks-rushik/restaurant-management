@@ -1,8 +1,9 @@
 import CustomerSide from "@/app/features/public/components/CustomerSide";
 import React from "react";
-import fetchCategoryItemData from "../features/public/getData/getCategoryItem";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getUserProfile } from "../features/userprofile/actions/userprofile-fetch";
+import fetchCategoryItemData from "../features/public/actions/getCategoryItem";
+import { getProfileData } from "../features/public/actions/getProfileData";
+import fetchMenudata from "../features/menu/actions/menu-fetch";
 type SearchParams = Promise<{ id: string }>;
 const queryClient = new QueryClient();
 const PublicPage = async (props: { searchParams: SearchParams }) => {
@@ -13,8 +14,12 @@ const PublicPage = async (props: { searchParams: SearchParams }) => {
   });
   await queryClient.prefetchQuery({
     queryKey:['ProfileDetails'],
-    queryFn:() => getUserProfile(),
+    queryFn:() => getProfileData(),
     staleTime: 60 * 1000
+  })
+  await queryClient.prefetchQuery({
+    queryKey:['menu'],
+    queryFn:() => fetchMenudata()
   })
 
   return (
