@@ -7,7 +7,6 @@ const useProfileData = () => {
     queryFn: () =>  getProfileData(),
     staleTime:1000 * 60
   });
- console.log(data ,"profiledata");
  
   return data;
 };
