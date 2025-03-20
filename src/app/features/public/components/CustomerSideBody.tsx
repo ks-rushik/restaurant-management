@@ -5,6 +5,7 @@ import { IItemdata } from "../../item/components/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
 import background from "../../../images/background.jpg";
+import useShortUrl from "../hook/useUrl";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -13,7 +14,11 @@ type ICustomerSideBodyProps = {
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const data = useMenuItem();
-  const matchedItem = data?.find((item) => item.id === id);
+  const urldata = useShortUrl(id);
+  const urlid = urldata?.[0].menu_id;
+
+  const matchedItem = data?.find((item) => item.id === urlid);
+
   const currency = matchedItem?.currency;
 
   const [openCategories, setOpenCategories] = useState<string[]>(
