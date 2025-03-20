@@ -2,10 +2,13 @@
 import CustomerSideHeader from "./CustomerSideHeader";
 import useCategoriesItems from "../hook/useCategoriesItems";
 import CustomerSideBody from "./CustomerSideBody";
-
+import useShortUrl from "../hook/useUrl";
 
 const CustomerSide = ({ id }: { id: string }) => {
-  const { categories } = useCategoriesItems(id) || {};
+  const menuid = useShortUrl(id);
+  const dataId = menuid?.[0].menu_id;
+
+  const { categories } = useCategoriesItems(dataId) || {};
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-start container mx-auto mb-10">
