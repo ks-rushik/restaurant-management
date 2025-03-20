@@ -1,11 +1,17 @@
 "use client";
 import BaseButton from "@/app/components/ui/BaseButton";
-import { CopyButton, Modal, TextInput } from "@mantine/core";
+import { CopyButton, TextInput } from "@mantine/core";
 import { FC, useState } from "react";
 import { IMenudata } from "../types/type";
 import fetchshortUrl from "../../public/actions/getUrl";
 import shortLink from "../../public/actions/addshortlink-action";
-import BaseButtonLoader from "@/app/components/ui/BaseButtonLoader";
+import Image from "next/image";
+import BaseModal from "@/app/components/ui/BaseModal";
+import { RiDownload2Line } from "react-icons/ri";
+import { FaPaste } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
+import { FaLink } from "react-icons/fa";
+import generateQRCode from "../../public/helper/qrcodegenrating";
 
 type IShareMenuProps = {
   item: IMenudata;
@@ -13,6 +19,7 @@ type IShareMenuProps = {
 
 const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shortCode, setShortCode] = useState();
+  const [qrcode, setQrcode] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const { item } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -23,34 +30,88 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
     const data = await fetchshortUrl(item.id);
     const shortcode = data.short_url;
     setShortCode(shortcode);
+    const qrcode = await generateQRCode(shortCode!);
+    console.log(qrcode, "this is qrcode");
+    setQrcode(qrcode);
     setLoading(false);
     setShareModalOpen(true);
   };
+
   const shareableLink = `http://localhost:3000/m/${shortCode}`;
 
   return (
     <>
-      <BaseButton
-        onClick={() => handleShareMenu()}
-        classNames={{ inner: "text-white", root: "min-w-32" }}
-      >
-        {loading ? <BaseButtonLoader /> : "Share Menu"}
-      </BaseButton>
-      <Modal
+      <FaLink onClick={() => handleShareMenu()} size={20} className="ml-6 hover:text-blue-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "/>
+      <BaseModal
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
         title="Share Menu Link"
         centered
       >
-        <TextInput value={shareableLink} readOnly />
-        <CopyButton value={shareableLink}>
+        {qrcode && (
+          <div className="flex justify-center">
+            <Image src={qrcode} alt="qrcode" width={200} height={150}></Image>
+          </div>
+        )}
+        <div className="mx-20 flex justify-between pt-2 ">
+          <CopyButton value={qrcode!} timeout={2000}>
+            {({ copied, copy }) => (
+              <BaseButton
+                color={copied ? "teal" : "gray"}
+                variant="subtle"
+                onClick={copy}
+              >
+                {copied ? (
+                  <div className="inline-flex items-center">
+                    <span className="mr-2 text-white">Copied</span>
+                    <FaPaste />
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center">
+                    <span className="mr-2 text-white">Copy</span>
+                    <FaCopy />
+                  </div>
+                )}
+              </BaseButton>
+            )}
+          </CopyButton>
+
+          <a href={qrcode} download="qrcode.png">
+            <BaseButton>
+              <span className="mr-2 text-white">Download</span>
+              <RiDownload2Line />
+            </BaseButton>
+          </a>
+        </div>
+
+        <TextInput
+          value={shareableLink}
+          readOnly
+          classNames={{
+            root: "pt-8",
+            input:
+              "border-gray-300 h-12 rounded-2xl hover:border-2 hover:border-blue-400",
+          }}
+        ></TextInput>
+
+        <CopyButton value={shareableLink} timeout={2000}>
           {({ copied, copy }) => (
             <BaseButton onClick={copy} mt="sm">
-              {copied ? "Copied!" : "Copy Link"}
+              {copied ? (
+                <div className="inline-flex items-center">
+                  <span className="mr-2 text-white">Copied</span>
+                  <FaPaste />
+                </div>
+              ) : (
+                <div className="inline-flex items-center">
+                  <span className="mr-2 text-white">Copy</span>
+                  <FaCopy />
+                </div>
+              )}
             </BaseButton>
           )}
         </CopyButton>
-      </Modal>
+      </BaseModal>
     </>
   );
 };
