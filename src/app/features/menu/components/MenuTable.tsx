@@ -4,6 +4,7 @@ import MenuActions from "./MenuActions";
 import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";
 import ShareMenu from "./ShareMenu";
+import formatDate from "@/app/utils/formatdate";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -18,14 +19,6 @@ type IMenuTableProps = {
   close: () => void;
 };
 
-const IndianTime = new Intl.DateTimeFormat("en-IN", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-});
 
 const MenuTable: FC<IMenuTableProps> = (props) => {
   const {
@@ -56,16 +49,7 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
         },
         {
           label: "CREATED AT",
-          render: (item) => {
-            const date = new Date(item.created_at);
-            return IndianTime.format(date);
-          },
-        },
-        {
-          label:"SHARE MENU",
-          render: (item) => (
-            <ShareMenu item={item}></ShareMenu>
-          )
+          render: (item) => formatDate(item.created_at)
         },
         {
           label: "",
