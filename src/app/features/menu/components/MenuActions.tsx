@@ -5,10 +5,11 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
 import { IMenudata } from "../types/type";
 import { FC } from "react";
+import ShareMenu from "./ShareMenu";
 
 type IMenuActionsProps = {
   item: IMenudata;
-  handleView: (menu_name: string , id:string) => void;
+  handleView: (menu_name: string, id: string) => void;
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
@@ -32,16 +33,19 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
   return (
     <span className="inline-flex items-center">
       <div
-        onClick={() => handleView(item.menu_name!,item.id)}
+        onClick={() => handleView(item.menu_name!, item.id)}
         className="mr-6 cursor-pointer"
       >
-        <BiCategory size={22} />
+        <BiCategory size={22} className=" hover:text-gray-700 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 " />
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
         className="mr-6 cursor-pointer"
       >
-        <MdOutlineModeEdit size={22} color="#f2cc50" />
+        <MdOutlineModeEdit
+          size={22}
+          className="hover:text-yellow-400 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "
+        />
       </div>
       <BaseConfirmation
         opened={opened}
@@ -51,11 +55,12 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
         <BaseButton
           intent="danger"
           onClick={(event) => handleDelete(item.id, event)}
-          classNames={{ root: "w-1/3 mt-6" }}
+          classNames={{ root: "w-1/3 mt-6 " }}
         >
           {loading === item.id ? <Loader size={23} /> : "Delete"}
         </BaseButton>
       </BaseConfirmation>
+      <ShareMenu item={item} />
     </span>
   );
 };

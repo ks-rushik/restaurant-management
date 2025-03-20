@@ -26,7 +26,10 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         onClick={() => handleSelectItem(item)}
         className="mr-6 cursor-pointer"
       >
-        <MdOutlineModeEdit size={22} color="#f2cc50" />
+        <MdOutlineModeEdit
+          size={22}
+          className="hover:text-yellow-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100"
+        />
       </div>
       <BaseConfirmation
         opened={opened}
