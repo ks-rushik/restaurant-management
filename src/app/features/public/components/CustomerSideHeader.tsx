@@ -23,7 +23,7 @@ const CustomerSideHeader = () => {
             alt="logo"
             width={100}
             height={100}
-            className="rounded-full border-4 border-gray-300 shadow-md object-cover"
+            className="rounded-full border-2 border-gray-300 shadow-md object-cover"
           />
         </div>
 

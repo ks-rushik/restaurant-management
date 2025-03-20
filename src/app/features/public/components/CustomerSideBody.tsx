@@ -70,7 +70,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       </Text>
                     </div>
 
-                    <Menu trigger="hover" >
+                    <Menu trigger="hover">
                       <Menu.Target>
                         <Text
                           className="text-sm text-gray-500  font-mono line-clamp-2 mt-3"
@@ -89,8 +89,8 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                     {item.status === "InActive" && (
                       <Badge
                         color="red"
-                        variant="light"
-                        className="font-semibold my-4"
+                        variant="filled"
+                        className="absolute top-4 right-4 px-2 py-1 text-sm  rounded-sm"
                       >
                         NOT AVAILABLE
                       </Badge>
