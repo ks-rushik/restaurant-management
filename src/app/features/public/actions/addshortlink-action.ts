@@ -1,23 +1,32 @@
 "use server";
-import { nanoid } from "nanoid";
 import { createClient } from "@/app/utils/supabase/server";
+import { customAlphabet } from 'nanoid'
 
-export async function shortLink(id: string) {
+const shortLink = async(id: string) => {
   const supabase = await createClient();
+  const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 6)
+  const shortCode = nanoid(6);
 
-  const shortUrl = nanoid(6);
-  console.log(shortUrl, "this is shorturl");
-  const shareableLink = `http://digidine.com/${shortUrl}`;
-
-  const { data: InsertData, error } = await supabase
+  const { data: FetchedData } = await supabase
     .from("url")
-    .insert([{ menu_id: id, short_url: shareableLink }])
-    .select();
- console.log(InsertData?.[0]);
- 
-  if (error) {
-    console.log(error, "inserting error");
-  }
+    .select("*")
+    .eq("menu_id", id);
 
-  return InsertData?.[0];
+  const existingId = FetchedData?.[0]?.menu_id
+
+  if (existingId === id) {
+    return;
+  } else {
+    const { data: InsertData, error } = await supabase
+      .from("url")
+      .insert([{ menu_id: id, short_url: shortCode }])
+      .select();
+
+    if (error) {
+      console.log(error, "inserting error");
+    }
+
+    return InsertData?.[0];
+  }
 }
+export default shortLink
