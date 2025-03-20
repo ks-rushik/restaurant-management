@@ -11,4 +11,3 @@ const fetchCategoryItemData = async (id: string) => {
   return { categories };
 };
 export default fetchCategoryItemData;
-"* , items"
