@@ -1,11 +1,15 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import Image from "next/image";
 import dish from "../../../images/dish-svgrepo-com.svg";
 import knife from "../../../images/fork-and-knife-svgrepo-com (2).svg";
 
-const CustomerSideHeader = ({logo ,name}) => {
-  
+type ICustomerSideHeaderProps = {
+  logo: string;
+  name: string;
+};
+const CustomerSideHeader: FC<ICustomerSideHeaderProps> = (props) => {
+  const { logo, name } = props;
   return (
     <div className="flex  sm:flex-row justify-between items-center py-4  space-y-4 sm:space-y-0 sm:space-x-6">
       <Image
