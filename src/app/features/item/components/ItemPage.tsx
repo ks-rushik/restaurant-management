@@ -11,7 +11,6 @@ import { updateItemOrder } from "../actions/updateposition-action";
 import deleteitem from "../actions/deleteitem-action";
 import useItem from "../hook/useItem";
 import { updateItem } from "../actions/updateitem-action";
-import { fetchMenus } from "../actions/sample-action";
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[3];
@@ -32,8 +31,9 @@ const ItemPage = () => {
     }
   }, [data]);
 
-  const handleAddItem = async (newItem: IItemdata) => {
-    const addedItem = await item(newItem, categoryId);
+  const handleAddItem = async (newItem: IItemdata , file?:File) => {
+    
+    const addedItem = await item(newItem, categoryId ,file);
     if (addedItem)
       setItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
@@ -99,20 +99,25 @@ const ItemPage = () => {
     notifications.show({ message: "Category deleted" });
   };
 
-  const handleEditItem = async (updateditem: IItemdata) => {
-    await updateItem(updateditem, categoryId);
+  const handleEditItem = async (updateditem: IItemdata,file?: File) => {
+    console.log(file ,"sdifgjs");
+    
+    await updateItem(updateditem, categoryId,file);
     notifications.show({ message: "Category updated" });
   };
 
   const handleSelectedItem = (item: IItemdata) => {
+    
     const modaldata: IItemdata = {
       id: item.id || "",
       name: item.name || "",
       status: item.status || "",
       description: item.description || "",
       price: item.price || "",
+      image: item.image
     };
     setSelectedItem(modaldata);
+    
   };
 
   return (
