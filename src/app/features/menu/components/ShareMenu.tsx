@@ -10,7 +10,7 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
-import { FaLink } from "react-icons/fa";
+import { FaShare } from "react-icons/fa6";
 import generateQRCode from "../../public/helper/qrcodegenrating";
 
 type IShareMenuProps = {
@@ -41,7 +41,11 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
 
   return (
     <>
-      <FaLink onClick={() => handleShareMenu()} size={20} className="ml-6 hover:text-blue-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "/>
+      <FaShare
+        onClick={() => handleShareMenu()}
+        size={20}
+        className="ml-6 hover:text-blue-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "
+      />
       <BaseModal
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
@@ -90,27 +94,21 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
           classNames={{
             root: "pt-8",
             input:
-              "border-gray-300 h-12 rounded-2xl hover:border-2 hover:border-blue-400",
+              "border-gray-300 h-10 rounded-md hover:border-2 hover:border-blue-400 pr-10",
           }}
-        ></TextInput>
-
-        <CopyButton value={shareableLink} timeout={2000}>
-          {({ copied, copy }) => (
-            <BaseButton onClick={copy} mt="sm">
-              {copied ? (
-                <div className="inline-flex items-center">
-                  <span className="mr-2 text-white">Copied</span>
-                  <FaPaste />
-                </div>
-              ) : (
-                <div className="inline-flex items-center">
-                  <span className="mr-2 text-white">Copy</span>
-                  <FaCopy />
-                </div>
+          rightSection={
+            <CopyButton value={shareableLink} timeout={2000}>
+              {({ copied, copy }) => (
+                <span
+                  onClick={copy}
+                  className="h-10 w-10 flex items-center justify-center rounded-r-md bg-blue-500 text-white cursor-pointer"
+                >
+                  {copied ? <FaPaste /> : <FaCopy />}
+                </span>
               )}
-            </BaseButton>
-          )}
-        </CopyButton>
+            </CopyButton>
+          }
+        />
       </BaseModal>
     </>
   );
