@@ -5,6 +5,7 @@ import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { IItemdata } from "./AddItemModal";
 import formatDate from "@/app/utils/formatdate";
+import Image from "next/image";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -32,6 +33,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     close,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  console.log(data, "table data");
 
   return !data ? (
     <Loader></Loader>
@@ -104,6 +106,24 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           label: "AVAILABILITY",
           render: (item) => item.status,
         },
+        {
+          label: "IMAGE",
+          render: (item) =>
+            item.image && (
+              <Image
+                src={
+                  typeof item.image === "string"
+                    ? item.image
+                    : URL.createObjectURL(item.image)
+                }
+                width={70}
+                height={70}
+                alt={item.name || "Item image"}
+                className="w-16 h-16 object-cover rounded-md"
+              />
+            ) 
+        },
+
         {
           label: "CREATED AT",
           render: (item) => formatDate(item.created_at!),
