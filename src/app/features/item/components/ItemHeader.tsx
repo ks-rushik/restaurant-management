@@ -37,7 +37,7 @@ const ItemHeader: FC<ICategoryHeaderProps> = (props) => {
         <h1 className="text-2xl font-bold">Items</h1>
         {children}
       </div>
-      <CustomBreadcrumbs items={breadcrumbItems} children={undefined} />
+      <CustomBreadcrumbs items={breadcrumbItems} separatorMargin="xs" children={undefined} />
     </div>
   );
 };
