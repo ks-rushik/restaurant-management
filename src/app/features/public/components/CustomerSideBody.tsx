@@ -13,23 +13,21 @@ type ICustomerSideBodyProps = {
 };
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
-  const data = useMenuItem();
   const urldata = useShortUrl(id);
   const urlid = urldata?.[0].menu_id;
 
-  const matchedItem = data?.find((item) => item.id === urlid);
-  // const matchedData = categories?.map((category) => 
-  //   category.menu.id=== urlid
-  // );
-  
-
-  console.log(data, "dfd", urlid, "matcheditem");
-
-  const currency = matchedItem?.currency;
+  const currency = categories
+    ?.map((item) => item.menus)
+    .find((menu) => menu?.id === urlid)?.currency;
 
   const [openCategories, setOpenCategories] = useState<string[]>(
     categories ? categories.map((category) => category.id) : []
   );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = (categoryId: string) => {
     setOpenCategories((prev) =>
@@ -81,8 +79,10 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       priority
                     />
                     <div className="flex flex-row justify-between  pt-2">
-                      <Text className="font-light text-md">{item.name}</Text>
-                      <Text className="text-black font-semibold ">
+                      <Text className=" font-semibold text-base sm:text-xl ">
+                        {item.name}
+                      </Text>
+                      <Text className="font-bold text-lg sm:text-xl ">
                         {currency}
                         {item.price}
                       </Text>
@@ -98,13 +98,13 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                         </Text>
                       </Menu.Target>
                       <Menu.Dropdown className="max-w-60">
-                        <Text className="text-sm text-gray-500 px-2 font-mono ">
+                        <Text className="font-mono text-sm sm:text-base text-gray-500 px-2 ">
                           {item.description}
                         </Text>
                       </Menu.Dropdown>
                     </Menu>
 
-                    {item.status === "InActive" && (
+                    {mounted && item.status === "InActive" && (
                       <Badge
                         color="red"
                         variant="filled"
