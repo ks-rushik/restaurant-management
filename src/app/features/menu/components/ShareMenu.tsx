@@ -53,16 +53,17 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         centered
       >
         {qrcode && (
-          <div className="flex justify-center">
+          <div className="flex justify-center ">
             <Image src={qrcode} alt="qrcode" width={200} height={150}></Image>
           </div>
         )}
-        <div className="mx-20 flex justify-between pt-2 ">
+        <div className="mx-20 flex justify-between pt-2  ">
           <CopyButton value={qrcode!} timeout={2000}>
             {({ copied, copy }) => (
               <BaseButton
                 color={copied ? "teal" : "gray"}
                 variant="subtle"
+                classNames={{ root: "h-10 , text-white" }}
                 onClick={copy}
               >
                 {copied ? (
@@ -81,7 +82,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
           </CopyButton>
 
           <a href={qrcode} download="qrcode.png">
-            <BaseButton>
+            <BaseButton classNames={{ root: "text-white h-10 " }}>
               <span className="mr-2 text-white">Download</span>
               <RiDownload2Line />
             </BaseButton>
@@ -94,7 +95,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
           classNames={{
             root: "pt-8",
             input:
-              "border-gray-300 h-10 rounded-md hover:border-2 hover:border-blue-400 pr-10",
+              "border-gray-300 h-10 text-pretty font-serif text-base  bg-gray-200 rounded-md hover:border-2 hover:border-blue-400 pr-10",
           }}
           rightSection={
             <CopyButton value={shareableLink} timeout={2000}>

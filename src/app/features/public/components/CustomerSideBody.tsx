@@ -4,8 +4,8 @@ import useMenuItem from "../../menu/hook/useMenuItem";
 import { IItemdata } from "../../item/components/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
-import background from "../../../images/background.jpg";
 import useShortUrl from "../hook/useUrl";
+import { IMenudata } from "../../menu/types/type";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -18,6 +18,12 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const urlid = urldata?.[0].menu_id;
 
   const matchedItem = data?.find((item) => item.id === urlid);
+  // const matchedData = categories?.map((category) => 
+  //   category.menu.id=== urlid
+  // );
+  
+
+  console.log(data, "dfd", urlid, "matcheditem");
 
   const currency = matchedItem?.currency;
 
@@ -32,6 +38,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         : [...prev, categoryId]
     );
   };
+  console.log(categories, "images");
 
   return (
     <div className="space-y-8">
@@ -41,7 +48,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
       {categories?.map((category) => (
         <div key={category.id} onClick={() => handleToggle(category.id)}>
-          <div className="bg-white p-4 rounded-lg shadow-lg">
+          <div className="bg-white p-4 rounded-lg shadow-2xl">
             <p className="font-bold text-lg sm:text-2xl text-gray-800 flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300">
               {category.category_name}
               <span className="text-gray-500 text-sm">
@@ -61,10 +68,16 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                 >
                   <Card shadow="sm" className="h-full flex flex-col w-60">
                     <Image
-                      src={background}
+                      src={
+                        typeof item.image === "string"
+                          ? item.image
+                          : URL.createObjectURL(item.image as Blob)
+                      }
+                      width={20}
+                      height={20}
                       layout="responsive"
                       alt="Website Logo"
-                      className="w-full h-40 object-cover"
+                      className="w-full max-h-44 min-h-56 object-cover"
                       priority
                     />
                     <div className="flex flex-row justify-between  pt-2">
