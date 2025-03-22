@@ -1,11 +1,9 @@
 import { Badge, Card, Collapse, Divider, Menu, Text } from "@mantine/core";
 import React, { FC, useState, useEffect } from "react";
-import useMenuItem from "../../menu/hook/useMenuItem";
-import { IItemdata } from "../../../components/item/AddItemModal";
+import { IItemdata } from "../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
-import useShortUrl from "../hook/useUrl";
-import { IMenudata } from "../../menu/types/type";
+import useShortUrl from "../../features/public/hook/useUrl";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -47,7 +45,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       [itemId]: !prev[itemId],
     }));
   };
-  console.log(categories, "images");
 
   return (
     <div className="space-y-8">

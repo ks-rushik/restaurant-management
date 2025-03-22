@@ -1,8 +1,9 @@
 "use client";
 import React, { FC } from "react";
 import Image from "next/image";
-import dish from "../../../images/dish-svgrepo-com.svg";
-import knife from "../../../images/fork-and-knife-svgrepo-com (2).svg";
+import knife from "../../images/fork-and-knife-svgrepo-com (2).svg";
+import dish from '../../images/dish-svgrepo-com.svg';
+
 
 type ICustomerSideHeaderProps = {
   logo: string;
