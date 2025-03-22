@@ -7,7 +7,7 @@ import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
-import { login } from "../actions/login-action";
+import { login } from "../../../features/auth/actions/login-action";
 import { useState } from "react";
 
 const loginSchema = z.object({

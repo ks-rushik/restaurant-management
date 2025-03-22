@@ -7,7 +7,7 @@ import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
-import { resetPassword } from "../actions/resetpassword-action";
+import { resetPassword } from "../../../features/auth/actions/resetpassword-action";
 import { Text, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 

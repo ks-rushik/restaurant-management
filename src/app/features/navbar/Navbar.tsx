@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Avatar, Menu } from "@mantine/core";
 import Image from "next/image";
 import website from "./website.svg";
-import LogOut from "../auth/components/Logout";
+import LogOut from "../../components/auth/components/Logout";
 
 const Navbar = () => {
   const [opened, setOpened] = useState(false);

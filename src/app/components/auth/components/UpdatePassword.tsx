@@ -6,7 +6,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updatePassword } from "../actions/updatepassword-action";
+import { updatePassword } from "../../../features/auth/actions/updatepassword-action";
 import { Title } from "@mantine/core";
 
 const ResetPasswordSchema = z
