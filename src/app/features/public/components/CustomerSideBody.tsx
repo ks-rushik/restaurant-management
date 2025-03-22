@@ -58,7 +58,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
               </span>
             </p>
 
-            <div className="mt-2 flex flex-wrap justify-center md:justify-start gap-4">
+            <div className="mt-2 flex flex-wrap  md:justify-start gap-4">
               {category.Items?.map((item: IItemdata) => (
                 <Collapse
                   in={openCategories.includes(category.id)}

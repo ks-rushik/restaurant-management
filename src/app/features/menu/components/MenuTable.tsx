@@ -31,7 +31,9 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
     close,
   } = props;
   
-  return !data ? <p className="flex justify-center">Loading menu...</p>: data?.length === 0 ? (
+  return !data ? (
+    <Loader></Loader>
+  ) : data?.length === 0 ? (
    <Loader></Loader>
   ) : (
     <BaseTable
