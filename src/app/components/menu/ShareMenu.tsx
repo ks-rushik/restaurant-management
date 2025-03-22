@@ -11,7 +11,7 @@ import { FaShare } from "react-icons/fa6";
 import { IMenudata } from "@/app/type/type";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
-import generateQRCode from "@/app/features/public/helper/qrcodegenrating";
+import generateQRCode from "@/app/helper/qrcodegenrating";
 
 type IShareMenuProps = {
   item: IMenudata;

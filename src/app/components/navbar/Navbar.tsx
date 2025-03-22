@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Avatar, Menu } from "@mantine/core";
 import Image from "next/image";
-import website from "../../features/navbar/website.svg";
+import website from "../../images/website.svg";
 import LogOut from "../auth/Logout";
 
 const Navbar = () => {
