@@ -24,17 +24,28 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     categories ? categories.map((category) => category.id) : []
   );
   const [mounted, setMounted] = useState(false);
+  const [expandedDescriptions, setExpandedDescriptions] = useState<
+    Record<string, boolean>
+  >({});
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleToggle = (categoryId: string) => {
+  const handleToggle = (categoryId: string, event: React.MouseEvent) => {
+    event.stopPropagation()
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
+  };
+  const toggleDescription = (itemId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setExpandedDescriptions((prev) => ({
+      ...prev,
+      [itemId]: !prev[itemId],
+    }));
   };
   console.log(categories, "images");
 
@@ -45,7 +56,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       <Divider size="sm" className="mb-4" />
 
       {categories?.map((category) => (
-        <div key={category.id} onClick={() => handleToggle(category.id)}>
+        <div key={category.id} onClick={(event) => handleToggle(category.id ,event)}>
           <div className="bg-white p-4 rounded-lg shadow-2xl">
             <p className="font-bold text-lg sm:text-2xl text-gray-800 flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300">
               {category.category_name}
@@ -58,7 +69,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
               </span>
             </p>
 
-            <div className="mt-2 flex flex-wrap  md:justify-start gap-4">
+            <div className="mt-2 flex justify-center flex-wrap  md:justify-start gap-4">
               {category.Items?.map((item: IItemdata) => (
                 <Collapse
                   in={openCategories.includes(category.id)}
@@ -88,21 +99,14 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       </Text>
                     </div>
 
-                    <Menu trigger="hover">
-                      <Menu.Target>
-                        <Text
-                          className="text-sm text-gray-500  font-mono line-clamp-2 mt-3"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          {item.description}
-                        </Text>
-                      </Menu.Target>
-                      <Menu.Dropdown className="max-w-60">
-                        <Text className="font-mono text-sm sm:text-base text-gray-500 px-2 ">
-                          {item.description}
-                        </Text>
-                      </Menu.Dropdown>
-                    </Menu>
+                    <Text
+                      className="text-sm text-gray-500 font-mono mt-3 cursor-pointer"
+                      onClick={(e) => toggleDescription(item.id!, e)}
+                    >
+                      {expandedDescriptions[item.id!]
+                        ? item.description
+                        : `${item.description?.substring(0, 50)}...`}
+                    </Text>
 
                     {mounted && item.status === "InActive" && (
                       <Badge
