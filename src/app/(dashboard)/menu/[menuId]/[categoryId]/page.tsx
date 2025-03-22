@@ -1,5 +1,5 @@
 import fetchItemdata from '@/app/features/item/actions/item-fetch';
-import ItemPage from '@/app/features/item/components/ItemPage'
+import ItemPage from '@/app/components/item/ItemPage'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import React from 'react'
 

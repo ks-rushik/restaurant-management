@@ -1,7 +1,7 @@
 import { Badge, Card, Collapse, Divider, Menu, Text } from "@mantine/core";
 import React, { FC, useState, useEffect } from "react";
 import useMenuItem from "../../menu/hook/useMenuItem";
-import { IItemdata } from "../../item/components/AddItemModal";
+import { IItemdata } from "../../../components/item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
 import useShortUrl from "../hook/useUrl";

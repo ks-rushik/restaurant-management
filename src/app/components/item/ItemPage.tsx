@@ -4,13 +4,13 @@ import ItemHeader from "./ItemHeader";
 import ItemTable from "./ItemTable";
 import AddItemModal, { IItemdata } from "./AddItemModal";
 import { notifications } from "@mantine/notifications";
-import { item } from "../actions/additem-action";
+import { item } from "../../features/item/actions/additem-action";
 import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
-import { updateItemOrder } from "../actions/updateposition-action";
-import deleteitem from "../actions/deleteitem-action";
-import useItem from "../hook/useItem";
-import { updateItem } from "../actions/updateitem-action";
+import { updateItemOrder } from "../../features/item/actions/updateposition-action";
+import deleteitem from "../../features/item/actions/deleteitem-action";
+import useItem from "../../features/item/hook/useItem";
+import { updateItem } from "../../features/item/actions/updateitem-action";
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[3];
