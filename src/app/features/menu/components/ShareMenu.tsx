@@ -44,7 +44,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
       <FaShare
         onClick={() => handleShareMenu()}
         size={20}
-        className="ml-6 hover:text-blue-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "
+        className="ml-6 hover:text-blue-500 "
       />
       <BaseModal
         opened={shareModalOpen}

@@ -28,7 +28,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
       >
         <MdOutlineModeEdit
           size={22}
-          className="hover:text-yellow-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100"
+          className="hover:text-yellow-500 "
         />
       </div>
       <BaseConfirmation

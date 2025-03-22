@@ -36,7 +36,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
         onClick={() => handleView(item.menu_name!, item.id)}
         className="mr-6 cursor-pointer"
       >
-        <BiCategory size={22} className=" hover:text-gray-700 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 " />
+        <BiCategory size={22} className=" hover:text-gray-700  " />
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
@@ -44,7 +44,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       >
         <MdOutlineModeEdit
           size={22}
-          className="hover:text-yellow-400 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100 "
+          className="hover:text-yellow-400  "
         />
       </div>
       <BaseConfirmation
