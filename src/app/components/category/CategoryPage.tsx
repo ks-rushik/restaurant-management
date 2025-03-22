@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import CategoryHeader from "./CategoryHeader";
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
 import CategoryTable from "./CategoryTable";
-import useCategoryItem from "../hook/useCategoryItem";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import categories from "../actions/addcategory-action";
 import { notifications } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
-import deletecategory from "../actions/deletecategory-action";
-import { updateCategory } from "../actions/updatecategory-action";
-import { updateCategoryOrder } from "../actions/updatePosition-action";
+import { updateCategoryOrder } from "@/app/features/category/actions/updatePosition-action";
+import categories from "@/app/features/category/actions/addcategory-action";
+import { updateCategory } from "@/app/features/category/actions/updatecategory-action";
+import deletecategory from "@/app/features/category/actions/deletecategory-action";
+import useCategoryItem from "@/app/features/category/hook/useCategoryItem";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();

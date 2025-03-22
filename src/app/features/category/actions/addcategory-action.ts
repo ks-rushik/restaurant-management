@@ -1,8 +1,8 @@
 "use server";
 
+import { ICategorydata } from "@/app/components/category/AddCategoryModal";
 import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { ICategorydata } from "../components/AddCategoryModal";
 
 const categories = async (CategoryData: ICategorydata, menuId: string) => {
   const supabase = await createClient();
