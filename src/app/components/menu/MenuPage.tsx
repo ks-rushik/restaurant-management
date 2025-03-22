@@ -1,7 +1,7 @@
 "use client";
 import { MouseEvent, useEffect, useState } from "react";
 import Addmenu from "./AddMenuModal";
-import { IMenudata, IModalData } from "../../features/menu/types/type";
+import { IMenudata, IModalData } from "../../type/type";
 import { menu } from "../../actions/menu/addmenu-action";
 import useMenuItem from "../../hooks/useMenuItem";
 import deletemenu from "../../actions/menu/deletemenu-action";

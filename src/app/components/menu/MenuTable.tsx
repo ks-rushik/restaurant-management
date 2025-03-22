@@ -2,7 +2,7 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";
 import formatDate from "@/app/utils/formatdate";
-import { IMenudata } from "@/app/features/menu/types/type";
+import { IMenudata } from "@/app/type/type";
 import MenuActions from "./MenuActions";
 
 type IMenuTableProps = {

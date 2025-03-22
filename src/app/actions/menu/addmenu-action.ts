@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/app/utils/supabase/server";
-import { IModalData } from "../../features/menu/types/type";
+import { IModalData } from "../../type/type";
 import { revalidatePath } from "next/cache";
 
 export async function menu(MenuData: IModalData) {

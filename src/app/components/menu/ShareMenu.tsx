@@ -8,7 +8,7 @@ import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
 import { FaShare } from "react-icons/fa6";
-import { IMenudata } from "@/app/features/menu/types/type";
+import { IMenudata } from "@/app/type/type";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
 import generateQRCode from "@/app/features/public/helper/qrcodegenrating";
