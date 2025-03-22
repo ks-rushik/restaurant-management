@@ -1,4 +1,4 @@
-import fetchMenudata from "@/app/features/menu/actions/menu-fetch";
+import fetchMenudata from "@/app/actions/menu/menu-fetch";
 import Menu from "@/app/components/menu/MenuPage";
 import {
   dehydrate,

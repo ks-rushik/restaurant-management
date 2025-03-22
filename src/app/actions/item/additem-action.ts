@@ -2,7 +2,7 @@
 
 import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { IItemdata } from "../../../components/item/AddItemModal";
+import { IItemdata } from "../../components/item/AddItemModal";
 
 export async function item(
   ItemData: IItemdata,

@@ -3,7 +3,7 @@
 import { createClient } from '@/app/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { ILoginFormData } from '../../../components/auth/LoginForm'
+import { ILoginFormData } from '../../components/auth/LoginForm'
 
 export async function login(formData: ILoginFormData) {
   const supabase = await createClient()

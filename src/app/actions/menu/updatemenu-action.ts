@@ -1,10 +1,10 @@
 "use server";
 
 import { createClient } from "@/app/utils/supabase/server";
-import { IModalData } from "../types/type";
+import { IModalData } from "../../features/menu/types/type";
 import { revalidatePath } from "next/cache";
 
-export async function menu(MenuData: IModalData) {
+export async function updateMenu(MenuData: IModalData) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -18,12 +18,13 @@ export async function menu(MenuData: IModalData) {
     status: MenuData.status,
   };
 
-  const { data: InsertData } = await supabase
+  const { data: UpdatedData } = await supabase
     .from("menus")
-    .insert(menudata)
+    .update(menudata)
+    .eq("id", MenuData.id!)
     .select();
 
   revalidatePath("/menu", "page");
 
-  return InsertData?.[0];
+  return UpdatedData?.[0];
 }

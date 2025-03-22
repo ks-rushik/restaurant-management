@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import fetchMenudata from "../actions/menu-fetch";
+import fetchMenudata from "../../../actions/menu/menu-fetch";
 
 const useMenuItem = () => {
   const { data } = useQuery({

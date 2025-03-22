@@ -6,10 +6,10 @@ import CategoryTable from "./CategoryTable";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 import { useDisclosure } from "@mantine/hooks";
-import { updateCategoryOrder } from "@/app/features/category/actions/updatePosition-action";
-import categories from "@/app/features/category/actions/addcategory-action";
-import { updateCategory } from "@/app/features/category/actions/updatecategory-action";
-import deletecategory from "@/app/features/category/actions/deletecategory-action";
+import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
+import categories from "@/app/actions/category/addcategory-action";
+import { updateCategory } from "@/app/actions/category/updatecategory-action";
+import deletecategory from "@/app/actions/category/deletecategory-action";
 import useCategoryItem from "@/app/features/category/hook/useCategoryItem";
 
 function CategoryPage() {

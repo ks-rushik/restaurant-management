@@ -1,5 +1,5 @@
 import CategoryPage from '@/app/components/category/CategoryPage';
-import fetchCategorydata from '@/app/features/category/actions/category-fetch';
+import fetchCategorydata from '@/app/actions/category/category-fetch';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import React from 'react'
 

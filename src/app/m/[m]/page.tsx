@@ -1,7 +1,7 @@
-import fetchMenudata from "@/app/features/menu/actions/menu-fetch";
-import fetchCategoryItemData from "@/app/features/public/actions/getCategoryItem";
-import getMenuData from "@/app/features/public/actions/getMenuData";
-import { getProfileData } from "@/app/features/public/actions/getProfileData";
+import fetchMenudata from "@/app/actions/menu/menu-fetch";
+import fetchCategoryItemData from "@/app/actions/customer/getCategoryItem";
+import getMenuData from "@/app/actions/customer/getMenuData";
+import { getProfileData } from "@/app/actions/customer/getProfileData";
 import CustomerSide from "@/app/components/customer/CustomerSide";
 import {
   dehydrate,
