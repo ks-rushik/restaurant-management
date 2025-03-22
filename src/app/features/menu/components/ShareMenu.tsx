@@ -57,37 +57,38 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
             <Image src={qrcode} alt="qrcode" width={200} height={150}></Image>
           </div>
         )}
-        <div className="mx-20 flex justify-between pt-2  ">
-          <CopyButton value={qrcode!} timeout={2000}>
-            {({ copied, copy }) => (
-              <BaseButton
-                color={copied ? "teal" : "gray"}
-                variant="subtle"
-                classNames={{ root: "h-10 , text-white" }}
-                onClick={copy}
-              >
-                {copied ? (
-                  <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copied</span>
-                    <FaPaste />
-                  </div>
-                ) : (
-                  <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copy</span>
-                    <FaCopy />
-                  </div>
-                )}
-              </BaseButton>
-            )}
-          </CopyButton>
+      <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
+  <CopyButton value={qrcode!} timeout={2000}>
+    {({ copied, copy }) => (
+      <BaseButton
+        color={copied ? "teal" : "gray"}
+        variant="subtle"
+        classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
+        onClick={copy}
+      >
+        {copied ? (
+          <div className="inline-flex items-center">
+            <span className="mr-2 text-white">Copied</span>
+            <FaPaste />
+          </div>
+        ) : (
+          <div className="inline-flex items-center">
+            <span className="mr-2 text-white">Copy</span>
+            <FaCopy />
+          </div>
+        )}
+      </BaseButton>
+    )}
+  </CopyButton>
 
-          <a href={qrcode} download="qrcode.png">
-            <BaseButton classNames={{ root: "text-white h-10 " }}>
-              <span className="mr-2 text-white">Download</span>
-              <RiDownload2Line />
-            </BaseButton>
-          </a>
-        </div>
+  <a href={qrcode} download="qrcode.png">
+    <BaseButton classNames={{ root: "h-10 w-full sm:w-auto text-white" }}>
+      <span className="mr-2 text-white">Download</span>
+      <RiDownload2Line />
+    </BaseButton>
+  </a>
+</div>
+
 
         <TextInput
           value={shareableLink}
