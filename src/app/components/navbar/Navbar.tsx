@@ -1,11 +1,10 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { Avatar, Menu } from "@mantine/core";
 import Image from "next/image";
-import website from "./website.svg";
-import LogOut from "../../components/auth/Logout";
+import website from "../../features/navbar/website.svg";
+import LogOut from "../auth/Logout";
 
 const Navbar = () => {
   const [opened, setOpened] = useState(false);

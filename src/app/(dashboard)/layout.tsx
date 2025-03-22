@@ -6,7 +6,7 @@ import "@mantine/notifications/styles.css";
 import { Notifications } from "@mantine/notifications";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
-import Navbar from "../features/navbar/Navbar";
+import Navbar from "../components/navbar/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
