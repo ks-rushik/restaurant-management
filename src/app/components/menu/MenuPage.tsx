@@ -1,13 +1,13 @@
 "use client";
 import { MouseEvent, useEffect, useState } from "react";
 import Addmenu from "./AddMenuModal";
-import { IMenudata, IModalData } from "../../../features/menu/types/type";
-import { menu } from "../../../features/menu/actions/addmenu-action";
-import useMenuItem from "../../../features/menu/hook/useMenuItem";
-import deletemenu from "../../../features/menu/actions/deletemenu-action";
+import { IMenudata, IModalData } from "../../features/menu/types/type";
+import { menu } from "../../features/menu/actions/addmenu-action";
+import useMenuItem from "../../features/menu/hook/useMenuItem";
+import deletemenu from "../../features/menu/actions/deletemenu-action";
 import { useRouter } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
-import { updateMenu } from "../../../features/menu/actions/updatemenu-action";
+import { updateMenu } from "../../features/menu/actions/updatemenu-action";
 import { notifications } from "@mantine/notifications";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
@@ -24,7 +24,6 @@ const menupage = () => {
       setMenuItem(data);
     }
   }, [data]);
-  console.log(data);
 
   const handleAddMenu = async (newItem: IModalData) => {
     const addedItem = await menu(newItem);

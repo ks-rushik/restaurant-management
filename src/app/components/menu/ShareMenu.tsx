@@ -2,16 +2,16 @@
 import BaseButton from "@/app/components/ui/BaseButton";
 import { CopyButton, TextInput } from "@mantine/core";
 import { FC, useState } from "react";
-import { IMenudata } from "../../../features/menu/types/type";
-import fetchshortUrl from "../../../features/public/actions/getUrl";
-import shortLink from "../../../features/public/actions/addshortlink-action";
 import Image from "next/image";
 import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
 import { FaShare } from "react-icons/fa6";
-import generateQRCode from "../../../features/public/helper/qrcodegenrating";
+import { IMenudata } from "@/app/features/menu/types/type";
+import shortLink from "@/app/features/public/actions/addshortlink-action";
+import fetchshortUrl from "@/app/features/public/actions/getUrl";
+import generateQRCode from "@/app/features/public/helper/qrcodegenrating";
 
 type IShareMenuProps = {
   item: IMenudata;
@@ -20,12 +20,10 @@ type IShareMenuProps = {
 const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shortCode, setShortCode] = useState();
   const [qrcode, setQrcode] = useState<string | undefined>();
-  const [loading, setLoading] = useState(false);
   const { item } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const handleShareMenu = async () => {
-    setLoading(true);
     await shortLink(item.id);
     const data = await fetchshortUrl(item.id);
     const shortcode = data.short_url;
@@ -33,7 +31,6 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
     const qrcode = await generateQRCode(shortCode!);
     console.log(qrcode, "this is qrcode");
     setQrcode(qrcode);
-    setLoading(false);
     setShareModalOpen(true);
   };
 
@@ -57,38 +54,39 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
             <Image src={qrcode} alt="qrcode" width={200} height={150}></Image>
           </div>
         )}
-      <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
-  <CopyButton value={qrcode!} timeout={2000}>
-    {({ copied, copy }) => (
-      <BaseButton
-        color={copied ? "teal" : "gray"}
-        variant="subtle"
-        classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
-        onClick={copy}
-      >
-        {copied ? (
-          <div className="inline-flex items-center">
-            <span className="mr-2 text-white">Copied</span>
-            <FaPaste />
-          </div>
-        ) : (
-          <div className="inline-flex items-center">
-            <span className="mr-2 text-white">Copy</span>
-            <FaCopy />
-          </div>
-        )}
-      </BaseButton>
-    )}
-  </CopyButton>
+        <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
+          <CopyButton value={qrcode!} timeout={2000}>
+            {({ copied, copy }) => (
+              <BaseButton
+                color={copied ? "teal" : "gray"}
+                variant="subtle"
+                classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
+                onClick={copy}
+              >
+                {copied ? (
+                  <div className="inline-flex items-center">
+                    <span className="mr-2 text-white">Copied</span>
+                    <FaPaste />
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center">
+                    <span className="mr-2 text-white">Copy</span>
+                    <FaCopy />
+                  </div>
+                )}
+              </BaseButton>
+            )}
+          </CopyButton>
 
-  <a href={qrcode} download="qrcode.png">
-    <BaseButton classNames={{ root: "h-10 w-full sm:w-auto text-white" }}>
-      <span className="mr-2 text-white">Download</span>
-      <RiDownload2Line />
-    </BaseButton>
-  </a>
-</div>
-
+          <a href={qrcode} download="qrcode.png">
+            <BaseButton
+              classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
+            >
+              <span className="mr-2 text-white">Download</span>
+              <RiDownload2Line />
+            </BaseButton>
+          </a>
+        </div>
 
         <TextInput
           value={shareableLink}

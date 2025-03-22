@@ -3,7 +3,7 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
-import { IMenudata } from "../../../features/menu/types/type";
+import { IMenudata } from "../../features/menu/types/type";
 import { FC } from "react";
 import ShareMenu from "./ShareMenu";
 

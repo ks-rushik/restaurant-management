@@ -1,10 +1,9 @@
 import BaseTable from "@/app/components/ui/BaseTable";
-import { IMenudata } from "../../../features/menu/types/type";
-import MenuActions from "./MenuActions";
 import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";
-import ShareMenu from "./ShareMenu";
 import formatDate from "@/app/utils/formatdate";
+import { IMenudata } from "@/app/features/menu/types/type";
+import MenuActions from "./MenuActions";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
