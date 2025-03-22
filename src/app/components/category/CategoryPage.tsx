@@ -10,7 +10,7 @@ import { updateCategoryOrder } from "@/app/actions/category/updatePosition-actio
 import categories from "@/app/actions/category/addcategory-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 import deletecategory from "@/app/actions/category/deletecategory-action";
-import useCategoryItem from "@/app/features/category/hook/useCategoryItem";
+import useCategoryItem from "@/app/hooks/useCategoryItem";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();

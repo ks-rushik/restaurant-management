@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProfileData } from "../../../actions/customer/getProfileData";
+import { getProfileData } from "../actions/customer/getProfileData";
 
 const useProfileData = () => {
   const { data } = useQuery({

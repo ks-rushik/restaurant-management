@@ -3,7 +3,7 @@ import React, { FC, useState, useEffect } from "react";
 import { IItemdata } from "../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import Image from "next/image";
-import useShortUrl from "../../features/public/hook/useUrl";
+import useShortUrl from "../../hooks/useUrl";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;

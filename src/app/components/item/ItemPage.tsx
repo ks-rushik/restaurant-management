@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import { updateItemOrder } from "../../actions/item/updateposition-action";
 import deleteitem from "../../actions/item/deleteitem-action";
-import useItem from "../../features/item/hook/useItem";
+import useItem from "../../hooks/useItem";
 import { updateItem } from "../../actions/item/updateitem-action";
 const ItemPage = () => {
   const pathname = usePathname();

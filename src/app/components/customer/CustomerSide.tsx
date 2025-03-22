@@ -1,7 +1,7 @@
 "use client";
-import useCategoriesItems from "../../features/public/hook/useCategoriesItems";
+import useCategoriesItems from "../../hooks/useCategoriesItems";
 import CustomerSideBody from "./CustomerSideBody";
-import useShortUrl from "../../features/public/hook/useUrl";
+import useShortUrl from "../../hooks/useUrl";
 import CustomerSideHeader from "./CustomerSideHeader";
 
 const CustomerSide = ({ id }: { id: string }) => {
