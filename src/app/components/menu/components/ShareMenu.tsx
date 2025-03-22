@@ -2,16 +2,16 @@
 import BaseButton from "@/app/components/ui/BaseButton";
 import { CopyButton, TextInput } from "@mantine/core";
 import { FC, useState } from "react";
-import { IMenudata } from "../types/type";
-import fetchshortUrl from "../../public/actions/getUrl";
-import shortLink from "../../public/actions/addshortlink-action";
+import { IMenudata } from "../../../features/menu/types/type";
+import fetchshortUrl from "../../../features/public/actions/getUrl";
+import shortLink from "../../../features/public/actions/addshortlink-action";
 import Image from "next/image";
 import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
 import { FaShare } from "react-icons/fa6";
-import generateQRCode from "../../public/helper/qrcodegenrating";
+import generateQRCode from "../../../features/public/helper/qrcodegenrating";
 
 type IShareMenuProps = {
   item: IMenudata;

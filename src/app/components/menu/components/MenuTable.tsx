@@ -1,5 +1,5 @@
 import BaseTable from "@/app/components/ui/BaseTable";
-import { IMenudata } from "../types/type";
+import { IMenudata } from "../../../features/menu/types/type";
 import MenuActions from "./MenuActions";
 import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";

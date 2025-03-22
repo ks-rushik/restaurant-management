@@ -1,5 +1,5 @@
 import fetchMenudata from "@/app/features/menu/actions/menu-fetch";
-import Menu from "@/app/features/menu/components/MenuPage";
+import Menu from "@/app/components/menu/components/MenuPage";
 import {
   dehydrate,
   HydrationBoundary,
