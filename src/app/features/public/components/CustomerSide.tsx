@@ -14,11 +14,9 @@ const CustomerSide = ({ id }: { id: string }) => {
   const profileName = categories?.[0]?.menus.restaurant_id.name;
 
   return (
-    <div className="flex flex-col lg:flex-row lg:items-start container mx-auto mb-10">
-      <div className=" w-full">
-        <CustomerSideHeader logo={profilelogo} name={profileName} />
-        <CustomerSideBody categories={categories} id={id} />
-      </div>
+    <div className="container px-11 mx-auto  mb-10">
+      <CustomerSideHeader logo={profilelogo} name={profileName} />
+      <CustomerSideBody categories={categories} id={id} />
     </div>
   );
 };
