@@ -78,7 +78,6 @@ const ItemPage = () => {
       newMenuItem[index],
       newMenuItem[index + 1],
     ];
-
     setItem(newMenuItem);
 
     await updateItemOrder({
@@ -100,8 +99,7 @@ const ItemPage = () => {
   };
 
   const handleEditItem = async (updateditem: IItemdata,file?: File) => {
-    console.log(file ,"sdifgjs");
-    
+  
     await updateItem(updateditem, categoryId,file);
     notifications.show({ message: "Category updated" });
   };

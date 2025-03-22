@@ -118,7 +118,7 @@ const Addmenu: FC<IMenuModalProps> = ({
             />
           </FormField>
           <FormField
-            label="status"
+            label="Status"
             name="status"
             error={errors.status?.message}
           >
