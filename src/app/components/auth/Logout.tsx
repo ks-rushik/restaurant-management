@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import BaseButton from "@/app/components/ui/BaseButton";
-import signout from "../../../features/auth/actions/logout-action";
+import signout from "../../features/auth/actions/logout-action";
 import { useState } from "react";
 
 const LogOut = () => {

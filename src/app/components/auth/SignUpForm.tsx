@@ -7,7 +7,7 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { signUp } from "../../../features/auth/actions/signup-action";
+import { signUp } from "../../features/auth/actions/signup-action";
 import { notifications } from "@mantine/notifications";
 
 const SignUpSchema = z

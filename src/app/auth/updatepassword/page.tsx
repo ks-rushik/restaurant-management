@@ -1,4 +1,4 @@
-import UpdatePasswordForm from "../../components/auth/components/UpdatePassword"
+import UpdatePasswordForm from "../../components/auth/UpdatePassword"
 
 const UpdatePasswordPage = () => {
     return <UpdatePasswordForm/>
