@@ -1,6 +1,5 @@
 'use server'
 import { createClient } from "@/app/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const signout = async () => {
@@ -8,7 +7,6 @@ const signout = async () => {
   const { error} =await supabase.auth.signOut();
   console.log(error);
   
-   revalidatePath('/', 'layout')
   redirect("/auth/login");
 };
 

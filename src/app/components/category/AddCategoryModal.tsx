@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 export type ICategorydata = {
+  updated_at?: string;
   create_at?: string;
   id?: string;
   category_name: string | null;
