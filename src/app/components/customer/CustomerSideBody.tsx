@@ -45,6 +45,8 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       [itemId]: !prev[itemId],
     }));
   };
+  console.log(categories ,"this is datas");
+  
 
   return (
     <div className="space-y-8">
@@ -53,10 +55,11 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       <Divider size="sm" className="mb-4" />
 
       {categories?.map((category) => (
+         category.status === "Active" &&
         <div key={category.id} onClick={(event) => handleToggle(category.id ,event)}>
           <div className="bg-white p-4 rounded-lg shadow-2xl">
             <p className="font-bold text-lg sm:text-2xl text-gray-800 flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300">
-              {category.category_name}
+             {category.category_name}
               <span className="text-gray-500 text-sm">
                 {openCategories.includes(category.id) ? (
                   <FaAngleUp />
@@ -90,7 +93,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       <Text className=" font-semibold text-base sm:text-xl ">
                         {item.name}
                       </Text>
-                      <Text className="font-bold text-lg sm:text-xl ">
+                      <Text className="font-bold text-base sm:text-xl ">
                         {currency}
                         {item.price}
                       </Text>
