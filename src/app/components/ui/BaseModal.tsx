@@ -14,7 +14,7 @@ const BaseModal: FC<IBaseModalProps> = (props) => {
       <Modal
         classNames={{
           content: clsx("rounded-2xl ", content),
-          title: clsx("text-[#171717] text-xl font-bold", title),
+          title: clsx("text-black text-xl font-bold", title),
           ...otherElement,
         }}
         size='32.5rem'

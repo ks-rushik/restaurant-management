@@ -14,7 +14,7 @@ const BaseSelect:FC<IBaseSelectProp> = (props) => {
     <Select
       classNames={{
         input: clsx(
-         "bg-[#f9eed164] border border-none text-gray-900 font-bold text-sm  rounded-xl h-12 focus:ring-2 focus:ring-[#2a85ff] focus:border-none",
+         "bg-bgInput border border-none text-gray-900 font-bold text-sm  rounded-xl h-12 focus:ring-2 focus:ring-Border focus:border-none",
           {
             "mb-6  text-sm rounded-lg block w-full p-2.5 cursor-not-allowed":
               disabled,
