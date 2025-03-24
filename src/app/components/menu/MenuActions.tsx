@@ -35,18 +35,21 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       <div
         onClick={() => handleView(item.menu_name!, item.id)}
         className="mr-6 cursor-pointer"
+        title="Categories"
       >
         <BiCategory size={22} className=" hover:text-gray-700  " />
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
         className="mr-6 cursor-pointer"
+        title="Edit Menu"
       >
         <MdOutlineModeEdit
           size={22}
           className="hover:text-yellow-400  "
         />
       </div>
+      <ShareMenu item={item}  />
       <BaseConfirmation
         opened={opened}
         onClose={close}
@@ -60,7 +63,6 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
           {loading === item.id ? <Loader size={23} /> : "Delete"}
         </BaseButton>
       </BaseConfirmation>
-      <ShareMenu item={item} />
     </span>
   );
 };

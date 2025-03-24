@@ -33,7 +33,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
           {children}
         </div>
       </Modal>
-      <div onClick={open}>
+      <div onClick={open} title="Delete">
         <RiDeleteBinLine size={22} className="hover:text-red-500 "/>
       </div>
     </>

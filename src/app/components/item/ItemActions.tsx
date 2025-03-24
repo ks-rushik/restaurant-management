@@ -25,6 +25,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
       <div
         onClick={() => handleSelectItem(item)}
         className="mr-6 cursor-pointer"
+        title="Edit Item"
       >
         <MdOutlineModeEdit
           size={22}

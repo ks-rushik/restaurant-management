@@ -31,7 +31,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   } = props;
   return (
     <span className="inline-flex items-center">
-      <div onClick={() => handleView(item.category_name!, item.id!)}>
+      <div onClick={() => handleView(item.category_name!, item.id!)} title="Items">
         <BiCategory
           size={22}
           className="mr-6 cursor-pointer hover:text-gray-700 "
@@ -40,6 +40,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
       <div
         onClick={() => handleSelectCategory(item)}
         className="mr-6 cursor-pointer"
+        title="Edit Category"
       >
         <MdOutlineModeEdit
           size={22}
