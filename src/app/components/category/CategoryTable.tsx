@@ -9,8 +9,8 @@ import formatDate from "@/app/utils/formatdate";
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
   handleSelectCategory: (item: ICategorydata) => void;
-  handleView: (category_name: string , id:string) => void;
-  handleMoveUp: (index: number) => void; 
+  handleView: (category_name: string, id: string) => void;
+  handleMoveUp: (index: number) => void;
   handleMoveDown: (index: number) => void;
   handleDelete: (
     id: string,
@@ -51,21 +51,23 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
       getKey={(item) => item.id!}
       columns={[
         {
-          label: "", 
+          label: "",
           render: (item) => {
-            const index = data!.findIndex((dataItem) => dataItem.id === item.id);
+            const index = data!.findIndex(
+              (dataItem) => dataItem.id === item.id
+            );
             return (
               <div className="flex gap-1">
                 <button
                   onClick={() => handleMoveUp(index)}
-                  disabled={index === 0} 
+                  disabled={index === 0}
                   className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
                 >
                   <FaUpLong />
                 </button>
                 <button
                   onClick={() => handleMoveDown(index)}
-                  disabled={index === data!.length - 1} 
+                  disabled={index === data!.length - 1}
                   className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
                 >
                   <FaDownLong />
@@ -80,13 +82,21 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         },
         {
           label: "AVAILABILITY",
-          render: (item) => item.status,
+          render: (item) =>
+            item.status === "InActive" ? (
+              <p className="text-red-500">InActive</p>
+            ) : (
+              <p className="text-green-600">Active</p>
+            ),
         },
         {
           label: "CREATED AT",
           render: (item) => formatDate(item.create_at!),
         },
-        
+        {
+          label: "UPDATED AT",
+          render: (item) => formatDate(item.updated_at!),
+        },
         {
           label: "",
           render: (item) => (

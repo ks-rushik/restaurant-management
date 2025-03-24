@@ -46,11 +46,15 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
         },
         {
           label: "AVAILABILITY",
-          render: (item) => item.status,
+          render: (item) => item.status === "InActive" ? <p className="text-red-500">InActive</p> : <p className="text-green-600">Active</p>,
         },
         {
           label: "CREATED AT",
           render: (item) => formatDate(item.created_at)
+        },
+        {
+          label: "UPDATED AT",
+          render: (item) => formatDate(item.updated_at)
         },
         {
           label: "",
