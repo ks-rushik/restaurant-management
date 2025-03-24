@@ -29,6 +29,23 @@ export async function submitUserForm(formData: FormData) {
     }
     const { data } = supabase.storage.from("logo").getPublicUrl(fileName);
     logoUrl = data.publicUrl;
+    const { data:UserData ,error:UpdateError } = await supabase
+    .from("user_profile")
+    .insert([
+      {
+        id: userId, 
+        name,
+        phone,
+        address,
+        logo: logoUrl,
+      },
+    ]);
+
+  if (UpdateError) {
+    redirect("/error");
+  }
+
+  return {UserData , message:"profile saved successfully"}
   }
 
   const { data:UserData ,error } = await supabase
@@ -39,7 +56,6 @@ export async function submitUserForm(formData: FormData) {
         name,
         phone,
         address,
-        logo: logoUrl,
       },
     ]);
 
