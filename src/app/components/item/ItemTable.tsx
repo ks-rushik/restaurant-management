@@ -82,17 +82,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           render: (item) =>
             item.image && (
               <Image
-                src={
-                  typeof item.image === "string"
-                    ? item.image
-                    : URL.createObjectURL(item.image)
-                }
+                src={item.image as unknown as string}
                 width={70}
                 height={70}
                 alt={item.name || "Item image"}
                 className="w-16 h-16 object-cover rounded-md"
               />
-            ) 
+            ),
         },
         {
           label: "ITEM NAME",
@@ -121,9 +117,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         },
         {
           label: "AVAILABILITY",
-          render: (item) => item.status === "InActive" ? <p className="text-red-500">InActive</p> : <p className="text-green-600">Active</p>,
+          render: (item) =>
+            item.status === "InActive" ? (
+              <p className="text-red-500">InActive</p>
+            ) : (
+              <p className="text-green-600">Active</p>
+            ),
         },
-        
 
         {
           label: "CREATED AT",
