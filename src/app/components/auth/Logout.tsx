@@ -3,6 +3,7 @@ import { Modal } from "@mantine/core";
 import BaseButton from "@/app/components/ui/BaseButton";
 import signout from "../../actions/auth/logout-action";
 import { useState } from "react";
+import BaseButtonLoader from "../ui/BaseButtonLoader";
 
 const LogOut = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -23,7 +24,7 @@ const LogOut = () => {
             classNames={{ root: "w-32 mt-4" }}
             onClick={() => handlelogout()}
           >
-            {loading ? <p>Loading...</p> : <p>Logout</p>}
+            {loading ? <BaseButtonLoader/> : <p>Logout</p>}
           </BaseButton>
         </div>
       </Modal>

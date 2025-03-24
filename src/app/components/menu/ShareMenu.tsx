@@ -7,11 +7,13 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
-import { FaShare } from "react-icons/fa6";
+import { RiShareLine } from "react-icons/ri";
 import { IMenudata } from "@/app/type/type";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
 import generateQRCode from "@/app/helper/qrcodegenrating";
+import { notifications } from "@mantine/notifications";
+import fetchCategorydata from "@/app/actions/category/category-fetch";
 
 type IShareMenuProps = {
   item: IMenudata;
@@ -24,25 +26,44 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const handleShareMenu = async () => {
-    await shortLink(item.id);
-    const data = await fetchshortUrl(item.id);
-    const shortcode = data.short_url;
-    setShortCode(shortcode);
-    const qrcode = await generateQRCode(shortCode!);
-    console.log(qrcode, "this is qrcode");
-    setQrcode(qrcode);
-    setShareModalOpen(true);
+    const categorydata = await fetchCategorydata(item.id)
+    if(categorydata.length === 0 ){
+      notifications.show({message: 'To preview menu add atleast one category' })
+    }
+    else{
+      await shortLink(item.id);
+      const data = await fetchshortUrl(item.id);
+      const shortcode = data.short_url;
+      setShortCode(shortcode);
+      const qrcode = await generateQRCode(shortCode!);
+      setQrcode(qrcode);
+      setShareModalOpen(true);
+    }
+  };
+  const handleInActiveMenu = () => {
+    notifications.show({
+      message: `${item.menu_name} is not active to share this menu active the status`,
+    });
   };
 
   const shareableLink = `http://localhost:3000/m/${shortCode}`;
 
   return (
     <>
-      <FaShare
-        onClick={() => handleShareMenu()}
-        size={20}
-        className="ml-6 hover:text-blue-500 "
-      />
+      <button
+        onClick={() => {
+          if (item.status !== "InActive") {
+            handleShareMenu();
+            console.log("sfs");
+          } else {
+            handleInActiveMenu();
+          }
+        }}
+        title="Share Menu"
+      >
+        <RiShareLine size={22} className="mr-6 hover:text-blue-500" />
+      </button>
+
       <BaseModal
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
