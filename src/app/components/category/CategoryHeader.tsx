@@ -1,6 +1,6 @@
 "use client";
 import CustomBreadcrumbs from "@/app/components/ui/BaseBreadcrumbs";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 type ICategoryHeaderProps = {
@@ -13,7 +13,9 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const pathname = usePathname();
 
   const segments = pathname.split("/")[1];    
-  
+  if(!menuname){
+    redirect('/not-found')
+  }
 
   const breadcrumbItems = [
     {
