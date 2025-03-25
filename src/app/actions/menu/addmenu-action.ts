@@ -23,6 +23,41 @@ export async function menu(MenuData: IModalData) {
     .insert(menudata)
     .select();
 
+
+    // menu page endpoint:
+    // type MenuItem = {
+    //   menu_name: string;
+    //   currency: string;
+    //   status: string;
+    //   restaurant_id:string
+    // };
+    
+    // const Menus = async (items: MenuItem[]) => {
+    //   try {
+    //     const { data, error } = await supabase.from('menus').insert(items);
+    //     console.log(data)
+    //   } catch (err) {
+    //     console.error('Unexpected error:', err);
+    //     return { success: false, error: 'Unexpected error occurred' };
+    //   }
+    // };
+    // const newItems = [
+    //   {
+    //     menu_name: 'Burger',
+    //     currency: '$',
+    //     status: 'active',
+    //     restaurant_id: userId!
+    //   },
+    //   {
+    //     menu_name: 'Pizza',
+    //     currency: '₹',
+    //     status: 'inactive',
+    //     restaurant_id:userId!
+    //   },
+    // ];
+    
+    // Menus(newItems)
+
   revalidatePath("/menu", "page");
 
   return InsertData?.[0];

@@ -3,6 +3,7 @@
 import { ICategorydata } from "@/app/components/category/AddCategoryModal";
 import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/dist/server/api-utils";
 
 const categories = async (CategoryData: ICategorydata, menuId: string) => {
   const supabase = await createClient();
@@ -24,14 +25,49 @@ const categories = async (CategoryData: ICategorydata, menuId: string) => {
     position: newPosition,
   };
 
-  const { data: InsertData, error } = await supabase
+  const { data: InsertData } = await supabase
     .from("category")
     .insert(categorydata)
     .select();
 
-  if (error) {
-    console.log(error);
-  }
+
+ // categorypage endpoint
+  // type CategoryItem = {
+  //   category_name: string;
+  //   menu_id: string ;
+  //   status: string;
+  //   position:number
+  // };
+
+  // const Categories = async (items: CategoryItem[]) => {
+  //   try {
+  //     const { data } = await supabase.from('category').insert(items);
+  //     console.log(data);
+      
+  //   } catch (err) {
+  //     console.error('Unexpected error:', err);
+  //     return { success: false, error: 'Unexpected error occurred' };
+  //   }
+  // };
+  // console.log(InsertData , 'categorydata');
+  
+
+  // const newItems = [
+  //   {
+  //     category_name: 'Appetizers',
+  //     menu_id: menuId,
+  //     status: 'Active',
+  //     position: InsertData?.[0]?.position  + 1
+  //   },
+  //   {
+  //     category_name : "Sandwitches",
+  //     menu_id: menuId,
+  //     status: 'InActive',
+  //     position: InsertData?.[0].position + 2
+  //   }
+  // ];
+  
+  // Categories(newItems)
 
   revalidatePath("/", "layout");
 
