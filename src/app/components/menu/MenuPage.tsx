@@ -49,7 +49,7 @@ const menupage = () => {
   };
 
   const handleView = (menu_name: string ,id:string) => {
-    router.push(`/menu/${id}?name=${menu_name}`);
+    router.push(`/menu/${id}`);
   };
 
   const handleSelectMenu = (item: IMenudata) => {

@@ -1,6 +1,8 @@
 "use client";
 import CustomBreadcrumbs from "@/app/components/ui/BaseBreadcrumbs";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useCategoriesItems from "@/app/hooks/useCategoriesItems";
+import useItem from "@/app/hooks/useItem";
+import { notFound, redirect, usePathname,  useSearchParams } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 type ICategoryHeaderProps = {
@@ -8,25 +10,29 @@ type ICategoryHeaderProps = {
 };
 const ItemHeader: FC<ICategoryHeaderProps> = (props) => {
   const { children } = props;
-  const searchParam = useSearchParams();
-  const name = searchParam.get("name")!;
-  const menuname = searchParam.get("menuname")!;
   const pathname = usePathname();
-
   const segments = pathname.split("/")[1];
   const menuId = pathname.split('/')[2];
-  
+  const itemId = pathname.split('/')[3]
+  const {categories} = useCategoriesItems(menuId) || {}
+
+  const itemname = categories?.find((item) => item.id === itemId)?.category_name;
+  if(!itemname){
+    return notFound()
+  }
+  const categoryname = categories?.find((item) => item.id === itemId)?.menus.menu_name;
+
   const breadcrumbItems = [
     {
-      title: segments[0].toUpperCase() + segments.slice(1),
+      title: segments[0].toUpperCase() + segments?.slice(1),
       href: `/${segments}`,
     },
     {
-        title: menuname[0].toUpperCase() + menuname.slice(1),
-        href:`/menu/${menuId}?name=${menuname}`
+        title: categoryname?.[0].toUpperCase() + categoryname?.slice(1),
+        href:`/menu/${menuId}`
     },
     {
-      title: name[0].toUpperCase() + name?.slice(1),
+      title: itemname?.[0].toUpperCase() + itemname?.slice(1),
       href: `#`,
     },
   ];

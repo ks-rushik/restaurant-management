@@ -33,7 +33,6 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     close,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
-  console.log(data, "table data");
 
   return !data ? (
     <Loader></Loader>
