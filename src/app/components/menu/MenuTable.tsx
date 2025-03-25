@@ -33,7 +33,9 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
   return !data ? (
     <Loader></Loader>
   ) : data?.length === 0 ? (
-   <Loader></Loader>
+    <p className="text-center text-gray-500 mt-4">
+      No Category available. Click "Add New Category" to create one.
+    </p>
   ) : (
     <BaseTable
       highlightOnHover
