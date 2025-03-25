@@ -1,6 +1,7 @@
 "use client";
 import CustomBreadcrumbs from "@/app/components/ui/BaseBreadcrumbs";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import useMenuItem from "@/app/hooks/useMenuItem";
+import { notFound, usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 type ICategoryHeaderProps = {
@@ -8,13 +9,13 @@ type ICategoryHeaderProps = {
 };
 const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const { children } = props;
-  const searchParam = useSearchParams();
-  const menuname = searchParam.get("name")!;
   const pathname = usePathname();
-
-  const segments = pathname.split("/")[1];    
-  if(!menuname){
-    redirect('/not-found')
+  const segments = pathname.split("/")[1];
+  const data = useMenuItem();
+  const menuId = pathname.split("/")[2];
+  const menu = data?.find((menu) => menu.id === menuId)?.menu_name;
+  if (menu === undefined) {
+    return notFound();
   }
 
   const breadcrumbItems = [
@@ -23,7 +24,7 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
       href: `/${segments}`,
     },
     {
-      title: menuname[0].toUpperCase() + menuname?.slice(1),
+      title: menu?.[0].toUpperCase() + menu?.slice(1),
       href: `#`,
     },
   ];
