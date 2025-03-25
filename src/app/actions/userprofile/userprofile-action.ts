@@ -19,10 +19,10 @@ export async function submitUserForm(formData: FormData) {
   let logoUrl: string | null = null;
 
   if (logoFile && logoFile.size > 0) {
-    const fileName = `${logoFile.name}`;
+    const fileName = `${userId}/${logoFile.name}`;
     const { error } = await supabase.storage
       .from("logo")
-      .upload(fileName, logoFile, { upsert: true });
+      .upload(fileName, logoFile);
 
     if (error) {
       throw new Error(`Failed to upload logo: ${error.message}`);
@@ -31,17 +31,18 @@ export async function submitUserForm(formData: FormData) {
     logoUrl = data.publicUrl;
     const { data:UserData ,error:UpdateError } = await supabase
     .from("user_profile")
-    .insert([
-      {
-        id: userId, 
+    .update([
+      { 
         name,
         phone,
         address,
         logo: logoUrl,
       },
-    ]);
+    ]).eq("id" , userId)
 
   if (UpdateError) {
+    console.log(UpdateError);
+    
     redirect("/error");
   }
 
@@ -50,16 +51,17 @@ export async function submitUserForm(formData: FormData) {
 
   const { data:UserData ,error } = await supabase
     .from("user_profile")
-    .upsert([
+    .update([
       {
-        id: userId, 
         name,
         phone,
         address,
       },
-    ]);
+    ]).eq("id" , userId)
 
   if (error) {
+    console.log(error);
+    
     redirect("/error");
   }
 
