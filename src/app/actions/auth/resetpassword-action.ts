@@ -13,7 +13,6 @@ export async function resetPassword(email: string ) {
   if (error) {
     redirect("/auth/error");
   }
- console.log(error);
  
   revalidatePath("/", "layout");
   return{ message: "link sent to this email"}

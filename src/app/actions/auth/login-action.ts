@@ -14,12 +14,13 @@ export async function login(formData: ILoginFormData) {
   }  
 
   const { error } = await supabase.auth.signInWithPassword(data)
- console.log(error);
  
   if (error) {
     return error
   }
 
+
   revalidatePath('/', 'layout')
   redirect('/menu')
 }
+

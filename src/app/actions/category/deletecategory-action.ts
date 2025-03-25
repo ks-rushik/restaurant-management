@@ -10,7 +10,6 @@ const deletecategory = async (id: string) => {
   if(error){
     console.log(error);
   }
-  console.log('item deleted',data);
   
   revalidatePath("/", "layout");
   return ;

@@ -31,7 +31,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   }, []);
 
   const handleToggle = (categoryId: string, event: React.MouseEvent) => {
-    event.stopPropagation()
+    event.stopPropagation();
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
@@ -45,8 +45,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       [itemId]: !prev[itemId],
     }));
   };
-  console.log(categories ,"this is datas");
-  
 
   return (
     <div className="space-y-8">
@@ -54,76 +52,83 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       <p className=" text-4xl text-center tracking-widest font-thin">MENU</p>
       <Divider size="sm" className="mb-4" />
 
-      {categories?.map((category) => (
-         category.status === "Active" &&
-        <div key={category.id} onClick={(event) => handleToggle(category.id ,event)}>
-          <div className="bg-white p-4 rounded-lg shadow-2xl">
-            <p className="font-bold text-lg sm:text-2xl text-gray-800 flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300">
-             {category.category_name}
-              <span className="text-gray-500 text-sm">
-                {openCategories.includes(category.id) ? (
-                  <FaAngleUp />
-                ) : (
-                  <FaAngleDown />
-                )}
-              </span>
-            </p>
-
-            <div className="mt-2 flex justify-center flex-wrap  md:justify-start gap-4">
-              {category.Items?.map((item: IItemdata) => (
-                <Collapse
-                  in={openCategories.includes(category.id)}
-                  key={item.id}
-                >
-                  <Card shadow="sm" className="h-full flex flex-col w-60">
-                    <Image
-                      src={
-                        typeof item.image === "string"
-                          ? item.image
-                          : URL.createObjectURL(item.image as Blob)
-                      }
-                      width={20}
-                      height={20}
-                      layout="responsive"
-                      alt="Website Logo"
-                      className="w-full max-h-44 min-h-56 object-cover"
-                      priority
-                    />
-                    <div className="flex flex-row justify-between  pt-2">
-                      <Text className=" font-semibold text-base sm:text-xl ">
-                        {item.name}
-                      </Text>
-                      <Text className="font-bold text-base sm:text-xl ">
-                        {currency}
-                        {item.price}
-                      </Text>
-                    </div>
-
-                    <Text
-                      className="text-sm text-gray-500 font-mono mt-3 cursor-pointer"
-                      onClick={(e) => toggleDescription(item.id!, e)}
-                    >
-                      {expandedDescriptions[item.id!]
-                        ? item.description
-                        : `${item.description?.substring(0, 50)}...`}
-                    </Text>
-
-                    {mounted && item.status === "InActive" && (
-                      <Badge
-                        color="red"
-                        variant="filled"
-                        className="absolute top-4 right-4 px-2 py-1 text-sm  rounded-sm"
-                      >
-                        NOT AVAILABLE
-                      </Badge>
+      {categories?.map(
+        (category) =>
+          category.status === "Active" && (
+            <div
+              key={category.id}
+              onClick={(event) => handleToggle(category.id, event)}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-2xl">
+                <p className="font-bold text-lg sm:text-2xl text-gray-800 flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300">
+                  {category.category_name}
+                  <span className="text-gray-500 text-sm">
+                    {openCategories.includes(category.id) ? (
+                      <FaAngleUp />
+                    ) : (
+                      <FaAngleDown />
                     )}
-                  </Card>
-                </Collapse>
-              ))}
+                  </span>
+                </p>
+
+                <div className="mt-2 flex justify-center flex-wrap  md:justify-start gap-4">
+                  {category.Items?.map((item: IItemdata) => (
+                    <Collapse
+                      in={openCategories.includes(category.id)}
+                      key={item.id}
+                    >
+                      <Card shadow="sm" className="h-full flex flex-col w-60">
+                        <div className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat">
+                          <Image
+                            src={
+                              typeof item.image === "string"
+                                ? item.image
+                                : URL.createObjectURL(item.image as Blob)
+                            }
+                            width={20}
+                            height={20}
+                            layout="responsive"
+                            alt="Website Logo"
+                            className="w-full max-h-44 min-h-56 object-cover  transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-black/30"
+                            priority
+                          />
+                        </div>
+                        <div className="flex flex-row justify-between  pt-2">
+                          <Text className=" font-semibold text-base sm:text-xl ">
+                            {item.name}
+                          </Text>
+                          <Text className="font-bold text-base sm:text-xl ">
+                            {currency}
+                            {item.price}
+                          </Text>
+                        </div>
+
+                        <Text
+                          className="text-sm text-gray-500 font-mono mt-3 cursor-pointer"
+                          onClick={(e) => toggleDescription(item.id!, e)}
+                        >
+                          {expandedDescriptions[item.id!]
+                            ? item.description
+                            : `${item.description?.substring(0, 50)}...`}
+                        </Text>
+
+                        {mounted && item.status === "InActive" && (
+                          <Badge
+                            color="red"
+                            variant="filled"
+                            className="absolute top-4 right-4 px-2 py-1 text-sm  rounded-sm"
+                          >
+                            NOT AVAILABLE
+                          </Badge>
+                        )}
+                      </Card>
+                    </Collapse>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          )
+      )}
     </div>
   );
 };
