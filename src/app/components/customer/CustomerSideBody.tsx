@@ -1,4 +1,4 @@
-import { Badge, Card, Collapse, Divider, Menu, Text } from "@mantine/core";
+import { Badge, Card, Collapse, Divider, Paper, Text } from "@mantine/core";
 import React, { FC, useState, useEffect } from "react";
 import { IItemdata } from "../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
@@ -10,13 +10,19 @@ type ICustomerSideBodyProps = {
   id: string;
 };
 
-const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
+const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
+  const { categories, id } = props;
+
   const urldata = useShortUrl(id);
   const urlid = urldata?.[0].menu_id;
 
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
+
+  const contact = categories?.[0].menus.restaurant_id.phone;
+  const location = categories?.[0].menus.restaurant_id.address;
+  const email = categories?.[0].menus.restaurant_id.email;
 
   const [openCategories, setOpenCategories] = useState<string[]>(
     categories ? categories.map((category) => category.id) : []
@@ -54,7 +60,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
       {categories?.map(
         (category) =>
-          category.status === "Active" && (
+          category.status === "Available" && (
             <div
               key={category.id}
               onClick={(event) => handleToggle(category.id, event)}
@@ -129,6 +135,33 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
             </div>
           )
       )}
+      <Paper
+        shadow="md"
+        radius="lg"
+        withBorder
+        p="xl"
+        className="h-full flex flex-col rounded-lg "
+      >
+        <h2 className="mb-3 font-semibold text-base sm:text-xl w-1/2">
+          Our Location
+        </h2>
+        <div className="flex justify-between sm:flex-row flex-col gap-y-3 text-center items-center">
+          <p className="text-gray-500  text-base  font-mono  cursor-pointer">
+            {location}
+          </p>
+          <div className="flex-row">
+            <p className="text-blue-400 font-serif font-semibold opacity-70 ">
+              {email}
+            </p>
+            <p
+              className="text-gray-800 text-base font-mono cursor-pointer"
+              title="Contact number"
+            >
+              +91 {contact}
+            </p>
+          </div>
+        </div>
+      </Paper>
     </div>
   );
 };
