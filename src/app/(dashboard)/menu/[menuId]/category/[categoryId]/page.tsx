@@ -1,4 +1,5 @@
 import fetchCategoryItemData from '@/app/actions/customer/getCategoryItem';
+import getItemData from '@/app/actions/item/getItemdata';
 import fetchItemdata from '@/app/actions/item/item-fetch';
 import ItemPage from '@/app/components/item/ItemPage'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
@@ -16,6 +17,10 @@ const page = async({params}:{params:Promise<{categoryId:string, menuId: string}>
       await queryClient.prefetchQuery({
         queryKey: ['CategoryItems'] ,
         queryFn: () => fetchCategoryItemData(menuId)
+      })
+      await queryClient.prefetchQuery({
+        queryKey:['Itemdata'],
+        queryFn: ()=>getItemData(categoryId),
       })
     
     return (
