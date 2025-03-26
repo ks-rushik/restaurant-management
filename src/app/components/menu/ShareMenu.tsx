@@ -52,7 +52,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
     <>
       <button
         onClick={() => {
-          if (item.status !== "InActive") {
+          if (item.status !== "Not Available") {
             handleShareMenu();
             console.log("sfs");
           } else {
