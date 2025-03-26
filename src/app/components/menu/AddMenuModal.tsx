@@ -31,7 +31,7 @@ const Addmenu: FC<IMenuModalProps> = ({
     currency: z.enum(["$", "₹", "€", "¥"], {
       errorMap: () => ({ message: "Currency is required" }),
     }),
-    status: z.enum(["Active", "InActive"], {
+    status: z.enum(["Available", "Not Available"], {
       errorMap: () => ({ message: "Status is required" }),
     }),
   });
@@ -54,11 +54,11 @@ const Addmenu: FC<IMenuModalProps> = ({
       reset({
         menu_name: selectedMenu.menu_name,
         currency: selectedMenu.currency as "$" | "₹" | "€" | "¥",
-        status: selectedMenu.status as "Active" | "InActive",
+        status: selectedMenu.status as "Available" | "Not Available",
       });
       open();
     } else {
-      reset({ menu_name: "", currency: "" as "$" | "₹" | "€" | "¥", status: "" as "Active" | "InActive" });
+      reset({ menu_name: "", currency: "" as "$" | "₹" | "€" | "¥", status: "" as "Available" | "Not Available" });
     }
   }, [selectedMenu, reset]);
 
@@ -93,6 +93,7 @@ const Addmenu: FC<IMenuModalProps> = ({
             label="Menu Name"
             name="menu_name"
             error={errors.menu_name?.message}
+            required
           >
             <BaseInput
               type="text"
@@ -103,6 +104,7 @@ const Addmenu: FC<IMenuModalProps> = ({
           <FormField
             label="Currency"
             name="currency"
+            required
             error={errors.currency?.message}
           >
             <Controller
@@ -120,6 +122,7 @@ const Addmenu: FC<IMenuModalProps> = ({
           <FormField
             label="Status"
             name="status"
+            required
             error={errors.status?.message}
           >
             <Controller
@@ -127,7 +130,7 @@ const Addmenu: FC<IMenuModalProps> = ({
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  data={["Active", "InActive"]}
+                  data={["Available", "Not Available"]}
                   placeholder="Enter status"
                   {...field}
                 />

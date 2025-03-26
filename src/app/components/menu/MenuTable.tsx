@@ -4,10 +4,11 @@ import Loader from "@/app/components/ui/BaseLoader";
 import formatDate from "@/app/utils/formatdate";
 import { IMenudata } from "@/app/type/type";
 import MenuActions from "./MenuActions";
+import { Availablity } from "@/app/constants/common";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
-  handleView: (menu_name: string , id:string) => void;
+  handleView: (menu_name: string, id: string) => void;
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
@@ -17,7 +18,6 @@ type IMenuTableProps = {
   opened: boolean;
   close: () => void;
 };
-
 
 const MenuTable: FC<IMenuTableProps> = (props) => {
   const {
@@ -29,7 +29,7 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
     opened,
     close,
   } = props;
-  
+
   return !data ? (
     <Loader></Loader>
   ) : data?.length === 0 ? (
@@ -48,15 +48,20 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
         },
         {
           label: "AVAILABILITY",
-          render: (item) => item.status === "InActive" ? <p className="text-red-500">InActive</p> : <p className="text-green-600">Active</p>,
+          render: (item) =>
+            item.status === "Not Available" ? (
+              <p className="text-red-500">Not Available</p>
+            ) : (
+              <p className="text-green-600">Available</p>
+            ),
         },
         {
           label: "CREATED AT",
-          render: (item) => formatDate(item.created_at)
+          render: (item) => formatDate(item.created_at),
         },
         {
           label: "UPDATED AT",
-          render: (item) => formatDate(item.updated_at)
+          render: (item) => formatDate(item.updated_at),
         },
         {
           label: "",

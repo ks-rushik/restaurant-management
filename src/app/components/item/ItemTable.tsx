@@ -6,6 +6,7 @@ import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { IItemdata } from "./AddItemModal";
 import formatDate from "@/app/utils/formatdate";
 import Image from "next/image";
+import { Availablity } from "@/app/constants/common";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -117,10 +118,10 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         {
           label: "AVAILABILITY",
           render: (item) =>
-            item.status === "InActive" ? (
-              <p className="text-red-500">InActive</p>
+            item.status === "Not Available" ? (
+              <p className="text-red-500">Not Available</p>
             ) : (
-              <p className="text-green-600">Active</p>
+              <p className="text-green-600">Available</p>
             ),
         },
 

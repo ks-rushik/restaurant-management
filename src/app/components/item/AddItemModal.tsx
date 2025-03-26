@@ -8,7 +8,6 @@ import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, FileButton, FileInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { seteuid } from "node:process";
 import React, { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { IoFastFoodOutline } from "react-icons/io5";
@@ -42,7 +41,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
   const AddItemschema = z.object({
     name: z.string().min(1, "Category name is required"),
-    status: z.enum(["Active", "InActive"], {
+    status: z.enum(["Available", "Not Available"], {
       errorMap: () => ({ message: "Status is required" }),
     }),
     description: z.string().min(8, "At least 9 characters long"),
@@ -79,7 +78,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         name: selectedItem.name!,
         description: selectedItem.description!,
         price: selectedItem.price!,
-        status: selectedItem.status as "Active" | "InActive",
+        status: selectedItem.status as "Available" | "Not Available",
       });
 
       open();
@@ -136,7 +135,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         title={selectedItem ? "Edit Item" : "Add Item"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormField label="Item name" name="name" error={errors.name?.message}>
+          <FormField label="Item name" name="name" error={errors.name?.message} required={true}>
             <BaseInput
               type="text"
               placeholder="Enter Item..."
@@ -147,6 +146,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             label="Description"
             name="description"
             error={errors.description?.message}
+            required
           >
             <BaseTextArea
               {...register("description")}
@@ -154,7 +154,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             />
           </FormField>
 
-          <FormField label="Price" name="price" error={errors.price?.message}>
+          <FormField label="Price" name="price" error={errors.price?.message} required>
             <BaseInput
               type="text"
               placeholder="Enter price..."
@@ -165,13 +165,14 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             label="Status"
             name="status"
             error={errors.status?.message}
+            required
           >
             <Controller
               name="status"
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  data={["Active", "InActive"]}
+                  data={[`Available`,`Not Available`]}
                   placeholder="Enter status"
                   {...field}
                 />
@@ -181,6 +182,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           <FormField
             label="Upload image"
             name="image"
+            required
             error={errors.root?.message}
           >
             <Avatar

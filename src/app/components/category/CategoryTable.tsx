@@ -9,7 +9,7 @@ import formatDate from "@/app/utils/formatdate";
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
   handleSelectCategory: (item: ICategorydata) => void;
-  handleView: (category_name: string, id: string) => void;
+  handleView: ( id: string) => void;
   handleMoveUp: (index: number) => void;
   handleMoveDown: (index: number) => void;
   handleDelete: (
@@ -83,10 +83,10 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         {
           label: "AVAILABILITY",
           render: (item) =>
-            item.status === "InActive" ? (
-              <p className="text-red-500">InActive</p>
+            item.status === "Not Available" ? (
+              <p className="text-red-500">Not Available</p>
             ) : (
-              <p className="text-green-600">Active</p>
+              <p className="text-green-600">Available</p>
             ),
         },
         {

@@ -8,7 +8,7 @@ import { ICategorydata } from "./AddCategoryModal";
 
 type IMenuActionsProps = {
   item: ICategorydata;
-  handleView: (category_name: string, id: string) => void;
+  handleView: ( id: string) => void;
   handleSelectCategory: (item: ICategorydata) => void;
   handleDelete: (
     id: string,
@@ -31,7 +31,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   } = props;
   return (
     <span className="inline-flex items-center">
-      <div onClick={() => handleView(item.category_name!, item.id!)} title="Items">
+      <div onClick={() => handleView( item.id!)} title="Items">
         <BiCategory
           size={22}
           className="mr-6 cursor-pointer hover:text-gray-700 "

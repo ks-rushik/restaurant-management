@@ -36,7 +36,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   } = props;
   const AddCategorychema = z.object({
     category_name: z.string().min(1, "Category name is required"),
-    status: z.enum(["Active", "InActive"], {
+    status: z.enum(["Available", "Not Available"], {
       errorMap: () => ({ message: "Status is required" }),
     }),
   });
@@ -58,11 +58,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     if (selectedCategory) {
       reset({
         category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as "Active" | "InActive",
+        status: selectedCategory.status as "Available" | "Not Available",
       });
       open();
     } else {
-      reset({ category_name: "", status: undefined });
+      reset({ category_name: "", status: "" as "Available" | "Not Available"  });
     }
   }, [selectedCategory, reset]);
 
@@ -88,12 +88,17 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
 
   return (
     <div>
-      <BaseModal opened={opened} onClose={handleClose} title={selectedCategory ? "Edit Category" : "Add Category"}>
+      <BaseModal
+        opened={opened}
+        onClose={handleClose}
+        title={selectedCategory ? "Edit Category" : "Add Category"}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             label="Category name"
             name="category_name"
             error={errors.category_name?.message}
+            required
           >
             <BaseInput
               type="text"
@@ -105,13 +110,14 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             label="Status"
             name="status"
             error={errors.status?.message}
+            required
           >
             <Controller
               name="status"
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  data={["Active", "InActive"]}
+                  data={["Available", "Not Available"]}
                   placeholder="Enter status"
                   {...field}
                 />
@@ -132,7 +138,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseButton
         onClick={() => {
           setSelectedCategory(null);
-          reset({ category_name: "", status: undefined })
+          reset({ category_name: "", status: undefined });
           open();
         }}
         classNames={{
