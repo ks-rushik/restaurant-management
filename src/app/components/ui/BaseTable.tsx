@@ -36,14 +36,14 @@ const BaseTable = <T,>({
 
   return (
     <>
-      <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div className="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 dark:bg-gray-800 bg-white">
         <div className="w-full overflow-x-auto">
           <Table
             classNames={{
               table: clsx("w-full table-auto", table),
               thead: clsx("text-bold", thead),
-              th: clsx("text-gray-600 text-sm font-bold px-4 py-2", th),
-              td: clsx("text-gray-500 text-sm font-semibold px-4 py-2", td),
+              th: clsx("text-gray-600 text-sm font-bold px-4 py-2 dark:text-white", th),
+              td: clsx("text-gray-500 text-sm font-semibold px-4 py-2 dark:text-white", td),
               ...otherelements,
             }}
             {...other}
@@ -65,7 +65,7 @@ const BaseTable = <T,>({
             </Table.Thead>
             <Table.Tbody>
               {data?.slice(0, visibleCount).map((row) => (
-                <Table.Tr key={getKey(row)} className="hover:bg-gray-100">
+                <Table.Tr key={getKey(row)} >
                   {columns.map((col, index) => (
                     <Table.Td
                       key={index}
