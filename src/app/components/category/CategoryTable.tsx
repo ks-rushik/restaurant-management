@@ -42,7 +42,6 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     </p>
   ) : (
     <BaseTable
-      highlightOnHover
       classNames={{
         th: "text-gray-600 text-sm h-12 font-bold [&:first-child]:w-[70px] ",
         td: "text-gray-500 text-sm h-12 font-semibold [&:first-child]:w-[70px] ",
@@ -61,14 +60,14 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                 <button
                   onClick={() => handleMoveUp(index)}
                   disabled={index === 0}
-                  className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
                 >
                   <FaUpLong />
                 </button>
                 <button
                   onClick={() => handleMoveDown(index)}
                   disabled={index === data!.length - 1}
-                  className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
                 >
                   <FaDownLong />
                 </button>
