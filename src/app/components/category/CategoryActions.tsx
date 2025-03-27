@@ -34,7 +34,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
       <div onClick={() => handleView( item.id!)} title="Items">
         <BiCategory
           size={22}
-          className="mr-6 cursor-pointer hover:text-gray-700 "
+          className="mr-6 cursor-pointer hover:text-gray-700  dark:hover:text-gray-400 "
         />
       </div>
       <div
