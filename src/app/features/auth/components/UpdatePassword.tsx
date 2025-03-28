@@ -39,7 +39,7 @@ const ResetPassword = () => {
     resolver: zodResolver(ResetPasswordSchema),
   });
 
-  const onSubmit = (data: IResetPasswordData) => {df
+  const onSubmit = (data: IResetPasswordData) => {
     console.log("SignUp Data:", data);
     return updatePassword(data.password);
   };
