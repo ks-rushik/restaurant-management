@@ -4,8 +4,6 @@ import Image from "next/image";
 import LeftSideImage from "@/app/images/LeftSideImage";
 import RightSideImage from "@/app/images/RightSideImage";
 
-
-
 type ICustomerSideHeaderProps = {
   logo: string;
   name: string;
@@ -14,12 +12,8 @@ const CustomerSideHeader: FC<ICustomerSideHeaderProps> = (props) => {
   const { logo, name } = props;
   return (
     <div className="flex  sm:flex-row justify-between items-center py-4  space-y-4 sm:space-y-0 sm:space-x-6">
-      {/* <Image
-        src={dish}
-        alt="dish"
-        className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 dark:text-white"
-      /> */}
-      <LeftSideImage/>
+  
+      <LeftSideImage />
 
       <div className="flex flex-col items-center gap-2 sm:gap-4 w-full max-w-xs sm:max-w-md md:max-w-lg">
         <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28">
@@ -36,7 +30,7 @@ const CustomerSideHeader: FC<ICustomerSideHeaderProps> = (props) => {
           {name}
         </h1>
       </div>
-      <RightSideImage/>
+      <RightSideImage />
       {/* <Image
         src={knife}
         alt="knife"
