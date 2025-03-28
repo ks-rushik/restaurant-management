@@ -47,5 +47,5 @@ export async function submitUserForm(formData: FormData) {
     redirect("/error");
   }
 
-  return UserData
+  return {UserData , message:"profile saved successfully"}
 }

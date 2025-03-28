@@ -3,15 +3,19 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Center, FileButton, Loader, Space, Textarea } from "@mantine/core";
+import { Avatar, Center, FileButton, Loader } from "@mantine/core";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
-import Image from "next/image";
-import FormGroup from "@/app/components/forms/FormGroup";
+import FormGroup from "@/app/components/forms/ProfileGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { submitUserForm } from "../actions/userprofile-action";
 import { useUserProfile } from "../hook/useUserProfile";
+import BaseTextArea from "@/app/components/ui/BaseTextArea";
+import { notifications } from "@mantine/notifications";
+import { ImSpoonKnife } from "react-icons/im";
+import { useRouter } from "next/navigation";
 
 export const userformSchema = z.object({
   name: z.string().min(1, "Name is Required"),
@@ -28,6 +32,7 @@ const UserProfileForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const { data: userData, isLoading, error } = useUserProfile();
+  const router = useRouter();
 
   const {
     register,
@@ -35,13 +40,6 @@ const UserProfileForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<IUserFormData>({
     resolver: zodResolver(userformSchema),
-    defaultValues: userData
-    ? {
-        name: userData.name ?? "",
-        phone: userData.phone ?? "",
-        address: userData.address ?? "",
-      }
-    : { name: "", phone: "", address: "" },
   });
 
   if (userData?.logo && !preview) {
@@ -70,84 +68,96 @@ const UserProfileForm = () => {
     formData.append("phone", data.phone);
     formData.append("address", data.address);
     if (file) formData.append("logo", file);
-
-    return submitUserForm(formData);
+    const { message } = await submitUserForm(formData);
+    notifications.show({ message: message });
+  };
+  const handleBack = () => {
+    router.back();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <FormGroup>
-        <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-          My Profile
-        </h1>
-        <FormField
-          label="Restaurant Name"
-          name="name"
-          error={errors.name?.message}
-          required
-        >
-          <BaseInput
-            {...register("name")}
-            type="text"
-            placeholder="Enter your restaurant name..."
-          />
-        </FormField>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <FormGroup>
+          <h2 className="text-3xl font-bold mb-10">My profile</h2>
+          <Avatar
+            src={preview}
+            alt="Uploaded Logo"
+            variant="filled"
+            size={"xl"}
+            className="mb-4 w-48 h-48"
+          >
+            <ImSpoonKnife />
+          </Avatar>
 
-        <FormField
-          label="Contact Number"
-          name="phone"
-          error={errors.phone?.message}
-          required
-        >
-          <BaseInput
-            {...register("phone")}
-            type="text"
-            placeholder="Enter your Phone number..."
-          />
-        </FormField>
-
-        <FormField
-          label="Location"
-          name="address"
-          error={errors.address?.message}
-          required
-        >
-          <Textarea
-            {...register("address")}
-            placeholder="Enter your Location..."
-            classNames={{ input: "bg-blue-50" }}
-          />
-        </FormField>
-
-        <div className="mb-4">
-          {preview && (
-            <Image
-              src={preview}
-              alt="Uploaded Logo"
-              width={200}
-              height={100}
-              className="mt-2 object-cover rounded border-black border-2"
-            />
-          )}
-          <Space h="md" />
           <FileButton onChange={handleFileChange} accept="image/png,image/jpeg">
             {(props) => (
-              <BaseButton intent={"default"} {...props}>
+              <BaseButton {...props} classNames={{ root: "mb-10 mt-4 ml-4" }}>
                 Upload Logo
               </BaseButton>
             )}
           </FileButton>
-        </div>
-
-        <BaseButton
-          type="submit"
-          classNames={{ root: "mb-2 w-full py-2 rounded-md" }}
-          loading={isSubmitting}
-        >
-          Save Profile
-        </BaseButton>
-      </FormGroup>
-    </form>
+          <FormField
+            label="Restaurant Name"
+            name="name"
+            error={errors.name?.message}
+            required
+            size="sm"
+          >
+            <BaseInput
+              label="restaurant"
+              {...register("name")}
+              type="text"
+              placeholder="Enter your restaurant name..."
+              defaultValue={userData.name}            />
+          </FormField>
+          <FormField
+            label="Contact Number"
+            name="phone"
+            error={errors.phone?.message}
+            required
+          >
+            <BaseInput
+              {...register("phone")}
+              type="text"
+              placeholder="Enter your Phone number..."
+              defaultValue={userData.phone}
+            />
+          </FormField>
+          <FormField
+            label="Location"
+            name="address"
+            error={errors.address?.message}
+            required
+          >
+            <BaseTextArea
+              {...register("address")}
+              placeholder="Enter your Location..."
+              defaultValue={userData.address}
+            />
+          </FormField>
+          <div className="flex flex-row justify-between ">
+            <BaseButton
+              type="submit"
+              loading={isSubmitting}
+              classNames={{
+                root: "mt-6 h-12 rounded-md w-36",
+                inner: "font-bold text-white text-sm",
+              }}
+            >
+              Save Profile
+            </BaseButton>
+            <div
+              onClick={() => handleBack()}
+              className="mt-8 flex text-[#737380] opacity-60"
+            >
+              <IoMdArrowRoundBack size={20} />
+              Back to the page
+            </div>
+          </div>
+        </FormGroup>
+      </form>
+    </>
   );
 };
 
