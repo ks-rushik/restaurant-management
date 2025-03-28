@@ -34,7 +34,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
         </div>
       </Modal>
       <div onClick={open}>
-        <RiDeleteBinLine size={22} color="red" />
+        <RiDeleteBinLine size={22} className="hover:text-red-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100"/>
       </div>
     </>
   );

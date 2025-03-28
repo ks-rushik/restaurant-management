@@ -8,7 +8,7 @@ import { ICategorydata } from "./AddCategoryModal";
 
 type IMenuActionsProps = {
   item: ICategorydata;
-  handleView: (category_name: string , id:string) => void;
+  handleView: (category_name: string, id: string) => void;
   handleSelectCategory: (item: ICategorydata) => void;
   handleDelete: (
     id: string,
@@ -31,17 +31,20 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   } = props;
   return (
     <span className="inline-flex items-center">
-      <div
-        onClick={() => handleView(item.category_name! , item.id!)}
-        className="mr-6 cursor-pointer"
-      >
-        <BiCategory size={22} />
+      <div onClick={() => handleView(item.category_name!, item.id!)}>
+        <BiCategory
+          size={22}
+          className="mr-6 cursor-pointer hover:text-gray-700 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100"
+        />
       </div>
       <div
         onClick={() => handleSelectCategory(item)}
         className="mr-6 cursor-pointer"
       >
-        <MdOutlineModeEdit size={22} color="#f2cc50" />
+        <MdOutlineModeEdit
+          size={22}
+          className="hover:text-yellow-500 transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-100"
+        />
       </div>
       <BaseConfirmation
         opened={opened}

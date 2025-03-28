@@ -43,7 +43,7 @@ const BaseTable = <T,>({
               table: clsx("w-full table-auto", table),
               thead: clsx("text-bold", thead),
               th: clsx("text-gray-600 text-sm font-bold px-4 py-2", th),
-              td: clsx("text-gray-500 text-sm px-4 py-2", td),
+              td: clsx("text-gray-500 text-sm font-semibold px-4 py-2", td),
               ...otherelements,
             }}
             {...other}
