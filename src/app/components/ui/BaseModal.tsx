@@ -13,7 +13,7 @@ const BaseModal: FC<IBaseModalProps> = (props) => {
     <>
       <Modal
         classNames={{
-          close: clsx("text-red " ,close),
+          close: clsx("dark:fill-white dark:stroke-white dark:bg-black" ,close),
           header: clsx("bg-white dark:bg-gray-700 dark:text-white ",header),
           content: clsx("rounded-2xl dark:bg-gray-700 dark:text-white ", content),
           title: clsx("text-black text-xl font-bold dark:text-white ", title),
