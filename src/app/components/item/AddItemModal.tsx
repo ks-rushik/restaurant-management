@@ -190,9 +190,9 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               alt="Uploaded Logo"
               radius={"sm"}
               size={"xl"}
-              className="mb-4 w-32 h-32"
+              className="mb-4 w-32 h-32 dark:bg-white"
             >
-              <IoFastFoodOutline />
+              <IoFastFoodOutline className="dark:text-black" />
             </Avatar>
 
             <FileButton

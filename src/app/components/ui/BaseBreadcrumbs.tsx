@@ -37,7 +37,7 @@ const CustomBreadcrumbs: FC<IBreadcrumbsProps> = (props) => {
       classNames={{
         root: clsx("pb-8  pl-1", root),
         breadcrumb: clsx(
-          "font-md text-gray-500 hover:text-blue-400",
+          "font-md text-gray-500 hover:text-blue-400 dark:text-white ",
           breadcrumb
         ),
         ...otherelement,

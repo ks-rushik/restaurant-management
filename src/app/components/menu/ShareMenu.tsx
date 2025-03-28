@@ -26,11 +26,12 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const handleShareMenu = async () => {
-    const categorydata = await fetchCategorydata(item.id)
-    if(categorydata.length === 0 ){
-      notifications.show({message: 'To preview menu add atleast one category' })
-    }
-    else{
+    const categorydata = await fetchCategorydata(item.id);
+    if (categorydata.length === 0) {
+      notifications.show({
+        message: "To preview menu add atleast one category",
+      });
+    } else {
       await shortLink(item.id);
       const data = await fetchshortUrl(item.id);
       const shortcode = data.short_url;
@@ -67,6 +68,11 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
       <BaseModal
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
+        classNames={{
+          header: "bg-white dark:bg-white dark:text-black ",
+          content: "rounded-2xl dark:bg-white dark:text-black ",
+          title: "text-black text-xl font-bold dark:text-gray-800",
+        }}
         title="Share Menu Link"
         centered
       >

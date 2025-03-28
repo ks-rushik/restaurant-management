@@ -1,24 +1,32 @@
 "use client";
-import { useState } from "react";
+
 import Link from "next/link";
-import { Avatar, Menu } from "@mantine/core";
+import { Avatar, Menu, Button } from "@mantine/core";
 import Image from "next/image";
-import website from "../../images/website.svg";
+import logo2 from "../../images/logo2.png";
 import LogOut from "../auth/Logout";
+import { useTheme } from "@/app/hooks/useTheme";
+import { useState } from "react";
+import ThemeButton from "../ui/ThemeButton";
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme(); 
   const [opened, setOpened] = useState(false);
 
+
   return (
-    <nav className="bg-[#fff] border-gray-200 pt-2 pb-2 px-2 text-white sm:px-4 lg:px-6 md:px-6 border-b-2  border-b-gray-150 flex justify-between items-center shadow-lg">
-      <div className="flex items-center ">
-        <Image src={website} width={100} height={100} alt="Website Logo" />
+    <nav className={`bg-white dark:bg-neutral-950 shadow-lg py-2 px-4 flex justify-between items-center`}>
+      <div className="flex items-center">
+        <Image src={logo2} width={100} height={100} alt="Website Logo" className="dark:bg-black" />
       </div>
+      <div className="flex flex-row items-center">
+      <ThemeButton theme={theme} toggleTheme={toggleTheme} />
+
       <Menu
         opened={opened}
         onChange={setOpened}
         zIndex={0}
-        classNames={{ item: "font-[650] z-10 " }}
+        classNames={{ item: "font-[650] z-10 bg-white"  }}
       >
         <Menu.Target>
           <Avatar
@@ -31,15 +39,16 @@ const Navbar = () => {
           />
         </Menu.Target>
 
-        <Menu.Dropdown style={{zIndex:20}}>
-          <Menu.Item classNames={{ item: "hover:bg-gray-200 " }}>
-            <Link href="/userprofile" className="block px-4 py-2">
+        <Menu.Dropdown style={{zIndex:20}} className="dark:bg-black dark:border-black">
+          <Menu.Item classNames={{ item: " text-black dark:bg-gray-700 dark:text-white " }}>
+            <Link href="/userprofile" className="block px-3 py-1">
               Profile Page
             </Link>
           </Menu.Item>
           <Menu.Item component={LogOut}>LogOut</Menu.Item>
         </Menu.Dropdown>
       </Menu>
+      </div>
     </nav>
   );
 };

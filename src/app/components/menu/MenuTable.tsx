@@ -38,7 +38,6 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
     </p>
   ) : (
     <BaseTable
-      highlightOnHover
       data={data!}
       getKey={(item) => item.id}
       columns={[

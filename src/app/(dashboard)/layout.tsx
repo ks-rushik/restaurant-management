@@ -6,7 +6,9 @@ import "@mantine/notifications/styles.css";
 import { Notifications } from "@mantine/notifications";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
-import Navbar from "../components/navbar/Navbar";
+import RouterTransition from "../components/RouterTransition";
+import { ThemeProvider } from "../context/ThemeProvider";
+import '@mantine/nprogress/styles.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +31,20 @@ export default function DashBoardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <QueryProvider>
-      <MantineProvider>
-        <Notifications position="top-right" />
-        <Navbar />
-        {children}
-      </MantineProvider>
-    </QueryProvider>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} bg-backgroundColor `}
+      >
+        <QueryProvider>
+          <MantineProvider defaultColorScheme="auto">
+            <RouterTransition />
+            <Notifications position="top-right" />
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </MantineProvider>
+        </QueryProvider>
+      </body>
+    </html>
   );
 }

@@ -149,7 +149,7 @@ const UserProfileForm = () => {
             </BaseButton>
             <div
               onClick={() => handleBack()}
-              className="mt-8 flex text-[#737380] opacity-60"
+              className="mt-8 flex text-[#737380] dark:text-gray-200 opacity-60"
             >
               <IoMdArrowRoundBack size={20} />
               Back to the page

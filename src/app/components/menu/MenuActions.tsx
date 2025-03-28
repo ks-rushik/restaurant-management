@@ -37,7 +37,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
         className="mr-6 cursor-pointer"
         title="Categories"
       >
-        <BiCategory size={22} className=" hover:text-gray-700  " />
+        <BiCategory size={22} className=" hover:text-gray-700 dark:hover:text-gray-400" />
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
