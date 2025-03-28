@@ -87,7 +87,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
 
   return (
     <div>
-      <BaseModal opened={opened} onClose={handleClose} title="Add new category">
+      <BaseModal opened={opened} onClose={handleClose} title={selectedCategory ? "Edit Category" : "Add Category"}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             label="Category name"

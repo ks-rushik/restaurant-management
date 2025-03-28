@@ -5,12 +5,12 @@ import React from 'react'
 
 export const queryClient = new QueryClient();
 
-const page = async({params}:{params:Promise<{menu:string}>}) => {
-  const {menu} = await params;
+const page = async({params}:{params:Promise<{menuId:string}>}) => {
+  const {menuId} = await params;
   
     await queryClient.prefetchQuery({
         queryKey:['category'],
-        queryFn:() => fetchCategorydata(menu)
+        queryFn:() => fetchCategorydata(menuId)
     })
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

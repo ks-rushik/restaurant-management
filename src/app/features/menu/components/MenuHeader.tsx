@@ -6,7 +6,7 @@ type IMenuHeaderProps = {
 };
 const MenuHeader: FC<IMenuHeaderProps> = (props) => {
   const { children } = props;
-  const item = [{ title: "Menus", href: "/menu" }];
+  const item = [{ title: "Menu", href: "/menu" }];
   return (
     <>
       <div className="flex flex-row justify-between pt-8 pl-1">

@@ -6,13 +6,17 @@ import { FC, ReactNode } from "react";
 type ICategoryHeaderProps = {
   children: ReactNode;
 };
-const DynamicMenuPage: FC<ICategoryHeaderProps> = (props) => {
+const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const { children } = props;
   const searchParam = useSearchParams();
   const menuname = searchParam.get("name")!;
   const pathname = usePathname();
 
-  const segments = pathname.split("/")[1];
+  const segments = pathname.split("/")[1];    
+  console.log(menuname  , "menuname");
+  console.log(pathname , "pathname");
+  
+  
 
   const breadcrumbItems = [
     {
@@ -35,4 +39,4 @@ const DynamicMenuPage: FC<ICategoryHeaderProps> = (props) => {
     </div>
   );
 };
-export default DynamicMenuPage;
+export default CategoryHeader;

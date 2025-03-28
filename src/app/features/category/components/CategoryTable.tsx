@@ -4,6 +4,7 @@ import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
 import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
+import formatDate from "@/app/utils/formatdate";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -19,15 +20,6 @@ type ICategoryTableProps = {
   opened: boolean;
   close: () => void;
 };
-
-const IndianTime = new Intl.DateTimeFormat("en-IN", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-});
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
   const {
@@ -92,10 +84,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         },
         {
           label: "CREATED AT",
-          render: (item) => {
-            const date = new Date(item.create_at!);
-            return IndianTime.format(date);
-          },
+          render: (item) => formatDate(item.create_at!),
         },
         
         {
