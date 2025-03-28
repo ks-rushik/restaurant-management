@@ -24,7 +24,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
         size={"md"}
         classNames={{
           content: clsx("rounded-2xl  ", content),
-          title: clsx("text-[#171717] text-xl font-bold", title),
+          title: clsx("text-black text-xl font-bold", title),
           ...otherElement,
         }}
       >
@@ -33,7 +33,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
           {children}
         </div>
       </Modal>
-      <div onClick={open}>
+      <div onClick={open} title="Delete">
         <RiDeleteBinLine size={22} className="hover:text-red-500 "/>
       </div>
     </>

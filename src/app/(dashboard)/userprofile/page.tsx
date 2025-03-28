@@ -1,5 +1,5 @@
-import { getUserProfile } from "@/app/features/userprofile/actions/userprofile-fetch";
-import UserProfileForm from "@/app/features/userprofile/components/UserProfile";
+import { getUserProfile } from "@/app/actions/userprofile/userprofile-fetch";
+import UserProfileForm from "@/app/components/userprofile/UserProfile";
 import {
   dehydrate,
   HydrationBoundary,

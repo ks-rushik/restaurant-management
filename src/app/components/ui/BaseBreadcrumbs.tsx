@@ -1,16 +1,15 @@
 import {
   Breadcrumbs,
-  Anchor,
   BreadcrumbsStylesNames,
   BreadcrumbsProps,
 } from "@mantine/core";
 import clsx from "clsx";
 import Link from "next/link";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 type IBreadcrumbItem = {
   title: string;
-  href: string;
+  href: string ;
 };
 
 type IBreadcrumbsProps = {
@@ -49,7 +48,7 @@ const CustomBreadcrumbs: FC<IBreadcrumbsProps> = (props) => {
         return (
           <Link href={item.href} key={index}>
             <span className="inline-flex items-center">
-              <span>{item.title}</span>
+              <span>{String(item.title || "Untitled")}</span>
             </span>
           </Link>
         );

@@ -9,6 +9,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        backgroundColor: '#F0F0F0',
+        bgInput: '#f9eed164',
+        Border : '#2a85ff',
+        LabelColor: '#737380',
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
