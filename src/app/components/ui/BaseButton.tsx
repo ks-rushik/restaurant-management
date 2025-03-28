@@ -12,7 +12,7 @@ type IBaseButtonProps = ButtonProps &
   };
 
 const buttonVariants = cva(
-  "transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none",
+  "transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none ",
   {
     variants: {
       disabled: {

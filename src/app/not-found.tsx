@@ -1,7 +1,4 @@
-// src/app/not-found.tsx
 import React from "react";
-import Link from "next/link";
-import BaseButton from "./components/ui/BaseButton";
 
 export default function NotFound() {
   return (
@@ -10,9 +7,6 @@ export default function NotFound() {
       <p className="text-xl text-gray-600 mb-8">
         Oops! The page you’re looking for cannot be found.
       </p>
-      <Link href="/auth/login">
-        <BaseButton>Go Home</BaseButton>
-      </Link>
     </div>
   );
 }

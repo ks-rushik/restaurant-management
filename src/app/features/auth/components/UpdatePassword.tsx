@@ -6,14 +6,11 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { signUp } from "../actions/signup-action";
-import { notifications } from "@mantine/notifications";
+import { updatePassword } from "../actions/updatepassword-action";
+import { Title } from "@mantine/core";
 
-const SignUpSchema = z
+const ResetPasswordSchema = z
   .object({
-    name: z.string().min(4, { message: "At least 4 characters long" }),
-    email: z.string().min(1, "Email is Required").email("Invalid email format"),
     password: z
       .string()
       .min(8, { message: "At least 8 characters long" })
@@ -31,54 +28,28 @@ const SignUpSchema = z
     path: ["confirmpassword"],
   });
 
-export type ISignUpFormData = z.infer<typeof SignUpSchema>;
+export type IResetPasswordData = z.infer<typeof ResetPasswordSchema>;
 
-const SignUpForm = () => {
+const ResetPassword = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ISignUpFormData>({
-    resolver: zodResolver(SignUpSchema),
+    formState: { errors },
+  } = useForm<IResetPasswordData>({
+    resolver: zodResolver(ResetPasswordSchema),
   });
 
-  const onSubmit = async(data: ISignUpFormData) => {
-    const {message} = await signUp(data)
-    notifications.show({message: message})
+  const onSubmit = (data: IResetPasswordData) => {df
+    console.log("SignUp Data:", data);
+    return updatePassword(data.password);
   };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <h1 className="flex flex-col items-center justify-center mb-10 text-xl">
-            SignUp Form
-          </h1>
-          <FormField
-            label="Name"
-            name="name"
-            error={errors.name?.message}
-            required={true}
-          >
-            <BaseInput
-              {...register("name")}
-              type="text"
-              placeholder="Enter your name..."
-              name="name"
-            />
-          </FormField>
-          <FormField
-            label="Email"
-            name="email"
-            error={errors.email?.message}
-            required={true}
-          >
-            <BaseInput
-              {...register("email")}
-              type="email"
-              placeholder="Enter your email..."
-              name="email"
-            />
-          </FormField>
+          <Title order={2} ta="center" mt="lg" mb={50}>
+            Reset password
+          </Title>
           <FormField
             label="Password"
             name="password"
@@ -92,6 +63,7 @@ const SignUpForm = () => {
               name="password"
             />
           </FormField>
+
           <FormField
             label="Confirm Password"
             name="confirmpassword"
@@ -104,25 +76,20 @@ const SignUpForm = () => {
               placeholder="Enter your password..."
             />
           </FormField>
+
           <BaseButton
             type="submit"
+            intent="primary"
             classNames={{
               root: "mb-2 w-full py-2 rounded-md",
             }}
-            loading={isSubmitting}
           >
             Submit
           </BaseButton>
-          <div className="flex gap-2 justify-end mb-4 mt-4">
-            <span> Already have an account?</span>
-            <Link href="/auth/login" className="text-blue-600 hover:underline">
-              Login
-            </Link>
-          </div>
         </FormGroup>
       </form>
     </>
   );
 };
 
-export default SignUpForm;
+export default ResetPassword;
