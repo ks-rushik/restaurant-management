@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import { MantineProvider } from "@mantine/core";
-import "./../globals.css";
+import './../../globals.css'
 import { Notifications } from "@mantine/notifications";
 
 const geistSans = Geist({
@@ -28,9 +28,15 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <MantineProvider>
-      <Notifications position="top-right" />
-      {children}
-    </MantineProvider>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundColor `}
+      >
+        <MantineProvider>
+          <Notifications position="top-right" />
+          {children}
+        </MantineProvider>
+      </body>
+    </html>
   );
 }

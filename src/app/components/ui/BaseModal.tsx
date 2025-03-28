@@ -8,13 +8,15 @@ type IBaseModalProps = ModalProps & {
 
 const BaseModal: FC<IBaseModalProps> = (props) => {
   const { classNames, ...other } = props;
-  const { title, content, ...otherElement } = classNames || {};
+  const { title, content,header,close , ...otherElement } = classNames || {};
   return (
     <>
       <Modal
         classNames={{
-          content: clsx("rounded-2xl ", content),
-          title: clsx("text-black text-xl font-bold", title),
+          close: clsx("dark:fill-white dark:stroke-white dark:bg-black" ,close),
+          header: clsx("bg-white dark:bg-gray-700 dark:text-white ",header),
+          content: clsx("rounded-2xl dark:bg-gray-700 dark:text-white ", content),
+          title: clsx("text-black text-xl font-bold dark:text-white ", title),
           ...otherElement,
         }}
         size='32.5rem'
