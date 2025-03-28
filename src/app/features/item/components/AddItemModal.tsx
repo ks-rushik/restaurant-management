@@ -63,6 +63,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   });
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleFileChange = (newFile: File | null) => {
     setFile(newFile);
@@ -111,14 +112,13 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       price: "",
       status: undefined,
     });
-    setFile(null), setPreview(null);
+    setFile(null),
+    setPreview(null);
   };
 
   const handleClose = () => {
     close();
     setSelectedItem(null);
-    setFile(null);
-    setPreview(null);
     reset({
       name: "",
       description: "",
@@ -127,7 +127,6 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     });
   };
 
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div>
@@ -200,7 +199,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               }}
               accept="image/png,image/jpeg"
             >
-              {(props) => <BaseButton {...props}>Upload Image</BaseButton>}
+              {(props) => <BaseButton {...props} classNames={{root:'text-white'}}>Upload Image</BaseButton>}
             </FileButton>
           </FormField>
           <BaseButton
@@ -219,6 +218,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           reset({
             status: undefined,
           });
+          setFile(null), setPreview(null);
           open();
         }}
         classNames={{
