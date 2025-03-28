@@ -2,10 +2,11 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { IMenudata } from "../types/type";
 import MenuActions from "./MenuActions";
 import { FC } from "react";
+import Loader from "@/app/components/ui/BaseLoader";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
-  handleView: (menu_name: string) => void;
+  handleView: (menu_name: string , id:string) => void;
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
@@ -37,9 +38,7 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
   } = props;
   
   return !data ? <p className="flex justify-center">Loading menu...</p>: data?.length === 0 ? (
-    <p className="text-center text-gray-500 mt-4">
-      No menus available. Click "Add New Menu" to create one.
-    </p>
+   <Loader></Loader>
   ) : (
     <BaseTable
       highlightOnHover

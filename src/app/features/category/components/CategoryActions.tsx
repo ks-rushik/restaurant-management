@@ -3,13 +3,13 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
-import { IMenudata } from "../types/type";
 import { FC } from "react";
+import { ICategorydata } from "./AddCategoryModal";
 
 type IMenuActionsProps = {
-  item: IMenudata;
-  handleView: (menu_name: string , id:string) => void;
-  handleSelectMenu: (item: IMenudata) => void;
+  item: ICategorydata;
+  handleView: (category_name: string , id:string) => void;
+  handleSelectCategory: (item: ICategorydata) => void;
   handleDelete: (
     id: string,
     event: React.MouseEvent<HTMLButtonElement>
@@ -19,11 +19,11 @@ type IMenuActionsProps = {
   close: () => void;
 };
 
-const MenuActions: FC<IMenuActionsProps> = (props) => {
+const CategoryActions: FC<IMenuActionsProps> = (props) => {
   const {
     item,
     handleView,
-    handleSelectMenu,
+    handleSelectCategory,
     handleDelete,
     loading,
     opened,
@@ -32,13 +32,13 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
   return (
     <span className="inline-flex items-center">
       <div
-        onClick={() => handleView(item.menu_name!,item.id)}
+        onClick={() => handleView(item.category_name! , item.id!)}
         className="mr-6 cursor-pointer"
       >
         <BiCategory size={22} />
       </div>
       <div
-        onClick={() => handleSelectMenu(item)}
+        onClick={() => handleSelectCategory(item)}
         className="mr-6 cursor-pointer"
       >
         <MdOutlineModeEdit size={22} color="#f2cc50" />
@@ -50,7 +50,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       >
         <BaseButton
           intent="danger"
-          onClick={(event) => handleDelete(item.id, event)}
+          onClick={(event) => handleDelete(item.id!, event)}
           classNames={{ root: "w-1/3 mt-6" }}
         >
           {loading === item.id ? <Loader size={23} /> : "Delete"}
@@ -60,4 +60,4 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
   );
 };
 
-export default MenuActions;
+export default CategoryActions;

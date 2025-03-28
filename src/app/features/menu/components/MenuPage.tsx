@@ -49,8 +49,8 @@ const menupage = () => {
     setLoading("");
   };
 
-  const handleView = (menu_name: string) => {
-    router.push(`/menu/${menu_name}`);
+  const handleView = (menu_name: string ,id:string) => {
+    router.push(`/menu/${id}?name=${menu_name}`);
   };
 
   const handleSelectMenu = (item: IMenudata) => {
