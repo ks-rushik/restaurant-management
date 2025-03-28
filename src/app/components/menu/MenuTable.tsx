@@ -1,10 +1,10 @@
+import { FC, useState } from "react";
 import BaseTable from "@/app/components/ui/BaseTable";
-import { FC } from "react";
 import Loader from "@/app/components/ui/BaseLoader";
 import formatDate from "@/app/utils/formatdate";
 import { IMenudata } from "@/app/type/type";
 import MenuActions from "./MenuActions";
-import { Availablity } from "@/app/constants/common";
+import SearchInput from "../SearchInput";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -30,54 +30,78 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
     close,
   } = props;
 
+  const [searchData, setSearchData] = useState("");
+
+  console.log(data);
+
+  const filteredData = data
+    ? data.filter((item) =>
+        item?.menu_name?.toLowerCase().includes(searchData.toLowerCase())
+      )
+    : [];
+
   return !data ? (
-    <Loader></Loader>
+    <Loader />
   ) : data?.length === 0 ? (
     <p className="text-center text-gray-500 mt-4">
-      No Category available. Click "Add New Category" to create one.
+      No Menu available. Click "Add New Menu" to create one.
     </p>
   ) : (
-    <BaseTable
-      data={data!}
-      getKey={(item) => item.id}
-      columns={[
-        {
-          label: "MENU NAME",
-          render: (item) => `${item.menu_name} (${item.currency})`,
-        },
-        {
-          label: "AVAILABILITY",
-          render: (item) =>
-            item.status === "Not Available" ? (
-              <p className="text-red-500">Not Available</p>
-            ) : (
-              <p className="text-green-600">Available</p>
-            ),
-        },
-        {
-          label: "CREATED AT",
-          render: (item) => formatDate(item.created_at),
-        },
-        {
-          label: "UPDATED AT",
-          render: (item) => formatDate(item.updated_at),
-        },
-        {
-          label: "",
-          render: (item) => (
-            <MenuActions
-              item={item}
-              handleView={handleView}
-              handleSelectMenu={handleSelectMenu}
-              handleDelete={handleDelete}
-              loading={loading}
-              opened={opened}
-              close={close}
-            />
-          ),
-        },
-      ]}
-    />
+    <>
+      <SearchInput
+        value={searchData}
+        onChange={(e) => setSearchData(e.target.value)}
+        placeholder="Search menu..."
+      />
+
+      {filteredData.length === 0 ? (
+        <p className="text-center text-gray-500 mt-4 w-">
+          No matching menus found.
+        </p>
+      ) : (
+        <BaseTable
+          data={filteredData}
+          getKey={(item) => item.id}
+          columns={[
+            {
+              label: "MENU NAME",
+              render: (item) => `${item.menu_name} (${item.currency})`,
+            },
+            {
+              label: "AVAILABILITY",
+              render: (item) =>
+                item.status === "Not Available" ? (
+                  <p className="text-red-500">Not Available</p>
+                ) : (
+                  <p className="text-green-600">Available</p>
+                ),
+            },
+            {
+              label: "CREATED AT",
+              render: (item) => formatDate(item.created_at),
+            },
+            {
+              label: "UPDATED AT",
+              render: (item) => formatDate(item.updated_at),
+            },
+            {
+              label: "",
+              render: (item) => (
+                <MenuActions
+                  item={item}
+                  handleView={handleView}
+                  handleSelectMenu={handleSelectMenu}
+                  handleDelete={handleDelete}
+                  loading={loading}
+                  opened={opened}
+                  close={close}
+                />
+              ),
+            },
+          ]}
+        />
+      )}
+    </>
   );
 };
 
