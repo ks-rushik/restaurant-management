@@ -21,7 +21,7 @@ const BaseSelect:FC<IBaseSelectProp> = (props) => {
           },
           input,
         ),
-       dropdown: clsx("bg-red-400 dark:bg-black dark:text-white" , dropdown),
+       dropdown: clsx("bg-white dark:bg-black dark:text-white" , dropdown),
 
         ...otherElement,
       }}
