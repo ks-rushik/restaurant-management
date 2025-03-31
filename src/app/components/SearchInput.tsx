@@ -17,8 +17,8 @@ const SearchInput: FC<ISearchInputProps> = (props) => {
       variant={"unstyled"}
       value={value}
       onChange={onChange}
-      classNames={{input:"h-10 dark:bg-gray-700 bg-white" ,root:"border border-gray-200 w-3/4 dark:bg-gray-700 dark:border-gray-700"}}
-      leftSection ={<IoSearch size={20} className="hover:text-gray-700 dark:hover:text-gray-400"/>}
+      classNames={{input:"h-10 dark:bg-gray-700 bg-white" ,root:"border border-gray-200 xl:w-3/4 lg:w-3/4 md:3/4 dark:bg-gray-700 dark:border-gray-700"}}
+      leftSection ={<IoSearch size={20} className="hover:text-gray-700 dark:hover:text-gray-400 "/>}
       />
   );
 };
