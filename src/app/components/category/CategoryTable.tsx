@@ -6,6 +6,8 @@ import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import formatDate from "@/app/utils/formatdate";
 import SearchInput from "../SearchInput";
+import SearchFilter from "../SearchFilter";
+import FilteredData from "../FilterData";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -35,13 +37,22 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     close,
   } = props;
   const [searchData, setSearchData] = useState("");
-
-  console.log(data);
-  const filteredData = data
+  const [filterStatus, setFilterStatus] = useState<string>("All");
+  let filteredData = data
     ? data.filter((item) =>
         item?.category_name?.toLowerCase().includes(searchData.toLowerCase())
       )
     : [];
+
+  if (filterStatus === "Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "available"
+    )!;
+  } else if (filterStatus === "Not Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "not available"
+    )!;
+  }
 
   return !data ? (
     <Loader></Loader>
@@ -51,11 +62,18 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     </p>
   ) : (
     <>
-      <SearchInput
-        value={searchData}
-        onChange={(e) => setSearchData(e.target.value)}
-        placeholder="Search Category..."
-      />
+      <SearchFilter>
+        <SearchInput
+          value={searchData}
+          onChange={(e) => setSearchData(e.target.value)}
+          placeholder="Search Category..."
+        />
+        <FilteredData
+          value={filterStatus}
+          onChange={(value) => setFilterStatus(value || "All")}
+        />
+      </SearchFilter>
+
       {filteredData.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
           No matching categories found.

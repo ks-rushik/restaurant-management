@@ -8,6 +8,8 @@ import formatDate from "@/app/utils/formatdate";
 import Image from "next/image";
 import { Availablity } from "@/app/constants/common";
 import SearchInput from "../SearchInput";
+import SearchFilter from "../SearchFilter";
+import FilteredData from "../FilterData";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -36,13 +38,22 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [searchData, setSearchData] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("All");
 
-  console.log(data);
-  const filteredData = data
+  let filteredData = data
     ? data.filter((item) =>
         item?.name?.toLowerCase().includes(searchData.toLowerCase())
       )
     : [];
+  if (filterStatus === "Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "available"
+    )!;
+  } else if (filterStatus === "Not Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "not available"
+    )!;
+  }
 
   return !data ? (
     <Loader></Loader>
@@ -52,11 +63,18 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     </p>
   ) : (
     <>
-      <SearchInput
-        value={searchData}
-        onChange={(e) => setSearchData(e.target.value)}
-        placeholder="Search Item..."
-      />
+      <SearchFilter>
+        <SearchInput
+          value={searchData}
+          onChange={(e) => setSearchData(e.target.value)}
+          placeholder="Search Item..."
+        />
+        <FilteredData
+          value={filterStatus}
+          onChange={(value) => setFilterStatus(value || "All")}
+        />
+      </SearchFilter>
+
       {filteredData.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
           No matching categories found.

@@ -5,6 +5,8 @@ import formatDate from "@/app/utils/formatdate";
 import { IMenudata } from "@/app/type/type";
 import MenuActions from "./MenuActions";
 import SearchInput from "../SearchInput";
+import FilteredData from "../FilterData";
+import SearchFilter from "../SearchFilter";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -31,31 +33,45 @@ const MenuTable: FC<IMenuTableProps> = (props) => {
   } = props;
 
   const [searchData, setSearchData] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("All");
 
-  console.log(data);
-
-  const filteredData = data
+  let filteredData = data
     ? data.filter((item) =>
         item?.menu_name?.toLowerCase().includes(searchData.toLowerCase())
       )
     : [];
 
+  if (filterStatus === "Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "available"
+    )!;
+  } else if (filterStatus === "Not Available") {
+    filteredData = filteredData?.filter(
+      (item) => item.status?.toLowerCase() === "not available"
+    )!;
+  }
+
   return !data ? (
     <Loader />
-  ) : data?.length === 0 ? (
+  ) : data.length === 0 ? (
     <p className="text-center text-gray-500 mt-4">
       No Menu available. Click "Add New Menu" to create one.
     </p>
   ) : (
     <>
-      <SearchInput
-        value={searchData}
-        onChange={(e) => setSearchData(e.target.value)}
-        placeholder="Search menu..."
-      />
-
+      <SearchFilter>
+          <SearchInput
+            value={searchData}
+            onChange={(e) => setSearchData(e.target.value)}
+            placeholder="Search menu..."
+          />
+          <FilteredData
+            value={filterStatus}
+            onChange={(value) => setFilterStatus(value || "All")}
+          />
+      </SearchFilter>
       {filteredData.length === 0 ? (
-        <p className="text-center text-gray-500 mt-4 w-">
+        <p className="text-center text-gray-500 mt-4">
           No matching menus found.
         </p>
       ) : (
