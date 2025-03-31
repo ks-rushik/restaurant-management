@@ -3,7 +3,7 @@ import fetchCategorydata from "../actions/category/category-fetch";
 
 const useMenuItem = (menuId : string) => {
   const { data } = useQuery({
-    queryKey: ["category"],
+    queryKey: ["category" ,menuId],
     queryFn: () => fetchCategorydata(menuId),
     staleTime:1000 * 60
   });

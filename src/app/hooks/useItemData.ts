@@ -3,7 +3,7 @@ import getItemdata from "../actions/item/getItemdata";
 
 const useItemData = (Id : string) => {
   const { data } = useQuery({
-    queryKey: ["Itemdata"],
+    queryKey: ["Itemdata" ,Id],
     queryFn: () => getItemdata(Id),
     staleTime:1000 * 60
   });
