@@ -1,8 +1,8 @@
 "use client";
-import CustomBreadcrumbs from "@/app/components/ui/BaseBreadcrumbs";
 import useItemData from "@/app/hooks/useItemData";
 import { usePathname, notFound, redirect } from "next/navigation";
 import { FC, ReactNode } from "react";
+import HeaderCss from "../HeaderCss";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
@@ -16,7 +16,7 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
   const items = useItemData(categoryId);
   const itemname = items?.[0].category_name;
   const categoryname = items?.[0].menus?.menu_name;
-  
+
   if (!itemname) {
     return notFound();
   }
@@ -37,17 +37,9 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
   ];
 
   return (
-    <div>
-      <div className="flex flex-row justify-between pt-8 pl-1">
-        <h1 className="text-2xl font-bold">Items</h1>
-        {children}
-      </div>
-      <CustomBreadcrumbs
-        items={breadcrumbItems}
-        separatorMargin="xs"
-        children={undefined}
-      />
-    </div>
+    <>
+      <HeaderCss item={breadcrumbItems} headertitle="Items">{children}</HeaderCss>
+    </>
   );
 };
 
