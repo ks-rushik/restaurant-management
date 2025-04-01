@@ -15,13 +15,13 @@ const queryClient = new QueryClient();
 
 const page = async ({ params }: { params: Promise<{ m: string }> }) => {
   const { m } = await params;
-  await queryClient.prefetchQuery({
+  const data = await queryClient.fetchQuery({
     queryKey: ["url"],
     queryFn: () => getMenuData(m),
   });
-  const data: { menu_id: any }[] | undefined = queryClient.getQueryData([
-    "url",
-  ]);
+  
+  console.log(data);
+  
   const menuId = data?.[0]?.menu_id;
   
   if(!menuId || !params){

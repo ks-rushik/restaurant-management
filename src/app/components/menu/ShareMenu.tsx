@@ -1,7 +1,7 @@
 "use client";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { CopyButton, TextInput } from "@mantine/core";
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
 import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";

@@ -12,7 +12,7 @@ type IBaseConfirmationProps = ModalProps & {
 };
 const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
   const { text, children, classNames } = props;
-  const { title, content, root, header, ...otherElement } = classNames || {};
+  const { title, content, header, ...otherElement } = classNames || {};
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
