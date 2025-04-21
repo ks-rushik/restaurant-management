@@ -5,7 +5,7 @@ const useItemData = (Id : string) => {
   const { data } = useQuery({
     queryKey: ["Itemdata" ,Id],
     queryFn: () => getItemdata(Id),
-    staleTime: Infinity
+    staleTime: 60 * 1000
   });
  
   return data;
