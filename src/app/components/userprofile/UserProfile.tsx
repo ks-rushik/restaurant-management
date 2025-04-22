@@ -37,6 +37,7 @@ const UserProfileForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<IUserFormData>({
     resolver: zodResolver(userformSchema),
@@ -62,7 +63,24 @@ const UserProfileForm = () => {
     }
   };
 
+  const MAX_FILE_SIZE = 1000000;
+  const ACCEPTED_IMAGE_TYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+  ];
+
   const onSubmit = async (data: IUserFormData) => {
+    if (!file) {
+      return setError("root", { message: "Image is required" });
+    } else if (file?.size! >= MAX_FILE_SIZE) {
+      return setError("root", { message: "Max size of image is 1MB" });
+    } else if (ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
+      return setError("root", {
+        message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
+      });
+    }
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("phone", data.phone);
