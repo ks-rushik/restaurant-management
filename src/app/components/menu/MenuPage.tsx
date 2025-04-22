@@ -17,8 +17,10 @@ const Menupage = () => {
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
   const [loading, setLoading] = useState("");
+  const [searchData, setSearchData] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
-  const data = useMenuItem();
+  const data = useMenuItem(searchData , filterStatus);
   useEffect(() => {
     if (data) {
       setMenuItem(data);
@@ -79,6 +81,10 @@ const Menupage = () => {
         loading={loading}
         opened={opened}
         close={close}
+         searchData={searchData}
+        setSearchData={setSearchData}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
       />
     </div>
   );
