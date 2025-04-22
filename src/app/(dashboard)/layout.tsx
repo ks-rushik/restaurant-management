@@ -8,7 +8,7 @@ import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
 import RouterTransition from "../components/RouterTransition";
 import { ThemeProvider } from "../context/ThemeProvider";
-import '@mantine/nprogress/styles.css';
+import "@mantine/nprogress/styles.css";
 import { cookies } from "next/headers";
 
 const geistSans = Geist({
@@ -31,7 +31,7 @@ export default async function DashBoardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = (await cookies()).get('theme')
+  const theme = (await cookies()).get("theme");
   return (
     <html lang="en" className={`${theme?.value}`}>
       <body
@@ -41,9 +41,8 @@ export default async function DashBoardLayout({
           <MantineProvider defaultColorScheme="auto">
             <RouterTransition />
             <Notifications position="top-right" />
-            <ThemeProvider>
-              {children}
-            </ThemeProvider>
+
+            {children}
           </MantineProvider>
         </QueryProvider>
       </body>

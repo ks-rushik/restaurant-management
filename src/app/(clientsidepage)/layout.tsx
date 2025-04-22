@@ -5,7 +5,6 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
-import { ThemeProvider } from "../context/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,9 +32,7 @@ export default function ClientPageLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundColor `}
       >
         <QueryProvider>
-          <MantineProvider>
-            <ThemeProvider>{children}</ThemeProvider>
-          </MantineProvider>
+          <MantineProvider>{children}</MantineProvider>
         </QueryProvider>
       </body>
     </html>
