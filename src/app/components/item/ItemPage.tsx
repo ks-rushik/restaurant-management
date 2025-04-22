@@ -14,11 +14,13 @@ import { updateItem } from "../../actions/item/updateitem-action";
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[4];
-  const data = useItem(categoryId);
   const [Item, setItem] = useState<IItemdata[]>();
+  const [searchData, setSearchData] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
+  const data = useItem(categoryId ,searchData ,filterStatus);
 
   useEffect(() => {
     if (data) {
@@ -29,15 +31,15 @@ const ItemPage = () => {
         }))
       );
     }
-  }, [data]);  
+  }, [data]);
 
-  const handleAddItem = async (newItem: IItemdata , file?:File) => {
-    const addedItem = await item(newItem, categoryId ,file);
+  const handleAddItem = async (newItem: IItemdata, file?: File) => {
+    const addedItem = await item(newItem, categoryId, file);
     if (addedItem)
       setItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.name} added to item`,
-      color:'green'
+      color: "green",
     });
   };
 
@@ -95,26 +97,24 @@ const ItemPage = () => {
     setLoading(id);
     await deleteitem(id);
     setLoading("");
-    notifications.show({ message: "Category deleted" ,color:'green' });
+    notifications.show({ message: "Category deleted", color: "green" });
   };
 
-  const handleEditItem = async (updateditem: IItemdata,file?: File) => {    
-    await updateItem(updateditem, categoryId,file);
-    notifications.show({ message: "Category updated" ,color:'green' });
+  const handleEditItem = async (updateditem: IItemdata, file?: File) => {
+    await updateItem(updateditem, categoryId, file);
+    notifications.show({ message: "Category updated", color: "green" });
   };
 
   const handleSelectedItem = (item: IItemdata) => {
-    
     const modaldata: IItemdata = {
       id: item.id || "",
       name: item.name || "",
       status: item.status || "",
       description: item.description || "",
       price: item.price || "",
-      image: item.image
+      image: item.image,
     };
     setSelectedItem(modaldata);
-    
   };
 
   return (
@@ -136,6 +136,10 @@ const ItemPage = () => {
         loading={loading}
         opened={opened}
         close={close}
+        searchData={searchData}
+        setSearchData={setSearchData}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
       />
     </div>
   );

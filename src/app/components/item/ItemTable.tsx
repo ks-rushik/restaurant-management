@@ -23,6 +23,10 @@ type ICategoryTableProps = {
   loading: string;
   opened: boolean;
   close: () => void;
+  searchData: string;
+  setSearchData: (val: string) => void;
+  filterStatus: string;
+  setFilterStatus: (val: string) => void;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -35,32 +39,15 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     loading,
     opened,
     close,
+    searchData,
+    setSearchData,
+    filterStatus,
+    setFilterStatus,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
-  const [searchData, setSearchData] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("All");
-
-  let filteredData = data
-    ? data.filter((item) =>
-        item?.name?.toLowerCase().includes(searchData.toLowerCase())
-      )
-    : [];
-  if (filterStatus === "Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "available"
-    )!;
-  } else if (filterStatus === "Not Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "not available"
-    )!;
-  }
-
+  
   return !data ? (
-    <Loader></Loader>
-  ) : data?.length === 0 ? (
-    <p className="text-center text-gray-500 mt-4">
-      No Category available. Click "Add New Category" to create one.
-    </p>
+    <Loader />
   ) : (
     <>
       <SearchFilter>
@@ -71,21 +58,21 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         />
         <FilteredData
           value={filterStatus}
-          onChange={(value) => setFilterStatus(value || "All")}
+          onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
 
-      {filteredData.length === 0 ? (
+      {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
-          No matching categories found.
+          No Item found.
         </p>
-      ) : (
+      ) :  (
         <BaseTable
           classNames={{
             th: "text-gray-600 text-sm h-12 font-bold  [&:first-child]:w-[60px] ",
             td: "text-gray-500 text-sm  font-semibold [&:first-child]:w-[60px] ",
           }}
-          data={filteredData}
+          data={data}
           getKey={(item) => item.id!}
           columns={[
             {
