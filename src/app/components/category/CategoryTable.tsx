@@ -22,6 +22,10 @@ type ICategoryTableProps = {
   loading: string;
   opened: boolean;
   close: () => void;
+  searchData: string;
+  setSearchData: (val: string) => void;
+  filterStatus: string;
+  setFilterStatus: (val: string) => void;
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -35,31 +39,16 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     loading,
     opened,
     close,
+    searchData,
+    setSearchData,
+    filterStatus,
+    setFilterStatus,
   } = props;
-  const [searchData, setSearchData] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("All");
-  let filteredData = data
-    ? data.filter((item) =>
-        item?.category_name?.toLowerCase().includes(searchData.toLowerCase())
-      )
-    : [];
-
-  if (filterStatus === "Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "available"
-    )!;
-  } else if (filterStatus === "Not Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "not available"
-    )!;
-  }
+  console.log(data,'data');
+  
 
   return !data ? (
-    <Loader></Loader>
-  ) : data?.length === 0 ? (
-    <p className="text-center text-gray-500 mt-4">
-      No Category available. Click "Add New Category" to create one.
-    </p>
+    <Loader />
   ) : (
     <>
       <SearchFilter>
@@ -70,17 +59,17 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         />
         <FilteredData
           value={filterStatus}
-          onChange={(value) => setFilterStatus(value || "All")}
+          onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
 
-      {filteredData.length === 0 ? (
+      {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
-          No matching categories found.
+          No Category found.
         </p>
       ) : (
         <BaseTable
-          data={filteredData}
+          data={data}
           classNames={{
             th: "text-gray-600 text-sm h-12 font-bold [&:first-child]:w-[70px] ",
             td: "text-gray-500 text-sm h-12 font-semibold [&:first-child]:w-[70px] ",
