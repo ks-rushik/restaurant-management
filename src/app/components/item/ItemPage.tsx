@@ -11,16 +11,19 @@ import { updateItemOrder } from "../../actions/item/updateposition-action";
 import deleteitem from "../../actions/item/deleteitem-action";
 import useItem from "../../hooks/useItem";
 import { updateItem } from "../../actions/item/updateitem-action";
+import { useDebounce } from "use-debounce";
+
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[4];
   const [Item, setItem] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
+  const [debouncedSearch] = useDebounce(searchData, 500); 
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
-  const data = useItem(categoryId ,searchData ,filterStatus);
+  const data = useItem(categoryId ,debouncedSearch ,filterStatus);
 
   useEffect(() => {
     if (data) {

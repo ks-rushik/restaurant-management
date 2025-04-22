@@ -11,6 +11,7 @@ import categories from "@/app/actions/category/addcategory-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 import deletecategory from "@/app/actions/category/deletecategory-action";
 import useCategoryItem from "@/app/hooks/useCategoryItem";
+import { useDebounce } from "use-debounce";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
@@ -19,13 +20,14 @@ function CategoryPage() {
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
   const [searchData, setSearchData] = useState("");
+  const [debouncedSearch] = useDebounce(searchData, 500); 
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
   const searchParam = useSearchParams();
   const menuname = searchParam.get("name")!;
   const menuId = pathname.split("/")[2];
-  const data = useCategoryItem(menuId, searchData, filterStatus);
+  const data = useCategoryItem(menuId, debouncedSearch, filterStatus);
 
   useEffect(() => {
     if (data) {
