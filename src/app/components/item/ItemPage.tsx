@@ -37,6 +37,7 @@ const ItemPage = () => {
       setItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.name} added to item`,
+      color:'green'
     });
   };
 
@@ -94,12 +95,12 @@ const ItemPage = () => {
     setLoading(id);
     await deleteitem(id);
     setLoading("");
-    notifications.show({ message: "Category deleted" });
+    notifications.show({ message: "Category deleted" ,color:'green' });
   };
 
   const handleEditItem = async (updateditem: IItemdata,file?: File) => {    
     await updateItem(updateditem, categoryId,file);
-    notifications.show({ message: "Category updated" });
+    notifications.show({ message: "Category updated" ,color:'green' });
   };
 
   const handleSelectedItem = (item: IItemdata) => {

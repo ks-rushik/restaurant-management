@@ -27,14 +27,14 @@ const Menupage = () => {
 
   const handleAddMenu = async (newItem: IModalData) => {
     const addedItem = await menu(newItem);
-    notifications.show({message:`${newItem.menu_name} added to menus`})
+    notifications.show({message:`${newItem.menu_name} added to menus`,color:'green' })
     if (addedItem)
       setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
   };
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
     await updateMenu(updatedmenu);
-    notifications.show({ message: "Menu updated" });
+    notifications.show({ message: "Menu updated" ,color:'green' });
   };
 
   const handleDelete = async (

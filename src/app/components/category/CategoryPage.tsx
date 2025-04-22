@@ -86,22 +86,23 @@ function CategoryPage() {
     });
   };
 
-  const handleView = ( category_id: string) => {
+  const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
-  
+
   const handleAddCategory = async (newItem: ICategorydata) => {
     const addedItem = await categories(newItem, menuId);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.category_name} added to category`,
+      color: "green",
     });
   };
 
   const handleEditCategory = async (updatedmenu: ICategorydata) => {
     await updateCategory(updatedmenu, menuId);
-    notifications.show({ message: "Category updated" });
+    notifications.show({ message: "Category updated", color: "green" });
   };
 
   const handleDelete = async (id: string) => {
@@ -109,7 +110,7 @@ function CategoryPage() {
     setLoading(id);
     await deletecategory(id);
     setLoading("");
-    notifications.show({ message: "Category deleted" });
+    notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {
     const modaldata: ICategorydata = {
