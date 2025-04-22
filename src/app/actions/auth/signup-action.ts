@@ -18,9 +18,17 @@ export async function signUp(formData: ISignUpFormData) {
   const { error } = await supabase.auth.signUp(Objdata);
 
   if (error) {
-    redirect("/auth/error");
+    let errorMessage;
+    if (error.message === "email rate limit exceeded") {
+      errorMessage = "Email rate limit exceeded. Please try again later";
+    } else {
+      errorMessage = "This email is already associated with an account. Please use a different email or log in.";
+    }
+    console.log(error.message);
+
+    return { error: errorMessage };
   }
 
   revalidatePath("/", "layout");
-  return { message: "User Register successfully" };
+  return { message: "User registered successfully" };
 }

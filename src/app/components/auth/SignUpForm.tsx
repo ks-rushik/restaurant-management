@@ -43,8 +43,14 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (data: ISignUpFormData) => {
-    const { message } = await signUp(data);
-    notifications.show({ message: message });
+    const { message, error } = await signUp(data);
+    console.log(error, "error");
+    {
+      error && notifications.show({ message: error, color: "red" });
+    }
+    {
+      message && notifications.show({ message: message, color: "green" });
+    }
   };
   return (
     <>
