@@ -8,27 +8,31 @@ import { createClient } from "@/app/utils/supabase/server";
 export async function signUp(formData: ISignUpFormData) {
   const supabase = await createClient();
 
-  const Objdata = {
+  if (formData.password !== formData.confirmpassword) {
+    return { error: "Passwords do not match." };
+  }
+
+  const { data, error } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
-    name: formData.name,
-    confirmpassword: formData.confirmpassword,
-  };
+  });
 
-  const { error } = await supabase.auth.signUp(Objdata);
+  if (data?.user && data.user.identities?.length === 0) {
+    return {
+      error:
+        "This email is already associated with an account. Please log in or use another email.",
+    };
+  }
 
   if (error) {
-    let errorMessage;
-    if (error.message === "email rate limit exceeded") {
-      errorMessage = "Email rate limit exceeded. Please try again later";
-    } else {
-      errorMessage = "This email is already associated with an account. Please use a different email or log in.";
+    console.log("Signup error:", error.message);
+    let errorMessage = "Unexpected error. Please try again later.";
+    if (error.message.toLowerCase().includes("rate limit")) {
+      errorMessage = "Too many attempts. Please try again later.";
     }
-    console.log(error.message);
-
     return { error: errorMessage };
   }
 
   revalidatePath("/", "layout");
-  return { message: "User registered successfully" };
+  return { message: "User registered successfully. Please check your email to confirm your account." };
 }
