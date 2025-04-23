@@ -1,4 +1,13 @@
-import { Table, TableProps, TableStylesNames } from "@mantine/core";
+import {
+  Table,
+  TableProps,
+  TableStylesNames,
+  TableTbody,
+  TableTd,
+  TableTh,
+  TableThead,
+  TableTr,
+} from "@mantine/core";
 import { ReactNode, useState } from "react";
 import clsx from "clsx";
 import BaseButton from "./BaseButton";
@@ -27,7 +36,8 @@ const BaseTable = <T,>({
   loadMoreSize = 7,
   ...other
 }: IBaseTableProps<T>) => {
-  const { table, th, td, thead, ...otherelements } = classNames || {};
+  const { table, th, td, thead, tbody, tr, ...otherElements } =
+    classNames || {};
   const [visibleCount, setVisibleCount] = useState(initialSize);
 
   const handleLoadMore = () => {
@@ -36,53 +46,52 @@ const BaseTable = <T,>({
 
   return (
     <>
-      <div className="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 dark:bg-gray-800 bg-white">
+      <div className="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600  bg-white">
         <div className="w-full overflow-x-auto">
           <Table
-            classNames={{
-              table: clsx("w-full table-auto", table),
-              thead: clsx("text-bold", thead),
-              th: clsx("text-gray-600 text-sm font-bold px-4 py-2 dark:text-white", th),
-              td: clsx("text-gray-500 text-sm font-semibold px-4 py-2 dark:text-white", td),
-              ...otherelements,
-            }}
             {...other}
+            classNames={{
+              thead: clsx(
+                "font-semibold text-gray-600 text-sm bg-gray-300 dark:bg-gray-700  dak:!text-gray-200 h-14 ",
+                thead
+              ),
+              tbody: clsx(
+                "text-sm font-normal bg-white dark:text-white dark:bg-gray-700 ",
+                tbody
+              ),
+              tr: clsx(
+                "h-[55px] dark:border-gray-600",
+                tr
+              ),
+              th: clsx("max-w-28 dark:text-white ", th),
+              td: clsx(" ", td),
+              table: clsx("", table),
+              ...otherElements,
+            }}
           >
-            <Table.Thead>
-              <Table.Tr>
+            <TableThead>
+              <TableTr>
                 {columns.map((col, index) => (
-                  <Table.Th
-                    key={index}
-                    className={clsx(
-                      col.width ? `w-[${col.width}]` : "w-auto",
-                      "p-3"
-                    )}
-                  >
-                    {col.label}
-                  </Table.Th>
+                  <TableTh key={index}>{col.label}</TableTh>
                 ))}
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {data?.slice(0, visibleCount).map((row) => (
-                <Table.Tr key={getKey(row)} >
+              </TableTr>
+            </TableThead>
+            <TableTbody>
+              {data?.map((row, index) => (
+                <TableTr key={index}>
                   {columns.map((col, index) => (
-                    <Table.Td
+                    <TableTd
                       key={index}
-                      className={clsx(
-                        col.width ? `w-[${col.width}]` : "w-auto",
-                        col.label === "DESCRIPTION"
-                          ? "max-w-[200px] whitespace-normal break-words overflow-auto"
-                          : "",
-                        "p-3"
-                      )}
+                      classNames={{
+                        td: clsx("max-w-[200px] ", td),
+                      }}
                     >
                       {col.render(row)}
-                    </Table.Td>
+                    </TableTd>
                   ))}
-                </Table.Tr>
+                </TableTr>
               ))}
-            </Table.Tbody>
+            </TableTbody>
           </Table>
         </div>
       </div>
