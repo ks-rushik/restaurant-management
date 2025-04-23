@@ -61,7 +61,7 @@ const ResetPasswordForm = () => {
           <div className="flex flex-col sm:flex-row sm:justify-between  text-md mb-4 text-center sm:text-left">
             <BaseButton
               type="submit"
-              intent="primary"
+             
               classNames={{
                 root: "mb-2 w-full py-2 rounded-md md:w-1/2 h-12 sm:w-1/3",
                 inner:'font-bold text-white text-sm'

@@ -74,7 +74,6 @@ const LoginForm = () => {
 
           <BaseButton
             type="submit"
-            intent="primary"
             classNames={{
               root: "mb-2 w-full py-2 rounded-md mt-5 h-12",
               inner:'font-bold text-white text-sm'
