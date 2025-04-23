@@ -20,7 +20,7 @@ export type IItemdata = {
   name: string | null;
   description: string | null;
   category_id?: string | null;
-  price: string | null;
+  price: number | "";
   status: string | null;
   position?: number | null | undefined;
   category?: {
@@ -45,7 +45,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       errorMap: () => ({ message: "Status is required" }),
     }),
     description: z.string().min(8, "At least 9 characters long"),
-    price: z.string().min(1, "Price is required"),
+    price: z.string().min(1, "Price is required")
+    .transform((value) => (value === "" ? "" : Number(value)))
+    .refine((value) => !isNaN(Number(value)), {
+      message: "Price must be a number",
+    }),
   });
 
   type IAddItemData = z.infer<typeof AddItemschema>;
