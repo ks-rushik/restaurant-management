@@ -4,12 +4,12 @@
 
 :root {
     --background-light: #ffffff;
-    --background-dark: #0d0d0e;
+    --background-dark: #131414
   }
   
   body {
     background-color: var(--background-light);
-    color: #0d0d0e ;
+    color: #141A21;
   }
   
   .dark body {
