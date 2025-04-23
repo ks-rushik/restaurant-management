@@ -45,11 +45,13 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       errorMap: () => ({ message: "Status is required" }),
     }),
     description: z.string().min(8, "At least 9 characters long"),
-    price: z.string().min(1, "Price is required")
-    .transform((value) => (value === "" ? "" : Number(value)))
-    .refine((value) => !isNaN(Number(value)), {
-      message: "Price must be a number",
-    }),
+    price: z
+      .string()
+      .min(1, "Price is required")
+      .transform((value) => (value === "" ? "" : Number(value)))
+      .refine((value) => !isNaN(Number(value)), {
+        message: "Price must be a number",
+      }),
   });
 
   type IAddItemData = z.infer<typeof AddItemschema>;
@@ -77,7 +79,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
 
   useEffect(() => {
     if (selectedItem) {
-      setPreview(selectedItem.image as unknown as string)
+      setPreview(selectedItem.image as unknown as string);
       reset({
         name: selectedItem.name!,
         description: selectedItem.description!,
@@ -98,10 +100,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
 
   const MAX_FILE_SIZE = 1000000;
   const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
+   "image/jpeg", "image/jpg", "image/png", "image/webp"
   ];
 
   const onSubmit = async (data: IAddItemData) => {
@@ -109,7 +108,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       return setError("root", { message: "Image is required" });
     } else if (file?.size! >= MAX_FILE_SIZE) {
       return setError("root", { message: "Max size of image is 1MB" });
-    } else if (ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
+    } else if (!ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
       return setError("root", {
         message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
       });
@@ -151,53 +150,41 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         title={selectedItem ? "Edit Item" : "Add Item"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormField
-            label="Item name"
-            name="name"
-            error={errors.name?.message}
-            required={true}
-          >
+          <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
+              label="Item"
+              labelvalue
               placeholder="Enter Item..."
               {...register("name")}
             />
           </FormField>
-          <FormField
-            label="Description"
-            name="description"
-            error={errors.description?.message}
-            required
-          >
+          <FormField name="description" error={errors.description?.message}>
             <BaseTextArea
+              label="Description"
+              labelvalue
               {...register("description")}
               placeholder="Enter Description..."
             />
           </FormField>
 
-          <FormField
-            label="Price"
-            name="price"
-            error={errors.price?.message}
-            required
-          >
+          <FormField name="price" error={errors.price?.message}>
             <BaseInput
               type="text"
+              label="Price"
+              labelvalue
               placeholder="Enter price..."
               {...register("price")}
             ></BaseInput>
           </FormField>
-          <FormField
-            label="Status"
-            name="status"
-            error={errors.status?.message}
-            required
-          >
+          <FormField name="status" error={errors.status?.message}>
             <Controller
               name="status"
               control={control}
               render={({ field }) => (
                 <BaseSelect
+                  label="Status"
+                  labelvalue
                   data={[`Available`, `Not Available`]}
                   placeholder="Enter status"
                   {...field}

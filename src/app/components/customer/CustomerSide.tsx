@@ -14,9 +14,6 @@ const CustomerSide = ({ id }: { id: string }) => {
   const { categories } = useCategoriesItems(dataId) || {};
 
   const NotavailableItem = categories?.[0].menus.status;
-  if (NotavailableItem === "Not Available") {
-    <div>Pasta is not available</div>;
-  }
 
   const profilelogo = categories?.[0]?.menus.restaurant_id.logo;
   const profileName = categories?.[0]?.menus.restaurant_id.name;
