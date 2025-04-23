@@ -34,7 +34,7 @@ const InputVariants = cva("", {
     border: {
       error:
         "border-error-main focus-within:border-2 focus-within:border-error-main",
-      normal: "rounded-lg dark:bg-gray-700 dark:border-none dark:focus-within:ring-0 dark:text-white focus-within:ring-2 focus-within:ring-blue-700",
+      normal: "rounded-lg dark:bg-gray-700 dark:border-none dark:focus-within:ring-0 dark:text-white focus-within:border-2 focus-within:border-black",
     },
     size: {
       small: "h-9",

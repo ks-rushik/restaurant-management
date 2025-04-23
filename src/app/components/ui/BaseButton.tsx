@@ -75,6 +75,12 @@ const buttonVariants = cva(
           "cursor-not-allowed !bg-transparent border !border-gray-500 hover:border-gray-500",
       },
       {
+        intent: "themeColor",
+        outline: true,
+        class:
+          "box-border border border-blue-700 !text-blue-700 bg-transparent hover:ring-1  hover:ring-blue-700 hover:bg-blue-100 ",
+      },
+      {
         intent: "primary",
         outline: true,
         class:
@@ -314,8 +320,10 @@ const BaseButton: FC<IBaseButtonProps> = (props) => {
           }),
           root
         ),
+        
         ...otherElement,
       }}
+      
       disabled={disabled}
       {...other}
     >

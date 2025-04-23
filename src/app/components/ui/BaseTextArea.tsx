@@ -38,7 +38,7 @@ const BaseTextArea: FC<IBaseTextAreaProps> = (props) => {
         ),
         input: clsx(
           TextareaVariants({ filled, standard }),
-          "h-24 pt-4 rounded-lg focus-within:ring-2 focus-within:ring-blue-700 dark:bg-gray-700 dark:border-none dark:focus-within:ring-0 dark:text-white ",
+          "h-24 pt-4 rounded-lg focus-within:border-2 focus-within:border-black dark:bg-gray-700 dark:border-none dark:focus-within:ring-0 dark:text-white ",
           input
         ),
         
