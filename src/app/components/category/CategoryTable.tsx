@@ -53,9 +53,10 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     <>
       <SearchFilter>
         <SearchInput
+          placeholder="Search Category"
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-          placeholder="Search Category..."
+         
         />
         <FilteredData
           value={filterStatus}
@@ -71,8 +72,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         <BaseTable
           data={data}
           classNames={{
-            th: "text-gray-600 text-sm h-12 font-bold [&:first-child]:w-[70px] ",
-            td: "text-gray-500 text-sm h-12 font-semibold [&:first-child]:w-[70px] ",
+            th: "[&:first-child]:w-[70px] ",
+            td: "[&:first-child]:w-[70px] ",
           }}
           getKey={(item) => item.id!}
           columns={[

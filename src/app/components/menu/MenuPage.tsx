@@ -69,7 +69,7 @@ const Menupage = () => {
     setSelectedMenu(modaldata);
   };
   return (
-    <div className="items-center px-4 sm:px-12 md:px-16 lg:px-20 xl:px-32">
+    <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
       <MenuHeader>
         <Addmenu
           onAddMenu={handleAddMenu}
