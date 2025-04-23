@@ -40,7 +40,7 @@ const page = async ({ params }: { params: Promise<{ m: string }> }) => {
   });
   await queryClient.prefetchQuery({
     queryKey: ["menu"],
-    queryFn: () => fetchMenudata(),
+    queryFn: () => fetchMenudata,
   });
 
   return (
