@@ -9,7 +9,8 @@ import { FC } from "react";
 
 type IBreadcrumbItem = {
   title: string;
-  href: string ;
+  href: string;
+  active?:boolean
 };
 
 type IBreadcrumbsProps = {
@@ -37,7 +38,7 @@ const CustomBreadcrumbs: FC<IBreadcrumbsProps> = (props) => {
       classNames={{
         root: clsx("pb-8  pl-1", root),
         breadcrumb: clsx(
-          "font-md text-gray-500 hover:text-blue-400 dark:text-white ",
+          "font-md text-gray-500 hover:text-blue-400 dark:text-gray-600",
           breadcrumb
         ),
         ...otherelement,
@@ -47,7 +48,13 @@ const CustomBreadcrumbs: FC<IBreadcrumbsProps> = (props) => {
       {items.map((item, index) => {
         return (
           <Link href={item.href} key={index}>
-            <span className="inline-flex items-center">
+            <span
+              className={` ${
+                item.active
+                  ? "text-gray-800 dark:text-gray-400  pointer-events-none"
+                  : "hover:underline "
+              }inline-flex items-center `}
+            >
               <span>{String(item.title || "Untitled")}</span>
             </span>
           </Link>

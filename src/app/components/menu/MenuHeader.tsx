@@ -6,7 +6,7 @@ type IMenuHeaderProps = {
 };
 const MenuHeader: FC<IMenuHeaderProps> = (props) => {
   const { children } = props;
-  const item = [{ title: "Menu", href: "/menu" }];
+  const item = [{ title: "Menu", href: "/menu", active: true }];
   return (
     <>
       <HeaderCss headertitle="Menus" item={item}>

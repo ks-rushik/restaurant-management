@@ -7,7 +7,6 @@ import { Notifications } from "@mantine/notifications";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
 import RouterTransition from "../components/RouterTransition";
-import { ThemeProvider } from "../context/ThemeProvider";
 import "@mantine/nprogress/styles.css";
 import { cookies } from "next/headers";
 
