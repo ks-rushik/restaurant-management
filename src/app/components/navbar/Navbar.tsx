@@ -32,7 +32,7 @@ const Navbar = () => {
   }, [theme]);
 
   return (
-    <nav className="bg-white dark:bg-black/90 shadow-lg py-2 px-4 flex justify-between items-center">
+    <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
       <div className="flex items-center">
         <Image
           src={logo3}
