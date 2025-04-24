@@ -33,6 +33,7 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
     {
       title: itemname?.[0].toUpperCase() + itemname?.slice(1),
       href: `#`,
+      active:true
     },
   ];
 

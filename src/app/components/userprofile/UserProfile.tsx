@@ -123,7 +123,7 @@ const UserProfileForm = () => {
             size="sm"
           >
             <BaseInput
-              label="restaurant"
+              
               {...register("name")}
               type="text"
               placeholder="Enter your restaurant name..."

@@ -3,7 +3,7 @@ import BaseLabel from "../ui/BaseLabel";
 import BaseErrorMessage from "../ui/BaseErrorMessage";
 
 type IFormFieldProps = {
-  label: string;
+  label?: string;
   name?: string;
   error?: string;
   children?: ReactNode;
@@ -18,7 +18,7 @@ const FormField: FC<IFormFieldProps> = (props) => {
     <div className="mb-6">
       <BaseLabel
         htmlFor={name}
-        labeltitle={label}
+        labeltitle={label!}
         required={required}
         size={size}
       />

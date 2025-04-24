@@ -69,8 +69,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
       ) :  (
         <BaseTable
           classNames={{
-            th: "text-gray-600 text-sm h-12 font-bold  [&:first-child]:w-[60px] ",
-            td: "text-gray-500 text-sm  font-semibold [&:first-child]:w-[60px] ",
+            th: "[&:first-child]:w-[60px] ",
+            td: "[&:first-child]:w-[60px] ",
           }}
           data={data}
           getKey={(item) => item.id!}

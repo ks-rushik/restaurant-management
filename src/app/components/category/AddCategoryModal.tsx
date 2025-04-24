@@ -62,7 +62,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as "Available" | "Not Available"  });
+      reset({ category_name: "", status: "" as "Available" | "Not Available" });
     }
   }, [selectedCategory, reset]);
 
@@ -94,29 +94,23 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
         title={selectedCategory ? "Edit Category" : "Add Category"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormField
-            label="Category name"
-            name="category_name"
-            error={errors.category_name?.message}
-            required
-          >
+          <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
+              label="Category name"
+              labelvalue
               placeholder="Enter category"
               {...register("category_name")}
             />
           </FormField>
-          <FormField
-            label="Status"
-            name="status"
-            error={errors.status?.message}
-            required
-          >
+          <FormField name="status" error={errors.status?.message}>
             <Controller
               name="status"
               control={control}
               render={({ field }) => (
                 <BaseSelect
+                  label="Status"
+                  labelvalue
                   data={["Available", "Not Available"]}
                   placeholder="Enter status"
                   {...field}

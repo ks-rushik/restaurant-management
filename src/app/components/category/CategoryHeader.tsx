@@ -26,6 +26,7 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
     {
       title: menu?.[0].toUpperCase() + menu?.slice(1),
       href: `#`,
+      active: true
     },
   ];
 

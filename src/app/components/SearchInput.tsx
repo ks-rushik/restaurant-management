@@ -1,6 +1,7 @@
 import { TextInput } from "@mantine/core";
 import { FC } from "react";
 import { IoSearch } from "react-icons/io5";
+import BaseTextField from "./ui/BaseInput";
 
 type ISearchInputProps = {
   value: string;
@@ -11,15 +12,16 @@ type ISearchInputProps = {
 const SearchInput: FC<ISearchInputProps> = (props) => {
   const { value, onChange, placeholder } = props;
   return (
-    <TextInput
+    <BaseTextField
       type="text"
       placeholder={placeholder || "Search..."}
-      variant={"unstyled"}
       value={value}
       onChange={onChange}
+      InputWrapperClassNames={{
+        root: " xl:w-3/4 lg:w-3/4 md:3/4",
+      }}
       classNames={{
-        input: "h-10 dark:bg-gray-700 bg-white cursor-pointer",
-        root: "border border-gray-200 xl:w-3/4 lg:w-3/4 md:3/4 dark:bg-gray-700 dark:border-gray-700 ",
+        input: "",
       }}
       leftSection={
         <IoSearch

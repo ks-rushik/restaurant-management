@@ -75,11 +75,6 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
       <BaseModal
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
-        classNames={{
-          header: "bg-white dark:bg-white dark:text-black ",
-          content: "rounded-2xl dark:bg-white dark:text-black ",
-          title: "text-black text-xl font-bold dark:text-gray-800",
-        }}
         title="Share Menu Link"
         centered
       >

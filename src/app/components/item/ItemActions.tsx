@@ -27,10 +27,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         className="mr-6 cursor-pointer"
         title="Edit Item"
       >
-        <MdOutlineModeEdit
-          size={22}
-          className="hover:text-yellow-500 "
-        />
+        <MdOutlineModeEdit size={22} className="hover:text-yellow-500 " />
       </div>
       <BaseConfirmation
         opened={opened}
@@ -38,7 +35,6 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         text="Are you sure you want to delete this item?"
       >
         <BaseButton
-          intent="danger"
           onClick={(event) => handleDelete(item.id!, event)}
           classNames={{ root: "w-1/3 mt-6" }}
         >

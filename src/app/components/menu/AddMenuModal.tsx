@@ -58,7 +58,11 @@ const Addmenu: FC<IMenuModalProps> = ({
       });
       open();
     } else {
-      reset({ menu_name: "", currency: "" as "$" | "₹" | "€" | "¥", status: "" as "Available" | "Not Available" });
+      reset({
+        menu_name: "",
+        currency: "" as "$" | "₹" | "€" | "¥",
+        status: "" as "Available" | "Not Available",
+      });
     }
   }, [selectedMenu, reset]);
 
@@ -89,47 +93,39 @@ const Addmenu: FC<IMenuModalProps> = ({
         padding="lg"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormField
-            label="Menu Name"
-            name="menu_name"
-            error={errors.menu_name?.message}
-            required
-          >
+          <FormField name="menu_name" error={errors.menu_name?.message}>
             <BaseInput
               type="text"
+              label="Menu Name"
+              labelvalue
               placeholder="Enter menu"
               {...register("menu_name")}
             />
           </FormField>
-          <FormField
-            label="Currency"
-            name="currency"
-            required
-            error={errors.currency?.message}
-          >
+          <FormField name="currency" error={errors.currency?.message}>
             <Controller
               name="currency"
               control={control}
               render={({ field }) => (
                 <BaseSelect
+                  label="Currency"
+                  labelvalue
                   placeholder="Enter currency"
                   {...field}
+                  classNames={{dropdown:''}}
                   data={["$", "₹", "€", "¥"]}
                 />
               )}
             />
           </FormField>
-          <FormField
-            label="Status"
-            name="status"
-            required
-            error={errors.status?.message}
-          >
+          <FormField name="status" error={errors.status?.message}>
             <Controller
               name="status"
               control={control}
               render={({ field }) => (
                 <BaseSelect
+                  label="Status"
+                  labelvalue
                   data={["Available", "Not Available"]}
                   placeholder="Enter status"
                   {...field}
@@ -153,7 +149,7 @@ const Addmenu: FC<IMenuModalProps> = ({
 
       <BaseButton
         onClick={() => {
-          setSelectedMenu(null)
+          setSelectedMenu(null);
           open();
         }}
         classNames={{
