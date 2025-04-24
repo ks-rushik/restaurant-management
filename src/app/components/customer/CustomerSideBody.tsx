@@ -8,6 +8,7 @@ import CustomerSideCard from "./CustomerSideCard";
 import CustomerSideLocation from "./CustomerSideLocation";
 import { changeTheme } from "@/app/helper/changeTheme";
 import BaseTextField from "../ui/BaseInput";
+import { IoSearch } from "react-icons/io5";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -89,13 +90,18 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
       <BaseTextField
         value={value}
-        label={"Seach Menu"}
-        
+        placeholder="Search menu..."
         onChange={(e) => setValue((e.target as HTMLInputElement).value)}
+        leftSection={
+          <IoSearch
+            size={20}
+            className="hover:text-gray-700 dark:hover:text-gray-400 "
+          />
+        }
       />
 
       {noMenusFound ? (
-        <div className="text-center text-gray-500 dark:text-gray-300">
+        <div className="text-center text-gray-500 dark:text-gray-300 font-medium text-lg">
           No Menus Found
         </div>
       ) : (
