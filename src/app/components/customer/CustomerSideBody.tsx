@@ -118,7 +118,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
                             : `${item.description?.substring(0, 50)}...`}
                         </Text>
 
-                        {mounted && item.status === "InActive" && (
+                        {mounted && item.status === "Not Available" && (
                           <Badge
                             color="red"
                             variant="filled"

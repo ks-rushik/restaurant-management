@@ -2,6 +2,7 @@ import fetchCategoryItemData from "@/app/actions/customer/getCategoryItem";
 import getItemData from "@/app/actions/item/getItemdata";
 import fetchItemdata from "@/app/actions/item/item-fetch";
 import ItemPage from "@/app/components/item/ItemPage";
+import Navbar from "@/app/components/navbar/Navbar";
 import {
   dehydrate,
   HydrationBoundary,
@@ -33,6 +34,7 @@ const page = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <Navbar />
       <ItemPage />
     </HydrationBoundary>
   );
