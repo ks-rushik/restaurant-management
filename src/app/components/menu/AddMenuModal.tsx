@@ -97,7 +97,7 @@ const Addmenu: FC<IMenuModalProps> = ({
             <BaseInput
               type="text"
               label="Menu Name"
-              labelvalue
+              forceLabelOnTop
               placeholder="Enter menu"
               {...register("menu_name")}
             />
