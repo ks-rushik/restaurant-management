@@ -212,6 +212,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               onChange={(file) => {
                 handleFileChange(file);
               }}
+              
               accept="image/png,image/jpeg"
             >
               {(props) => (

@@ -1,11 +1,11 @@
 // 'use client'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ModalsProvider } from "@mantine/modals";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import { MantineProvider } from "@mantine/core";
-
-import "./../globals.css";
+import "./../../globals.css";
 
 import { Notifications } from "@mantine/notifications";
 
@@ -35,7 +35,9 @@ export default function AuthLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-backgroundColor `}
       >
         <MantineProvider>
-          <Notifications position="top-right" />
+          <ModalsProvider>
+            <Notifications position="top-right" />
+          </ModalsProvider>
           {children}
         </MantineProvider>
       </body>

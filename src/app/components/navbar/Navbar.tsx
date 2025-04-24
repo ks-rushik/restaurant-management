@@ -3,19 +3,26 @@
 import Link from "next/link";
 import { Avatar, Menu } from "@mantine/core";
 import Image from "next/image";
-import logo3 from "../../images/logo3.png"
+import logo3 from "../../images/logo3.png";
 import LogOut from "../auth/Logout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import ThemeButton from "../ui/ThemeButton";
 import { changeTheme } from "@/app/helper/changeTheme";
+import BaseModal from "../ui/BaseModal";
+import BaseTextField from "../ui/BaseInput";
+import BaseButton from "../ui/BaseButton";
+import ChangePassword from "../auth/ChangePassword";
 
 const Navbar = () => {
   const [theme, setTheme] = useState<"dark" | "light">();
   const [mounted, setMounted] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [modalopened, setModalOpened] = useState(false);
 
   useEffect(() => {
-    const initialTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+    const initialTheme = document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
     setTheme(initialTheme);
     setMounted(true);
   }, []);
@@ -67,18 +74,37 @@ const Navbar = () => {
             />
           </Menu.Target>
 
-          <Menu.Dropdown style={{ zIndex: 20 }} className="dark:bg-[#131414] dark:border-black" classNames={{dropdown:'dark:!bg-gray-800'}}>
-            <Menu.Item classNames={{ item: "text-black dark:bg-gray-800 dark:text-white"  }}>
-              <Link href="/userprofile" className="block px-3 py-1">Profile Page</Link>
+          <Menu.Dropdown
+            style={{ zIndex: 20 }}
+            className="dark:bg-[#131414] dark:border-black"
+            classNames={{ dropdown: "dark:!bg-gray-800" }}
+          >
+            <Menu.Item
+              classNames={{
+                item: "text-black dark:bg-gray-800 dark:text-white",
+              }}
+            >
+              <Link href="/userprofile" className="block px-3 py-1">
+                Profile Page
+              </Link>
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => setModalOpened(true)}
+              classNames={{ item: "dark:bg-gray-800 dark:text-white" }}
+            >
+              Change Password
             </Menu.Item>
             <Menu.Item component={LogOut}>LogOut</Menu.Item>
           </Menu.Dropdown>
         </Menu>
+        <ChangePassword
+          modalopened={modalopened}
+          setModalOpened={setModalOpened}
+        />
       </div>
     </nav>
     </div>
   );
 };
-
 
 export default Navbar;

@@ -10,6 +10,7 @@ import QueryProvider from "../components/QueryProvider";
 import RouterTransition from "../components/RouterTransition";
 import "@mantine/nprogress/styles.css";
 import { cookies } from "next/headers";
+import { ModalsProvider } from "@mantine/modals";
 
 
 const geistSans = Geist({
@@ -41,9 +42,13 @@ export default async function DashBoardLayout({
         <QueryProvider>
 
           <MantineProvider defaultColorScheme="auto">
-            <RouterTransition />
-            <Notifications position="top-right" />
-            {children}
+
+            <ModalsProvider>
+              <RouterTransition />
+              <Notifications position="top-right" />
+              {children}
+            </ModalsProvider>
+
           </MantineProvider>
         </QueryProvider>
       </body>
