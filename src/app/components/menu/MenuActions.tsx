@@ -37,26 +37,26 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
         className="mr-6 cursor-pointer"
         title="Categories"
       >
-        <BiCategory size={22} className=" hover:text-gray-700 dark:hover:text-gray-400" />
+        <BiCategory
+          size={22}
+          className=" hover:text-gray-700 dark:hover:text-gray-400"
+        />
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
         className="mr-6 cursor-pointer"
         title="Edit Menu"
       >
-        <MdOutlineModeEdit
-          size={22}
-          className="hover:text-yellow-400  "
-        />
+        <MdOutlineModeEdit size={22} className="hover:text-yellow-400  " />
       </div>
-      <ShareMenu item={item}  />
+      <ShareMenu item={item} />
       <BaseConfirmation
         opened={opened}
         onClose={close}
         text="Are you sure you want to delete this item?"
       >
         <BaseButton
-          
+          intent={"error"}
           onClick={(event) => handleDelete(item.id, event)}
           classNames={{ root: "w-1/3 mt-6 " }}
         >

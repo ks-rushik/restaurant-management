@@ -30,6 +30,7 @@ const LogOut = () => {
             type="submit"
             classNames={{ root: "w-32 mt-4" }}
             onClick={() => handlelogout()}
+            intent={"warning"}
           >
             {loading ? <BaseButtonLoader /> : <p>Logout</p>}
           </BaseButton>

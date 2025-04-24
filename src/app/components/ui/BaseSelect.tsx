@@ -46,7 +46,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
                 label
               )
             : clsx(
-                "absolute left-3 transform -translate-y-1/2 z-10 bg-gray-100 px-1 dark:bg-white dark:rounded-full !font-bold   text-md",
+                "absolute left-3 transform -translate-y-1/2 z-10 bg-gray-100 px-1 dark:bg-transparent dark:text-white dark:rounded-full !font-bold   text-md",
                 label
               )
         } text-sm font-normal text-gray-600`,

@@ -23,7 +23,7 @@ const buttonVariants = cva(
         primary: "bg-primay-main hover:bg-primary-dark text-white",
         info: "bg-info-main hover:bg-info-dark text-white",
         sucess: "bg-sucess-main hover:bg-sucess-dark text-white",
-        error: "bg-error-main hover:bg-error-dark text-white",
+        error: "bg-error-dark hover:bg-error-main text-white",
         warning:
           "bg-warning-main hover:bg-warning-dark text-black hover:text-black",
         lightgray:
