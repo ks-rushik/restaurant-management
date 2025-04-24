@@ -24,7 +24,7 @@ import {
       classNames={{
         ...otherElement,
         input: clsx(
-          "bg-bgInput border border-none text-gray-900 font-bold text-sm focus-within:ring-2 focus-within:ring-Border  rounded-xl h-12 focus-within:border-Border focus:border-Border block w-full p-2.5 ",
+          "bg-gray-200 border border-none text-gray-900 font-bold text-sm focus-within:ring-2 focus-within:ring-Border  rounded-xl h-12 focus-within:border-Border focus:border-Border block w-full p-2.5 ",
           input
         ),
       }}
@@ -37,7 +37,7 @@ import {
       <Input
         classNames={{
           input: clsx(
-            "bg-bgInput border border-none dark:text-gray-800 text-gray-900 dark:bg-gray-200 font-bold text-sm  rounded-xl h-12 focus:ring-2 focus:ring-Border focus:border-none  block w-full p-2.5",
+            "bg-gray-200 border border-none dark:text-gray-800 text-gray-900 dark:bg-gray-200 font-bold text-sm  rounded-xl h-12 focus:ring-2 focus:ring-Border focus:border-none  block w-full p-2.5",
             {
               "mb-6  text-sm rounded-lg block w-full p-2.5 cursor-not-allowed":
                 disabled,

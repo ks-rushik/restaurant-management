@@ -51,6 +51,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const handleInActiveMenu = () => {
     notifications.show({
       message: `${item.menu_name} is not active to share this menu active the status`,
+      color:"indigo"
     });
   };
 

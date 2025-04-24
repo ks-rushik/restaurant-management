@@ -20,7 +20,7 @@ export type IItemdata = {
   name: string | null;
   description: string | null;
   category_id?: string | null;
-  price: string | null;
+  price: number | "";
   status: string | null;
   position?: number | null | undefined;
   category?: {
@@ -45,7 +45,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       errorMap: () => ({ message: "Status is required" }),
     }),
     description: z.string().min(8, "At least 9 characters long"),
-    price: z.string().min(1, "Price is required"),
+    price: z.string().min(1, "Price is required")
+    .transform((value) => (value === "" ? "" : Number(value)))
+    .refine((value) => !isNaN(Number(value)), {
+      message: "Price must be a number",
+    }),
   });
 
   type IAddItemData = z.infer<typeof AddItemschema>;
@@ -92,9 +96,23 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     }
   }, [selectedItem, reset]);
 
+  const MAX_FILE_SIZE = 1000000;
+  const ACCEPTED_IMAGE_TYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+  ];
+
   const onSubmit = async (data: IAddItemData) => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: "Image is required" });
+    } else if (file?.size! >= MAX_FILE_SIZE) {
+      return setError("root", { message: "Max size of image is 1MB" });
+    } else if (ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
+      return setError("root", {
+        message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
+      });
     }
 
     if (selectedItem) {
@@ -111,8 +129,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       price: "",
       status: undefined,
     });
-    setFile(null),
-    setPreview(null);
+    setFile(null), setPreview(null);
   };
 
   const handleClose = () => {
@@ -126,7 +143,6 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     });
   };
 
-
   return (
     <div>
       <BaseModal
@@ -135,7 +151,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         title={selectedItem ? "Edit Item" : "Add Item"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormField label="Item name" name="name" error={errors.name?.message} required={true}>
+          <FormField
+            label="Item name"
+            name="name"
+            error={errors.name?.message}
+            required={true}
+          >
             <BaseInput
               type="text"
               placeholder="Enter Item..."
@@ -154,7 +175,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             />
           </FormField>
 
-          <FormField label="Price" name="price" error={errors.price?.message} required>
+          <FormField
+            label="Price"
+            name="price"
+            error={errors.price?.message}
+            required
+          >
             <BaseInput
               type="text"
               placeholder="Enter price..."
@@ -172,7 +198,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  data={[`Available`,`Not Available`]}
+                  data={[`Available`, `Not Available`]}
                   placeholder="Enter status"
                   {...field}
                 />
@@ -201,7 +227,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               }}
               accept="image/png,image/jpeg"
             >
-              {(props) => <BaseButton {...props} classNames={{root:'text-white'}}>Upload Image</BaseButton>}
+              {(props) => (
+                <BaseButton {...props} classNames={{ root: "text-white" }}>
+                  Upload Image
+                </BaseButton>
+              )}
             </FileButton>
           </FormField>
           <BaseButton

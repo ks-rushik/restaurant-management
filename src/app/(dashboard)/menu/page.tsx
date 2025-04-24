@@ -8,11 +8,10 @@ import {
 } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
-const Menupage = () => {
- queryClient.prefetchQuery({
-    queryKey: ["menu"],
-    queryFn: fetchMenudata,
-    staleTime: Infinity
+const Menupage = async () => {
+  await queryClient.prefetchQuery({
+    queryKey: ["menu","" ,""],
+    queryFn: () => fetchMenudata("" ,""),
   });
 
   return (

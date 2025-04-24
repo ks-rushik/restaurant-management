@@ -11,14 +11,18 @@ import { updateMenu } from "../../actions/menu/updatemenu-action";
 import { notifications } from "@mantine/notifications";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
+import { useDebounce } from "use-debounce";
 
 const Menupage = () => {
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
   const [loading, setLoading] = useState("");
+  const [searchData, setSearchData] = useState("");
+  const [debouncedSearch] = useDebounce(searchData, 500);
+  const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
-  const data = useMenuItem();
+  const data = useMenuItem(debouncedSearch, filterStatus);
   useEffect(() => {
     if (data) {
       setMenuItem(data);
@@ -27,14 +31,17 @@ const Menupage = () => {
 
   const handleAddMenu = async (newItem: IModalData) => {
     const addedItem = await menu(newItem);
-    notifications.show({message:`${newItem.menu_name} added to menus`})
+    notifications.show({
+      message: `${newItem.menu_name} added to menus`,
+      color: "green",
+    });
     if (addedItem)
       setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
   };
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
     await updateMenu(updatedmenu);
-    notifications.show({ message: "Menu updated" });
+    notifications.show({ message: "Menu updated", color: "green" });
   };
 
   const handleDelete = async (
@@ -48,7 +55,7 @@ const Menupage = () => {
     setLoading("");
   };
 
-  const handleView = (menu_name: string ,id:string) => {
+  const handleView = (menu_name: string, id: string) => {
     router.push(`/menu/${id}`);
   };
 
@@ -79,6 +86,10 @@ const Menupage = () => {
         loading={loading}
         opened={opened}
         close={close}
+        searchData={searchData}
+        setSearchData={setSearchData}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
       />
     </div>
   );

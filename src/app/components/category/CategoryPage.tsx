@@ -11,6 +11,7 @@ import categories from "@/app/actions/category/addcategory-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 import deletecategory from "@/app/actions/category/deletecategory-action";
 import useCategoryItem from "@/app/hooks/useCategoryItem";
+import { useDebounce } from "use-debounce";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
@@ -18,12 +19,15 @@ function CategoryPage() {
     useState<ICategorydata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
+  const [searchData, setSearchData] = useState("");
+  const [debouncedSearch] = useDebounce(searchData, 500); 
+  const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
   const searchParam = useSearchParams();
   const menuname = searchParam.get("name")!;
   const menuId = pathname.split("/")[2];
-  const data = useCategoryItem(menuId);
+  const data = useCategoryItem(menuId, debouncedSearch, filterStatus);
 
   useEffect(() => {
     if (data) {
@@ -86,22 +90,23 @@ function CategoryPage() {
     });
   };
 
-  const handleView = ( category_id: string) => {
+  const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
-  
+
   const handleAddCategory = async (newItem: ICategorydata) => {
     const addedItem = await categories(newItem, menuId);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.category_name} added to category`,
+      color: "green",
     });
   };
 
   const handleEditCategory = async (updatedmenu: ICategorydata) => {
     await updateCategory(updatedmenu, menuId);
-    notifications.show({ message: "Category updated" });
+    notifications.show({ message: "Category updated", color: "green" });
   };
 
   const handleDelete = async (id: string) => {
@@ -109,7 +114,7 @@ function CategoryPage() {
     setLoading(id);
     await deletecategory(id);
     setLoading("");
-    notifications.show({ message: "Category deleted" });
+    notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {
     const modaldata: ICategorydata = {
@@ -141,6 +146,10 @@ function CategoryPage() {
         loading={loading}
         opened={opened}
         close={close}
+        searchData={searchData}
+        setSearchData={setSearchData}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
       />
     </div>
   );

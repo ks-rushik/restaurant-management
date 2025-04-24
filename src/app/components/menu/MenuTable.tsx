@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import BaseTable from "@/app/components/ui/BaseTable";
 import Loader from "@/app/components/ui/BaseLoader";
 import formatDate from "@/app/utils/formatdate";
@@ -19,64 +19,49 @@ type IMenuTableProps = {
   loading: string;
   opened: boolean;
   close: () => void;
+  searchData: string;
+  setSearchData: (val: string) => void;
+  filterStatus: string;
+  setFilterStatus: (val: string) => void;
 };
 
-const MenuTable: FC<IMenuTableProps> = (props) => {
-  const {
-    data,
-    handleView,
-    handleSelectMenu,
-    handleDelete,
-    loading,
-    opened,
-    close,
-  } = props;
-
-  const [searchData, setSearchData] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("All");
-
-  let filteredData = data
-    ? data.filter((item) =>
-        item?.menu_name?.toLowerCase().includes(searchData.toLowerCase())
-      )
-    : [];
-
-  if (filterStatus === "Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "available"
-    )!;
-  } else if (filterStatus === "Not Available") {
-    filteredData = filteredData?.filter(
-      (item) => item.status?.toLowerCase() === "not available"
-    )!;
-  }
-
+const MenuTable: FC<IMenuTableProps> = ({
+  data,
+  handleView,
+  handleSelectMenu,
+  handleDelete,
+  loading,
+  opened,
+  close,
+  searchData,
+  setSearchData,
+  filterStatus,
+  setFilterStatus,
+}) => {
+   
   return !data ? (
     <Loader />
-  ) : data.length === 0 ? (
-    <p className="text-center text-gray-500 mt-4">
-      No Menu available. Click "Add New Menu" to create one.
-    </p>
   ) : (
     <>
       <SearchFilter>
-          <SearchInput
-            value={searchData}
-            onChange={(e) => setSearchData(e.target.value)}
-            placeholder="Search menu..."
-          />
-          <FilteredData
-            value={filterStatus}
-            onChange={(value) => setFilterStatus(value || "All")}
-          />
+        <SearchInput
+          value={searchData}
+          onChange={(e) => setSearchData(e.target.value)}
+          placeholder="Search menu..."
+        />
+        <FilteredData
+          value={filterStatus}
+          onChange={(value) => setFilterStatus(value || "")}
+        />
       </SearchFilter>
-      {filteredData.length === 0 ? (
+
+      {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">
-          No matching menus found.
+          No menus found.
         </p>
       ) : (
         <BaseTable
-          data={filteredData}
+          data={data}
           getKey={(item) => item.id}
           columns={[
             {

@@ -1,5 +1,5 @@
-import {  Collapse, Divider} from "@mantine/core";
-import React, { FC, useState } from "react";
+import { Collapse, Divider } from "@mantine/core";
+import React, { FC, useEffect, useState } from "react";
 import { IItemdata } from "../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import useShortUrl from "../../hooks/useUrl";
@@ -7,6 +7,7 @@ import ThemeButton from "../ui/ThemeButton";
 import { useTheme } from "@/app/hooks/useTheme";
 import CustomerSideCard from "./CustomerSideCard";
 import CustomerSideLocation from "./CustomerSideLocation";
+import { changeTheme } from "@/app/helper/changeTheme";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -15,15 +16,33 @@ type ICustomerSideBodyProps = {
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   const { categories, id } = props;
+  const [theme, setTheme] = useState<"dark" | "light">();
+  const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+      const initialTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+      setTheme(initialTheme);
+      setMounted(true);
+    }, []);
+  
+    const handleThemeChange = async () => {
+      await changeTheme();
+      setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    };
+  
+    useEffect(() => {
+      if (theme) {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+      }
+    }, [theme]);
 
   const urldata = useShortUrl(id);
-  const { theme, toggleTheme } = useTheme();
   const urlid = urldata?.[0].menu_id;
 
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
-  
+
   const contact = categories?.[0].menus.restaurant_id.phone;
   const location = categories?.[0].menus.restaurant_id.address;
   const email = categories?.[0].menus.restaurant_id.email;
@@ -44,8 +63,10 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
     <div className="space-y-8">
       <Divider size="sm" />
       <p className=" text-4xl text-center tracking-widest font-thin">MENU</p>
-      <Divider size="sm" className="mb-4" />
-      <ThemeButton theme={theme} toggleTheme={toggleTheme} />
+      <Divider size="sm" className="mb-4" />{" "}
+      {mounted && theme && (
+        <ThemeButton theme={theme} onChange={handleThemeChange} />
+      )}
       {categories?.map(
         (category) =>
           category.status === "Available" && (
@@ -79,7 +100,11 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
             </div>
           )
       )}
-      <CustomerSideLocation location={location} email={email} contact={contact}/>
+      <CustomerSideLocation
+        location={location}
+        email={email}
+        contact={contact}
+      />
     </div>
   );
 };
