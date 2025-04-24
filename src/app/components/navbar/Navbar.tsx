@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Avatar, Menu, Button } from "@mantine/core";
+import { Avatar, Menu } from "@mantine/core";
 import Image from "next/image";
 import logo2 from "../../images/logo2.png";
 import LogOut from "../auth/Logout";

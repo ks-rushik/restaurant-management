@@ -12,7 +12,7 @@ type IBaseConfirmationProps = ModalProps & {
 };
 const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
   const { text, children, classNames } = props;
-  const { title, content, root, header, ...otherElement } = classNames || {};
+  const { title, content, header, ...otherElement } = classNames || {};
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -38,7 +38,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
         </div>
       </Modal>
       <div onClick={open} title="Delete">
-        <RiDeleteBinLine size={22} className="hover:text-red-500 " />
+        <RiDeleteBinLine size={22} className="hover:text-red-500 cursor-pointer " />
       </div>
     </>
   );

@@ -9,19 +9,24 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import React from "react";
+import { notFound } from "next/navigation";
 
 const queryClient = new QueryClient();
 
 const page = async ({ params }: { params: Promise<{ m: string }> }) => {
   const { m } = await params;
-  await queryClient.prefetchQuery({
+  const data = await queryClient.fetchQuery({
     queryKey: ["url"],
     queryFn: () => getMenuData(m),
   });
-  const data: { menu_id: any }[] | undefined = queryClient.getQueryData([
-    "url",
-  ]);
-  const menuId = data?.[0].menu_id;
+  
+  console.log(data);
+  
+  const menuId = data?.[0]?.menu_id;
+  
+  if(!menuId || !params){
+    return notFound()
+  }
 
   await queryClient.prefetchQuery({
     queryKey: ["CategoryItems"],

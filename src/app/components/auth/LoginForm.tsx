@@ -11,7 +11,7 @@ import { login } from "../../actions/auth/login-action";
 import { useState } from "react";
 
 const loginSchema = z.object({
-  email: z.string().min(1, "Email is Required").email("Invalid email format"),
+  email: z.string().trim().min(1, "Email is Required").email("Invalid email format"),
   password: z.string().min(1, "Password required"),
 });
 

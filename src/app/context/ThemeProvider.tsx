@@ -17,8 +17,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
     document.documentElement.classList.toggle('dark');
-    console.log("Theme changed to:", theme);  
   };
+  
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

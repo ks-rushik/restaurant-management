@@ -20,16 +20,19 @@ const page = async ({
   const { categoryId, menuId } = await params;
 
   await queryClient.prefetchQuery({
-    queryKey: ["Items"],
+    queryKey: ["Items" ,categoryId],
     queryFn: () => fetchItemdata(categoryId),
+    staleTime: Infinity
   });
   await queryClient.prefetchQuery({
     queryKey: ["CategoryItems"],
     queryFn: () => fetchCategoryItemData(menuId),
+    staleTime: Infinity
   });
   await queryClient.prefetchQuery({
-    queryKey: ["Itemdata"],
+    queryKey: ["Itemdata" ,categoryId],
     queryFn: () => getItemData(categoryId),
+    staleTime: Infinity
   });
 
   return (

@@ -3,13 +3,16 @@ import useCategoriesItems from "../../hooks/useCategoriesItems";
 import CustomerSideBody from "./CustomerSideBody";
 import useShortUrl from "../../hooks/useUrl";
 import CustomerSideHeader from "./CustomerSideHeader";
+import { notFound } from "next/navigation";
 
 const CustomerSide = ({ id }: { id: string }) => {
   const menuid = useShortUrl(id);
-  const dataId = menuid?.[0].menu_id;
+  if (id?.length !== 6) {
+    return notFound();
+  }
+  const dataId = menuid?.[0]?.menu_id;
+  const { categories } = useCategoriesItems(dataId) || {};
 
-  const { categories  } = useCategoriesItems(dataId) || {};
-  
   const profilelogo = categories?.[0]?.menus.restaurant_id.logo;
   const profileName = categories?.[0]?.menus.restaurant_id.name;
 

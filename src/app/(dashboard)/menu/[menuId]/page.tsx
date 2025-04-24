@@ -9,18 +9,20 @@ import React from "react";
 import fetchMenudata from "@/app/actions/menu/menu-fetch";
 import Navbar from "@/app/components/navbar/Navbar";
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
 const page = async ({ params }: { params: Promise<{ menuId: string }> }) => {
   const { menuId } = await params;
 
   await queryClient.prefetchQuery({
-    queryKey: ["category"],
+    queryKey: ["category" , menuId],
     queryFn: () => fetchCategorydata(menuId),
+    staleTime: Infinity
   });
   await queryClient.prefetchQuery({
     queryKey: ["menu"],
     queryFn: () => fetchMenudata(),
+    staleTime: Infinity
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

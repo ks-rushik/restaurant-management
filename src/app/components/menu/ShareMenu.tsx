@@ -13,7 +13,7 @@ import shortLink from "@/app/actions/customer/addshortlink-action";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
 import generateQRCode from "@/app/helper/qrcodegenrating";
 import { notifications } from "@mantine/notifications";
-import fetchCategorydata from "@/app/actions/category/category-fetch";
+import getCategorydata from "@/app/helper/getCategorydata";
 
 type IShareMenuProps = {
   item: IMenudata;
@@ -25,18 +25,25 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const { item } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
+
   const handleShareMenu = async () => {
-    const categorydata = await fetchCategorydata(item.id);
+    const categorydata = await getCategorydata(item.id)
     if (categorydata.length === 0) {
       notifications.show({
         message: "To preview menu add atleast one category",
       });
-    } else {
-      await shortLink(item.id);
-      const data = await fetchshortUrl(item.id);
-      const shortcode = data.short_url;
+    } else   
+    {
+      const fetchdata = await Promise.all([
+        shortLink(item.id),
+        fetchshortUrl(item.id),
+        generateQRCode(shortCode!),
+      ]);
+      fetchdata?.[0];
+      const shortUrlData = fetchdata?.[1];
+      const shortcode = shortUrlData.short_url;
       setShortCode(shortcode);
-      const qrcode = await generateQRCode(shortCode!);
+      const qrcode = fetchdata?.[2];
       setQrcode(qrcode);
       setShareModalOpen(true);
     }
@@ -55,7 +62,6 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         onClick={() => {
           if (item.status !== "Not Available") {
             handleShareMenu();
-            console.log("sfs");
           } else {
             handleInActiveMenu();
           }

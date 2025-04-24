@@ -12,7 +12,7 @@ import { notifications } from "@mantine/notifications";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
 
-const menupage = () => {
+const Menupage = () => {
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
@@ -84,4 +84,4 @@ const menupage = () => {
   );
 };
 
-export default menupage;
+export default Menupage;

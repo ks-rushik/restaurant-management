@@ -5,7 +5,7 @@ const useMenuItem = () => {
   const { data } = useQuery({
     queryKey: ["menu"],
     queryFn: fetchMenudata,
-    staleTime:1000 * 60
+    staleTime: Infinity
   });
 
   return data;
