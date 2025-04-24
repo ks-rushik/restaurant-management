@@ -60,8 +60,9 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
     }
     if (message) {
       setModalOpened(false);
+      reset({ oldpassword: "", password: "", confirmpassword: "" });
     }
-    reset({oldpassword:"" ,password:'' ,confirmpassword:''})
+
     {
       message &&
         modals.openConfirmModal({
@@ -78,58 +79,56 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
         });
     }
   };
+  const handleClose = () => {
+    setModalOpened(false);
+    reset({ oldpassword: "", password: "", confirmpassword: "" });
+  };
 
   return (
     <BaseModal
       opened={modalopened}
       size={"md"}
-      onClose={() => setModalOpened(false)}
+      onClose={handleClose}
       title="Change Password"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 pt-4 max-w-sm"
+        
       >
-        <FormField
-          label="Old Password"
-          name="oldpassword"
-          error={errors.password?.message}
-          required={true}
-          size="md"
-        >
+        <FormField name="oldpassword" error={errors.password?.message}>
           <BaseTextField
             {...register("oldpassword")}
+            label="Old Password"
             type="password"
             name="oldpassword"
-            placeholder="Enter your old password"
+            forceLabelOnTop
           />
         </FormField>
-        <FormField
-          label="Password"
-          name="password"
-          error={errors.password?.message}
-          required={true}
-        >
+        <FormField name="password" error={errors.password?.message}>
           <BaseTextField
             {...register("password")}
+            label="Password"
             type="password"
-            placeholder="Enter your password..."
             name="password"
+            forceLabelOnTop
           />
         </FormField>
         <FormField
-          label="Confirm Password"
           name="confirmpassword"
           error={errors.confirmpassword?.message}
-          required={true}
         >
           <BaseTextField
             type="password"
+            label="Confirm Password"
+            forceLabelOnTop
             {...register("confirmpassword")}
-            placeholder="Enter your password..."
           />
         </FormField>
-        <BaseButton type="submit" loading={isSubmitting}>
+        <BaseButton
+          type="submit"
+          loading={isSubmitting}
+          classNames={{ root: "w-full h-12 mt-4" }}
+        >
           {isSubmitting ? "Updating..." : "Change Password"}
         </BaseButton>
       </form>
