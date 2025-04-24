@@ -11,6 +11,7 @@ import { changeTheme } from "@/app/helper/changeTheme";
 import BaseModal from "../ui/BaseModal";
 import BaseTextField from "../ui/BaseInput";
 import BaseButton from "../ui/BaseButton";
+import ChangePassword from "../auth/ChangePassword";
 
 const Navbar = () => {
   const [theme, setTheme] = useState<"dark" | "light">();
@@ -36,16 +37,6 @@ const Navbar = () => {
       document.documentElement.classList.toggle("dark", theme === "dark");
     }
   }, [theme]);
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-    setLoading(false);
-  };
 
   return (
     <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
@@ -104,34 +95,10 @@ const Navbar = () => {
             <Menu.Item component={LogOut}>LogOut</Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        <BaseModal
-          opened={modalopened}
-          size={"md"}
-          onClose={() => setModalOpened(false)}
-          title="Change Password"
-        >
-          <form onSubmit={handleSubmit} className="space-y-4 pt-4 max-w-sm">
-            <BaseTextField
-              type="password"
-              value={password}
-              label="New Password"
-              labelvalue
-              onChange={(e) =>
-                setPassword((e.target as HTMLInputElement).value)
-              }
-              required
-            
-            />
-            <BaseButton
-              type="submit"
-              disabled={loading}
-              className="bg-blue-500 text-white px-4 py-1 rounded"
-            >
-              {loading ? "Updating..." : "Change Password"}
-            </BaseButton>
-            {message && <p className="text-sm mt-2">{message}</p>}
-          </form>
-        </BaseModal>
+        <ChangePassword
+          modalopened={modalopened}
+          setModalOpened={setModalOpened}
+        />
       </div>
     </nav>
   );
