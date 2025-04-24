@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUp } from "../../actions/auth/signup-action";
 import { notifications } from "@mantine/notifications";
+import { redirect } from "next/navigation";
 
 const SignUpSchema = z
   .object({
@@ -50,6 +51,7 @@ const SignUpForm = () => {
     }
     {
       message && notifications.show({ message: message, color: "green" });
+      redirect('/auth/login')
     }
   };
   return (
