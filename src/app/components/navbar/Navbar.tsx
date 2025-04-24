@@ -41,6 +41,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
       <div className="flex items-center">
+
         <Image
           src={logo3}
           width={100}
@@ -48,6 +49,7 @@ const Navbar = () => {
           alt="Website Logo"
           className="dark:bg-black"
         />
+
       </div>
 
       <div className="flex flex-row items-center gap-4">
@@ -101,6 +103,7 @@ const Navbar = () => {
         />
       </div>
     </nav>
+    </div>
   );
 };
 
