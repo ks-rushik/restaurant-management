@@ -8,10 +8,8 @@ const CustomerSide = ({ id }: { id: string }) => {
   const menuid = useShortUrl(id);
   const dataId = menuid?.[0].menu_id;
 
-  const { categories ,userEmail } = useCategoriesItems(dataId) || {};
-  console.log(userEmail);
+  const { categories  } = useCategoriesItems(dataId) || {};
   
-
   const profilelogo = categories?.[0]?.menus.restaurant_id.logo;
   const profileName = categories?.[0]?.menus.restaurant_id.name;
 

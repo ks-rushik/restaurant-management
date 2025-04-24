@@ -12,7 +12,7 @@ type IBaseConfirmationProps = ModalProps & {
 };
 const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
   const { text, children, classNames } = props;
-  const { title, content, ...otherElement } = classNames || {};
+  const { title, content, root, header, ...otherElement } = classNames || {};
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -23,8 +23,12 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
         title="Confirm action"
         size={"md"}
         classNames={{
-          content: clsx("rounded-2xl  ", content),
-          title: clsx("text-black text-xl font-bold", title),
+          header: clsx("bg-white dark:bg-gray-700 dark:text-white ", header),
+          content: clsx(
+            "rounded-2xl dark:bg-gray-700 dark:text-white ",
+            content
+          ),
+          title: clsx("text-black text-xl font-bold dark:text-white ", title),
           ...otherElement,
         }}
       >
@@ -34,7 +38,7 @@ const BaseConfirmation: FC<IBaseConfirmationProps> = (props) => {
         </div>
       </Modal>
       <div onClick={open} title="Delete">
-        <RiDeleteBinLine size={22} className="hover:text-red-500 "/>
+        <RiDeleteBinLine size={22} className="hover:text-red-500 " />
       </div>
     </>
   );
