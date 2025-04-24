@@ -6,10 +6,12 @@ import "@mantine/notifications/styles.css";
 import { Notifications } from "@mantine/notifications";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
+
 import RouterTransition from "../components/RouterTransition";
 import { ThemeProvider } from "../context/ThemeProvider";
 import "@mantine/nprogress/styles.css";
 import { cookies } from "next/headers";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,10 +40,10 @@ export default async function DashBoardLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-backgroundColor `}
       >
         <QueryProvider>
+
           <MantineProvider defaultColorScheme="auto">
             <RouterTransition />
             <Notifications position="top-right" />
-
             {children}
           </MantineProvider>
         </QueryProvider>

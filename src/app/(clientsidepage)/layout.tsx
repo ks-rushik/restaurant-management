@@ -6,6 +6,10 @@ import { MantineProvider } from "@mantine/core";
 import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
 
+import { NavigationProgress } from "@mantine/nprogress";
+import RouterTransition from "../components/RouterTransition";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
