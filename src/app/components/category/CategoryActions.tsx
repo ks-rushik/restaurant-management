@@ -53,7 +53,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         text="Are you sure you want to delete this item?"
       >
         <BaseButton
-          intent="danger"
+         
           onClick={(event) => handleDelete(item.id!, event)}
           classNames={{ root: "w-1/3 mt-6" }}
         >

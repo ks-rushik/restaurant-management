@@ -9,7 +9,8 @@ type ThemeButtonProps = {
 
 const ThemeButton: React.FC<ThemeButtonProps> = ({ theme, onChange }) => {
   return (
-    <label className="relative w-6 h-6  flex items-center justify-center rounded-full border-2 border-gray-800 shadow-[4px_4px_0px_0px_#333] bg-white active:shadow-none active:translate-x-[3px] active:translate-y-[3px]">
+    <div className="sticky top-0 z-10">
+    <label className="relative w-6 h-6 flex items-center justify-center rounded-full border-2 border-gray-800 shadow-[4px_4px_0px_0px_#333] bg-white active:shadow-none active:translate-x-[3px] active:translate-y-[3px]">
       <input
         type="checkbox"
         className="absolute w-full h-full opacity-0 cursor-pointer z-10 "
@@ -48,6 +49,7 @@ const ThemeButton: React.FC<ThemeButtonProps> = ({ theme, onChange }) => {
         <line y2="4.22" y1="5.64" x2="19.78" x1="18.36" />
       </svg>
     </label>
+    </div>
   );
 };
 

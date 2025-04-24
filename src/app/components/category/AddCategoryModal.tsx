@@ -98,7 +98,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             <BaseInput
               type="text"
               label="Category name"
-              labelvalue
+              forceLabelOnTop
               placeholder="Enter category"
               {...register("category_name")}
             />

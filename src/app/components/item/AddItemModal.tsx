@@ -154,7 +154,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             <BaseInput
               type="text"
               label="Item"
-              labelvalue
+              forceLabelOnTop
               placeholder="Enter Item..."
               {...register("name")}
             />
@@ -172,7 +172,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             <BaseInput
               type="text"
               label="Price"
-              labelvalue
+              forceLabelOnTop
               placeholder="Enter price..."
               {...register("price")}
             ></BaseInput>
