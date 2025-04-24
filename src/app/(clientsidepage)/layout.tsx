@@ -7,6 +7,10 @@ import "./../globals.css";
 import QueryProvider from "../components/QueryProvider";
 import { ThemeProvider } from "../context/ThemeProvider";
 
+import { NavigationProgress } from "@mantine/nprogress";
+import RouterTransition from "../components/RouterTransition";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,6 +40,7 @@ export default function ClientPageLayout({
           <MantineProvider>
             <ThemeProvider>{children}</ThemeProvider>
           </MantineProvider>
+
         </QueryProvider>
       </body>
     </html>

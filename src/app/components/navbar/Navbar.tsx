@@ -18,6 +18,7 @@ const Navbar = () => {
     <nav className={`bg-white dark:bg-neutral-950 shadow-lg py-2 px-4 flex justify-between items-center`}>
       <div className="flex items-center">
         <Image src={logo2} width={100} height={100} alt="Website Logo" className="dark:bg-black" />
+
       </div>
       <div className="flex flex-row items-center">
       <ThemeButton theme={theme} toggleTheme={toggleTheme} />
@@ -50,6 +51,7 @@ const Navbar = () => {
       </Menu>
       </div>
     </nav>
+    </div>
   );
 };
 
