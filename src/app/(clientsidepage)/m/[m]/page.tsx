@@ -19,9 +19,7 @@ const page = async ({ params }: { params: Promise<{ m: string }> }) => {
     queryKey: ["url"],
     queryFn: () => getMenuData(m),
   });
-  
-  console.log(data);
-  
+    
   const menuId = data?.[0]?.menu_id;
   
   if(!menuId || !params){
