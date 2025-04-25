@@ -5,11 +5,11 @@ import { IItemdata } from "../item/AddItemModal";
 
 type ICustomerSideCard = {
   item: IItemdata;
-  currency: string
+  currency: string;
 };
 
 const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
-  const { item , currency } = props;
+  const { item, currency } = props;
   const [expandedDescriptions, setExpandedDescriptions] = useState<
     Record<string, boolean>
   >({});
@@ -17,11 +17,10 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
   useEffect(() => {
     setMounted(true);
   }, []);
- 
 
-  // expand description of item 
+  // expand description of item
   const toggleDescription = (itemId: string, event: React.MouseEvent) => {
-    event.stopPropagation();  // on click description stop to collapsive
+    event.stopPropagation(); // on click description stop to collapsive
     setExpandedDescriptions((prev) => ({
       ...prev,
       [itemId]: !prev[itemId],
@@ -37,9 +36,8 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
               ? item.image
               : URL.createObjectURL(item.image as Blob)
           }
-          width={20}
-          height={20}
-          layout="responsive"
+          width={800}
+          height={600}
           alt="Website Logo"
           className="w-full max-h-44 min-h-56 object-cover transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-black/30"
           priority
