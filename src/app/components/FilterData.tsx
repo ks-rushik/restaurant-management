@@ -11,8 +11,7 @@ const icon = <LuFilter size={20} />;
 
 const FilteredData: FC<ISearchInputProps> = (props) => {
   const { value, onChange ,defaultValue } = props;
-  console.log(defaultValue , 'defaultvalue');
-  
+
   return (
     <BaseSelect
       leftSectionPointerEvents="none"

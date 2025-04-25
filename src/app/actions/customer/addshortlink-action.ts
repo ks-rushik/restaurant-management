@@ -17,14 +17,11 @@ const shortLink = async(id: string) => {
   if (existingId === id) {
     return;
   } else {
-    const { data: InsertData, error } = await supabase
+    const { data: InsertData } = await supabase
       .from("url")
       .insert([{ menu_id: id, short_url: shortCode }])
       .select();
 
-    if (error) {
-      console.log(error, "inserting error");
-    }
 
     return InsertData?.[0];
   }

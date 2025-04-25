@@ -44,7 +44,6 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     filterStatus,
     setFilterStatus,
   } = props;
-  console.log(data,'data');
   
 
   return !data ? (
