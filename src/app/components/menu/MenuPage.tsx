@@ -51,7 +51,18 @@ const Menupage = () => {
     event.stopPropagation();
     setMenuItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletemenu(id);
+    const result = await deletemenu(id);
+    if (result?.error) {
+      notifications.show({
+        message: result.error.message || "Failed to delete menu",
+        color: "red",
+      });
+    } else {
+      notifications.show({
+        message: "Menu deleted",
+        color: "green",
+      });
+    }
     setLoading("");
   };
 

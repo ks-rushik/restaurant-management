@@ -18,12 +18,12 @@ const ItemPage = () => {
   const categoryId = pathname.split("/")[4];
   const [Item, setItem] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
-  const [debouncedSearch] = useDebounce(searchData, 500); 
+  const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
-  const data = useItem(categoryId ,debouncedSearch ,filterStatus);
+  const data = useItem(categoryId, debouncedSearch, filterStatus);
 
   useEffect(() => {
     if (data) {
@@ -98,9 +98,22 @@ const ItemPage = () => {
   const handleDelete = async (id: string) => {
     setItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deleteitem(id);
+
+    const result = await deleteitem(id);
+
+    if (result?.error) {
+      notifications.show({
+        message: result.error.message || "Failed to delete item",
+        color: "red",
+      });
+    } else {
+      notifications.show({
+        message: "Item deleted",
+        color: "green",
+      });
+    }
+
     setLoading("");
-    notifications.show({ message: "Category deleted", color: "green" });
   };
 
   const handleEditItem = async (updateditem: IItemdata, file?: File) => {
