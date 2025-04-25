@@ -19,7 +19,6 @@ export async function login(formData: ILoginFormData) {
     return error
   }
 
-
   revalidatePath('/', 'layout')
   redirect('/menu')
 }

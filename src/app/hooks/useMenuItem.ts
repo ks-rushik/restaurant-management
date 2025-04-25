@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchMenudata from "../actions/menu/menu-fetch";
 
-const useMenuItem = (search: string = "", status: string = "Available") => {
+const useMenuItem = (search: string = "", status: string = "All") => {
   const { data } = useQuery({
     queryKey: ["menu",search,status],
     queryFn: () => fetchMenudata(search, status),
