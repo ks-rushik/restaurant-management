@@ -1,6 +1,11 @@
+
 module.exports = {
   images: {
-    domains: ["npgwuhpfhhgitqrtgeca.supabase.co"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "npgwuhpfhhgitqrtgeca.supabase.co",
+      },
+    ],
   },
 };
-
