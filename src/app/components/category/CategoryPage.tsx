@@ -94,8 +94,10 @@ function CategoryPage() {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
 
-  const handleAddCategory = async (newItem: ICategorydata) => {
-    const addedItem = await categories(newItem, menuId);
+  const handleAddCategory = async (newItem: ICategorydata , file?: File) => {
+    console.log(file , 'pagefile');
+    
+    const addedItem = await categories(newItem, menuId ,file);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
@@ -104,8 +106,8 @@ function CategoryPage() {
     });
   };
 
-  const handleEditCategory = async (updatedmenu: ICategorydata) => {
-    await updateCategory(updatedmenu, menuId);
+  const handleEditCategory = async (updatedmenu: ICategorydata ,file?: File) => {
+    await updateCategory(updatedmenu, menuId ,file);
     notifications.show({ message: "Category updated", color: "green" });
   };
 
@@ -121,6 +123,7 @@ function CategoryPage() {
       id: item.id || "",
       category_name: item.category_name || "",
       status: item.status || "",
+      image: item.image ?? undefined
     };
     setSelectedCategory(modaldata);
   };

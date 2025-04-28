@@ -5,9 +5,11 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Avatar, FileButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { IoFastFoodOutline } from "react-icons/io5";
 import { z } from "zod";
 
 export type ICategorydata = {
@@ -18,11 +20,12 @@ export type ICategorydata = {
   menu_id?: string | null;
   status: string | null;
   position?: number | null | undefined;
+  image?: File | undefined;
 };
 
 export type ICategoryModalProps = {
-  onAddCategory: (data: ICategorydata) => Promise<void>;
-  onEditCategory: (updatedmenu: ICategorydata) => Promise<void>;
+  onAddCategory: (data: ICategorydata, file?: File) => Promise<void>;
+  onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
 };
@@ -47,6 +50,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -54,8 +58,19 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     defaultValues: { category_name: "", status: undefined },
   });
 
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFileChange = (newFile: File | null) => {
+    setFile(newFile);
+    if (newFile) {
+      setPreview(URL.createObjectURL(newFile));
+    }
+  };
+
   useEffect(() => {
     if (selectedCategory) {
+      setPreview(selectedCategory.image as unknown as string);
       reset({
         category_name: selectedCategory.category_name!,
         status: selectedCategory.status as "Available" | "Not Available",
@@ -69,13 +84,14 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   const onSubmit = async (data: IAddCategoryData) => {
     if (selectedCategory) {
       const updatedItem = { ...selectedCategory, ...data };
-      await onEditCategory(updatedItem);
+      await onEditCategory(updatedItem, file ?? undefined);
     } else {
-      await onAddCategory(data);
+      await onAddCategory(data, file ?? undefined);
     }
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
+    setFile(null), setPreview(null);
   };
 
   const handleClose = () => {
@@ -118,6 +134,35 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               )}
             />
           </FormField>
+          <FormField
+            label="Upload image"
+            name="image"
+            required
+            error={errors.root?.message}
+          >
+            <Avatar
+              src={preview}
+              alt="Uploaded Logo"
+              radius={"sm"}
+              size={"xl"}
+              className="mb-4 w-32 h-32 dark:bg-white"
+            >
+              <IoFastFoodOutline className="dark:text-black" />
+            </Avatar>
+
+            <FileButton
+              onChange={(file) => {
+                handleFileChange(file);
+              }}
+              accept="image/png,image/jpeg"
+            >
+              {(props) => (
+                <BaseButton {...props} classNames={{ root: "text-white" }}>
+                  Upload Image
+                </BaseButton>
+              )}
+            </FileButton>
+          </FormField>
           <BaseButton
             type="submit"
             classNames={{
@@ -132,6 +177,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseButton
         onClick={() => {
           setSelectedCategory(null);
+          setFile(null), setPreview(null);
           reset({ category_name: "", status: undefined });
           open();
         }}

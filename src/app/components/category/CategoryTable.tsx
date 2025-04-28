@@ -8,6 +8,7 @@ import formatDate from "@/app/utils/formatdate";
 import SearchInput from "../SearchInput";
 import SearchFilter from "../SearchFilter";
 import FilteredData from "../FilterData";
+import Image from "next/image";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -44,8 +45,6 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     filterStatus,
     setFilterStatus,
   } = props;
-  console.log(data,'data');
-  
 
   return !data ? (
     <Loader />
@@ -56,7 +55,6 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           placeholder="Search Category"
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-         
         />
         <FilteredData
           value={filterStatus}
@@ -65,9 +63,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
       </SearchFilter>
 
       {data.length === 0 ? (
-        <p className="text-center text-gray-500 mt-4">
-          No Category found.
-        </p>
+        <p className="text-center text-gray-500 mt-4">No Category found.</p>
       ) : (
         <BaseTable
           data={data}
@@ -102,6 +98,19 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                   </div>
                 );
               },
+            },
+            {
+              label: "IMAGE",
+              render: (item) =>
+                item.image && (
+                  <Image
+                    src={item.image as unknown as string}
+                    width={70}
+                    height={70}
+                    alt={item.category_name || "Item image"}
+                    className="w-16 h-16 object-cover rounded-md"
+                  />
+                ),
             },
             {
               label: "CATEGORY NAME",
