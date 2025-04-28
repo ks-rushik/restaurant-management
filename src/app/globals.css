@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.hidden-for-screen {
+  display: none;
+}
+/* This class will force a page break before the element */
+.page-break {
+  page-break-before: always;
+}
+
+/* This class will prevent a page break inside the element */
+.no-page-break {
+  page-break-inside: avoid;
+}
+
 :root {
   --background-light: #ffffff;
   --background-dark: #131414;
@@ -125,4 +138,9 @@ body {
 .dark body {
   background-color: var(--background-dark);
   color: white;
+}
+@media print {
+  .hide-in-print {
+    display: none !important;
+  }
 }
