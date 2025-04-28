@@ -115,7 +115,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           MENU
         </p>
         <Divider size="sm" className="mb-4" />
-
         {mounted && theme && (
           <ThemeButton theme={theme} onChange={handleThemeChange} />
         )}
