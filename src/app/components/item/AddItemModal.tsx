@@ -106,13 +106,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const onSubmit = async (data: IAddItemData) => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: "Image is required" });
-    } else if (file?.size! >= MAX_FILE_SIZE) {
-      return setError("root", { message: "Max size of image is 1MB" });
-    } else if (!ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
-      return setError("root", {
-        message: "Only .jpg, .jpeg, .png and .webp formats are supported.",
-      });
-    }
+    } 
 
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
