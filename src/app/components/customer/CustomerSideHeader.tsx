@@ -1,6 +1,6 @@
 "use client";
 import React, { FC } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import LeftSideImage from "@/app/images/LeftSideImage";
 import RightSideImage from "@/app/images/RightSideImage";
 

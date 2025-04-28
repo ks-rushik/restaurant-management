@@ -2,7 +2,7 @@
 import BaseButton from "@/app/components/ui/BaseButton";
 import { CopyButton, TextInput } from "@mantine/core";
 import { FC, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
