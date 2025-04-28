@@ -25,7 +25,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     categories ? categories.map((c) => c.id) : []
   );
 
-  const pdfRef = useRef<HTMLDivElement>(null); // Ref for Pdf component
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   const logo = categories?.[0]?.menus?.restaurant_id?.logo;
   const name = categories?.[0]?.menus?.restaurant_id?.name;
@@ -82,26 +82,24 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
   const noMenusFound = filteredCategories?.length === 0;
 
-  const handleDownloadPDF = async () => {
-    if (pdfRef.current) {
-      const html2pdf = (await import("html2pdf.js")).default;
+  const handlePrint = () => {
+    const pdfSection = document.getElementById("pdf-section");
+    const mainContent = document.getElementById("main-content");
 
-      html2pdf()
-        .from(pdfRef.current)
-        .set({
-          margin: 0.5,
-          filename: "Menu.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        })
-        .save();
+    if (pdfSection && mainContent) {
+      pdfSection.style.display = "block";
+      mainContent.style.display = "none";
+
+      window.print();
+
+      pdfSection.style.display = "none";
+      mainContent.style.display = "block";
     }
   };
 
   return (
     <div className="space-y-8">
-      <div className="hidden">
+      <div className="hidden" id="pdf-section">
         <Pdf
           ref={pdfRef}
           filteredCategories={filteredCategories}
@@ -111,79 +109,84 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           openCategories={[]}
         />
       </div>
+      <div id="main-content">
+        <Divider size="sm" />
+        <p className="text-4xl text-center tracking-widest font-thin my-4">
+          MENU
+        </p>
+        <Divider size="sm" className="mb-4" />
 
-      <Divider size="sm" />
-      <p className="text-4xl text-center tracking-widest font-thin">MENU</p>
-      <Divider size="sm" className="mb-4" />
+        {mounted && theme && (
+          <ThemeButton theme={theme} onChange={handleThemeChange} />
+        )}
 
-      {mounted && theme && (
-        <ThemeButton theme={theme} onChange={handleThemeChange} />
-      )}
+        <div className="flex justify-end gap-3 items-center my-6">
+          <BaseTextField
+            value={searchValue}
+            placeholder="Search menu..."
+            onChange={(e) =>
+              setSearchValue((e.target as HTMLInputElement).value)
+            }
+            leftSection={
+              <IoSearch
+                size={20}
+                className="hover:text-gray-700 dark:hover:text-gray-400"
+              />
+            }
+          />
 
-      <div className="flex justify-end gap-3 items-center">
-        <BaseTextField
-          value={searchValue}
-          placeholder="Search menu..."
-          onChange={(e) => setSearchValue((e.target as HTMLInputElement).value)}
-          leftSection={
-            <IoSearch
-              size={20}
-              className="hover:text-gray-700 dark:hover:text-gray-400"
-            />
-          }
-        />
-
-        <BaseButton
-          onClick={handleDownloadPDF}
-          classNames={{ root: "h-[53.5px] text-md font-extrabold" }}
-        >
-          Download Menu PDF
-        </BaseButton>
-      </div>
-
-      {noMenusFound ? (
-        <div className="text-center text-gray-500 dark:text-gray-300 font-medium text-lg">
-          No Menus Found
-        </div>
-      ) : (
-        filteredCategories?.map((category) => (
-          <div
-            key={category.id}
-            onClick={() => handleToggle(category.id)}
-            className=""
+          <BaseButton
+            onClick={handlePrint}
+            classNames={{ root: "h-[53.5px] text-md font-extrabold" }}
           >
-            <div className=" p-4 rounded-lg shadow-2xl dark:bg-gray-800">
-              <p className="font-bold text-lg sm:text-2xl text-gray-800 dark:text-white flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300 pt-2">
-                {category.category_name}
-                <span className="text-gray-500 text-sm">
-                  {openCategories.includes(category.id) ? (
-                    <FaAngleUp />
-                  ) : (
-                    <FaAngleDown />
-                  )}
-                </span>
-              </p>
+            Download Menu
+          </BaseButton>
+        </div>
 
-              <div className="mt-2 flex justify-center flex-wrap md:justify-start gap-4">
-                {category.filteredItems.map((item: IItemdata) => (
-                  <Collapse
-                    in={openCategories.includes(category.id)}
-                    key={item.id}
-                  >
-                    <CustomerSideCard item={item} currency={currency} />
-                  </Collapse>
-                ))}
+        {noMenusFound ? (
+          <div className="text-center text-gray-500 dark:text-gray-300 font-medium text-lg">
+            No Menus Found
+          </div>
+        ) : (
+          filteredCategories?.map((category) => (
+            <div
+              key={category.id}
+              onClick={() => handleToggle(category.id)}
+              className=""
+            >
+              <div className="p-4 rounded-lg shadow-2xl dark:bg-gray-800">
+                <p className="font-bold text-lg sm:text-2xl text-gray-800 dark:text-white flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300 pt-2">
+                  {category.category_name}
+                  <span className="text-gray-500 text-sm">
+                    {openCategories.includes(category.id) ? (
+                      <FaAngleUp />
+                    ) : (
+                      <FaAngleDown />
+                    )}
+                  </span>
+                </p>
+
+                <div className="mt-2 flex justify-center flex-wrap md:justify-start gap-4">
+                  {category.filteredItems.map((item: IItemdata) => (
+                    <Collapse
+                      in={openCategories.includes(category.id)}
+                      key={item.id}
+                    >
+                      <CustomerSideCard item={item} currency={currency} />
+                    </Collapse>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
 
-      <CustomerSideLocation
-        location={location}
-        email={email}
-        contact={contact}
-      />
+        <CustomerSideLocation
+          location={location}
+          email={email}
+          contact={contact}
+        />
+      </div>
     </div>
   );
 };
