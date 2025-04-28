@@ -5,15 +5,24 @@
 .hidden-for-screen {
   display: none;
 }
-/* This class will force a page break before the element */
-.page-break {
-  page-break-before: always;
+@media print {
+  .page-break-before {
+    page-break-before: always ;
+    break-before: page;
+  }
+  #pdf-section {
+    margin-top: 50px;
+  }
+
+  .page-break-after {
+    page-break-after: always ;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid !important;
+  }
 }
 
-/* This class will prevent a page break inside the element */
-.no-page-break {
-  page-break-inside: avoid;
-}
 
 :root {
   --background-light: #ffffff;
