@@ -3,10 +3,51 @@
 import { ICategorydata } from "@/app/components/category/AddCategoryModal";
 import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
 
-const categories = async (CategoryData: ICategorydata, menuId: string) => {
+const categories = async (CategoryData: ICategorydata, menuId: string , file?: File) => {
   const supabase = await createClient();
+  console.log(file ,'file');
+  
+  if (file && file.size > 0) {
+    const fileName = `${file.name}`;
+    
+    const { error } = await supabase.storage
+      .from("category")
+      .upload(fileName, file, { upsert: true });
+
+    if (error) {
+      throw new Error(`Failed to upload logo: ${error.message}`);
+    }
+    const { data } = supabase.storage.from("category").getPublicUrl(fileName);
+    const imageUrl = data.publicUrl;
+    
+
+    const { data: maxPositionData } = await supabase
+    .from("category")
+    .select("position")
+    .eq("menu_id", menuId)
+    .order("position", { ascending: false })
+    .limit(1)
+    .single();
+
+    const newPosition = maxPositionData ? (maxPositionData.position || 0) + 1 : 1;
+    const categorydata = {
+      menu_id: menuId,
+      category_name: CategoryData.category_name,
+      status: CategoryData.status,
+      position: newPosition,
+      image: imageUrl,
+    };
+    
+  
+    const { data: UpdatedData } = await supabase
+    .from("category")
+    .insert(categorydata)
+    .select();
+    revalidatePath("/", "page");
+
+    return UpdatedData?.[0];
+  }
 
   const { data: maxPositionData } = await supabase
     .from("category")
