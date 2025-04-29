@@ -5,7 +5,6 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
 import { IMenudata } from "../../type/type";
 import { FC } from "react";
-import ShareMenu from "./ShareMenu";
 import TypesOfMenu from "./TypesOfMenu";
 
 type IMenuActionsProps = {
@@ -50,7 +49,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       >
         <MdOutlineModeEdit size={22} className="hover:text-yellow-400  " />
       </div>
-      <ShareMenu item={item} />
+     
       <TypesOfMenu item={item} />
       <BaseConfirmation
         opened={opened}
