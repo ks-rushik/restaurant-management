@@ -3,7 +3,7 @@ import useShortUrl from "@/app/hooks/useUrl";
 import { notFound } from "next/navigation";
 import React, { FC } from "react";
 import CustomerSideHeader from "./CustomerSideHeader";
-import useCategoriesItems from "@/app/hooks/CategoryBasedMenu/useCategoriesItem";
+import useCategoriesItems from "@/app/hooks/useCategoriesItems";
 import CustomerSideBody from "./CustomerSIdeBody";
 
 type ICustomerSideProps = {
