@@ -7,7 +7,6 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import { RiDownload2Line } from "react-icons/ri";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
-import { RiShareLine } from "react-icons/ri";
 import { IMenudata } from "@/app/type/type";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
@@ -17,7 +16,7 @@ import getCategorydata from "@/app/helper/getCategorydata";
 import { getProfileData } from "@/app/actions/customer/getProfileData";
 import { downloadQRCodeWithText } from "@/app/helper/downloadQRCode";
 
-type IShareMenuProps = {
+export type IShareMenuProps = {
   item: IMenudata;
 };
 
@@ -45,7 +44,6 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         generateQRCode(shortCode!),
       ]);
       fetchdata?.[0];
-      console.log(fetchdata, "fetchdata");
 
       const shortUrlData = fetchdata?.[1];
       const shortcode = shortUrlData.short_url;
@@ -66,7 +64,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
 
   return (
     <>
-      <button
+      <BaseButton
         onClick={() => {
           if (item.status !== "Not Available") {
             handleShareMenu();
@@ -76,8 +74,8 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         }}
         title="Share Menu"
       >
-        <RiShareLine size={22} className="mr-6 hover:text-blue-500" />
-      </button>
+        Item Based Menu
+      </BaseButton>
 
       <BaseModal
         opened={shareModalOpen}
