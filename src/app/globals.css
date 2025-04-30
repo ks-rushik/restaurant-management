@@ -10,9 +10,9 @@
     page-break-before: always ;
     break-before: page;
   }
-  #pdf-section {
+  /* #pdf-section {
     margin-top: 50px;
-  }
+  } */
 
   .page-break-after {
     page-break-after: always ;
