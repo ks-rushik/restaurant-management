@@ -1,16 +1,16 @@
-"use client";
-import FormField from "@/app/components/forms/FormField";
-import BaseButton from "@/app/components/ui/BaseButton";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseModal from "@/app/components/ui/BaseModal";
-import BaseSelect from "@/app/components/ui/BaseSelect";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React, { FC, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
-import { z } from "zod";
+'use client';
+import FormField from '@/app/components/forms/FormField';
+import BaseButton from '@/app/components/ui/BaseButton';
+import BaseInput from '@/app/components/ui/BaseInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Avatar, FileButton } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import React, { FC, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { IoFastFoodOutline } from 'react-icons/io5';
+import { z } from 'zod';
+import BaseModal from '@components/ui/BaseModal';
+import BaseSelect from '@components/ui/BaseSelect';
 
 export type ICategorydata = {
   updated_at?: string;
@@ -30,17 +30,12 @@ export type ICategoryModalProps = {
   setSelectedCategory: (value: ICategorydata | null) => void;
 };
 
-const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
-  const {
-    onAddCategory,
-    onEditCategory,
-    selectedCategory,
-    setSelectedCategory,
-  } = props;
+const AddCategoryModal: FC<ICategoryModalProps> = props => {
+  const { onAddCategory, onEditCategory, selectedCategory, setSelectedCategory } = props;
   const AddCategorychema = z.object({
-    category_name: z.string().min(1, "Category name is required"),
-    status: z.enum(["Available", "Not Available"], {
-      errorMap: () => ({ message: "Status is required" }),
+    category_name: z.string().min(1, 'Category name is required'),
+    status: z.enum(['Available', 'Not Available'], {
+      errorMap: () => ({ message: 'Status is required' }),
     }),
   });
 
@@ -55,7 +50,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     control,
   } = useForm<IAddCategoryData>({
     resolver: zodResolver(AddCategorychema),
-    defaultValues: { category_name: "", status: undefined },
+    defaultValues: { category_name: '', status: undefined },
   });
 
   const [file, setFile] = useState<File | null>(null);
@@ -73,11 +68,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       setPreview(selectedCategory.image as unknown as string);
       reset({
         category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as "Available" | "Not Available",
+        status: selectedCategory.status as 'Available' | 'Not Available',
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as "Available" | "Not Available" });
+      reset({ category_name: '', status: '' as 'Available' | 'Not Available' });
     }
   }, [selectedCategory, reset]);
 
@@ -90,14 +85,14 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     }
     close();
     setSelectedCategory(null);
-    reset({ category_name: "", status: undefined });
+    reset({ category_name: '', status: undefined });
     setFile(null), setPreview(null);
   };
 
   const handleClose = () => {
     close();
     setSelectedCategory(null);
-    reset({ category_name: "", status: undefined });
+    reset({ category_name: '', status: undefined });
   };
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -107,7 +102,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedCategory ? "Edit Category" : "Add Category"}
+        title={selectedCategory ? 'Edit Category' : 'Add Category'}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
@@ -116,7 +111,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               label="Category name"
               forceLabelOnTop
               placeholder="Enter category"
-              {...register("category_name")}
+              {...register('category_name')}
             />
           </FormField>
           <FormField name="status" error={errors.status?.message}>
@@ -127,37 +122,32 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={["Available", "Not Available"]}
+                  data={['Available', 'Not Available']}
                   placeholder="Enter status"
                   {...field}
                 />
               )}
             />
           </FormField>
-          <FormField
-            label="Upload image"
-            name="image"
-            required
-            error={errors.root?.message}
-          >
+          <FormField label="Upload image" name="image" required error={errors.root?.message}>
             <Avatar
               src={preview}
               alt="Uploaded Logo"
-              radius={"sm"}
-              size={"xl"}
+              radius={'sm'}
+              size={'xl'}
               className="mb-4 w-32 h-32 dark:bg-white"
             >
               <IoFastFoodOutline className="dark:text-black" />
             </Avatar>
 
             <FileButton
-              onChange={(file) => {
+              onChange={file => {
                 handleFileChange(file);
               }}
               accept="image/png,image/jpeg"
             >
-              {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
+              {props => (
+                <BaseButton {...props} classNames={{ root: 'text-white' }}>
                   Upload Image
                 </BaseButton>
               )}
@@ -166,8 +156,8 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
           <BaseButton
             type="submit"
             classNames={{
-              root: "h-12 w-full rounded-xl",
-              inner: "font-bold text-white text-sm",
+              root: 'h-12 w-full rounded-xl',
+              inner: 'font-bold text-white text-sm',
             }}
           >
             Submit
@@ -178,12 +168,12 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
         onClick={() => {
           setSelectedCategory(null);
           setFile(null), setPreview(null);
-          reset({ category_name: "", status: undefined });
+          reset({ category_name: '', status: undefined });
           open();
         }}
         classNames={{
-          root: "h-12 rounded-md",
-          inner: "font-bold text-white text-md",
+          root: 'h-12 rounded-md',
+          inner: 'font-bold text-white text-md',
         }}
       >
         Add New Category

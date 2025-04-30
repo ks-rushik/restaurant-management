@@ -1,10 +1,10 @@
 "use server";
 import { createClient } from "@/app/utils/supabase/server";
-import { customAlphabet } from 'nanoid'
+import { customAlphabet } from "nanoid";
 
-const shortLink = async(id: string) => {
+const shortLink = async (id: string) => {
   const supabase = await createClient();
-  const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 6)
+  const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 6);
   const shortCode = nanoid(6);
 
   const { data: FetchedData } = await supabase
@@ -12,7 +12,7 @@ const shortLink = async(id: string) => {
     .select("*")
     .eq("menu_id", id);
 
-  const existingId = FetchedData?.[0]?.menu_id
+  const existingId = FetchedData?.[0]?.menu_id;
 
   if (existingId === id) {
     return;
@@ -22,11 +22,7 @@ const shortLink = async(id: string) => {
       .insert([{ menu_id: id, short_url: shortCode }])
       .select();
 
-    if (error) {
-      console.log(error, "inserting error");
-    }
-
     return InsertData?.[0];
   }
-}
-export default shortLink
+};
+export default shortLink;

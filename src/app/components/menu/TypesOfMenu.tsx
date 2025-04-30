@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
-import BaseModal from "../ui/BaseModal";
+import BaseModal from "@components/ui/BaseModal";
 import { IMenudata } from "@/app/type/type";
 import { RiShareLine } from "react-icons/ri";
 import ShareMenu from "./ShareMenu";
 import CategoryBasedMenu from "./CategoryBasedMenu";
-import itemmenu from "./../../images/item-based-menu.png";
-import categorymenu from "./../../images/category-based-menu.png";
+import itemmenu from '@/app/images/item-based-menu.png'
+import categorymenu from "@/app/images/category-based-menu.png";
 import Image from "next/image";
 
 type ITypesOfMenuProps = {

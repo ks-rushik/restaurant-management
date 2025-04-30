@@ -1,10 +1,9 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
 import BaseButton from "@/app/components/ui/BaseButton";
-import signout from "../../actions/auth/logout-action";
 import { useState } from "react";
-import BaseButtonLoader from "../ui/BaseButtonLoader";
-import BaseModal from "../ui/BaseModal";
+import BaseButtonLoader from "@components/ui/BaseButtonLoader";
+import BaseModal from "@components/ui/BaseModal";
+import signout from "@/app/actions/auth/logout-action";
 
 const LogOut = () => {
   const [opened, { open, close }] = useDisclosure(false);

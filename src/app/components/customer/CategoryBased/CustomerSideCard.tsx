@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { IItemdata } from "../../item/AddItemModal";
+import { IItemdata } from "@components/item/AddItemModal";
 import { Badge } from "@mantine/core";
 import { Menu } from "../ItemBased/CustomerSideBody";
 type ICustomerSideCard = {

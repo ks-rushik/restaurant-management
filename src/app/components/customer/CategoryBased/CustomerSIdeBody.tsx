@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useState } from "react";
-import { IItemdata } from "../../item/AddItemModal";
+import { IItemdata } from "@components/item/AddItemModal";
 import useShortUrl from "@/app/hooks/useUrl";
 import Image from "next/image";
 import { Card } from "@mantine/core";
-import BaseTextField from "../../ui/BaseInput";
+import BaseTextField from "@components/ui/BaseInput";
 import { IoSearch } from "react-icons/io5";
-import BaseButton from "../../ui/BaseButton";
+import BaseButton from "@components/ui/BaseButton";
 import { changeTheme } from "@/app/helper/changeTheme";
-import ThemeButton from "../../ui/ThemeButton";
+import ThemeButton from "@components/ui/ThemeButton";
 import CustomerSideCard from "./CustomerSideCard";
-import { ICustomerSideBodyProps } from "../ItemBased/CustomerSideBody";
-import CustomerSideLocation from "../CustomerSideLocation";
+import { ICustomerSideBodyProps } from "@components/customer/ItemBased/CustomerSideBody";
+import CustomerSideLocation from "@components/customer/CustomerSideLocation";
 import PdfBody from "./Pdf/PdfBody";
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {

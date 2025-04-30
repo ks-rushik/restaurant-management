@@ -1,13 +1,13 @@
 import BaseTable from "@/app/components/ui/BaseTable";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
 import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import formatDate from "@/app/utils/formatdate";
-import SearchInput from "../SearchInput";
-import SearchFilter from "../SearchFilter";
-import FilteredData from "../FilterData";
+import SearchInput from "@components/SearchInput";
+import SearchFilter from "@components/SearchFilter";
+import FilteredData from "@components/FilterData";
 import Image from "next/image";
 
 type ICategoryTableProps = {

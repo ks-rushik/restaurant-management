@@ -2,7 +2,7 @@
 import useMenuItem from "@/app/hooks/useMenuItem";
 import { notFound, usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
-import HeaderCss from "../HeaderCss";
+import HeaderCss from "@components/HeaderCss";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
@@ -26,7 +26,7 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
     {
       title: menu?.[0].toUpperCase() + menu?.slice(1),
       href: `#`,
-      active: true
+      active: true,
     },
   ];
 

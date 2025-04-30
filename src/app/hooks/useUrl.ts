@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getMenuData from "../actions/customer/getMenuData";
+import getMenuData from "@/app/actions/customer/getMenuData";
 
 const useShortUrl = (Id : string) => {
   const { data } = useQuery({

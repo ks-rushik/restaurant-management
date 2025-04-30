@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { ISignUpFormData } from "../../components/auth/SignUpForm";
+import { ISignUpFormData } from "@components/auth/SignUpForm";
 import { createClient } from "@/app/utils/supabase/server";
 
 export async function signUp(formData: ISignUpFormData) {

@@ -41,12 +41,11 @@ export async function updateCategory(CategoryData: ICategorydata , menuId : stri
     status:CategoryData.status
   };
 
-  const { data: UpdatedData , error} = await supabase
+  const { data: UpdatedData } = await supabase
     .from("category")
     .update(categorydata)
     .eq("id", CategoryData.id!)
     .select();
-  console.log("update error" , error);
   
   revalidatePath("/", "page");
 

@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import BaseModal from "@/app/components/ui/BaseModal";
 import { FC, useEffect } from "react";
-import { IModalData } from "../../type/type";
+import { IModalData } from "@/app/type/type";
 
 export type IMenuModalProps = {
   onAddMenu: (data: IModalData) => Promise<void>;

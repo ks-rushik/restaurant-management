@@ -10,12 +10,12 @@ import FormGroup from "@/app/components/forms/ProfileGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
-import { submitUserForm } from "../../actions/userprofile/userprofile-action";
-import { useUserProfile } from "../../hooks/useUserProfile";
+import { useUserProfile } from "@hooks/useUserProfile";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { notifications } from "@mantine/notifications";
 import { ImSpoonKnife } from "react-icons/im";
 import { useRouter } from "next/navigation";
+import { submitUserForm } from "@/app/actions/userprofile/userprofile-action";
 
 export const userformSchema = z.object({
   name: z.string().min(1, "Name is Required"),

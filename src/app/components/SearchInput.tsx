@@ -1,7 +1,6 @@
-import { TextInput } from "@mantine/core";
 import { FC } from "react";
 import { IoSearch } from "react-icons/io5";
-import BaseTextField from "./ui/BaseInput";
+import BaseTextField from "@components/ui/BaseInput";
 
 type ISearchInputProps = {
   value: string;

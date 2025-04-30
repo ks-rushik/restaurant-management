@@ -1,16 +1,16 @@
 "use client";
 import React, { FC, SetStateAction } from "react";
-import BaseTextField from "../ui/BaseInput";
-import BaseButton from "../ui/BaseButton";
+import BaseTextField from "@components/ui/BaseInput";
+import BaseButton from "@components/ui/BaseButton";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormField from "../forms/FormField";
+import FormField from "@components/forms/FormField";
 import changepassword from "@/app/actions/auth/changepassword-action";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { useRouter } from "next/navigation";
-import BaseModal from "../ui/BaseModal";
+import BaseModal from "@components/ui/BaseModal";
 
 const ChanegPasswordSchema = z
   .object({

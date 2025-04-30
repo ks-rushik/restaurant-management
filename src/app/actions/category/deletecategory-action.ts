@@ -7,9 +7,6 @@ const deletecategory = async (id: string) => {
     
   const supabase = await createClient();
   const { data, error } = await supabase.from("category").delete().eq("id", id);
-  if(error){
-    console.log(error);
-  }
   
   revalidatePath("/", "layout");
   return ;

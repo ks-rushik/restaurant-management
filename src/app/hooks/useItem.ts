@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import fetchItemdata from "../actions/item/item-fetch";
+import fetchItemdata from "@/app/actions/item/item-fetch";
 
 const useItem = (categoryId : string , search: string ='', status: string ='Available') => {
   const { data } = useQuery({

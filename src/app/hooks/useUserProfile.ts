@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../actions/userprofile/userprofile-fetch";
+import { getUserProfile } from "@/app/actions/userprofile/userprofile-fetch";
 
 export function useUserProfile() {
   const query = useQuery({

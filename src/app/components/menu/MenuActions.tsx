@@ -3,9 +3,9 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
 import BaseButton from "@/app/components/ui/BaseButton";
 import { Loader } from "@mantine/core";
-import { IMenudata } from "../../type/type";
 import { FC } from "react";
 import TypesOfMenu from "./TypesOfMenu";
+import { IMenudata } from "@/app/type/type";
 
 type IMenuActionsProps = {
   item: IMenudata;

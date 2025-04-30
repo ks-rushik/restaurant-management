@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import background from "./../../images/background.jpg";
+import background from '@/app/images/background.jpg';
 import Image from "next/legacy/image";
 
 type IFormGroupProps = {

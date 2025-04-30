@@ -1,17 +1,17 @@
 "use client";
 import { MouseEvent, useEffect, useState } from "react";
 import Addmenu from "./AddMenuModal";
-import { IMenudata, IModalData } from "../../type/type";
-import { menu } from "../../actions/menu/addmenu-action";
-import useMenuItem from "../../hooks/useMenuItem";
-import deletemenu from "../../actions/menu/deletemenu-action";
+import useMenuItem from "@hooks/useMenuItem";
 import { useRouter } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
-import { updateMenu } from "../../actions/menu/updatemenu-action";
 import { notifications } from "@mantine/notifications";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
 import { useDebounce } from "use-debounce";
+import { IMenudata, IModalData } from "@/app/type/type";
+import { updateMenu } from "@/app/actions/menu/updatemenu-action";
+import { menu } from "@/app/actions/menu/addmenu-action";
+import deletemenu from "@/app/actions/menu/deletemenu-action";
 
 const Menupage = () => {
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();

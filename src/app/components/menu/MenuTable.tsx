@@ -4,9 +4,9 @@ import Loader from "@/app/components/ui/BaseLoader";
 import formatDate from "@/app/utils/formatdate";
 import { IMenudata } from "@/app/type/type";
 import MenuActions from "./MenuActions";
-import SearchInput from "../SearchInput";
-import FilteredData from "../FilterData";
-import SearchFilter from "../SearchFilter";
+import SearchInput from "@components/SearchInput";
+import FilteredData from "@components/FilterData";
+import SearchFilter from "@components/SearchFilter";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;

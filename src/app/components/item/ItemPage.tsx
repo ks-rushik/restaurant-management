@@ -4,14 +4,14 @@ import ItemHeader from "./ItemHeader";
 import ItemTable from "./ItemTable";
 import AddItemModal, { IItemdata } from "./AddItemModal";
 import { notifications } from "@mantine/notifications";
-import { item } from "../../actions/item/additem-action";
 import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
-import { updateItemOrder } from "../../actions/item/updateposition-action";
-import deleteitem from "../../actions/item/deleteitem-action";
-import useItem from "../../hooks/useItem";
-import { updateItem } from "../../actions/item/updateitem-action";
+import useItem from "@hooks/useItem";
 import { useDebounce } from "use-debounce";
+import { item } from "@/app/actions/item/additem-action";
+import { updateItemOrder } from "@/app/actions/item/updateposition-action";
+import { updateItem } from "@/app/actions/item/updateitem-action";
+import deleteitem from "@/app/actions/item/deleteitem-action";
 
 const ItemPage = () => {
   const pathname = usePathname();

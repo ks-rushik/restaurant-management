@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { LuFilter } from "react-icons/lu";
-import BaseSelect from "./ui/BaseSelect";
+import BaseSelect from "@components/ui/BaseSelect";
 
 type ISearchInputProps = {
   value: string;

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getItemdata from "../actions/item/getItemdata";
+import getItemdata from "@/app/actions/item/getItemdata";
 
 const useItemData = (Id : string) => {
   const { data } = useQuery({

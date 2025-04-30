@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { Badge } from "@mantine/core";
-import { Menu } from "../../ItemBased/CustomerSideBody";
+import { Menu } from "@components/customer/ItemBased/CustomerSideBody";
 import { IItemdata } from "@/app/components/item/AddItemModal";
 type ICustomerSideCard = {
   category: {

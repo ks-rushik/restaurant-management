@@ -1,9 +1,8 @@
 import { Divider } from "@mantine/core";
 import React, { forwardRef } from "react";
 import PdfSideCard from "./PdfCard";
-import PdfSideHeader from "./PdfHeader";
 import PdfSideLocation from "./PdfLocation";
-import { IItemdata } from "../../../item/AddItemModal";
+import { IItemdata } from "@components/item/AddItemModal";
 
 type MenuContentProps = {
   filteredCategories: any[] | undefined;
