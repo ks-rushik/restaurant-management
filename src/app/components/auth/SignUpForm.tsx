@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUp } from "../../actions/auth/signup-action";
 import { notifications } from "@mantine/notifications";
+import { redirect } from "next/navigation";
 
 const SignUpSchema = z
   .object({
@@ -44,12 +45,12 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: ISignUpFormData) => {
     const { message, error } = await signUp(data);
-    console.log(error, "error");
     {
       error && notifications.show({ message: error, color: "red" });
     }
     {
       message && notifications.show({ message: message, color: "green" });
+      redirect('/auth/login')
     }
   };
   return (

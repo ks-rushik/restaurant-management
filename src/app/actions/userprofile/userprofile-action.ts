@@ -40,9 +40,7 @@ export async function submitUserForm(formData: FormData) {
       },
     ]).eq("id" , userId)
 
-  if (UpdateError) {
-    console.log(UpdateError);
-    
+  if (UpdateError) {    
     redirect("/error");
   }
 

@@ -7,7 +7,6 @@ const useCategoryItem = (menuId: string, search: string ='', status: string ='Av
     queryFn: () => fetchCategorydata(menuId, search, status),
     staleTime: 60 * 1000,
   });
-console.log(data,'hookdata');
 
   return data;
 };

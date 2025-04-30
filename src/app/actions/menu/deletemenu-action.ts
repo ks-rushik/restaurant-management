@@ -6,7 +6,7 @@ const deletemenu = async (id: string) => {
   const supabase = await createClient();
   const { error } = await supabase.from("menus").delete().eq("id", id);
   if(error){
-    console.log(error);
+    return {error}
   }
 
   revalidatePath("/menu", "page");

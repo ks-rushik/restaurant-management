@@ -216,7 +216,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               accept="image/png,image/jpeg"
             >
               {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
+                <BaseButton {...props} classNames={{ root: "text-white mb-4" }}>
                   Upload Image
                 </BaseButton>
               )}

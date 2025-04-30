@@ -15,7 +15,7 @@ const FormField: FC<IFormFieldProps> = (props) => {
   const { label, name, error, children, required ,size  } = props;
 
   return (
-    <div className="mb-6">
+    <div className="mb-2">
       <BaseLabel
         htmlFor={name}
         labeltitle={label!}

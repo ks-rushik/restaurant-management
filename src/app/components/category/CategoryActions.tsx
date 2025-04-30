@@ -8,7 +8,7 @@ import { ICategorydata } from "./AddCategoryModal";
 
 type IMenuActionsProps = {
   item: ICategorydata;
-  handleView: ( id: string) => void;
+  handleView: (id: string) => void;
   handleSelectCategory: (item: ICategorydata) => void;
   handleDelete: (
     id: string,
@@ -31,7 +31,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   } = props;
   return (
     <span className="inline-flex items-center">
-      <div onClick={() => handleView( item.id!)} title="Items">
+      <div onClick={() => handleView(item.id!)} title="Items">
         <BiCategory
           size={22}
           className="mr-6 cursor-pointer hover:text-gray-700  dark:hover:text-gray-400 "
@@ -42,10 +42,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         className="mr-6 cursor-pointer"
         title="Edit Category"
       >
-        <MdOutlineModeEdit
-          size={22}
-          className="hover:text-yellow-500 "
-        />
+        <MdOutlineModeEdit size={22} className="hover:text-yellow-500 " />
       </div>
       <BaseConfirmation
         opened={opened}
@@ -53,7 +50,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         text="Are you sure you want to delete this item?"
       >
         <BaseButton
-         
+          intent={"error"}
           onClick={(event) => handleDelete(item.id!, event)}
           classNames={{ root: "w-1/3 mt-6" }}
         >

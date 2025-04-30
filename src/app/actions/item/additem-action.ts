@@ -73,14 +73,10 @@ export async function item(
     position: newPosition,
   };
 
-  const { data: InsertData, error } = await supabase
+  const { data: InsertData } = await supabase
     .from("Items")
     .insert(ItemSupabaseData)
     .select();
-
-  if (error) {
-    console.log(error);
-  }
 
   revalidatePath("/", "layout");
 

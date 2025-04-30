@@ -19,8 +19,8 @@ const page = async ({ params }: { params: Promise<{ menuId: string }> }) => {
     queryFn: () => fetchCategorydata(menuId ,"" ,""),
   });
   await queryClient.prefetchQuery({
-    queryKey: ["menu", "", "Available"],
-    queryFn: () => fetchMenudata("" ,'Available'),
+    queryKey: ["menu", "", "All"],
+    queryFn: () => fetchMenudata("" ,'All'),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

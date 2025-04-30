@@ -134,10 +134,10 @@ const BaseTextField: FC<IBaseTextFieldProps> = (props) => {
         root: clsx("relative group", root),
         label: clsx(
           TextFieldVariants({ intent, filled }),
-          "absolute left-3 transform -translate-y-1/2 z-10 px-1 dark:rounded-lg transition-all duration-200 ease-in-out",
+          "absolute left-3 transform -translate-y-1/2 z-10 px-1 dark:!bg-transparent bg-white dark:rounded-lg transition-all duration-200 ease-in-out",
           {
-            "text-xs top-0 bg-gray-100 text-black font-bold": shouldFloatLabel,
-            "text-sm top-1/2 text-gray-600": !shouldFloatLabel,
+            "text-md top-0 dark:!text-white text-black font-bold": shouldFloatLabel,
+            "text-sm top-1/2 text-gray-400  ": !shouldFloatLabel,
           }
         ),
         error: clsx(TextFieldVariants({ intent }), "px-4"),

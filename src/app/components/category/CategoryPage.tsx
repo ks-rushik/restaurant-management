@@ -112,9 +112,19 @@ function CategoryPage() {
   const handleDelete = async (id: string) => {
     setCategoryItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletecategory(id);
+    const result =  await deletecategory(id);
+        if (result?.error) {
+          notifications.show({
+            message: result.error.message || "Failed to delete Category",
+            color: "red",
+          });
+        } else {
+          notifications.show({
+            message: "Category deleted",
+            color: "green",
+          });
+        }
     setLoading("");
-    notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {
     const modaldata: ICategorydata = {

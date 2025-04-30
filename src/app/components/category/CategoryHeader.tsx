@@ -14,9 +14,11 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const data = useMenuItem();
   const menuId = pathname.split("/")[2];
   const menu = data?.find((menu) => menu.id === menuId)?.menu_name;
-  if (menu === undefined) {
-    return notFound();
-  }
+  console.log(menu, menuId, data, "data");
+
+  // if (menu === undefined) {
+  //   return notFound();
+  // }
 
   const breadcrumbItems = [
     {
@@ -26,7 +28,7 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
     {
       title: menu?.[0].toUpperCase() + menu?.slice(1),
       href: `#`,
-      active: true
+      active: true,
     },
   ];
 
