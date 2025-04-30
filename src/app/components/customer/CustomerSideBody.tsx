@@ -5,12 +5,12 @@ import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import useShortUrl from "../../hooks/useUrl";
 import ThemeButton from "../ui/ThemeButton";
 import CustomerSideCard from "./CustomerSideCard";
-import CustomerSideLocation from "./CustomerSideLocation";
 import { changeTheme } from "@/app/helper/changeTheme";
 import BaseTextField from "../ui/BaseInput";
 import { IoSearch } from "react-icons/io5";
 import BaseButton from "../ui/BaseButton";
 import Pdf from "../pdf/PdfBody";
+import CustomerSideLocation from "./CategoryBased/CustomerSideLocation";
 
 export type Restaurant = {
   id: string;
@@ -212,6 +212,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           location={address!}
           email={email!}
           contact={phone!}
+          classNames={{ root: "dark:bg-gray-800 dark:border-gray-800" }}
         />
       </div>
     </div>

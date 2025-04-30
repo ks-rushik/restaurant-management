@@ -126,6 +126,9 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
         location={address!}
         email={email!}
         contact={phone!}
+        classNames={{
+          root: "bg-gradient-to-tl from-blue-200 via-indigo-200 to-blue-400 dark:bg-gradient-to-tl, dark:from-gray-600 , dark:via-gray-400, dark:to-gray-900",
+        }}
       />
     </div>
   );
