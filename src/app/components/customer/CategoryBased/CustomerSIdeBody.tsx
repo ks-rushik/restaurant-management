@@ -1,63 +1,51 @@
 import React, { FC, useEffect, useState } from "react";
-import { ICustomerSideBodyProps } from "../CustomerSideBody";
 import { IItemdata } from "../../item/AddItemModal";
 import useShortUrl from "@/app/hooks/useUrl";
 import Image from "next/image";
-import { Badge, Card } from "@mantine/core";
+import { Card } from "@mantine/core";
 import BaseTextField from "../../ui/BaseInput";
 import { IoSearch } from "react-icons/io5";
 import BaseButton from "../../ui/BaseButton";
 import { changeTheme } from "@/app/helper/changeTheme";
 import ThemeButton from "../../ui/ThemeButton";
+import CustomerSideCard from "./CustomerSideCard";
+import { ICustomerSideBodyProps } from "../CustomerSideBody";
+import CustomerSideLocation from "./CustomerSideLocation";
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   const { id, categories } = props;
-  const [expandedDescriptions, setExpandedDescriptions] = useState<
-    Record<string, boolean>
-  >({});
   const [searchValue, setSearchValue] = useState("");
   const [theme, setTheme] = useState<"dark" | "light">();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+  const { email, phone, address } = categories?.[0].menus?.restaurant_id || {};
 
-    useEffect(() => {
-      const initialTheme = document.documentElement.classList.contains("dark")
-        ? "dark"
-        : "light";
-      setTheme(initialTheme);
-      setMounted(true);
-    }, []);
-  
-    const handleThemeChange = async () => {
-      await changeTheme();
-      setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-    };
-  
-    useEffect(() => {
-      if (theme) {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-      }
-    }, [theme]);
-  
+  useEffect(() => {
+    const initialTheme = document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
+    setTheme(initialTheme);
+    setMounted(true);
+  }, []);
 
-  console.log(categories, "categories");
+  const handleThemeChange = async () => {
+    await changeTheme();
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
-  const { logo, name } = categories?.[0]?.menus?.restaurant_id;
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    }
+  }, [theme]);
+
   const urldata = useShortUrl(id);
   const urlid = urldata?.[0]?.menu_id;
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
-  console.log(logo, name);
-
-  const toggleDescription = (itemId: string, event: React.MouseEvent) => {
-    setExpandedDescriptions((prev) => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }));
-  };
 
   const filteredCategories = categories
     ?.map((category) => {
@@ -77,7 +65,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
 
   return (
     <div className="p-6">
-      <span className="flex justify-end gap-3  items-center">
+      <span className="flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">
         {mounted && (
           <BaseTextField
             value={searchValue}
@@ -97,12 +85,12 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
           Download Menu
         </BaseButton>
       </span>
-        {mounted && theme && (
-          <ThemeButton theme={theme} onChange={handleThemeChange} />
-        )}
+      {mounted && theme && (
+        <ThemeButton theme={theme} onChange={handleThemeChange} />
+      )}
 
       {noMenusFound ? (
-        <div className="text-center h-screen text-gray-900 dark:text-gray-300 font-medium text-lg">
+        <div className="text-center p-10 text-gray-900 dark:text-gray-300 font-medium text-lg">
           No Menus Found
         </div>
       ) : (
@@ -113,69 +101,32 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
             </p>
             <Card
               classNames={{
-                root: "rounded-xl bg-gradient-to-tl from-blue-200 via-indigo-200 to-blue-400 shadow-lg",
+                root: "rounded-xl bg-gradient-to-tl from-blue-200 via-indigo-200 to-blue-400 dark:bg-gradient-to-tl, dark:from-gray-600 , dark:via-gray-400, dark:to-gray-900 shadow-lg",
               }}
             >
               <div
-                className={` ${
-                  index % 2 === 0
-                    ? "flex flex-row items-center"
-                    : "flex flex-row-reverse items-center"
+                className={`flex flex-col lg:flex-row items-center gap-6 ${
+                  index % 2 !== 0 ? "lg:flex-row-reverse" : ""
                 }`}
               >
                 <Image
-                  src={category.image}
+                  src={category.image!}
                   width={400}
                   height={400}
                   alt="Category Image"
-                  className="h-80 border-gray-300 shadow-md rounded-xl"
+                  className="w-full md:w-[400px] h-auto max-h-80 object-cover border-gray-300 shadow-md lg:rounded-xl"
                 />
-
-                <div className="px-8">
-                  {category.filteredItems.map((item: IItemdata) => (
-                    // item and description
-                    <div
-                      key={item.id}
-                      className={`flex flex-col pb-4 ${
-                        item.status === "Not Available" && " opacity-50"
-                      }`}
-                    >
-                      {/* name and price */}
-                      <div>
-                        <div className="flex flex-row justify-between items-start">
-                          <div className="flex flex-row gap-2 items-center">
-                            <div className="merriweather-2 text-xl">
-                              {item.name}
-                            </div>
-                            {mounted && item.status === "Not Available" && (
-                              <Badge color="red">{item.status}</Badge>
-                            )}
-                          </div>
-
-                          <div className="roboto-mono text-xl">
-                            {currency}
-                            {item.price}
-                          </div>
-                        </div>
-
-                        {/* description */}
-                        <div
-                          className={`w-2/3 text-gray-800 text-base merriweather-roboto cursor-pointer transition-all duration-300 ${
-                            expandedDescriptions[item.id!] ? "" : "line-clamp-1"
-                          }`}
-                          onClick={(e) => toggleDescription(item.id!, e)}
-                        >
-                          {item.description}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <CustomerSideCard category={category} currency={currency} />
               </div>
             </Card>
           </div>
         ))
       )}
+      <CustomerSideLocation
+        location={address!}
+        email={email!}
+        contact={phone!}
+      />
     </div>
   );
 };

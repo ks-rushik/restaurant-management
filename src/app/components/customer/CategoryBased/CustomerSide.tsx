@@ -39,14 +39,12 @@ const CustomerSide: FC<ICustomerSideProps> = (props) => {
           </div>
         </div>
       ) : (
-        // <div className=" ">
         <div className="container px-10 mx-auto mb-10 pt-4 ">
-          <div className="border-2 border-gray-300 rounded-lg bg-gradient-to-br from-blue-100 via-blue-300 to-blue-400">
+          <div className="border-2 border-gray-300 rounded-lg bg-blue-300/40 dark:bg-gray-800 dark:border-none">
             <CustomerSideHeader logo={profilelogo} name={profileName} />
             <CustomerSideBody categories={categories} id={id} />
           </div>
         </div>
-        //  </div>
       )}
     </>
   );
