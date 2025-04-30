@@ -40,7 +40,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
       >
         <div className="flex justify-around py-10 gap-4">
           <div className="flex flex-col justify-center items-center gap-2">
-            <Image src={itemmenu} width={300} height={300} alt="Item-menu" />
+            <Image src={itemmenu} width={300} height={300} alt="Item-menu" className="h-56" />
             <ShareMenu item={item} />
           </div>
 
@@ -50,6 +50,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
               width={300}
               height={300}
               alt="Category-menu"
+              className="h-56"
             />
             <CategoryBasedMenu item={item} />
           </div>
