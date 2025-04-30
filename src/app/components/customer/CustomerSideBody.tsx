@@ -129,7 +129,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     <div className="space-y-8">
       <div className="hidden" id="pdf-section">
         <Pdf
-          ref={pdfRef}
           filteredCategories={filteredCategories}
           currency={currency!}
           logo={logo!}
