@@ -18,7 +18,7 @@ const CustomerSideLocation: FC<ICustomerSideLocation> = (props) => {
       radius="lg"
       p="xl"
       classNames={{
-        root: clsx(" flex flex-col rounded-lg  shadow-lg mt-10", root),
+        root: clsx(" flex flex-col rounded-lg  shadow-lg ", root),
       }}
     >
       <h2 className="mb-3 lg:font-semibold text-base sm:text w-1/2 dark:text-white ">
