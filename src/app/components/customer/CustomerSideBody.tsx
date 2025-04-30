@@ -12,8 +12,39 @@ import { IoSearch } from "react-icons/io5";
 import BaseButton from "../ui/BaseButton";
 import Pdf from "../pdf/PdfBody";
 
-type ICustomerSideBodyProps = {
-  categories: any[] | null | undefined;
+export type Restaurant = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  logo: string;
+  created_at: string;
+};
+
+export type Menu = {
+  id: string;
+  menu_name: string;
+  currency: string;
+  created_at: string;
+  restaurant_id: Restaurant;
+};
+
+export type Category = {
+  id: string;
+  category_name: string;
+  create_at: string;
+  updated_at?: string;
+  image?: string;
+  status: "Available" | "Not Available";
+  position?: number;
+  menu_id: string;
+  menus?: Menu;
+  Items: IItemdata[];
+};
+
+export type ICustomerSideBodyProps = {
+  categories: Category[] | null | undefined;
   id: string;
 };
 
@@ -27,11 +58,8 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
   const pdfRef = useRef<HTMLDivElement>(null);
 
-  const logo = categories?.[0]?.menus?.restaurant_id?.logo;
-  const name = categories?.[0]?.menus?.restaurant_id?.name;
-  const contact = categories?.[0]?.menus?.restaurant_id?.phone;
-  const location = categories?.[0]?.menus?.restaurant_id?.address;
-  const email = categories?.[0]?.menus?.restaurant_id?.email;
+  const { email, phone, address, logo, name } =
+    categories?.[0].menus?.restaurant_id || {};
 
   const urldata = useShortUrl(id);
   const urlid = urldata?.[0]?.menu_id;
@@ -103,9 +131,9 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         <Pdf
           ref={pdfRef}
           filteredCategories={filteredCategories}
-          currency={currency}
-          logo={logo}
-          name={name}
+          currency={currency!}
+          logo={logo!}
+          name={name!}
           openCategories={[]}
         />
       </div>
@@ -119,7 +147,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           <ThemeButton theme={theme} onChange={handleThemeChange} />
         )}
 
-        <div className="flex justify-end gap-3 items-center my-6">
+        <div className="  flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">
           <BaseTextField
             value={searchValue}
             placeholder="Search menu..."
@@ -171,7 +199,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       in={openCategories.includes(category.id)}
                       key={item.id}
                     >
-                      <CustomerSideCard item={item} currency={currency} />
+                      <CustomerSideCard item={item} currency={currency!} />
                     </Collapse>
                   ))}
                 </div>
@@ -181,9 +209,9 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         )}
 
         <CustomerSideLocation
-          location={location}
-          email={email}
-          contact={contact}
+          location={address!}
+          email={email!}
+          contact={phone!}
         />
       </div>
     </div>
