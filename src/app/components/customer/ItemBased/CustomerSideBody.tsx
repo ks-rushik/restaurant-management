@@ -1,16 +1,16 @@
 import { Collapse, Divider } from "@mantine/core";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { IItemdata } from "../item/AddItemModal";
+import { IItemdata } from "../../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
-import useShortUrl from "../../hooks/useUrl";
-import ThemeButton from "../ui/ThemeButton";
+import useShortUrl from "../../../hooks/useUrl";
+import ThemeButton from "../../ui/ThemeButton";
 import CustomerSideCard from "./CustomerSideCard";
 import { changeTheme } from "@/app/helper/changeTheme";
-import BaseTextField from "../ui/BaseInput";
+import BaseTextField from "../../ui/BaseInput";
 import { IoSearch } from "react-icons/io5";
-import BaseButton from "../ui/BaseButton";
-import Pdf from "../pdf/PdfBody";
-import CustomerSideLocation from "./CategoryBased/CustomerSideLocation";
+import BaseButton from "../../ui/BaseButton";
+import Pdf from "./pdf/PdfBody";
+import CustomerSideLocation from "../CustomerSideLocation";
 
 export type Restaurant = {
   id: string;

@@ -9,8 +9,8 @@ import BaseButton from "../../ui/BaseButton";
 import { changeTheme } from "@/app/helper/changeTheme";
 import ThemeButton from "../../ui/ThemeButton";
 import CustomerSideCard from "./CustomerSideCard";
-import { ICustomerSideBodyProps } from "../CustomerSideBody";
-import CustomerSideLocation from "./CustomerSideLocation";
+import { ICustomerSideBodyProps } from "../ItemBased/CustomerSideBody";
+import CustomerSideLocation from "../CustomerSideLocation";
 import PdfBody from "./Pdf/PdfBody";
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {

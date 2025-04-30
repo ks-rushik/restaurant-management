@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ICustomerSideHeaderProps } from "../CustomerSideHeader";
+import { ICustomerSideHeaderProps } from "../ItemBased/CustomerSideHeader";
 import Image from "next/image";
 
 const CustomerSideHeader: FC<ICustomerSideHeaderProps> = (props) => {

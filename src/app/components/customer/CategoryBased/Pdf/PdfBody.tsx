@@ -1,8 +1,8 @@
 import { Card } from "@mantine/core";
 import Image from "next/image";
 import React, { forwardRef } from "react";
-import CustomerSideLocation from "../CustomerSideLocation";
-import { Category } from "../../CustomerSideBody";
+import CustomerSideLocation from "../../CustomerSideLocation";
+import { Category } from "../../ItemBased/CustomerSideBody";
 import PdfCard from "./PdfCard";
 
 type IPdfBodyProps = {

@@ -1,9 +1,9 @@
 "use client";
-import useCategoriesItems from "../../hooks/useCategoriesItems";
+import useCategoriesItems from "../../../hooks/useCategoriesItems";
 import CustomerSideBody from "./CustomerSideBody";
-import useShortUrl from "../../hooks/useUrl";
-import CustomerSideHeader from "./CustomerSideHeader";
+import useShortUrl from "../../../hooks/useUrl";
 import { notFound } from "next/navigation";
+import CustomerSideHeader from "./CustomerSideHeader";
 
 const CustomerSide = ({ id }: { id: string }) => {
   const menuid = useShortUrl(id);

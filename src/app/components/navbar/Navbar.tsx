@@ -39,7 +39,7 @@ const Navbar = () => {
   }, [theme]);
 
   return (
-    <div>
+   
       <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
         <div className="flex items-center">
           <Image
@@ -102,7 +102,7 @@ const Navbar = () => {
           />
         </div>
       </nav>
-    </div>
+  
   );
 };
 

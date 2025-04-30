@@ -2,7 +2,6 @@ import fetchMenudata from "@/app/actions/menu/menu-fetch";
 import fetchCategoryItemData from "@/app/actions/customer/getCategoryItem";
 import getMenuData from "@/app/actions/customer/getMenuData";
 import { getProfileData } from "@/app/actions/customer/getProfileData";
-import CustomerSide from "@/app/components/customer/CustomerSide";
 import {
   dehydrate,
   HydrationBoundary,
@@ -10,6 +9,7 @@ import {
 } from "@tanstack/react-query";
 import React from "react";
 import { notFound } from "next/navigation";
+import CustomerSide from "@/app/components/customer/ItemBased/CustomerSide";
 
 const queryClient = new QueryClient();
 
