@@ -1,7 +1,12 @@
 "use client";
-import useItemData from "@/app/hooks/useItemData";
-import { usePathname, notFound, redirect } from "next/navigation";
+
+import { notFound, usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { fetchcategoryitemdataQuery } from "@/app/actions/item/categorymenufetchquery";
+
 import HeaderCss from "../HeaderCss";
 
 type ICategoryHeaderProps = {
@@ -13,7 +18,9 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
   const segments = pathname.split("/")[1];
   const menuId = pathname.split("/")[2];
   const categoryId = pathname.split("/")[4];
-  const items = useItemData(categoryId);
+  const { data: items } = useQuery(fetchcategoryitemdataQuery(categoryId));
+  console.log(items, "this is items");
+
   const itemname = items?.[0].category_name;
   const categoryname = items?.[0].menus?.menu_name;
 
@@ -33,13 +40,15 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
     {
       title: itemname?.[0].toUpperCase() + itemname?.slice(1),
       href: `#`,
-      active:true
+      active: true,
     },
   ];
 
   return (
     <>
-      <HeaderCss item={breadcrumbItems} headertitle="Items">{children}</HeaderCss>
+      <HeaderCss item={breadcrumbItems} headertitle="Items">
+        {children}
+      </HeaderCss>
     </>
   );
 };

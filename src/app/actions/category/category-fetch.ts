@@ -1,10 +1,11 @@
 "use server";
+
 import { createClient } from "@/app/utils/supabase/server";
 
 const fetchCategorydata = async (
   menuId: string,
-  search: string,
-  status: string
+  search?: string,
+  status?: string,
 ) => {
   const supabase = await createClient();
 

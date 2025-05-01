@@ -1,17 +1,20 @@
 "use client";
+
+import React, { FC, useEffect, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Avatar, FileButton } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Controller, useForm } from "react-hook-form";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { z } from "zod";
+
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton, FileInput } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React, { FC, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
-import { z } from "zod";
 
 export type IItemdata = {
   created_at?: string;
@@ -96,17 +99,20 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         status: undefined,
       });
     }
-  }, [selectedItem, reset]);
+  }, [selectedItem, reset, open]);
 
   const MAX_FILE_SIZE = 1000000;
   const ACCEPTED_IMAGE_TYPES = [
-   "image/jpeg", "image/jpg", "image/png", "image/webp"
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
   ];
 
   const onSubmit = async (data: IAddItemData) => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: "Image is required" });
-    } 
+    }
 
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
@@ -206,7 +212,6 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               onChange={(file) => {
                 handleFileChange(file);
               }}
-              
               accept="image/png,image/jpeg"
             >
               {(props) => (

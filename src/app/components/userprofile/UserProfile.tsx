@@ -1,21 +1,24 @@
 "use client";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Center, FileButton, Loader } from "@mantine/core";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { useState } from "react";
-import FormGroup from "@/app/components/forms/ProfileGroup";
-import FormField from "@/app/components/forms/FormField";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { useUserProfile } from "@hooks/useUserProfile";
-import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import { ImSpoonKnife } from "react-icons/im";
-import { useRouter } from "next/navigation";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { z } from "zod";
+
 import { submitUserForm } from "@/app/actions/userprofile/userprofile-action";
+import { fetchprofiledataQuery } from "@/app/actions/userprofile/userprofile-fetch-query";
+import FormField from "@/app/components/forms/FormField";
+import FormGroup from "@/app/components/forms/ProfileGroup";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
+import BaseTextArea from "@/app/components/ui/BaseTextArea";
 
 export const userformSchema = z.object({
   name: z.string().min(1, "Name is Required"),
@@ -31,7 +34,12 @@ export type IUserFormData = z.infer<typeof userformSchema>;
 const UserProfileForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const { data: userData, isLoading, error } = useUserProfile();
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useQuery(fetchprofiledataQuery());
+
   const router = useRouter();
 
   const {
@@ -123,11 +131,11 @@ const UserProfileForm = () => {
             size="sm"
           >
             <BaseInput
-              
               {...register("name")}
               type="text"
               placeholder="Enter your restaurant name..."
-              defaultValue={userData.name}            />
+              defaultValue={userData?.name}
+            />
           </FormField>
           <FormField
             label="Contact Number"
@@ -139,7 +147,7 @@ const UserProfileForm = () => {
               {...register("phone")}
               type="text"
               placeholder="Enter your Phone number..."
-              defaultValue={userData.phone}
+              defaultValue={userData?.phone}
             />
           </FormField>
           <FormField
@@ -151,7 +159,7 @@ const UserProfileForm = () => {
             <BaseTextArea
               {...register("address")}
               placeholder="Enter your Location..."
-              defaultValue={userData.address}
+              defaultValue={userData?.address}
             />
           </FormField>
           <div className="flex flex-row justify-between ">

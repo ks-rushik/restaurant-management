@@ -1,16 +1,20 @@
-import React, { FC, useEffect, useState } from "react";
-import { IItemdata } from "@components/item/AddItemModal";
-import useShortUrl from "@/app/hooks/useUrl";
 import Image from "next/image";
-import { Card } from "@mantine/core";
-import BaseTextField from "@components/ui/BaseInput";
-import { IoSearch } from "react-icons/io5";
-import BaseButton from "@components/ui/BaseButton";
-import { changeTheme } from "@/app/helper/changeTheme";
-import ThemeButton from "@components/ui/ThemeButton";
-import CustomerSideCard from "./CustomerSideCard";
-import { ICustomerSideBodyProps } from "@components/customer/ItemBased/CustomerSideBody";
+import React, { FC, useEffect, useState } from "react";
+
 import CustomerSideLocation from "@components/customer/CustomerSideLocation";
+import { ICustomerSideBodyProps } from "@components/customer/ItemBased/CustomerSideBody";
+import { IItemdata } from "@components/item/AddItemModal";
+import BaseButton from "@components/ui/BaseButton";
+import BaseTextField from "@components/ui/BaseInput";
+import ThemeButton from "@components/ui/ThemeButton";
+import { Card } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { IoSearch } from "react-icons/io5";
+
+import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+import { changeTheme } from "@/app/helper/changeTheme";
+
+import CustomerSideCard from "./CustomerSideCard";
 import PdfBody from "./Pdf/PdfBody";
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
@@ -42,8 +46,8 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
     }
   }, [theme]);
 
-  const urldata = useShortUrl(id);
-  const urlid = urldata?.[0]?.menu_id;
+  const urldata = useQuery(getUrlDataQuery(id));
+  const urlid = urldata.data?.[0].menu_id;
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
@@ -51,7 +55,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   const filteredCategories = categories
     ?.map((category) => {
       const filteredItems = category.Items?.filter((item: IItemdata) =>
-        item.name?.toLowerCase().includes(searchValue.toLowerCase())
+        item.name?.toLowerCase().includes(searchValue.toLowerCase()),
       );
       return { ...category, filteredItems };
     })
@@ -59,11 +63,10 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
       (category) =>
         category.status === "Available" &&
         category.filteredItems &&
-        category.filteredItems.length > 0
+        category.filteredItems.length > 0,
     );
 
   const noMenusFound = filteredCategories?.length === 0;
-  
 
   const handlePrint = () => {
     const pdfSection = document.getElementById("pdf-section");
@@ -83,7 +86,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   return (
     <div>
       <div className="hidden" id="pdf-section">
-         <PdfBody categories={categories} currency={currency!}/>
+        <PdfBody categories={categories} currency={currency!} />
       </div>
       <div className="p-6" id="main-content">
         <span className="flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">

@@ -1,29 +1,36 @@
 "use client";
+
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
+
+import { item } from "@/app/actions/item/additem-action";
+import deleteitem from "@/app/actions/item/deleteitem-action";
+import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
+import { updateItem } from "@/app/actions/item/updateitem-action";
+import { updateItemOrder } from "@/app/actions/item/updateposition-action";
+
+import AddItemModal, { IItemdata } from "./AddItemModal";
 import ItemHeader from "./ItemHeader";
 import ItemTable from "./ItemTable";
-import AddItemModal, { IItemdata } from "./AddItemModal";
-import { notifications } from "@mantine/notifications";
-import { usePathname } from "next/navigation";
-import { useDisclosure } from "@mantine/hooks";
-import useItem from "@hooks/useItem";
-import { useDebounce } from "use-debounce";
-import { item } from "@/app/actions/item/additem-action";
-import { updateItemOrder } from "@/app/actions/item/updateposition-action";
-import { updateItem } from "@/app/actions/item/updateitem-action";
-import deleteitem from "@/app/actions/item/deleteitem-action";
 
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[4];
   const [Item, setItem] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
-  const [debouncedSearch] = useDebounce(searchData, 500); 
+  const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
-  const data = useItem(categoryId ,debouncedSearch ,filterStatus);
+  const { data } = useQuery(
+    fetchItemdataQuery(categoryId, debouncedSearch, filterStatus),
+  );
 
   useEffect(() => {
     if (data) {
@@ -31,7 +38,7 @@ const ItemPage = () => {
         data.map((item) => ({
           ...item,
           position: item.position || 0,
-        }))
+        })),
       );
     }
   }, [data]);

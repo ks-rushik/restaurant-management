@@ -18,13 +18,14 @@ export async function updateMenu(MenuData: IModalData) {
     status: MenuData.status,
   };
 
-  const { data: UpdatedData } = await supabase
+  const { data: UpdatedData ,error } = await supabase
     .from("menus")
     .update(menudata)
     .eq("id", MenuData.id!)
     .select();
+console.log(UpdatedData , error);
 
-  revalidatePath("/menu", "page");
+  revalidatePath("/menu");
 
   return UpdatedData?.[0];
 }

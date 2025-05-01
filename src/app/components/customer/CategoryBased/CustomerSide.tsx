@@ -1,10 +1,15 @@
 "use client";
-import useShortUrl from "@/app/hooks/useUrl";
+
 import { notFound } from "next/navigation";
 import React, { FC } from "react";
-import CustomerSideHeader from "./CustomerSideHeader";
-import useCategoriesItems from "@/app/hooks/useCategoriesItems";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getCategoryItemQuery } from "@/app/actions/customer/getCategoryItemQuery";
+import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+
 import CustomerSideBody from "./CustomerSIdeBody";
+import CustomerSideHeader from "./CustomerSideHeader";
 
 type ICustomerSideProps = {
   id: string;
@@ -13,13 +18,14 @@ type ICustomerSideProps = {
 const CustomerSide: FC<ICustomerSideProps> = (props) => {
   const { id } = props;
 
-  const menuid = useShortUrl(id);
+  const menuid = useQuery(getUrlDataQuery(id));
   if (id?.length !== 6) {
     return notFound();
   }
 
-  const dataId = menuid?.[0]?.menu_id;
-  const { categories } = useCategoriesItems(dataId) || {};
+  const dataId = menuid.data?.[0].menu_id;
+  const { data } = useQuery(getCategoryItemQuery(dataId));
+  const categories = data?.categories;
 
   const NotavailableItem = categories?.[0].menus.status;
 

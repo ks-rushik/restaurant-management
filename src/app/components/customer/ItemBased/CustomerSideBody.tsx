@@ -1,16 +1,20 @@
-import { Collapse, Divider } from "@mantine/core";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { IItemdata } from "@components/item/AddItemModal";
-import { FaAngleUp, FaAngleDown } from "react-icons/fa";
-import useShortUrl from "@hooks/useUrl";
-import ThemeButton from "@components/ui/ThemeButton";
-import CustomerSideCard from "./CustomerSideCard";
-import { changeTheme } from "@/app/helper/changeTheme";
-import BaseTextField from "@components/ui/BaseInput";
-import { IoSearch } from "react-icons/io5";
-import BaseButton from "@components/ui/BaseButton";
-import Pdf from "./pdf/PdfBody";
+
 import CustomerSideLocation from "@components/customer/CustomerSideLocation";
+import { IItemdata } from "@components/item/AddItemModal";
+import BaseButton from "@components/ui/BaseButton";
+import BaseTextField from "@components/ui/BaseInput";
+import ThemeButton from "@components/ui/ThemeButton";
+import { Collapse, Divider } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+
+import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+import { changeTheme } from "@/app/helper/changeTheme";
+
+import CustomerSideCard from "./CustomerSideCard";
+import Pdf from "./pdf/PdfBody";
 
 export type Restaurant = {
   id: string;
@@ -53,7 +57,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const [mounted, setMounted] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [openCategories, setOpenCategories] = useState<string[]>(
-    categories ? categories.map((c) => c.id) : []
+    categories ? categories.map((c) => c.id) : [],
   );
 
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -61,8 +65,8 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const { email, phone, address, logo, name } =
     categories?.[0].menus?.restaurant_id || {};
 
-  const urldata = useShortUrl(id);
-  const urlid = urldata?.[0]?.menu_id;
+  const urldata = useQuery(getUrlDataQuery(id));
+  const urlid = urldata.data?.[0].menu_id;
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
@@ -90,14 +94,14 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId]
+        : [...prev, categoryId],
     );
   };
 
   const filteredCategories = categories
     ?.map((category) => {
       const filteredItems = category.Items?.filter((item: IItemdata) =>
-        item.name?.toLowerCase().includes(searchValue.toLowerCase())
+        item.name?.toLowerCase().includes(searchValue.toLowerCase()),
       );
       return { ...category, filteredItems };
     })
@@ -105,7 +109,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       (category) =>
         category.status === "Available" &&
         category.filteredItems &&
-        category.filteredItems.length > 0
+        category.filteredItems.length > 0,
     );
 
   const noMenusFound = filteredCategories?.length === 0;
