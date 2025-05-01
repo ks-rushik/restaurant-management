@@ -1,20 +1,23 @@
 "use client";
-import { z } from "zod";
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import FormGroup from "@/app/components/forms/AuthFormGroup";
-import FormField from "@/app/components/forms/FormField";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { resetPassword } from "../../actions/auth/resetpassword-action";
-import { Text, Title } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 
 import Link from "next/link";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Text, Title } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import FormGroup from "@/app/components/forms/AuthFormGroup";
+import FormField from "@/app/components/forms/FormField";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
+import { ErrorMessages } from "@/app/utils/authvalidation";
+
+import { resetPassword } from "../../actions/auth/resetpassword-action";
+
 const resetPasswordSchema = z.object({
-  email: z.string().min(1, "Email is Required").email("Invalid email format"),
+  email: z.string().nonempty(ErrorMessages.required).email(ErrorMessages.email),
 });
 
 export type IResetPasswordData = z.infer<typeof resetPasswordSchema>;
@@ -28,8 +31,8 @@ const ResetPasswordForm = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = async(data: IResetPasswordData) => {
-    const {message} = await resetPassword(data.email);
+  const onSubmit = async (data: IResetPasswordData) => {
+    const { message } = await resetPassword(data.email);
     notifications.show({ message: message });
   };
 
@@ -61,10 +64,9 @@ const ResetPasswordForm = () => {
           <div className="flex flex-col sm:flex-row sm:justify-between  text-md mb-4 text-center sm:text-left">
             <BaseButton
               type="submit"
-             
               classNames={{
                 root: "mb-2 w-full py-2 rounded-md md:w-1/2 h-12 sm:w-1/3",
-                inner:'font-bold text-white text-sm'
+                inner: "font-bold text-white text-sm",
               }}
               loading={isSubmitting}
             >

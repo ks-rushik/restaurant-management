@@ -1,18 +1,26 @@
-'use client';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import FormGroup from '@/app/components/forms/AuthFormGroup';
-import FormField from '@/app/components/forms/FormField';
-import BaseInput from '@/app/components/ui/BaseInput';
-import { useState } from 'react';
-import { login } from '@/app/actions/auth/login-action';
-import BaseButton from '@/app/components/ui/BaseButton';
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { login } from "@/app/actions/auth/login-action";
+import FormGroup from "@/app/components/forms/AuthFormGroup";
+import FormField from "@/app/components/forms/FormField";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
+import { ErrorMessages } from "@/app/utils/authvalidation";
 
 const loginSchema = z.object({
-  email: z.string().trim().min(1, 'Email is Required').email('Invalid email format'),
-  password: z.string().min(1, 'Password required'),
+  email: z
+    .string()
+    .trim()
+    .nonempty(ErrorMessages.required)
+    .email(ErrorMessages.email),
+  password: z.string().nonempty(ErrorMessages.required),
 });
 
 export type ILoginFormData = z.infer<typeof loginSchema>;
@@ -25,7 +33,7 @@ const LoginForm = () => {
   } = useForm<ILoginFormData>({
     resolver: zodResolver(loginSchema),
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const onSubmit = async (data: ILoginFormData) => {
     const error = await login(data);
@@ -47,7 +55,7 @@ const LoginForm = () => {
             size="md"
           >
             <BaseInput
-              {...register('email')}
+              {...register("email")}
               type="email"
               name="email"
               placeholder="Enter your email"
@@ -61,11 +69,11 @@ const LoginForm = () => {
             size="md"
           >
             <BaseInput
-              {...register('password')}
+              {...register("password")}
               type="password"
               name="password"
               placeholder="Enter your Password"
-              classNames={{ input: 'focus-within ' }}
+              classNames={{ input: "focus-within " }}
             />
           </FormField>
           <p className="text-red-500 mb-2">{error}</p>
@@ -73,8 +81,8 @@ const LoginForm = () => {
           <BaseButton
             type="submit"
             classNames={{
-              root: 'mb-2 w-full py-2 rounded-md mt-5 h-12',
-              inner: 'font-bold text-white text-sm',
+              root: "mb-2 w-full py-2 rounded-md mt-5 h-12",
+              inner: "font-bold text-white text-sm",
             }}
             loading={isSubmitting}
           >
@@ -89,7 +97,10 @@ const LoginForm = () => {
             </Link>
             <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  md:justify-center md:gap-1 font-medium ">
               <span>Not account yet?</span>
-              <Link href="/auth/signup" className="text-[#171717] font-bold hover:underline">
+              <Link
+                href="/auth/signup"
+                className="text-[#171717] font-bold hover:underline"
+              >
                 Sign up
               </Link>
             </div>
