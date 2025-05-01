@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,9 +38,11 @@ const LoginForm = () => {
 
   const onSubmit = async (data: ILoginFormData) => {
     const error = await login(data);
+
     if (error) {
       setError(error.message);
     }
+    redirect("/menu");
   };
 
   return (
