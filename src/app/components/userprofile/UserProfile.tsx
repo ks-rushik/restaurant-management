@@ -19,14 +19,15 @@ import FormGroup from "@/app/components/forms/ProfileGroup";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
+import validation from "@/app/utils/validation";
 
 export const userformSchema = z.object({
-  name: z.string().min(1, "Name is Required"),
+  name: z.string().nonempty(validation("Name", "required")),
   phone: z
     .string()
-    .min(1, "Contact number is required")
-    .length(10, "Number is not valid"),
-  address: z.string().min(9, "At least 9 characters long"),
+    .nonempty(validation("Phone number", "required"))
+    .length(10, validation("Phone number", "notvalid")),
+  address: z.string().min(8, validation("Address", "minLength")),
 });
 
 export type IUserFormData = z.infer<typeof userformSchema>;

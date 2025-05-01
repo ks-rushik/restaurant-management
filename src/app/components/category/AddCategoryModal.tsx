@@ -14,6 +14,7 @@ import { z } from "zod";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
+import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
   updated_at?: string;
@@ -41,9 +42,9 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     setSelectedCategory,
   } = props;
   const AddCategorychema = z.object({
-    category_name: z.string().min(1, "Category name is required"),
+    category_name: z.string().nonempty(validation("Category", "required")),
     status: z.enum(["Available", "Not Available"], {
-      errorMap: () => ({ message: "Status is required" }),
+      errorMap: () => validation("Status", "required"),
     }),
   });
 

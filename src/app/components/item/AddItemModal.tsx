@@ -15,6 +15,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
+import validation from "@/app/utils/validation";
 
 export type IItemdata = {
   created_at?: string;
@@ -43,18 +44,16 @@ export type IItemModalProps = {
 const AddItemModal: FC<IItemModalProps> = (props) => {
   const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
   const AddItemschema = z.object({
-    name: z.string().min(1, "Category name is required"),
+    name: z.string().nonempty(validation("Item name", "required")),
     status: z.enum(["Available", "Not Available"], {
-      errorMap: () => ({ message: "Status is required" }),
+      errorMap: () => validation("Status", "required"),
     }),
-    description: z.string().min(8, "At least 9 characters long"),
+    description: z.string().min(8, validation("Description", "minLength")),
     price: z
       .string()
-      .min(1, "Price is required")
+      .nonempty(validation("Price", "required"))
       .transform((value) => (value === "" ? "" : Number(value)))
-      .refine((value) => !isNaN(Number(value)), {
-        message: "Price must be a number",
-      }),
+      .refine((value) => !isNaN(Number(value)), validation("Price", "nan")),
   });
 
   type IAddItemData = z.infer<typeof AddItemschema>;
