@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
@@ -29,8 +29,6 @@ function CategoryPage() {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
-  const searchParam = useSearchParams();
-  const menuname = searchParam.get("name")!;
   const menuId = pathname.split("/")[2];
   const { data } = useQuery(
     fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
