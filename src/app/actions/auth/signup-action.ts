@@ -1,8 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+
 import { ISignUpFormData } from "@components/auth/SignUpForm";
+
 import { createClient } from "@/app/utils/supabase/server";
+import { handleSupabaseError } from "@/app/utils/signuperror";
 
 export async function signUp(formData: ISignUpFormData) {
   const supabase = await createClient();
@@ -16,22 +19,13 @@ export async function signUp(formData: ISignUpFormData) {
     password: formData.password,
   });
 
-  if (data?.user && data.user.identities?.length === 0) {
-    return {
-      error:
-        "This email is already associated with an account. Please log in or use another email.",
-    };
-  }
-
   if (error) {
-    console.log("Signup error:", error.message);
-    let errorMessage = "Unexpected error. Please try again later.";
-    if (error.message.toLowerCase().includes("rate limit")) {
-      errorMessage = "Too many attempts. Please try again later.";
-    }
-    return { error: errorMessage };
+    return handleSupabaseError(error);
   }
 
   revalidatePath("/", "layout");
-  return { message: "User registered successfully. Please check your email to confirm your account." };
+  return {
+    message:
+      "User registered successfully. Please check your email to confirm your account.",
+  };
 }

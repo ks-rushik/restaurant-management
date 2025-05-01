@@ -1,6 +1,7 @@
-import { FC, ReactNode } from "react";
-import background from '@/app/images/background.jpg';
 import Image from "next/legacy/image";
+import { FC, ReactNode } from "react";
+
+import background from "@/app/images/background.jpg";
 
 type IFormGroupProps = {
   children: ReactNode;
@@ -12,8 +13,7 @@ const AuthFormGroup: FC<IFormGroupProps> = ({ children }) => {
       <div className="hidden md:flex w-1/2 h-screen">
         <Image
           src={background}
-          layout="responsive"
-          width={500}
+          width={1000}
           height={500}
           alt="Website Logo"
           className="w-full h-full object-cover opacity-80"
