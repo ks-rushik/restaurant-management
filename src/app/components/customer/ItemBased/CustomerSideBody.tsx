@@ -12,6 +12,7 @@ import { IoSearch } from "react-icons/io5";
 
 import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
 import { changeTheme } from "@/app/helper/changeTheme";
+import { useThemeToggle } from "@/app/hook/useThemetoggle";
 
 import CustomerSideCard from "./CustomerSideCard";
 import Pdf from "./pdf/PdfBody";
@@ -53,8 +54,6 @@ export type ICustomerSideBodyProps = {
 };
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
-  const [theme, setTheme] = useState<"dark" | "light">();
-  const [mounted, setMounted] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [openCategories, setOpenCategories] = useState<string[]>(
     categories ? categories.map((c) => c.id) : [],
@@ -71,24 +70,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
 
-  useEffect(() => {
-    const initialTheme = document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-    setTheme(initialTheme);
-    setMounted(true);
-  }, []);
-
-  const handleThemeChange = async () => {
-    await changeTheme();
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.toggle("dark", theme === "dark");
-    }
-  }, [theme]);
+  const { theme, toggleTheme, mounted } = useThemeToggle();
 
   const handleToggle = (categoryId: string) => {
     setOpenCategories((prev) =>
@@ -147,7 +129,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         </p>
         <Divider size="sm" className="mb-4" />
         {mounted && theme && (
-          <ThemeButton theme={theme} onChange={handleThemeChange} />
+          <ThemeButton theme={theme} onChange={toggleTheme} />
         )}
 
         <div className="  flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">

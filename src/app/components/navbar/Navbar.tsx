@@ -1,38 +1,22 @@
 "use client";
-import Link from "next/link";
-import { Avatar, Menu } from "@mantine/core";
+
 import Image from "next/legacy/image";
-import logo3 from "@/app/images/logo3.png";
-import LogOut from "@components/auth/Logout";
-import { useState, useEffect } from "react";
-import ThemeButton from "@components/ui/ThemeButton";
-import { changeTheme } from "@/app/helper/changeTheme";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import ChangePassword from "@components/auth/ChangePassword";
+import LogOut from "@components/auth/Logout";
+import ThemeButton from "@components/ui/ThemeButton";
+import { Avatar, Menu } from "@mantine/core";
+
+import { useThemeToggle } from "@/app/hook/useThemetoggle";
+import logo3 from "@/app/images/logo3.png";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState<"dark" | "light">();
-  const [mounted, setMounted] = useState(false);
   const [opened, setOpened] = useState(false);
   const [modalopened, setModalOpened] = useState(false);
 
-  useEffect(() => {
-    const initialTheme = document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-    setTheme(initialTheme);
-    setMounted(true);
-  }, []);
-
-  const handleThemeChange = async () => {
-    await changeTheme();
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.toggle("dark", theme === "dark");
-    }
-  }, [theme]);
+  const { theme, toggleTheme, mounted } = useThemeToggle();
 
   return (
     <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
@@ -47,9 +31,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex flex-row items-center gap-4">
-        {mounted && theme && (
-          <ThemeButton theme={theme} onChange={handleThemeChange} />
-        )}
+        {mounted && <ThemeButton theme={theme!} onChange={toggleTheme} />}
 
         <Menu
           opened={opened}

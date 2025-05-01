@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 
 import CustomerSideLocation from "@components/customer/CustomerSideLocation";
 import { ICustomerSideBodyProps } from "@components/customer/ItemBased/CustomerSideBody";
@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IoSearch } from "react-icons/io5";
 
 import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
-import { changeTheme } from "@/app/helper/changeTheme";
+import { useThemeToggle } from "@/app/hook/useThemetoggle";
 
 import CustomerSideCard from "./CustomerSideCard";
 import PdfBody from "./Pdf/PdfBody";
@@ -20,31 +20,9 @@ import PdfBody from "./Pdf/PdfBody";
 const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   const { id, categories } = props;
   const [searchValue, setSearchValue] = useState("");
-  const [theme, setTheme] = useState<"dark" | "light">();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+
   const { email, phone, address } = categories?.[0].menus?.restaurant_id || {};
-
-  useEffect(() => {
-    const initialTheme = document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-    setTheme(initialTheme);
-    setMounted(true);
-  }, []);
-
-  const handleThemeChange = async () => {
-    await changeTheme();
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.toggle("dark", theme === "dark");
-    }
-  }, [theme]);
+  const { theme, toggleTheme, mounted } = useThemeToggle();
 
   const urldata = useQuery(getUrlDataQuery(id));
   const urlid = urldata.data?.[0].menu_id;
@@ -113,7 +91,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
           </BaseButton>
         </span>
         {mounted && theme && (
-          <ThemeButton theme={theme} onChange={handleThemeChange} />
+          <ThemeButton theme={theme} onChange={toggleTheme} />
         )}
 
         {noMenusFound ? (
