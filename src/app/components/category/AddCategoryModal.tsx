@@ -14,6 +14,7 @@ import { z } from "zod";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
+import { Availablity } from "@/app/constants/common";
 import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
@@ -43,7 +44,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   } = props;
   const AddCategorychema = z.object({
     category_name: z.string().nonempty(validation("Category", "required")),
-    status: z.enum(["Available", "Not Available"], {
+    status: z.enum([Availablity.Available, Availablity.NotAvailable], {
       errorMap: () => validation("Status", "required"),
     }),
   });
@@ -54,7 +55,6 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     register,
     formState: { errors },
     handleSubmit,
-    setError,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -77,11 +77,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       setPreview(selectedCategory.image as unknown as string);
       reset({
         category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as "Available" | "Not Available",
+        status: selectedCategory.status as keyof typeof Availablity,
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as "Available" | "Not Available" });
+      reset({ category_name: "", status: "" as keyof typeof Availablity });
     }
   }, [selectedCategory, reset]);
 
@@ -131,7 +131,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={["Available", "Not Available"]}
+                  data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
                   {...field}
                 />

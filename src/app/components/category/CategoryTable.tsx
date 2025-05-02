@@ -1,14 +1,18 @@
-import BaseTable from "@/app/components/ui/BaseTable";
+import Image from "next/image";
 import { FC } from "react";
+
+import FilteredData from "@components/FilterData";
+import SearchFilter from "@components/SearchFilter";
+import SearchInput from "@components/SearchInput";
+import { FaDownLong, FaUpLong } from "react-icons/fa6";
+
+import Loader from "@/app/components/ui/BaseLoader";
+import BaseTable from "@/app/components/ui/BaseTable";
+import { Availablity } from "@/app/constants/common";
+import formatDate from "@/app/utils/formatdate";
+
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
-import Loader from "@/app/components/ui/BaseLoader";
-import { FaDownLong, FaUpLong } from "react-icons/fa6";
-import formatDate from "@/app/utils/formatdate";
-import SearchInput from "@components/SearchInput";
-import SearchFilter from "@components/SearchFilter";
-import FilteredData from "@components/FilterData";
-import Image from "next/image";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -18,7 +22,7 @@ type ICategoryTableProps = {
   handleMoveDown: (index: number) => void;
   handleDelete: (
     id: string,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void;
   loading: string;
   opened: boolean;
@@ -77,7 +81,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
               label: "",
               render: (item) => {
                 const index = data!.findIndex(
-                  (dataItem) => dataItem.id === item.id
+                  (dataItem) => dataItem.id === item.id,
                 );
                 return (
                   <div className="flex gap-1">
@@ -119,10 +123,10 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
             {
               label: "AVAILABILITY",
               render: (item) =>
-                item.status === "Not Available" ? (
-                  <p className="text-red-500">Not Available</p>
+                item.status === Availablity.NotAvailable ? (
+                  <p className="text-red-500">{Availablity.NotAvailable}</p>
                 ) : (
-                  <p className="text-green-600">Available</p>
+                  <p className="text-green-600">{Availablity.Available}</p>
                 ),
             },
             {

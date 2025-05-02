@@ -15,6 +15,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
+import { Availablity } from "@/app/constants/common";
 import validation from "@/app/utils/validation";
 
 export type IItemdata = {
@@ -45,7 +46,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
   const AddItemschema = z.object({
     name: z.string().nonempty(validation("Item name", "required")),
-    status: z.enum(["Available", "Not Available"], {
+    status: z.enum([Availablity.Available, Availablity.NotAvailable], {
       errorMap: () => validation("Status", "required"),
     }),
     description: z.string().min(8, validation("Description", "minLength")),
@@ -86,7 +87,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         name: selectedItem.name!,
         description: selectedItem.description!,
         price: selectedItem.price!,
-        status: selectedItem.status as "Available" | "Not Available",
+        status: selectedItem.status as keyof typeof Availablity,
       });
 
       open();
@@ -184,7 +185,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={[`Available`, `Not Available`]}
+                  data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
                   {...field}
                 />

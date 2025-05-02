@@ -1,12 +1,16 @@
 import { FC } from "react";
-import BaseTable from "@/app/components/ui/BaseTable";
-import Loader from "@/app/components/ui/BaseLoader";
-import formatDate from "@/app/utils/formatdate";
-import { IMenudata } from "@/app/type/type";
-import MenuActions from "./MenuActions";
-import SearchInput from "@components/SearchInput";
+
 import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
+import SearchInput from "@components/SearchInput";
+
+import Loader from "@/app/components/ui/BaseLoader";
+import BaseTable from "@/app/components/ui/BaseTable";
+import { Availablity } from "@/app/constants/common";
+import { IMenudata } from "@/app/type/type";
+import formatDate from "@/app/utils/formatdate";
+
+import MenuActions from "./MenuActions";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -14,7 +18,7 @@ type IMenuTableProps = {
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void;
   loading: string;
   opened: boolean;
@@ -38,7 +42,6 @@ const MenuTable: FC<IMenuTableProps> = ({
   filterStatus,
   setFilterStatus,
 }) => {
-   
   return !data ? (
     <Loader />
   ) : (
@@ -56,9 +59,7 @@ const MenuTable: FC<IMenuTableProps> = ({
       </SearchFilter>
 
       {data.length === 0 ? (
-        <p className="text-center text-gray-500 mt-4">
-          No menus found.
-        </p>
+        <p className="text-center text-gray-500 mt-4">No menus found.</p>
       ) : (
         <BaseTable
           data={data}
@@ -71,10 +72,10 @@ const MenuTable: FC<IMenuTableProps> = ({
             {
               label: "AVAILABILITY",
               render: (item) =>
-                item.status === "Not Available" ? (
-                  <p className="text-red-500">Not Available</p>
+                item.status === Availablity.NotAvailable ? (
+                  <p className="text-red-500">{Availablity.NotAvailable}</p>
                 ) : (
-                  <p className="text-green-600">Available</p>
+                  <p className="text-green-600">{Availablity.Available}</p>
                 ),
             },
             {

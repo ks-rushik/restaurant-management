@@ -12,6 +12,7 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
+import { Availablity } from "@/app/constants/common";
 import { IModalData } from "@/app/type/type";
 import validation from "@/app/utils/validation";
 
@@ -35,7 +36,7 @@ const Addmenu: FC<IMenuModalProps> = ({
     currency: z.enum(["$", "₹", "€", "¥"], {
       errorMap: () => validation("Currency", "required"),
     }),
-    status: z.enum(["Available", "Not Available"], {
+    status: z.enum([Availablity.Available, Availablity.NotAvailable], {
       errorMap: () => validation("Status", "required"),
     }),
   });
@@ -58,14 +59,14 @@ const Addmenu: FC<IMenuModalProps> = ({
       reset({
         menu_name: selectedMenu.menu_name,
         currency: selectedMenu.currency as "$" | "₹" | "€" | "¥",
-        status: selectedMenu.status as "Available" | "Not Available",
+        status: selectedMenu.status as keyof typeof Availablity,
       });
       open();
     } else {
       reset({
         menu_name: "",
         currency: "" as "$" | "₹" | "€" | "¥",
-        status: "" as "Available" | "Not Available",
+        status: "" as keyof typeof Availablity,
       });
     }
   }, [selectedMenu, reset, open]);
@@ -130,7 +131,7 @@ const Addmenu: FC<IMenuModalProps> = ({
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={["Available", "Not Available"]}
+                  data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
                   {...field}
                 />
