@@ -1,20 +1,24 @@
 "use client";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { CopyButton, TextInput } from "@mantine/core";
-import { FC, useState } from "react";
+
 import Image from "next/legacy/image";
-import BaseModal from "@/app/components/ui/BaseModal";
-import { RiDownload2Line } from "react-icons/ri";
+import { FC, useState } from "react";
+
+import { CopyButton, Loader, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
-import { IMenudata } from "@/app/type/type";
+import { RiDownload2Line } from "react-icons/ri";
+
 import shortLink from "@/app/actions/customer/addshortlink-action";
-import fetchshortUrl from "@/app/actions/customer/getUrl";
-import generateQRCode from "@/app/helper/qrcodegenrating";
-import { notifications } from "@mantine/notifications";
-import getCategorydata from "@/app/helper/getCategorydata";
 import { getProfileData } from "@/app/actions/customer/getProfileData";
+import fetchshortUrl from "@/app/actions/customer/getUrl";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseModal from "@/app/components/ui/BaseModal";
+import { Availablity } from "@/app/constants/common";
 import { downloadQRCodeWithText } from "@/app/helper/downloadQRCode";
+import getCategorydata from "@/app/helper/getCategorydata";
+import generateQRCode from "@/app/helper/qrcodegenrating";
+import { IMenudata } from "@/app/type/type";
 
 export type IShareMenuProps = {
   item: IMenudata;
@@ -27,8 +31,10 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [qrcode, setQrcode] = useState<string | undefined>();
   const { item } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleShareMenu = async () => {
+    setLoading(true);
     const categorydata = await getCategorydata(item.id);
     const profiledata = await getProfileData();
     setProfilename(profiledata.name);
@@ -51,6 +57,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
       const qrcode = fetchdata?.[2];
       setQrcode(qrcode);
       setShareModalOpen(true);
+      setLoading(false);
     }
   };
   const handleInActiveMenu = () => {
@@ -66,35 +73,40 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
     <>
       <BaseButton
         onClick={() => {
-          if (item.status !== "Not Available") {
+          if (item.status !== Availablity.NotAvailable) {
             handleShareMenu();
           } else {
             handleInActiveMenu();
           }
         }}
         title="Share Menu"
+        classNames={{ root: "w-full h-12 text-base" }}
       >
-        Item Based Menu
+        {loading ? <Loader size={"sm"} color="white" /> : " Item Based Menu"}
       </BaseButton>
 
       <BaseModal
+        classNames={{ content: "h-[424px]" }}
+        overlayProps={{
+          opacity: 0.2,
+        }}
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
         title="Share Menu Link"
         centered
       >
         {qrcode && (
-          <div className="flex justify-center ">
+          <div className="flex justify-center  ">
             <Image
               src={qrcode}
               alt="qrcode"
               width={200}
-              height={150}
+              height={200}
               className="border-2  rounded-lg"
             ></Image>
           </div>
         )}
-        <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
+        <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-4 gap-2 sm:gap-4">
           <CopyButton value={qrcode!} timeout={2000}>
             {({ copied, copy }) => (
               <BaseButton
