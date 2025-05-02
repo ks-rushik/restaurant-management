@@ -2,16 +2,20 @@
 
 import { notFound } from "next/navigation";
 
+import ThemeButton from "@components/ui/ThemeButton";
 import { useQuery } from "@tanstack/react-query";
 
 import { getCategoryItemQuery } from "@/app/actions/customer/getCategoryItemQuery";
 import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+import { Availablity } from "@/app/constants/common";
+import { useThemeToggle } from "@/app/hook/useThemetoggle";
 
 import CustomerSideBody from "./CustomerSideBody";
 import CustomerSideHeader from "./CustomerSideHeader";
 
 const CustomerSide = ({ id }: { id: string }) => {
   const menuid = useQuery(getUrlDataQuery(id));
+  const { theme, toggleTheme, mounted } = useThemeToggle();
 
   if (id?.length !== 6) {
     return notFound();
@@ -28,7 +32,7 @@ const CustomerSide = ({ id }: { id: string }) => {
 
   return (
     <>
-      {NotavailableItem === "Not Available" ? (
+      {NotavailableItem === Availablity.NotAvailable ? (
         <div className="flex flex-col items-center justify-center p-96 space-y-4">
           <div className="flex justify-center items-center  text-3xl font-bold text-red-600 ">
             Menu is not available now
@@ -39,10 +43,17 @@ const CustomerSide = ({ id }: { id: string }) => {
           </div>
         </div>
       ) : (
-        <div className="container px-4 mx-auto  mb-10">
-          <CustomerSideHeader logo={profilelogo} name={profileName} />
-          <CustomerSideBody categories={categories} id={id} />
-        </div>
+        <>
+          <div className="container px-4 mx-auto  mb-10">
+            <CustomerSideHeader logo={profilelogo} name={profileName} />
+            <CustomerSideBody categories={categories} id={id} />
+          </div>
+          {mounted && theme && (
+            <div className="sticky bottom-0">
+              <ThemeButton theme={theme} onChange={toggleTheme} />
+            </div>
+          )}
+        </>
       )}
     </>
   );

@@ -70,8 +70,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
 
-  const { theme, toggleTheme, mounted } = useThemeToggle();
-
   const handleToggle = (categoryId: string) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
@@ -128,9 +126,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           MENU
         </p>
         <Divider size="sm" className="mb-4" />
-        {mounted && theme && (
-          <ThemeButton theme={theme} onChange={toggleTheme} />
-        )}
 
         <div className="  flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">
           <BaseTextField

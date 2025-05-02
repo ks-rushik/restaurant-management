@@ -6,7 +6,6 @@ import { ICustomerSideBodyProps } from "@components/customer/ItemBased/CustomerS
 import { IItemdata } from "@components/item/AddItemModal";
 import BaseButton from "@components/ui/BaseButton";
 import BaseTextField from "@components/ui/BaseInput";
-import ThemeButton from "@components/ui/ThemeButton";
 import { Card } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { IoSearch } from "react-icons/io5";
@@ -22,7 +21,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
   const [searchValue, setSearchValue] = useState("");
 
   const { email, phone, address } = categories?.[0].menus?.restaurant_id || {};
-  const { theme, toggleTheme, mounted } = useThemeToggle();
+  const { mounted } = useThemeToggle();
 
   const urldata = useQuery(getUrlDataQuery(id));
   const urlid = urldata.data?.[0].menu_id;
@@ -90,9 +89,6 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
             Download Menu
           </BaseButton>
         </span>
-        {mounted && theme && (
-          <ThemeButton theme={theme} onChange={toggleTheme} />
-        )}
 
         {noMenusFound ? (
           <div className="text-center p-10 text-gray-900 dark:text-gray-300 font-medium text-lg">

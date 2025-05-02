@@ -9,7 +9,7 @@ type ThemeButtonProps = {
 
 const ThemeButton: React.FC<ThemeButtonProps> = ({ theme, onChange }) => {
   return (
-    <div className="sticky top-0 z-10">
+    <div className="sticky bottom-2 flex justify-start pl-8 md:pl-40 z-10">
       <label className="relative w-6 h-6 flex items-center justify-center rounded-full border-2 border-gray-800 shadow-[4px_4px_0px_0px_#333] bg-white active:shadow-none active:translate-x-[3px] active:translate-y-[3px]">
         <input
           type="checkbox"
