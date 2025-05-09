@@ -14,6 +14,8 @@ import fetchshortUrl from "@/app/actions/customer/getUrl";
 import generateQRCode from "@/app/helper/qrcodegenrating";
 import { notifications } from "@mantine/notifications";
 import getCategorydata from "@/app/helper/getCategorydata";
+import { getProfileData } from "@/app/actions/customer/getProfileData";
+import { downloadQRCodeWithText } from "@/app/helper/downloadQRCode";
 
 type IShareMenuProps = {
   item: IMenudata;
@@ -21,25 +23,30 @@ type IShareMenuProps = {
 
 const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shortCode, setShortCode] = useState();
+  const [profilename, setProfilename] = useState("");
+
   const [qrcode, setQrcode] = useState<string | undefined>();
   const { item } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
-
   const handleShareMenu = async () => {
-    const categorydata = await getCategorydata(item.id)
+    const categorydata = await getCategorydata(item.id);
+    const profiledata = await getProfileData();
+    setProfilename(profiledata.name);
+
     if (categorydata.length === 0) {
       notifications.show({
         message: "To preview menu add atleast one category",
       });
-    } else   
-    {
+    } else {
       const fetchdata = await Promise.all([
         shortLink(item.id),
         fetchshortUrl(item.id),
         generateQRCode(shortCode!),
       ]);
       fetchdata?.[0];
+      console.log(fetchdata, "fetchdata");
+
       const shortUrlData = fetchdata?.[1];
       const shortcode = shortUrlData.short_url;
       setShortCode(shortcode);
@@ -51,7 +58,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const handleInActiveMenu = () => {
     notifications.show({
       message: `${item.menu_name} is not active to share this menu active the status`,
-      color:"indigo"
+      color: "indigo",
     });
   };
 
@@ -80,7 +87,13 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
       >
         {qrcode && (
           <div className="flex justify-center ">
-            <Image src={qrcode} alt="qrcode" width={200} height={150}></Image>
+            <Image
+              src={qrcode}
+              alt="qrcode"
+              width={200}
+              height={150}
+              className="border-2  rounded-lg"
+            ></Image>
           </div>
         )}
         <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
@@ -107,14 +120,15 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
             )}
           </CopyButton>
 
-          <a href={qrcode} download="qrcode.png">
-            <BaseButton
-              classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
-            >
-              <span className="mr-2 text-white">Download</span>
-              <RiDownload2Line />
-            </BaseButton>
-          </a>
+          <BaseButton
+            onClick={() =>
+              shortCode && downloadQRCodeWithText(shortCode, profilename)
+            }
+            classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
+          >
+            <span className="mr-2 text-white">Download</span>
+            <RiDownload2Line />
+          </BaseButton>
         </div>
 
         <TextInput
@@ -144,3 +158,4 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
 };
 
 export default ShareMenu;
+//here
