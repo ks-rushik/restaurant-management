@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+.hidden-for-screen {
+  display: none;
+}
+@media print {
+  .page-break-before {
+    page-break-before: always ;
+    break-before: page;
+  }
+  #pdf-section {
+    margin-top: 50px;
+  }
+
+  .page-break-after {
+    page-break-after: always ;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid !important;
+  }
+}
+
+
 :root {
   --background-light: #ffffff;
   --background-dark: #131414;
@@ -125,4 +147,9 @@ body {
 .dark body {
   background-color: var(--background-dark);
   color: white;
+}
+@media print {
+  .hide-in-print {
+    display: none !important;
+  }
 }

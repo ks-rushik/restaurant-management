@@ -1,0 +1,37 @@
+"use client";
+import React, { FC } from "react";
+import Image from "next/image";
+import LeftSideImage from "@/app/images/LeftSideImage";
+import RightSideImage from "@/app/images/RightSideImage";
+
+type IPdfHeaderProps = {
+  logo: string;
+  name: string;
+};
+const PdfSideHeader: FC<IPdfHeaderProps> = (props) => {
+  const { logo, name } = props;
+  return (
+    <div className="flex justify-between">
+      <LeftSideImage />
+
+      <div className="flex flex-col items-center w-full max-w-xs sm:max-w-md md:max-w-lg">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28">
+          <Image
+            src={logo}
+            alt="logo"
+            width={100}
+            height={100}
+            className="rounded-full border-2 border-gray-300 shadow-md object-cover"
+          />
+        </div>
+
+        <h1 className="text-lg sm:text-2xl md:text-3xl pb-4 text-gray-800 text-center tracking-wide font-extrabold dark:text-white">
+          {name}
+        </h1>
+      </div>
+      <RightSideImage />
+    </div>
+  );
+};
+
+export default PdfSideHeader;

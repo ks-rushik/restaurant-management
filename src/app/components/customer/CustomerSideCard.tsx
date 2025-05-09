@@ -1,5 +1,5 @@
 import { Badge, Card, Text } from "@mantine/core";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { FC, useEffect, useState } from "react";
 import { IItemdata } from "../item/AddItemModal";
 
@@ -37,9 +37,9 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
               ? item.image
               : URL.createObjectURL(item.image as Blob)
           }
-          width={20}
-          height={20}
-          layout="responsive"
+          width={500}
+          height={500}
+          
           alt="Website Logo"
           className="w-full max-h-44 min-h-56 object-cover transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-black/30"
           priority

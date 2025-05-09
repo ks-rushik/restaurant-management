@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Avatar, Menu } from "@mantine/core";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import logo3 from "../../images/logo3.png";
 import LogOut from "../auth/Logout";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";

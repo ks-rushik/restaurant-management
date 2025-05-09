@@ -5,7 +5,7 @@ import Loader from "@/app/components/ui/BaseLoader";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { IItemdata } from "./AddItemModal";
 import formatDate from "@/app/utils/formatdate";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Availablity } from "@/app/constants/common";
 import SearchInput from "../SearchInput";
 import SearchFilter from "../SearchFilter";

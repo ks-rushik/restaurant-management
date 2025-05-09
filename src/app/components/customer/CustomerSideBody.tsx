@@ -1,5 +1,5 @@
 import { Collapse, Divider } from "@mantine/core";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { IItemdata } from "../item/AddItemModal";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import useShortUrl from "../../hooks/useUrl";
@@ -8,6 +8,9 @@ import CustomerSideCard from "./CustomerSideCard";
 import CustomerSideLocation from "./CustomerSideLocation";
 import { changeTheme } from "@/app/helper/changeTheme";
 import BaseTextField from "../ui/BaseInput";
+import { IoSearch } from "react-icons/io5";
+import BaseButton from "../ui/BaseButton";
+import Pdf from "../pdf/PdfBody";
 
 type ICustomerSideBodyProps = {
   categories: any[] | null | undefined;
@@ -17,7 +20,24 @@ type ICustomerSideBodyProps = {
 const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const [theme, setTheme] = useState<"dark" | "light">();
   const [mounted, setMounted] = useState(false);
-  const [value, setValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [openCategories, setOpenCategories] = useState<string[]>(
+    categories ? categories.map((c) => c.id) : []
+  );
+
+  const pdfRef = useRef<HTMLDivElement>(null);
+
+  const logo = categories?.[0]?.menus?.restaurant_id?.logo;
+  const name = categories?.[0]?.menus?.restaurant_id?.name;
+  const contact = categories?.[0]?.menus?.restaurant_id?.phone;
+  const location = categories?.[0]?.menus?.restaurant_id?.address;
+  const email = categories?.[0]?.menus?.restaurant_id?.email;
+
+  const urldata = useShortUrl(id);
+  const urlid = urldata?.[0]?.menu_id;
+  const currency = categories
+    ?.map((item) => item.menus)
+    .find((menu) => menu?.id === urlid)?.currency;
 
   useEffect(() => {
     const initialTheme = document.documentElement.classList.contains("dark")
@@ -38,22 +58,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     }
   }, [theme]);
 
-  const urldata = useShortUrl(id);
-  const urlid = urldata?.[0]?.menu_id;
-
-  const currency = categories
-    ?.map((item) => item.menus)
-    .find((menu) => menu?.id === urlid)?.currency;
-
-  const contact = categories?.[0]?.menus?.restaurant_id?.phone;
-  const location = categories?.[0]?.menus?.restaurant_id?.address;
-  const email = categories?.[0]?.menus?.restaurant_id?.email;
-
-  const [openCategories, setOpenCategories] = useState<string[]>(
-    categories ? categories.map((category) => category.id) : []
-  );
-
-  const handleToggle = (categoryId: string, event: React.MouseEvent) => {
+  const handleToggle = (categoryId: string) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
@@ -64,7 +69,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
   const filteredCategories = categories
     ?.map((category) => {
       const filteredItems = category.Items?.filter((item: IItemdata) =>
-        item.name?.toLowerCase().includes(value.toLowerCase())
+        item.name?.toLowerCase().includes(searchValue.toLowerCase())
       );
       return { ...category, filteredItems };
     })
@@ -77,65 +82,111 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
   const noMenusFound = filteredCategories?.length === 0;
 
+  const handlePrint = () => {
+    const pdfSection = document.getElementById("pdf-section");
+    const mainContent = document.getElementById("main-content");
+
+    if (pdfSection && mainContent) {
+      pdfSection.style.display = "block";
+      mainContent.style.display = "none";
+
+      window.print();
+
+      pdfSection.style.display = "none";
+      mainContent.style.display = "block";
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <Divider size="sm" />
-      <p className=" text-4xl text-center tracking-widest font-thin">MENU</p>
-      <Divider size="sm" className="mb-4" />
+      <div className="hidden" id="pdf-section">
+        <Pdf
+          ref={pdfRef}
+          filteredCategories={filteredCategories}
+          currency={currency}
+          logo={logo}
+          name={name}
+          openCategories={[]}
+        />
+      </div>
+      <div id="main-content">
+        <Divider size="sm" />
+        <p className="text-4xl text-center tracking-widest font-thin my-4">
+          MENU
+        </p>
+        <Divider size="sm" className="mb-4" />
 
-      {mounted && theme && (
-        <ThemeButton theme={theme} onChange={handleThemeChange} />
-      )}
+        {mounted && theme && (
+          <ThemeButton theme={theme} onChange={handleThemeChange} />
+        )}
 
-      <BaseTextField
-        value={value}
-        label={"Seach Menu"}
-        
-        onChange={(e) => setValue((e.target as HTMLInputElement).value)}
-      />
+        <div className="flex justify-end gap-3 items-center my-6">
+          <BaseTextField
+            value={searchValue}
+            placeholder="Search menu..."
+            onChange={(e) =>
+              setSearchValue((e.target as HTMLInputElement).value)
+            }
+            leftSection={
+              <IoSearch
+                size={20}
+                className="hover:text-gray-700 dark:hover:text-gray-400"
+              />
+            }
+          />
 
-      {noMenusFound ? (
-        <div className="text-center text-gray-500 dark:text-gray-300">
-          No Menus Found
-        </div>
-      ) : (
-        filteredCategories?.map((category) => (
-          <div
-            key={category.id}
-            onClick={(event) => handleToggle(category.id, event)}
+          <BaseButton
+            onClick={handlePrint}
+            classNames={{ root: "h-[53.5px] text-md font-extrabold" }}
           >
-            <div className="bg-white p-4 rounded-lg shadow-2x dark:bg-gray-800">
-              <p className="font-bold text-lg sm:text-2xl text-gray-800 dark:text-white flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300 pt-2">
-                {category.category_name}
-                <span className="text-gray-500 text-sm">
-                  {openCategories.includes(category.id) ? (
-                    <FaAngleUp />
-                  ) : (
-                    <FaAngleDown />
-                  )}
-                </span>
-              </p>
+            Download Menu
+          </BaseButton>
+        </div>
 
-              <div className="mt-2 flex justify-center flex-wrap md:justify-start gap-4">
-                {category.filteredItems.map((item: IItemdata) => (
-                  <Collapse
-                    in={openCategories.includes(category.id)}
-                    key={item.id}
-                  >
-                    <CustomerSideCard item={item} currency={currency} />
-                  </Collapse>
-                ))}
+        {noMenusFound ? (
+          <div className="text-center text-gray-500 dark:text-gray-300 font-medium text-lg">
+            No Menus Found
+          </div>
+        ) : (
+          filteredCategories?.map((category) => (
+            <div
+              key={category.id}
+              onClick={() => handleToggle(category.id)}
+              className=""
+            >
+              <div className="p-4 rounded-lg shadow-2xl dark:bg-gray-800">
+                <p className="font-bold text-lg sm:text-2xl text-gray-800 dark:text-white flex justify-between items-center cursor-pointer hover:text-blue-600 transition-all duration-300 pt-2">
+                  {category.category_name}
+                  <span className="text-gray-500 text-sm">
+                    {openCategories.includes(category.id) ? (
+                      <FaAngleUp />
+                    ) : (
+                      <FaAngleDown />
+                    )}
+                  </span>
+                </p>
+
+                <div className="mt-2 flex justify-center flex-wrap md:justify-start gap-4">
+                  {category.filteredItems.map((item: IItemdata) => (
+                    <Collapse
+                      in={openCategories.includes(category.id)}
+                      key={item.id}
+                    >
+                      <CustomerSideCard item={item} currency={currency} />
+                    </Collapse>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
 
-      <CustomerSideLocation
-        location={location}
-        email={email}
-        contact={contact}
-      />
+        <CustomerSideLocation
+          location={location}
+          email={email}
+          contact={contact}
+        />
+      </div>
     </div>
   );
 };
