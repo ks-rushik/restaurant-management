@@ -62,6 +62,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         />
         <FilteredData
           value={filterStatus}
+          data={[
+            Availablity.Available,
+            Availablity.NotAvailable,
+            Jainoption.Jain,
+            Jainoption.NotJain,
+            "All",
+          ]}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
@@ -122,7 +129,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                 <>
                   {item.name}
                   {item.jain === Jainoption.Jain && (
-                    <Badge classNames={{ root: "bg-primary-main text-sm h-6 opacity-90 ml-2" }} title="Jain">
+                    <Badge
+                      classNames={{
+                        root: "bg-primary-main text-sm h-6 opacity-90 ml-2",
+                      }}
+                      title="Jain"
+                    >
                       J
                     </Badge>
                   )}

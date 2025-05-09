@@ -62,6 +62,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         />
         <FilteredData
           value={filterStatus}
+          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>

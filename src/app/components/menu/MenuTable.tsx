@@ -54,6 +54,7 @@ const MenuTable: FC<IMenuTableProps> = ({
         />
         <FilteredData
           value={filterStatus}
+          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
