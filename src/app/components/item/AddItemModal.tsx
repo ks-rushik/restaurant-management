@@ -16,6 +16,7 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { Availablity } from "@/app/constants/common";
+import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type IItemdata = {
@@ -101,17 +102,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     }
   }, [selectedItem, reset, open]);
 
-  const MAX_FILE_SIZE = 1000000;
-  const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-  ];
-
   const onSubmit = async (data: IAddItemData) => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: "Image is required" });
+    }
+    if (file) {
+      return setError("root", { message: ImageError(file).setError });
     }
 
     if (selectedItem) {
@@ -140,6 +136,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       price: "",
       status: undefined,
     });
+    setFile(null);
   };
 
   return (

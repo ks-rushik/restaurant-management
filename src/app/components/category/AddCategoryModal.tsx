@@ -15,6 +15,7 @@ import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import { Availablity } from "@/app/constants/common";
+import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
@@ -55,6 +56,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -86,6 +88,13 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   }, [selectedCategory, reset]);
 
   const onSubmit = async (data: IAddCategoryData) => {
+    if (!selectedCategory?.image && !file) {
+      return setError("root", { message: "Image is required" });
+    }
+    if (file) {
+      return setError("root", { message: ImageError(file).setError });
+    }
+
     if (selectedCategory) {
       const updatedItem = { ...selectedCategory, ...data };
       await onEditCategory(updatedItem, file ?? undefined);
@@ -102,6 +111,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
+    setFile(null)
   };
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -158,7 +168,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               onChange={(file) => {
                 handleFileChange(file);
               }}
-              accept="image/png,image/jpeg"
+              accept="image/jpeg ,image/png"
             >
               {(props) => (
                 <BaseButton {...props} classNames={{ root: "text-white" }}>
