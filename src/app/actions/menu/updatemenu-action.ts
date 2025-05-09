@@ -1,8 +1,9 @@
 "use server";
 
-import { createClient } from "@/app/utils/supabase/server";
-import { IModalData } from "@/app/type/type";
 import { revalidatePath } from "next/cache";
+
+import { IModalData } from "@/app/type/type";
+import { createClient } from "@/app/utils/supabase/server";
 
 export async function updateMenu(MenuData: IModalData) {
   const supabase = await createClient();
@@ -18,12 +19,11 @@ export async function updateMenu(MenuData: IModalData) {
     status: MenuData.status,
   };
 
-  const { data: UpdatedData ,error } = await supabase
+  const { data: UpdatedData, error } = await supabase
     .from("menus")
     .update(menudata)
     .eq("id", MenuData.id!)
     .select();
-console.log(UpdatedData , error);
 
   revalidatePath("/menu");
 

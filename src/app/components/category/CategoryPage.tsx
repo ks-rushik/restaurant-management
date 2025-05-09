@@ -100,8 +100,6 @@ function CategoryPage() {
   };
 
   const handleAddCategory = async (newItem: ICategorydata, file?: File) => {
-    console.log(file, "pagefile");
-
     const addedItem = await categories(newItem, menuId, file);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));

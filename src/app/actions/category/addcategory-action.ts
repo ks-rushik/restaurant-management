@@ -1,16 +1,20 @@
 "use server";
 
-import { ICategorydata } from "@/app/components/category/AddCategoryModal";
-import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-const categories = async (CategoryData: ICategorydata, menuId: string , file?: File) => {
+import { ICategorydata } from "@/app/components/category/AddCategoryModal";
+import { createClient } from "@/app/utils/supabase/server";
+
+const categories = async (
+  CategoryData: ICategorydata,
+  menuId: string,
+  file?: File,
+) => {
   const supabase = await createClient();
-  console.log(file ,'file');
-  
+
   if (file && file.size > 0) {
     const fileName = `${file.name}`;
-    
+
     const { error } = await supabase.storage
       .from("category")
       .upload(fileName, file, { upsert: true });
@@ -20,17 +24,18 @@ const categories = async (CategoryData: ICategorydata, menuId: string , file?: F
     }
     const { data } = supabase.storage.from("category").getPublicUrl(fileName);
     const imageUrl = data.publicUrl;
-    
 
     const { data: maxPositionData } = await supabase
-    .from("category")
-    .select("position")
-    .eq("menu_id", menuId)
-    .order("position", { ascending: false })
-    .limit(1)
-    .single();
+      .from("category")
+      .select("position")
+      .eq("menu_id", menuId)
+      .order("position", { ascending: false })
+      .limit(1)
+      .single();
 
-    const newPosition = maxPositionData ? (maxPositionData.position || 0) + 1 : 1;
+    const newPosition = maxPositionData
+      ? (maxPositionData.position || 0) + 1
+      : 1;
     const categorydata = {
       menu_id: menuId,
       category_name: CategoryData.category_name,
@@ -38,12 +43,11 @@ const categories = async (CategoryData: ICategorydata, menuId: string , file?: F
       position: newPosition,
       image: imageUrl,
     };
-    
-  
+
     const { data: UpdatedData } = await supabase
-    .from("category")
-    .insert(categorydata)
-    .select();
+      .from("category")
+      .insert(categorydata)
+      .select();
     revalidatePath("/", "page");
 
     return UpdatedData?.[0];
@@ -71,8 +75,7 @@ const categories = async (CategoryData: ICategorydata, menuId: string , file?: F
     .insert(categorydata)
     .select();
 
-
- // categorypage endpoint
+  // categorypage endpoint
   // type CategoryItem = {
   //   category_name: string;
   //   menu_id: string ;
@@ -84,14 +87,13 @@ const categories = async (CategoryData: ICategorydata, menuId: string , file?: F
   //   try {
   //     const { data } = await supabase.from('category').insert(items);
   //     console.log(data);
-      
+
   //   } catch (err) {
   //     console.error('Unexpected error:', err);
   //     return { success: false, error: 'Unexpected error occurred' };
   //   }
   // };
   // console.log(InsertData , 'categorydata');
-  
 
   // const newItems = [
   //   {
@@ -107,7 +109,7 @@ const categories = async (CategoryData: ICategorydata, menuId: string , file?: F
   //     position: InsertData?.[0].position + 2
   //   }
   // ];
-  
+
   // Categories(newItems)
 
   revalidatePath("/", "layout");

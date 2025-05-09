@@ -1,15 +1,15 @@
-'use server'
-import { createClient } from "@/app/utils/supabase/server";
+"use server";
+
 import { revalidatePath } from "next/cache";
 
+import { createClient } from "@/app/utils/supabase/server";
+
 const deletecategory = async (id: string) => {
-    console.log("deleted id" ,id);
-    
   const supabase = await createClient();
   const { data, error } = await supabase.from("category").delete().eq("id", id);
-  
+
   revalidatePath("/", "layout");
-  return ;
+  return;
 };
 
 export default deletecategory;

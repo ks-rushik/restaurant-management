@@ -19,7 +19,6 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
   const menuId = pathname.split("/")[2];
   const categoryId = pathname.split("/")[4];
   const { data: items } = useQuery(fetchcategoryitemdataQuery(categoryId));
-  console.log(items, "this is items");
 
   const itemname = items?.[0].category_name;
   const categoryname = items?.[0].menus?.menu_name;

@@ -42,7 +42,6 @@ const ResetPassword = () => {
   });
 
   const onSubmit = (data: IResetPasswordData) => {
-    console.log("SignUp Data:", data);
     return updatePassword(data.password);
   };
   return (
