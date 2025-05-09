@@ -47,16 +47,20 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
 
   const handlePrint = () => {
     const pdfSection = document.getElementById("pdf-section");
-    const mainContent = document.getElementById("main-content");
+    const mainContent = document.getElementsByClassName("main-content");
 
     if (pdfSection && mainContent) {
       pdfSection.style.display = "block";
-      mainContent.style.display = "none";
+      for (let i = 0; i < mainContent.length; i++) {
+        (mainContent[i] as HTMLElement).style.display = "none";
+      }
 
       window.print();
 
       pdfSection.style.display = "none";
-      mainContent.style.display = "block";
+      for (let i = 0; i < mainContent.length; i++) {
+        (mainContent[i] as HTMLElement).style.display = "block";
+      }
     }
   };
 
@@ -65,7 +69,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = (props) => {
       <div className="hidden" id="pdf-section">
         <PdfBody categories={categories} currency={currency!} />
       </div>
-      <div className="p-6" id="main-content">
+      <div className="p-6 main-content" >
         <span className="flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">
           {mounted && (
             <BaseTextField

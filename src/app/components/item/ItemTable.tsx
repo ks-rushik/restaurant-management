@@ -122,8 +122,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                 <>
                   {item.name}
                   {item.jain === Jainoption.Jain && (
-                    <Badge classNames={{ root: "bg-green-600 ml-2" }}>
-                      {item.jain}
+                    <Badge classNames={{ root: "bg-primary-main text-sm h-6 opacity-90 ml-2" }} title="Jain">
+                      J
                     </Badge>
                   )}
                 </>

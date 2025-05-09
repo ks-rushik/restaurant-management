@@ -57,7 +57,7 @@ const CustomerSide: FC<ICustomerSideProps> = (props) => {
             </div>
           </div>
           {mounted && theme && (
-            <div className="sticky bottom-0">
+            <div className="sticky bottom-0 main-content">
               <ThemeButton theme={theme} onChange={toggleTheme} />
             </div>
           )}

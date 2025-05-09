@@ -1,15 +1,18 @@
-import { Badge, Card, Text } from "@mantine/core";
 import Image from "next/legacy/image";
 import React, { FC, useEffect, useState } from "react";
+
 import { IItemdata } from "@components/item/AddItemModal";
+import { Badge, Card, Text } from "@mantine/core";
+
+import { Jainoption } from "@/app/constants/common";
 
 type ICustomerSideCard = {
   item: IItemdata;
-  currency: string
+  currency: string;
 };
 
 const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
-  const { item , currency } = props;
+  const { item, currency } = props;
   const [expandedDescriptions, setExpandedDescriptions] = useState<
     Record<string, boolean>
   >({});
@@ -17,11 +20,10 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
   useEffect(() => {
     setMounted(true);
   }, []);
- 
 
-  // expand description of item 
+  // expand description of item
   const toggleDescription = (itemId: string, event: React.MouseEvent) => {
-    event.stopPropagation();  // on click description stop to collapsive
+    event.stopPropagation(); // on click description stop to collapsive
     setExpandedDescriptions((prev) => ({
       ...prev,
       [itemId]: !prev[itemId],
@@ -30,20 +32,31 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
 
   return (
     <Card shadow="sm" className="h-full flex flex-col w-60 dark:bg-gray-600">
-      <div className="relative max-w-xs overflow-hidden bg-cover bg-no-repeat">
-        <Image
-          src={
-            typeof item.image === "string"
-              ? item.image
-              : URL.createObjectURL(item.image as Blob)
-          }
-          width={500}
-          height={500}
-          
-          alt="Website Logo"
-          className="w-full max-h-44 min-h-56 object-cover transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-black/30"
-          priority
-        />
+      <div className=" max-w-xs bg-cover bg-no-repeat">
+        <div className="relative">
+          <Image
+            src={
+              typeof item.image === "string"
+                ? item.image
+                : URL.createObjectURL(item.image as Blob)
+            }
+            width={500}
+            height={500}
+            alt="Website Logo"
+            className="w-full max-h-44 min-h-56 object-cover  transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-black/30"
+            priority
+          />
+          {Jainoption.Jain === item.jain && (
+            <Badge
+              classNames={{
+                root: "absolute -bottom-1 right-1/2 translate-x-1/2 bg-primary-main opactiy-70 h-6 rounded-md",
+              }}
+              title="Jain"
+            >
+              Jain
+            </Badge>
+          )}
+        </div>
       </div>
       <div className="flex flex-row justify-between  pt-2 dark:text-white">
         <Text className=" font-semibold text-base sm:text-xl">{item.name}</Text>

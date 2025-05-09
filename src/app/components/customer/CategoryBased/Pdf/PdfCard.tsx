@@ -1,7 +1,11 @@
 import React, { FC } from "react";
-import { Badge } from "@mantine/core";
+
 import { Menu } from "@components/customer/ItemBased/CustomerSideBody";
+import { Badge } from "@mantine/core";
+
 import { IItemdata } from "@/app/components/item/AddItemModal";
+import { Jainoption } from "@/app/constants/common";
+
 type ICustomerSideCard = {
   category: {
     id: string;
@@ -37,6 +41,16 @@ const PdfCard: FC<ICustomerSideCard> = (props) => {
               <div className="flex flex-col md:flex-row md:gap-2 md:items-center items-start">
                 <div className="merriweather-2 text-sm md:text-xl dark:text-white">
                   {item.name}
+                  {Jainoption.Jain === item.jain && (
+                    <Badge
+                      title="Jain"
+                      classNames={{
+                        root: "mx-4 py-0 h-4 md:h-5 bg-primary-main opacity-70 text-gray-900",
+                      }}
+                    >
+                      Jain
+                    </Badge>
+                  )}
                 </div>
                 {item.status === "Not Available" && (
                   <Badge color="red">{item.status}</Badge>
@@ -50,9 +64,7 @@ const PdfCard: FC<ICustomerSideCard> = (props) => {
             </div>
 
             {/* description */}
-            <div
-              className="w-full md:w-2/3 text-gray-800 text-xs md:text-base merriweather-roboto cursor-pointer transition-all duration-300 dark:text-gray-400 dark:!opacity-80 page-break-inside-avoid "
-            >
+            <div className="w-full md:w-2/3 text-gray-800 text-xs md:text-base merriweather-roboto cursor-pointer transition-all duration-300 dark:text-gray-400 dark:!opacity-80 page-break-inside-avoid ">
               {item.description}
             </div>
           </div>
