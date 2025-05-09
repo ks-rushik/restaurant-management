@@ -91,8 +91,9 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     if (!selectedCategory?.image && !file) {
       return setError("root", { message: "Image is required" });
     }
+
     if (file) {
-      return setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file).setError });
     }
 
     if (selectedCategory) {
@@ -111,7 +112,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
-    setFile(null)
+    setFile(null);
   };
 
   const [opened, { open, close }] = useDisclosure(false);

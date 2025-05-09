@@ -123,6 +123,7 @@ const ItemPage = () => {
       description: item.description || "",
       price: item.price || "",
       image: item.image,
+      jain: item.jain,
     };
     setSelectedItem(modaldata);
   };

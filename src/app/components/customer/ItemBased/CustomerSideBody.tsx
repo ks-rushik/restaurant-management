@@ -96,16 +96,19 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
 
   const handlePrint = () => {
     const pdfSection = document.getElementById("pdf-section");
-    const mainContent = document.getElementById("main-content");
+    const hidecontent = document.getElementsByClassName("hide-section");
 
-    if (pdfSection && mainContent) {
+    if (pdfSection && hidecontent) {
       pdfSection.style.display = "block";
-      mainContent.style.display = "none";
-
+      for (let i = 0; i < hidecontent.length; i++) {
+        (hidecontent[i] as HTMLElement).style.display = "none";
+      }
       window.print();
 
       pdfSection.style.display = "none";
-      mainContent.style.display = "block";
+      for (let i = 0; i < hidecontent.length; i++) {
+        (hidecontent[i] as HTMLElement).style.display = "block";
+      }
     }
   };
 
@@ -120,7 +123,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
           openCategories={[]}
         />
       </div>
-      <div id="main-content">
+      <div className="hide-section">
         <Divider size="sm" />
         <p className="text-4xl text-center tracking-widest font-thin my-4">
           MENU

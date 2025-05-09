@@ -49,8 +49,8 @@ const CustomerSide = ({ id }: { id: string }) => {
             <CustomerSideBody categories={categories} id={id} />
           </div>
           {mounted && theme && (
-            <div className="sticky bottom-0">
-              <ThemeButton theme={theme} onChange={toggleTheme} />
+            <div className="sticky bottom-0 hide-section "  >
+              <ThemeButton theme={theme} onChange={toggleTheme}  />
             </div>
           )}
         </>

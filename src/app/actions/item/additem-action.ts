@@ -1,13 +1,14 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { IItemdata } from "@/app/components/item/AddItemModal";
 import { createClient } from "@/app/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 
 export async function item(
   ItemData: IItemdata,
   categoryId: string,
-  file?: File
+  file?: File,
 ) {
   const supabase = await createClient();
 
@@ -41,6 +42,7 @@ export async function item(
       description: ItemData.description,
       price: ItemData.price,
       status: ItemData.status,
+      jain: ItemData.jain,
       position: newPosition,
       image: imageUrl,
     };
@@ -69,6 +71,7 @@ export async function item(
     name: ItemData.name,
     price: ItemData.price,
     status: ItemData.status,
+    jain: ItemData.jain,
     description: ItemData.description,
     position: newPosition,
   };

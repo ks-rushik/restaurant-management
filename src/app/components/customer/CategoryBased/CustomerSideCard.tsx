@@ -1,7 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
+
 import { IItemdata } from "@components/item/AddItemModal";
 import { Badge } from "@mantine/core";
+
+import { Jainoption } from "@/app/constants/common";
+
 import { Menu } from "../ItemBased/CustomerSideBody";
+
 type ICustomerSideCard = {
   category: {
     filteredItems: IItemdata[];
@@ -50,8 +55,18 @@ const CustomerSideCard: FC<ICustomerSideCard> = (props) => {
           <div>
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-col md:flex-row md:gap-2 md:items-center items-start">
-                <div className="merriweather-2 text-sm md:text-xl dark:text-white">
+                <div className="merriweather-2 text-sm md:text-xl dark:text-white flex items-center">
                   {item.name}
+                  {Jainoption.Jain === item.jain && (
+                    <Badge
+                      title="Jain"
+                      classNames={{
+                        root: "mx-4 py-0 h-4 md:h-5  bg-primary-main opacity-70 text-sm text-gray-900",
+                      }}
+                    >
+                      Jain
+                    </Badge>
+                  )}
                 </div>
                 {mounted && item.status === "Not Available" && (
                   <Badge color="red">{item.status}</Badge>

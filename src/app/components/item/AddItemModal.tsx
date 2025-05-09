@@ -15,7 +15,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
-import { Availablity } from "@/app/constants/common";
+import { Availablity, Jainoption } from "@/app/constants/common";
 import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
@@ -28,6 +28,7 @@ export type IItemdata = {
   category_id?: string | null;
   price: number | "";
   status: string | null;
+  jain: string | null;
   position?: number | null | undefined;
   category?: {
     menu: {
@@ -49,6 +50,9 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     name: z.string().nonempty(validation("Item name", "required")),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
       errorMap: () => validation("Status", "required"),
+    }),
+    jain: z.enum([Jainoption.Jain, Jainoption.NotJain], {
+      errorMap: () => validation("Jainoption", "required"),
     }),
     description: z.string().min(8, validation("Description", "minLength")),
     price: z
@@ -89,6 +93,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         description: selectedItem.description!,
         price: selectedItem.price!,
         status: selectedItem.status as keyof typeof Availablity,
+        jain: selectedItem.jain as keyof typeof Jainoption,
       });
 
       open();
@@ -98,6 +103,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         description: "",
         price: "",
         status: undefined,
+        jain: undefined,
       });
     }
   }, [selectedItem, reset, open]);
@@ -107,7 +113,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       return setError("root", { message: "Image is required" });
     }
     if (file) {
-      return setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file).setError });
     }
 
     if (selectedItem) {
@@ -123,6 +129,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       description: "",
       price: "",
       status: undefined,
+      jain: undefined,
     });
     setFile(null), setPreview(null);
   };
@@ -135,6 +142,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       description: "",
       price: "",
       status: undefined,
+      jain: undefined,
     });
     setFile(null);
   };
@@ -189,6 +197,20 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               )}
             />
           </FormField>
+          <FormField name="jain" error={errors.jain?.message}>
+            <Controller
+              name="jain"
+              control={control}
+              render={({ field }) => (
+                <BaseSelect
+                  label="Jain option"
+                  labelvalue
+                  data={[Jainoption.Jain, Jainoption.NotJain]}
+                  {...field}
+                />
+              )}
+            />
+          </FormField>
           <FormField
             label="Upload image"
             name="image"
@@ -233,6 +255,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         onClick={() => {
           reset({
             status: undefined,
+            jain: undefined,
           });
           setFile(null), setPreview(null);
           open();

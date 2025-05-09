@@ -1,7 +1,9 @@
-import { Badge, Card, Text } from "@mantine/core";
 import Image from "next/legacy/image";
 import React, { FC } from "react";
+
 import { IItemdata } from "@components/item/AddItemModal";
+import { Badge, Card, Text } from "@mantine/core";
+import { Jainoption } from "@/app/constants/common";
 
 type IPdfSideCard = {
   item: IItemdata;
@@ -18,18 +20,30 @@ const PdfSideCard: FC<IPdfSideCard> = (props) => {
       style={{ pageBreakInside: "avoid" }}
     >
       <div className="relative overflow-hidden bg-cover bg-no-repeat">
-        <Image
-          src={
-            typeof item.image === "string"
-              ? item.image
-              : URL.createObjectURL(item.image as Blob)
-          }
-          width={500}
-          height={500}
-          alt="Item Image"
-          className="w-full max-h-44 min-h-56 object-cover "
-          priority
-        />
+        <div>
+          <Image
+            src={
+              typeof item.image === "string"
+                ? item.image
+                : URL.createObjectURL(item.image as Blob)
+            }
+            width={500}
+            height={500}
+            alt="Item Image"
+            className="w-full max-h-44 min-h-56 object-cover "
+            priority
+          />
+          {Jainoption.Jain === item.jain && (
+            <Badge
+              classNames={{
+                root: "absolute bottom-0 right-1/2 translate-x-1/2 bg-primary-main border-none rounded-md",
+              }}
+              title="Jain"
+            >
+              Jain
+            </Badge>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-row justify-between pt-2 dark:text-white">
@@ -52,7 +66,6 @@ const PdfSideCard: FC<IPdfSideCard> = (props) => {
           color="red"
           variant="filled"
           className="absolute top-4 right-4  rounded-sm"
-        
         >
           NOT AVAILABLE
         </Badge>

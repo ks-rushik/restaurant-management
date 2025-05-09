@@ -1,15 +1,19 @@
-import BaseTable from "@/app/components/ui/BaseTable";
-import { FC, useState } from "react";
-import ItemActions from "./ItemActions";
-import Loader from "@/app/components/ui/BaseLoader";
-import { FaDownLong, FaUpLong } from "react-icons/fa6";
-import { IItemdata } from "./AddItemModal";
-import formatDate from "@/app/utils/formatdate";
 import Image from "next/legacy/image";
-import SearchInput from "@components/SearchInput";
-import SearchFilter from "@components/SearchFilter";
+import { FC, useState } from "react";
+
 import FilteredData from "@components/FilterData";
-import { Availablity } from "@/app/constants/common";
+import SearchFilter from "@components/SearchFilter";
+import SearchInput from "@components/SearchInput";
+import { Badge } from "@mantine/core";
+import { FaDownLong, FaUpLong } from "react-icons/fa6";
+
+import Loader from "@/app/components/ui/BaseLoader";
+import BaseTable from "@/app/components/ui/BaseTable";
+import { Availablity, Jainoption } from "@/app/constants/common";
+import formatDate from "@/app/utils/formatdate";
+
+import { IItemdata } from "./AddItemModal";
+import ItemActions from "./ItemActions";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -18,7 +22,7 @@ type ICategoryTableProps = {
   handleMoveDown: (index: number) => void;
   handleDelete: (
     id: string,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void;
   loading: string;
   opened: boolean;
@@ -45,7 +49,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setFilterStatus,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
-  
+
   return !data ? (
     <Loader />
   ) : (
@@ -63,10 +67,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
       </SearchFilter>
 
       {data.length === 0 ? (
-        <p className="text-center text-gray-500 mt-4">
-          No Item found.
-        </p>
-      ) :  (
+        <p className="text-center text-gray-500 mt-4">No Item found.</p>
+      ) : (
         <BaseTable
           classNames={{
             th: "[&:first-child]:w-[60px] ",
@@ -79,7 +81,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               label: "",
               render: (item) => {
                 const index = data!.findIndex(
-                  (dataItem) => dataItem.id === item.id
+                  (dataItem) => dataItem.id === item.id,
                 );
                 return (
                   <div className="flex gap-1">
@@ -116,7 +118,16 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
             },
             {
               label: "ITEM NAME",
-              render: (item) => item.name,
+              render: (item) => (
+                <>
+                  {item.name}
+                  {item.jain === Jainoption.Jain && (
+                    <Badge classNames={{ root: "bg-primary-main text-sm h-6 opacity-90 ml-2" }} title="Jain">
+                      J
+                    </Badge>
+                  )}
+                </>
+              ),
             },
 
             {
