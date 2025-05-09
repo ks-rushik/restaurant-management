@@ -78,10 +78,6 @@ export async function item(
     .insert(ItemSupabaseData)
     .select();
 
-  if (error) {
-    console.log(error);
-  }
-
   revalidatePath("/", "layout");
 
   return InsertData?.[0];

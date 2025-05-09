@@ -1,33 +1,41 @@
 "use client";
+
+import Link from "next/link";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { notifications } from "@mantine/notifications";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
-import BaseInput from "@/app/components/ui/BaseInput";
 import BaseButton from "@/app/components/ui/BaseButton";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
+import BaseInput from "@/app/components/ui/BaseInput";
+import { ErrorMessages } from "@/app/utils/authvalidation";
+
 import { signUp } from "../../actions/auth/signup-action";
-import { notifications } from "@mantine/notifications";
 
 const SignUpSchema = z
   .object({
-    name: z.string().min(4, { message: "At least 4 characters long" }),
-    email: z.string().min(1, "Email is Required").email("Invalid email format"),
+    name: z.string().min(4, { message: ErrorMessages.nameMinLength }),
+    email: z
+      .string()
+      .nonempty(ErrorMessages.required)
+      .email(ErrorMessages.email),
     password: z
       .string()
-      .min(8, { message: "At least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-      .regex(/[0-9]/, { message: "Contain at least one number." })
+      .min(8, { message: ErrorMessages.passwordLength })
+      .regex(/[a-zA-Z]/, { message: ErrorMessages.letterRequired })
+      .regex(/[0-9]/, { message: ErrorMessages.numberRequired })
       .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character.",
+        message: ErrorMessages.specialCharRequired,
       }),
     confirmpassword: z
       .string()
-      .min(8, { message: "At least 8 characters long" }),
+      .min(8, { message: ErrorMessages.passwordLength }),
   })
   .refine((data) => data.password === data.confirmpassword, {
-    message: "Passwords don't match",
+    message: ErrorMessages.passwordMismatch,
     path: ["confirmpassword"],
   });
 
@@ -44,7 +52,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: ISignUpFormData) => {
     const { message, error } = await signUp(data);
-    console.log(error, "error");
+
     {
       error && notifications.show({ message: error, color: "red" });
     }

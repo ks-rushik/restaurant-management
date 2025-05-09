@@ -1,7 +1,8 @@
 "use server";
+
 import { createClient } from "@/app/utils/supabase/server";
 
-const fetchMenudata = async (search: string, status: string) => {
+const fetchMenudata = async (search?: string, status?: string) => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -23,7 +24,7 @@ const fetchMenudata = async (search: string, status: string) => {
   }
 
   const { data } = await query;
-  
+
   return data;
 };
 

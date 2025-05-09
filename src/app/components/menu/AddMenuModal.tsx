@@ -1,15 +1,20 @@
 "use client";
-import FormField from "@/app/components/forms/FormField";
-import BaseButton from "@/app/components/ui/BaseButton";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseSelect from "@/app/components/ui/BaseSelect";
+
+import { FC, useEffect } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+
+import FormField from "@/app/components/forms/FormField";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
-import { FC, useEffect } from "react";
-import { IModalData } from "../../type/type";
+import BaseSelect from "@/app/components/ui/BaseSelect";
+import { Availablity } from "@/app/constants/common";
+import { IModalData } from "@/app/type/type";
+import validation from "@/app/utils/validation";
 
 export type IMenuModalProps = {
   onAddMenu: (data: IModalData) => Promise<void>;
@@ -27,12 +32,12 @@ const Addmenu: FC<IMenuModalProps> = ({
   const [opened, { open, close }] = useDisclosure(false);
 
   const AddMenuSchema = z.object({
-    menu_name: z.string().min(1, "Menu name is required"),
+    menu_name: z.string().nonempty(validation("Menu name", "required")),
     currency: z.enum(["$", "₹", "€", "¥"], {
-      errorMap: () => ({ message: "Currency is required" }),
+      errorMap: () => validation("Currency", "required"),
     }),
-    status: z.enum(["Available", "Not Available"], {
-      errorMap: () => ({ message: "Status is required" }),
+    status: z.enum([Availablity.Available, Availablity.NotAvailable], {
+      errorMap: () => validation("Status", "required"),
     }),
   });
 
@@ -54,17 +59,17 @@ const Addmenu: FC<IMenuModalProps> = ({
       reset({
         menu_name: selectedMenu.menu_name,
         currency: selectedMenu.currency as "$" | "₹" | "€" | "¥",
-        status: selectedMenu.status as "Available" | "Not Available",
+        status: selectedMenu.status as keyof typeof Availablity,
       });
       open();
     } else {
       reset({
         menu_name: "",
         currency: "" as "$" | "₹" | "€" | "¥",
-        status: "" as "Available" | "Not Available",
+        status: "" as keyof typeof Availablity,
       });
     }
-  }, [selectedMenu, reset]);
+  }, [selectedMenu, reset, open]);
 
   const onSubmit = async (data: IAddMenuData) => {
     if (selectedMenu) {
@@ -112,7 +117,7 @@ const Addmenu: FC<IMenuModalProps> = ({
                   labelvalue
                   placeholder="Enter currency"
                   {...field}
-                  classNames={{dropdown:''}}
+                  classNames={{ dropdown: "" }}
                   data={["$", "₹", "€", "¥"]}
                 />
               )}
@@ -126,7 +131,7 @@ const Addmenu: FC<IMenuModalProps> = ({
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={["Available", "Not Available"]}
+                  data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
                   {...field}
                 />

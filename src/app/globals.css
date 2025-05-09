@@ -10,9 +10,9 @@
     page-break-before: always ;
     break-before: page;
   }
-  #pdf-section {
+  /* #pdf-section {
     margin-top: 50px;
-  }
+  } */
 
   .page-break-after {
     page-break-after: always ;
@@ -21,6 +21,44 @@
   .page-break-inside-avoid {
     page-break-inside: avoid !important;
   }
+}
+
+.merriweather{
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+.merriweather-2{
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.merriweather-roboto {
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+.merriweather-roboto-mono {
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 
 

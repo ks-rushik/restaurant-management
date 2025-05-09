@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import HeaderCss from "../HeaderCss";
+import HeaderCss from "@components/HeaderCss";
 
 type IMenuHeaderProps = {
   children: ReactNode;

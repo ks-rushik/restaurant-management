@@ -3,8 +3,8 @@ import { createClient } from "@/app/utils/supabase/server";
 
 const fetchItemdata = async (
   categoryId: string,
-  search: string,
-  status: string
+  search?: string,
+  status?: string
 ) => {
   const supabase = await createClient();
   let query = supabase

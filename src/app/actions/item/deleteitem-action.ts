@@ -1,18 +1,15 @@
-'use server'
-import { createClient } from "@/app/utils/supabase/server";
+"use server";
+
 import { revalidatePath } from "next/cache";
 
+import { createClient } from "@/app/utils/supabase/server";
+
 const deleteitem = async (id: string) => {
-    console.log("deleted id" ,id);
-    
   const supabase = await createClient();
-  const {  error } = await supabase.from("Items").delete().eq("id", id);
-  if(error){
-    console.log(error);
-  }
-  
+  const { error } = await supabase.from("Items").delete().eq("id", id);
+
   revalidatePath("/", "layout");
-  return ;
+  return;
 };
 
 export default deleteitem;

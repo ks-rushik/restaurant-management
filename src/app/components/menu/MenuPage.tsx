@@ -1,17 +1,22 @@
 "use client";
-import { MouseEvent, useEffect, useState } from "react";
-import Addmenu from "./AddMenuModal";
-import { IMenudata, IModalData } from "../../type/type";
-import { menu } from "../../actions/menu/addmenu-action";
-import useMenuItem from "../../hooks/useMenuItem";
-import deletemenu from "../../actions/menu/deletemenu-action";
+
 import { useRouter } from "next/navigation";
+import { MouseEvent, useEffect, useState } from "react";
+
 import { useDisclosure } from "@mantine/hooks";
-import { updateMenu } from "../../actions/menu/updatemenu-action";
 import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
+
+import { menu } from "@/app/actions/menu/addmenu-action";
+import deletemenu from "@/app/actions/menu/deletemenu-action";
+import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
+import { updateMenu } from "@/app/actions/menu/updatemenu-action";
+import { IMenudata, IModalData } from "@/app/type/type";
+
+import Addmenu from "./AddMenuModal";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
-import { useDebounce } from "use-debounce";
 
 const Menupage = () => {
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();
@@ -22,7 +27,8 @@ const Menupage = () => {
   const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
-  const data = useMenuItem(debouncedSearch, filterStatus);
+  const { data } = useQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
+
   useEffect(() => {
     if (data) {
       setMenuItem(data);
@@ -46,7 +52,7 @@ const Menupage = () => {
 
   const handleDelete = async (
     id: string,
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     event.stopPropagation();
     setMenuItem((prev) => prev?.filter((item) => item.id !== id));

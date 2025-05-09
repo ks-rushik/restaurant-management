@@ -1,75 +1,87 @@
-import { Collapse, Divider } from "@mantine/core";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { IItemdata } from "../item/AddItemModal";
-import { FaAngleUp, FaAngleDown } from "react-icons/fa";
-import useShortUrl from "../../hooks/useUrl";
-import ThemeButton from "../ui/ThemeButton";
-import CustomerSideCard from "./CustomerSideCard";
-import CustomerSideLocation from "./CustomerSideLocation";
-import { changeTheme } from "@/app/helper/changeTheme";
-import BaseTextField from "../ui/BaseInput";
-import { IoSearch } from "react-icons/io5";
-import BaseButton from "../ui/BaseButton";
-import Pdf from "../pdf/PdfBody";
 
-type ICustomerSideBodyProps = {
-  categories: any[] | null | undefined;
+import CustomerSideLocation from "@components/customer/CustomerSideLocation";
+import { IItemdata } from "@components/item/AddItemModal";
+import BaseButton from "@components/ui/BaseButton";
+import BaseTextField from "@components/ui/BaseInput";
+import ThemeButton from "@components/ui/ThemeButton";
+import { Collapse, Divider } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+
+import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+import { changeTheme } from "@/app/helper/changeTheme";
+import { useThemeToggle } from "@/app/hook/useThemetoggle";
+
+import CustomerSideCard from "./CustomerSideCard";
+import Pdf from "./pdf/PdfBody";
+
+export type Restaurant = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  logo: string;
+  created_at: string;
+};
+
+export type Menu = {
+  id: string;
+  menu_name: string;
+  currency: string;
+  created_at: string;
+  restaurant_id: Restaurant;
+};
+
+export type Category = {
+  id: string;
+  category_name: string;
+  create_at: string;
+  updated_at?: string;
+  image?: string;
+  status: "Available" | "Not Available";
+  position?: number;
+  menu_id: string;
+  menus?: Menu;
+  Items: IItemdata[];
+};
+
+export type ICustomerSideBodyProps = {
+  categories: Category[] | null | undefined;
   id: string;
 };
 
 const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
-  const [theme, setTheme] = useState<"dark" | "light">();
-  const [mounted, setMounted] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [openCategories, setOpenCategories] = useState<string[]>(
-    categories ? categories.map((c) => c.id) : []
+    categories ? categories.map((c) => c.id) : [],
   );
 
   const pdfRef = useRef<HTMLDivElement>(null);
 
-  const logo = categories?.[0]?.menus?.restaurant_id?.logo;
-  const name = categories?.[0]?.menus?.restaurant_id?.name;
-  const contact = categories?.[0]?.menus?.restaurant_id?.phone;
-  const location = categories?.[0]?.menus?.restaurant_id?.address;
-  const email = categories?.[0]?.menus?.restaurant_id?.email;
+  const { email, phone, address, logo, name } =
+    categories?.[0].menus?.restaurant_id || {};
 
-  const urldata = useShortUrl(id);
-  const urlid = urldata?.[0]?.menu_id;
+  const urldata = useQuery(getUrlDataQuery(id));
+  const urlid = urldata.data?.[0].menu_id;
   const currency = categories
     ?.map((item) => item.menus)
     .find((menu) => menu?.id === urlid)?.currency;
-
-  useEffect(() => {
-    const initialTheme = document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-    setTheme(initialTheme);
-    setMounted(true);
-  }, []);
-
-  const handleThemeChange = async () => {
-    await changeTheme();
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.toggle("dark", theme === "dark");
-    }
-  }, [theme]);
 
   const handleToggle = (categoryId: string) => {
     setOpenCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId]
+        : [...prev, categoryId],
     );
   };
 
   const filteredCategories = categories
     ?.map((category) => {
       const filteredItems = category.Items?.filter((item: IItemdata) =>
-        item.name?.toLowerCase().includes(searchValue.toLowerCase())
+        item.name?.toLowerCase().includes(searchValue.toLowerCase()),
       );
       return { ...category, filteredItems };
     })
@@ -77,7 +89,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
       (category) =>
         category.status === "Available" &&
         category.filteredItems &&
-        category.filteredItems.length > 0
+        category.filteredItems.length > 0,
     );
 
   const noMenusFound = filteredCategories?.length === 0;
@@ -101,11 +113,10 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
     <div className="space-y-8">
       <div className="hidden" id="pdf-section">
         <Pdf
-          ref={pdfRef}
           filteredCategories={filteredCategories}
-          currency={currency}
-          logo={logo}
-          name={name}
+          currency={currency!}
+          logo={logo!}
+          name={name!}
           openCategories={[]}
         />
       </div>
@@ -116,11 +127,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         </p>
         <Divider size="sm" className="mb-4" />
 
-        {mounted && theme && (
-          <ThemeButton theme={theme} onChange={handleThemeChange} />
-        )}
-
-        <div className="flex justify-end gap-3 items-center my-6">
+        <div className="  flex flex-col sm:flex-row justify-end gap-3 items-stretch sm:items-center mb-4">
           <BaseTextField
             value={searchValue}
             placeholder="Search menu..."
@@ -172,7 +179,7 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
                       in={openCategories.includes(category.id)}
                       key={item.id}
                     >
-                      <CustomerSideCard item={item} currency={currency} />
+                      <CustomerSideCard item={item} currency={currency!} />
                     </Collapse>
                   ))}
                 </div>
@@ -182,9 +189,10 @@ const CustomerSideBody: FC<ICustomerSideBodyProps> = ({ categories, id }) => {
         )}
 
         <CustomerSideLocation
-          location={location}
-          email={email}
-          contact={contact}
+          location={address!}
+          email={email!}
+          contact={phone!}
+          classNames={{ root: "dark:bg-gray-800 dark:border-gray-800" }}
         />
       </div>
     </div>

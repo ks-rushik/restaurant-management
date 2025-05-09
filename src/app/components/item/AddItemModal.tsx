@@ -1,17 +1,23 @@
 "use client";
+
+import React, { FC, useEffect, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Avatar, FileButton } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Controller, useForm } from "react-hook-form";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { z } from "zod";
+
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton, FileInput } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React, { FC, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
-import { z } from "zod";
+import { Availablity } from "@/app/constants/common";
+import { ImageError } from "@/app/utils/imagevalidation";
+import validation from "@/app/utils/validation";
 
 export type IItemdata = {
   created_at?: string;
@@ -40,18 +46,16 @@ export type IItemModalProps = {
 const AddItemModal: FC<IItemModalProps> = (props) => {
   const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
   const AddItemschema = z.object({
-    name: z.string().min(1, "Category name is required"),
-    status: z.enum(["Available", "Not Available"], {
-      errorMap: () => ({ message: "Status is required" }),
+    name: z.string().nonempty(validation("Item name", "required")),
+    status: z.enum([Availablity.Available, Availablity.NotAvailable], {
+      errorMap: () => validation("Status", "required"),
     }),
-    description: z.string().min(8, "At least 9 characters long"),
+    description: z.string().min(8, validation("Description", "minLength")),
     price: z
       .string()
-      .min(1, "Price is required")
+      .nonempty(validation("Price", "required"))
       .transform((value) => (value === "" ? "" : Number(value)))
-      .refine((value) => !isNaN(Number(value)), {
-        message: "Price must be a number",
-      }),
+      .refine((value) => !isNaN(Number(value)), validation("Price", "nan")),
   });
 
   type IAddItemData = z.infer<typeof AddItemschema>;
@@ -84,7 +88,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         name: selectedItem.name!,
         description: selectedItem.description!,
         price: selectedItem.price!,
-        status: selectedItem.status as "Available" | "Not Available",
+        status: selectedItem.status as keyof typeof Availablity,
       });
 
       open();
@@ -96,17 +100,15 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         status: undefined,
       });
     }
-  }, [selectedItem, reset]);
-
-  const MAX_FILE_SIZE = 1000000;
-  const ACCEPTED_IMAGE_TYPES = [
-   "image/jpeg", "image/jpg", "image/png", "image/webp"
-  ];
+  }, [selectedItem, reset, open]);
 
   const onSubmit = async (data: IAddItemData) => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: "Image is required" });
-    } 
+    }
+    if (file) {
+      return setError("root", { message: ImageError(file).setError });
+    }
 
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
@@ -134,6 +136,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       price: "",
       status: undefined,
     });
+    setFile(null);
   };
 
   return (
@@ -179,7 +182,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                 <BaseSelect
                   label="Status"
                   labelvalue
-                  data={[`Available`, `Not Available`]}
+                  data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
                   {...field}
                 />
@@ -206,7 +209,6 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               onChange={(file) => {
                 handleFileChange(file);
               }}
-              
               accept="image/png,image/jpeg"
             >
               {(props) => (

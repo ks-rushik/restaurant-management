@@ -6,10 +6,10 @@ import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { IItemdata } from "./AddItemModal";
 import formatDate from "@/app/utils/formatdate";
 import Image from "next/legacy/image";
+import SearchInput from "@components/SearchInput";
+import SearchFilter from "@components/SearchFilter";
+import FilteredData from "@components/FilterData";
 import { Availablity } from "@/app/constants/common";
-import SearchInput from "../SearchInput";
-import SearchFilter from "../SearchFilter";
-import FilteredData from "../FilterData";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -144,10 +144,10 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
             {
               label: "AVAILABILITY",
               render: (item) =>
-                item.status === "Not Available" ? (
-                  <p className="text-red-500">Not Available</p>
+                item.status === Availablity.NotAvailable ? (
+                  <p className="text-red-500">{Availablity.NotAvailable}</p>
                 ) : (
-                  <p className="text-green-600">Available</p>
+                  <p className="text-green-600">{Availablity.Available}</p>
                 ),
             },
 

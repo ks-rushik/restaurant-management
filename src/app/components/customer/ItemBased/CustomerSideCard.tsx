@@ -1,7 +1,7 @@
 import { Badge, Card, Text } from "@mantine/core";
 import Image from "next/legacy/image";
 import React, { FC, useEffect, useState } from "react";
-import { IItemdata } from "../item/AddItemModal";
+import { IItemdata } from "@components/item/AddItemModal";
 
 type ICustomerSideCard = {
   item: IItemdata;

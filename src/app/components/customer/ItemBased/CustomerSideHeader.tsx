@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 import LeftSideImage from "@/app/images/LeftSideImage";
 import RightSideImage from "@/app/images/RightSideImage";
 
-type ICustomerSideHeaderProps = {
+export type ICustomerSideHeaderProps = {
   logo: string;
   name: string;
 };

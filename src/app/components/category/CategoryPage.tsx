@@ -1,17 +1,22 @@
 "use client";
+
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import CategoryHeader from "./CategoryHeader";
-import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
-import CategoryTable from "./CategoryTable";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { notifications } from "@mantine/notifications";
+
 import { useDisclosure } from "@mantine/hooks";
-import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
-import categories from "@/app/actions/category/addcategory-action";
-import { updateCategory } from "@/app/actions/category/updatecategory-action";
-import deletecategory from "@/app/actions/category/deletecategory-action";
-import useCategoryItem from "@/app/hooks/useCategoryItem";
+import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
+
+import categories from "@/app/actions/category/addcategory-action";
+import { fetchCategorydataQuery } from "@/app/actions/category/categoryfetchquery";
+import deletecategory from "@/app/actions/category/deletecategory-action";
+import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
+import { updateCategory } from "@/app/actions/category/updatecategory-action";
+
+import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
+import CategoryHeader from "./CategoryHeader";
+import CategoryTable from "./CategoryTable";
 
 function CategoryPage() {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
@@ -20,14 +25,14 @@ function CategoryPage() {
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
   const [searchData, setSearchData] = useState("");
-  const [debouncedSearch] = useDebounce(searchData, 500); 
+  const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
-  const searchParam = useSearchParams();
-  const menuname = searchParam.get("name")!;
   const menuId = pathname.split("/")[2];
-  const data = useCategoryItem(menuId, debouncedSearch, filterStatus);
+  const { data } = useQuery(
+    fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
+  );
 
   useEffect(() => {
     if (data) {
@@ -35,7 +40,7 @@ function CategoryPage() {
         data.map((item) => ({
           ...item,
           position: item.position || 0,
-        }))
+        })),
       );
     }
   }, [data]);
@@ -94,8 +99,8 @@ function CategoryPage() {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
 
-  const handleAddCategory = async (newItem: ICategorydata) => {
-    const addedItem = await categories(newItem, menuId);
+  const handleAddCategory = async (newItem: ICategorydata, file?: File) => {
+    const addedItem = await categories(newItem, menuId, file);
     if (addedItem)
       setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
@@ -104,8 +109,11 @@ function CategoryPage() {
     });
   };
 
-  const handleEditCategory = async (updatedmenu: ICategorydata) => {
-    await updateCategory(updatedmenu, menuId);
+  const handleEditCategory = async (
+    updatedmenu: ICategorydata,
+    file?: File,
+  ) => {
+    await updateCategory(updatedmenu, menuId, file);
     notifications.show({ message: "Category updated", color: "green" });
   };
 
@@ -121,6 +129,7 @@ function CategoryPage() {
       id: item.id || "",
       category_name: item.category_name || "",
       status: item.status || "",
+      image: item.image ?? undefined,
     };
     setSelectedCategory(modaldata);
   };

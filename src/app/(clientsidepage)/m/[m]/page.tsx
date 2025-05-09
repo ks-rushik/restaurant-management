@@ -1,45 +1,29 @@
-import fetchMenudata from "@/app/actions/menu/menu-fetch";
-import fetchCategoryItemData from "@/app/actions/customer/getCategoryItem";
-import getMenuData from "@/app/actions/customer/getMenuData";
-import { getProfileData } from "@/app/actions/customer/getProfileData";
-import CustomerSide from "@/app/components/customer/CustomerSide";
+import { notFound } from "next/navigation";
+import React from "react";
+
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
-import React from "react";
-import { notFound } from "next/navigation";
+
+import { getCategoryItemQuery } from "@/app/actions/customer/getCategoryItemQuery";
+import { getUrlDataQuery } from "@/app/actions/customer/getUrlDataQuery";
+import CustomerSide from "@/app/components/customer/ItemBased/CustomerSide";
 
 const queryClient = new QueryClient();
 
 const page = async ({ params }: { params: Promise<{ m: string }> }) => {
   const { m } = await params;
-  const data = await queryClient.fetchQuery({
-    queryKey: ["url"],
-    queryFn: () => getMenuData(m),
-  });
-    
+  const data = await queryClient.fetchQuery(getUrlDataQuery(m));
+
   const menuId = data?.[0]?.menu_id;
-  
-  if(!menuId || !params){
-    return notFound()
+
+  if (!menuId || !params) {
+    return notFound();
   }
 
-  await queryClient.prefetchQuery({
-    queryKey: ["CategoryItems"],
-    queryFn: () => fetchCategoryItemData(menuId),
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: ["ProfileDetails"],
-    queryFn: () => getProfileData(),
-   
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["menu"],
-    queryFn: () => fetchMenudata,
-  });
+  await queryClient.prefetchQuery(getCategoryItemQuery(menuId));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

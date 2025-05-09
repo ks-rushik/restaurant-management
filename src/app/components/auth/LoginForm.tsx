@@ -1,18 +1,27 @@
 "use client";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import Link from "next/link";
-import FormGroup from "@/app/components/forms/AuthFormGroup";
-import FormField from "@/app/components/forms/FormField";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { login } from "../../actions/auth/login-action";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { login } from "@/app/actions/auth/login-action";
+import FormGroup from "@/app/components/forms/AuthFormGroup";
+import FormField from "@/app/components/forms/FormField";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
+import { ErrorMessages } from "@/app/utils/authvalidation";
+
 const loginSchema = z.object({
-  email: z.string().trim().min(1, "Email is Required").email("Invalid email format"),
-  password: z.string().min(1, "Password required"),
+  email: z
+    .string()
+    .trim()
+    .nonempty(ErrorMessages.required)
+    .email(ErrorMessages.email),
+  password: z.string().nonempty(ErrorMessages.required),
 });
 
 export type ILoginFormData = z.infer<typeof loginSchema>;
@@ -29,18 +38,18 @@ const LoginForm = () => {
 
   const onSubmit = async (data: ILoginFormData) => {
     const error = await login(data);
+
     if (error) {
       setError(error.message);
     }
+    redirect("/menu");
   };
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <FormGroup>
-          <h2 className="text-3xl font-bold mb-10" >
-          Welcome to Digidine!
-        </h2>
+          <h2 className="text-3xl font-bold mb-10">Welcome to Digidine!</h2>
           <FormField
             label="Email"
             name="email"
@@ -76,14 +85,17 @@ const LoginForm = () => {
             type="submit"
             classNames={{
               root: "mb-2 w-full py-2 rounded-md mt-5 h-12",
-              inner:'font-bold text-white text-sm'
+              inner: "font-bold text-white text-sm",
             }}
             loading={isSubmitting}
           >
             Login
           </BaseButton>
           <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:text-md md:mt-2 md:text-center text-md mb-4 mt-2 text-center  sm:text-left ">
-            <Link href="/auth/resetpassword" className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm md:mb-2">
+            <Link
+              href="/auth/resetpassword"
+              className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm md:mb-2"
+            >
               Forgot password
             </Link>
             <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  md:justify-center md:gap-1 font-medium ">

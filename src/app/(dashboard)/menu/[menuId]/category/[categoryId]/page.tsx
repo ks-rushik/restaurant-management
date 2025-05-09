@@ -1,14 +1,15 @@
-import fetchCategoryItemData from "@/app/actions/customer/getCategoryItem";
-import getItemData from "@/app/actions/item/getItemdata";
-import fetchItemdata from "@/app/actions/item/item-fetch";
-import ItemPage from "@/app/components/item/ItemPage";
-import Navbar from "@/app/components/navbar/Navbar";
+import React from "react";
+
 import {
-  dehydrate,
   HydrationBoundary,
   QueryClient,
+  dehydrate,
 } from "@tanstack/react-query";
-import React from "react";
+
+import { fetchcategoryitemdataQuery } from "@/app/actions/item/categorymenufetchquery";
+import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
+import ItemPage from "@/app/components/item/ItemPage";
+import Navbar from "@/app/components/navbar/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -19,18 +20,9 @@ const page = async ({
 }) => {
   const { categoryId, menuId } = await params;
 
-  await queryClient.prefetchQuery({
-    queryKey: ["Items" ,categoryId ,'' ,''],
-    queryFn: () => fetchItemdata(categoryId ,'' ,''),
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["CategoryItems"],
-    queryFn: () => fetchCategoryItemData(menuId),
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["Itemdata" ,categoryId],
-    queryFn: () => getItemData(categoryId),
-  });
+  await queryClient.prefetchQuery(fetchItemdataQuery(categoryId, "", ""));
+
+  await queryClient.prefetchQuery(fetchcategoryitemdataQuery(categoryId));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

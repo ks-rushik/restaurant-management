@@ -1,34 +1,38 @@
 "use client";
-import React, { FC, SetStateAction } from "react";
-import BaseTextField from "../ui/BaseInput";
-import BaseButton from "../ui/BaseButton";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import FormField from "../forms/FormField";
-import changepassword from "@/app/actions/auth/changepassword-action";
-import { notifications } from "@mantine/notifications";
-import { modals } from "@mantine/modals";
+
 import { useRouter } from "next/navigation";
-import BaseModal from "../ui/BaseModal";
+import React, { FC, SetStateAction } from "react";
+
+import FormField from "@components/forms/FormField";
+import BaseButton from "@components/ui/BaseButton";
+import BaseTextField from "@components/ui/BaseInput";
+import BaseModal from "@components/ui/BaseModal";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import changepassword from "@/app/actions/auth/changepassword-action";
+import { ErrorMessages } from "@/app/utils/authvalidation";
 
 const ChanegPasswordSchema = z
   .object({
     oldpassword: z.string().min(1, "Old password required"),
     password: z
       .string()
-      .min(8, { message: "At least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-      .regex(/[0-9]/, { message: "Contain at least one number." })
+      .min(8, { message: ErrorMessages.passwordLength })
+      .regex(/[a-zA-Z]/, { message: ErrorMessages.letterRequired })
+      .regex(/[0-9]/, { message: ErrorMessages.numberRequired })
       .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character.",
+        message: ErrorMessages.specialCharRequired,
       }),
     confirmpassword: z
       .string()
-      .min(8, { message: "At least 8 characters long" }),
+      .min(8, { message: ErrorMessages.passwordLength }),
   })
   .refine((data) => data.password === data.confirmpassword, {
-    message: "Passwords don't match",
+    message: ErrorMessages.passwordMismatch,
     path: ["confirmpassword"],
   });
 export type IChangePasswordFormData = z.infer<typeof ChanegPasswordSchema>;
@@ -61,7 +65,7 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
     if (message) {
       setModalOpened(false);
     }
-    reset({oldpassword:"" ,password:'' ,confirmpassword:''})
+    reset({ oldpassword: "", password: "", confirmpassword: "" });
     {
       message &&
         modals.openConfirmModal({

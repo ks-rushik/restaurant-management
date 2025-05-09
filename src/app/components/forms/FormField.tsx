@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import BaseLabel from "../ui/BaseLabel";
-import BaseErrorMessage from "../ui/BaseErrorMessage";
+import BaseLabel from "@components/ui/BaseLabel";
+import BaseErrorMessage from "@components/ui/BaseErrorMessage";
 
 type IFormFieldProps = {
   label?: string;

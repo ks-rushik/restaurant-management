@@ -1,33 +1,35 @@
 "use client";
-import { z } from "zod";
-import FormGroup from "@/app/components/forms/FormGroup";
-import FormField from "@/app/components/forms/FormField";
-import BaseInput from "@/app/components/ui/BaseInput";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updatePassword } from "../../actions/auth/updatepassword-action";
 import { Title } from "@mantine/core";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { updatePassword } from "@/app/actions/auth/updatepassword-action";
+import FormField from "@/app/components/forms/FormField";
+import FormGroup from "@/app/components/forms/FormGroup";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseInput from "@/app/components/ui/BaseInput";
+import { ErrorMessages } from "@/app/utils/authvalidation";
 
 const ResetPasswordSchema = z
   .object({
     password: z
       .string()
-      .min(8, { message: "At least 8 characters long" })
-      .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-      .regex(/[0-9]/, { message: "Contain at least one number." })
+      .min(8, { message: ErrorMessages.passwordLength })
+      .regex(/[a-zA-Z]/, { message: ErrorMessages.letterRequired })
+      .regex(/[0-9]/, { message: ErrorMessages.numberRequired })
       .regex(/[^a-zA-Z0-9]/, {
-        message: "Contain at least one special character.",
+        message: ErrorMessages.specialCharRequired,
       }),
     confirmpassword: z
       .string()
-      .min(8, { message: "At least 8 characters long" }),
+      .min(8, { message: ErrorMessages.passwordLength }),
   })
   .refine((data) => data.password === data.confirmpassword, {
-    message: "Passwords don't match",
+    message: ErrorMessages.passwordMismatch,
     path: ["confirmpassword"],
   });
-
 export type IResetPasswordData = z.infer<typeof ResetPasswordSchema>;
 
 const ResetPassword = () => {
@@ -40,7 +42,6 @@ const ResetPassword = () => {
   });
 
   const onSubmit = (data: IResetPasswordData) => {
-    console.log("SignUp Data:", data);
     return updatePassword(data.password);
   };
   return (
