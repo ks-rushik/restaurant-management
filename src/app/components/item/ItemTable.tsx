@@ -14,6 +14,7 @@ import formatDate from "@/app/utils/formatdate";
 
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
+import { IFilter } from "./ItemPage";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -29,8 +30,8 @@ type ICategoryTableProps = {
   close: () => void;
   searchData: string;
   setSearchData: (val: string) => void;
-  filterStatus: string;
-  setFilterStatus: (val: string) => void;
+  filters: IFilter;
+  setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -45,8 +46,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     close,
     searchData,
     setSearchData,
-    filterStatus,
-    setFilterStatus,
+    filters,
+    setFilters,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
@@ -61,15 +62,21 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           placeholder="Search Item..."
         />
         <FilteredData
-          value={filterStatus}
-          data={[
-            Availablity.Available,
-            Availablity.NotAvailable,
-            Jainoption.Jain,
-            Jainoption.NotJain,
-            "All",
-          ]}
-          onChange={(value) => setFilterStatus(value || "")}
+          value={filters.avaibilityStatus}
+          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
+          placeholder="Choose availability"
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
+          }
+        />
+
+        <FilteredData
+          value={filters.jainOption}
+          data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
+          placeholder="Choose Jain Option"
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, jainOption: value || "" }))
+          }
         />
       </SearchFilter>
 
