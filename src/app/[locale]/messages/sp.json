@@ -1,0 +1,48 @@
+{
+  "menus": {
+    "title": "Menús",
+    "button": "Agregar nuevo menú",
+    "modaltitle": "Agregar menú",
+    "menuname": "Nombre del menú",
+    "currency": "Moneda",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "MENUNAME": "NOMBRE DEL MENÚ",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EL",
+    "UPDATEDAT": "ACTUALIZADO EL"
+  },
+  "categories": {
+    "title": "Categorías",
+    "button": "Agregar nueva categoría",
+    "modaltitle": "Agregar categoría",
+    "categoryname": "Nombre de la categoría",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "IMAGE": "IMAGEN",
+    "uploadimage": "Subir imagen",
+    "CATEGORYNAME": "NOMBRE DE LA CATEGORÍA",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EL",
+    "UPDATEDAT": "ACTUALIZADO EL"
+  },
+  "items": {
+    "title": "Artículos",
+    "button": "Agregar nuevo artículo",
+    "description": "Descripción",
+    "price": "Precio",
+    "modaltitle": "Agregar artículo",
+    "jainoption": "Opción jainista",
+    "uploadimage": "Subir imagen",
+    "itemname": "Nombre del artículo",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "ITEMNAME": "NOMBRE DEL ARTÍCULO",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EL",
+    "UPDATEDAT": "ACTUALIZADO EL",
+    "IMAGE": "IMAGEN",
+    "DESCRIPTION": "DESCRIPCIÓN",
+    "PRICE": "PRECIO"
+  }
+}

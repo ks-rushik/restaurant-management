@@ -1,0 +1,48 @@
+{
+  "menus": {
+    "title": "मेनू",
+    "button": "नया मेनू जोड़ें",
+    "modaltitle": "मेनू जोड़ें",
+    "menuname": "मेनू नाम",
+    "currency": "मुद्रा",
+    "status": "स्थिति",
+    "submitbutton": "जमा करें",
+    "MENUNAME": "मेनू नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "बनाया गया",
+    "UPDATEDAT": "अपडेट किया गया"
+  },
+  "categories": {
+    "title": "श्रेणियाँ",
+    "button": "नई श्रेणी जोड़ें",
+    "modaltitle": "श्रेणी जोड़ें",
+    "categoryname": "श्रेणी नाम",
+    "status": "स्थिति",
+    "submitbutton": "जमा करें",
+    "IMAGE": "छवि",
+    "uploadimage": "छवि अपलोड करें",
+    "CATEGORYNAME": "श्रेणी नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "बनाया गया",
+    "UPDATEDAT": "अपडेट किया गया"
+  },
+  "items": {
+    "title": "आइटम",
+    "button": "नया आइटम जोड़ें",
+    "description": "विवरण",
+    "price": "कीमत",
+    "modaltitle": "आइटम जोड़ें",
+    "jainoption": "जैन विकल्प",
+    "uploadimage": "छवि अपलोड करें",
+    "itemname": "आइटम नाम",
+    "status": "स्थिति",
+    "submitbutton": "जमा करें",
+    "ITEMNAME": "आइटम नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "बनाया गया",
+    "UPDATEDAT": "अपडेट किया गया",
+    "IMAGE": "छवि",
+    "DESCRIPTION": "विवरण",
+    "PRICE": "कीमत"
+  }
+}

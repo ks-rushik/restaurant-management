@@ -1,0 +1,48 @@
+{
+  "menus": {
+    "title": "Menus",
+    "button": "Add New Menu",
+    "modaltitle": "Add Menu",
+    "menuname": "Menu name",
+    "currency": "Currency",
+    "status": "Status",
+    "submitbutton": "Submit",
+    "MENUNAME": "MENU NAME",
+    "AVAILABILITY": "AVAILABILITY",
+    "CREATEDAT": "CREATED AT",
+    "UPDATEDAT": "UPDATED AT"
+  },
+  "categories": {
+    "title": "Categories",
+    "button": "Add New Category",
+    "modaltitle": "Add category",
+    "categoryname": "Category name",
+    "status": "Status",
+    "submitbutton": "Submit",
+    "IMAGE": "IMAGE",
+    "uploadimage": "Upload image",
+    "CATEGORYNAME": "CATEGORY NAME",
+    "AVAILABILITY": "AVAILABILITY",
+    "CREATEDAT": "CREATED AT",
+    "UPDATEDAT": "UPDATED AT"
+  },
+  "items": {
+    "title": "Items",
+    "button": "Add New Item",
+    "description": "Description",
+    "price": "Price",
+    "modaltitle": "Add item",
+    "jainoption": "Jain option",
+    "uploadimage": "Upload image",
+    "itemname": "Item name",
+    "status": "Status",
+    "submitbutton": "Submit",
+    "ITEMNAME": "ITEM NAME",
+    "AVAILABILITY": "AVAILABILITY",
+    "CREATEDAT": "CREATED AT",
+    "UPDATEDAT": "UPDATED AT",
+    "IMAGE": "IMAGE",
+    "DESCRIPTION": "DESCRIPTION",
+    "PRICE": "PRICE"
+  }
+}
