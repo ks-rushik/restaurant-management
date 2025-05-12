@@ -6,6 +6,7 @@ import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -13,7 +14,6 @@ import formatDate from "@/app/utils/formatdate";
 
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
-import { IMessages } from "@/app/[locale]/messages";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -32,7 +32,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
-  lang?: IMessages
+  lang?: IMessages;
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -50,7 +50,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filterStatus,
     setFilterStatus,
-    lang
+    lang,
   } = props;
 
   return !data ? (
@@ -59,14 +59,14 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     <>
       <SearchFilter>
         <SearchInput
-          placeholder="Search Category"
+          placeholder={lang?.categories.searchcategory}
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
         />
         <FilteredData
           value={filterStatus}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.categories.chooseavailibility}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>

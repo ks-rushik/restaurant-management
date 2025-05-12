@@ -15,7 +15,6 @@ const UserProfilePage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Navbar />
       <UserProfileForm />
     </HydrationBoundary>
   );

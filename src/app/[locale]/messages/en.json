@@ -10,7 +10,9 @@
     "MENUNAME": "MENU NAME",
     "AVAILABILITY": "AVAILABILITY",
     "CREATEDAT": "CREATED AT",
-    "UPDATEDAT": "UPDATED AT"
+    "UPDATEDAT": "UPDATED AT",
+    "searchmenu": "Search menu...",
+    "chooseavailibility": "Choose availibility..."
   },
   "categories": {
     "title": "Categories",
@@ -24,7 +26,9 @@
     "CATEGORYNAME": "CATEGORY NAME",
     "AVAILABILITY": "AVAILABILITY",
     "CREATEDAT": "CREATED AT",
-    "UPDATEDAT": "UPDATED AT"
+    "UPDATEDAT": "UPDATED AT",
+    "searchcategory": "Search category...",
+    "chooseavailibility": "Choose availibility..."
   },
   "items": {
     "title": "Items",
@@ -43,6 +47,32 @@
     "UPDATEDAT": "UPDATED AT",
     "IMAGE": "IMAGE",
     "DESCRIPTION": "DESCRIPTION",
-    "PRICE": "PRICE"
+    "PRICE": "PRICE",
+    "searchitem": "Search item...",
+    "chooseavailibility": "Choose availibility..."
+  },
+  "navbar": {
+    "profilepage": "Profile page",
+    "changepassword": "Change password",
+    "logout": "Logout"
+  },
+  "changepassword": {
+    "title": "Change password",
+    "oldpassword": "Old password",
+    "password": "Password",
+    "confirmpassword": "Confirm password",
+    "oldpasswordplaceholder": "Enter your old password...",
+    "passwordplaceholder": "Enter your password...",
+    "confirmpasswordplaceholder": "Enter your password...",
+    "changepasswordbutton": "Change password"
+  },
+  "profile": {
+    "title": "My profile",
+    "uploadlogo": "Upload logo",
+    "restaurantname": "Restaurant name",
+    "contactnumber": "Contact number",
+    "location": "Location",
+    "button": "Save profile",
+    "backtothepage": "Back to the page"
   }
 }

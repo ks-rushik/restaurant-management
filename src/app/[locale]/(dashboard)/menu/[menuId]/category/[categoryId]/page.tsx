@@ -29,9 +29,9 @@ const page = async ({
   await queryClient.prefetchQuery(fetchcategoryitemdataQuery(categoryId));
   const locale = (await params).locale;
   const dictionary: IMessages = await getDictionary(locale);
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Navbar />
       <ItemPage lang={dictionary} />
     </HydrationBoundary>
   );

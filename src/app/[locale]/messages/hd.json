@@ -3,20 +3,22 @@
     "title": "मेनू",
     "button": "नया मेनू जोड़ें",
     "modaltitle": "मेनू जोड़ें",
-    "menuname": "मेनू नाम",
+    "menuname": "मेनू का नाम",
     "currency": "मुद्रा",
     "status": "स्थिति",
     "submitbutton": "जमा करें",
     "MENUNAME": "मेनू नाम",
     "AVAILABILITY": "उपलब्धता",
     "CREATEDAT": "बनाया गया",
-    "UPDATEDAT": "अपडेट किया गया"
+    "UPDATEDAT": "अपडेट किया गया",
+    "searchmenu": "मेनू खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें..."
   },
   "categories": {
     "title": "श्रेणियाँ",
     "button": "नई श्रेणी जोड़ें",
     "modaltitle": "श्रेणी जोड़ें",
-    "categoryname": "श्रेणी नाम",
+    "categoryname": "श्रेणी का नाम",
     "status": "स्थिति",
     "submitbutton": "जमा करें",
     "IMAGE": "छवि",
@@ -24,17 +26,19 @@
     "CATEGORYNAME": "श्रेणी नाम",
     "AVAILABILITY": "उपलब्धता",
     "CREATEDAT": "बनाया गया",
-    "UPDATEDAT": "अपडेट किया गया"
+    "UPDATEDAT": "अपडेट किया गया",
+    "searchcategory": "श्रेणी खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें..."
   },
   "items": {
-    "title": "आइटम",
-    "button": "नया आइटम जोड़ें",
+    "title": "आइटम्स",
+    "button": "नई आइटम जोड़ें",
     "description": "विवरण",
-    "price": "कीमत",
+    "price": "मूल्य",
     "modaltitle": "आइटम जोड़ें",
     "jainoption": "जैन विकल्प",
     "uploadimage": "छवि अपलोड करें",
-    "itemname": "आइटम नाम",
+    "itemname": "आइटम का नाम",
     "status": "स्थिति",
     "submitbutton": "जमा करें",
     "ITEMNAME": "आइटम नाम",
@@ -43,6 +47,32 @@
     "UPDATEDAT": "अपडेट किया गया",
     "IMAGE": "छवि",
     "DESCRIPTION": "विवरण",
-    "PRICE": "कीमत"
+    "PRICE": "मूल्य",
+    "searchitem": "आइटम खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें..."
+  },
+  "navbar": {
+    "profilepage": "प्रोफ़ाइल पृष्ठ",
+    "changepassword": "पासवर्ड बदलें",
+    "logout": "लॉग आउट"
+  },
+  "changepassword": {
+    "title": "पासवर्ड बदलें",
+    "oldpassword": "पुराना पासवर्ड",
+    "password": "नया पासवर्ड",
+    "confirmpassword": "पासवर्ड की पुष्टि करें",
+    "oldpasswordplaceholder": "अपना पुराना पासवर्ड दर्ज करें...",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें...",
+    "confirmpasswordplaceholder": "अपना पासवर्ड दोबारा दर्ज करें...",
+    "changepasswordbutton": "पासवर्ड बदलें"
+  },
+  "profile": {
+    "title": "मेरी प्रोफ़ाइल",
+    "uploadlogo": "लोगो अपलोड करें",
+    "restaurantname": "रेस्टोरेंट का नाम",
+    "contactnumber": "संपर्क नंबर",
+    "location": "स्थान",
+    "button": "प्रोफ़ाइल सहेजें",
+    "backtothepage": "पृष्ठ पर वापस जाएँ"
   }
 }

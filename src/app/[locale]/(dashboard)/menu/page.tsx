@@ -24,7 +24,6 @@ const Menupage = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Navbar />
       <Menu lang={dictionary} />
     </HydrationBoundary>
   );

@@ -25,15 +25,23 @@ const Navbar = () => {
   const [opened, setOpened] = useState(false);
   const [modalopened, setModalOpened] = useState(false);
   const { theme, toggleTheme, mounted } = useThemeToggle();
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const router = useRouter();
   const pathname = usePathname();
+  
 
   const handleLanguageChange = (value: string | null) => {
     if (!value) return;
 
+    setSelectedLanguage(value);
+
     const locale = languageMap[value];
+    console.log(locale ,'locale');
+    
     const segments = pathname.split("/").filter(Boolean);
+    console.log(segments ,'segments');
+    
 
     if (["en", "hd", "sp"].includes(segments[0])) {
       segments[0] = locale;
@@ -44,6 +52,8 @@ const Navbar = () => {
     const newPath = "/" + segments.join("/");
     router.push(newPath);
   };
+  console.log(selectedLanguage ,'selected value');
+  
 
   return (
     <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
@@ -61,9 +71,10 @@ const Navbar = () => {
         <BaseSelect
           data={["English", "Hindi", "Spanish"]}
           defaultValue="English"
+          value={selectedLanguage}
           size="small"
           classNames={{ root: "w-28" }}
-          onChange={handleLanguageChange}
+          onChange={(value) => handleLanguageChange(value)}
         />
 
         {mounted && <ThemeButton theme={theme!} onChange={toggleTheme} />}

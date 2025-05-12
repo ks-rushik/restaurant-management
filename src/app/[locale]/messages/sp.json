@@ -10,7 +10,9 @@
     "MENUNAME": "NOMBRE DEL MENÚ",
     "AVAILABILITY": "DISPONIBILIDAD",
     "CREATEDAT": "CREADO EL",
-    "UPDATEDAT": "ACTUALIZADO EL"
+    "UPDATEDAT": "ACTUALIZADO EL",
+    "searchmenu": "Buscar menú...",
+    "chooseavailibility": "Elegir disponibilidad..."
   },
   "categories": {
     "title": "Categorías",
@@ -24,7 +26,9 @@
     "CATEGORYNAME": "NOMBRE DE LA CATEGORÍA",
     "AVAILABILITY": "DISPONIBILIDAD",
     "CREATEDAT": "CREADO EL",
-    "UPDATEDAT": "ACTUALIZADO EL"
+    "UPDATEDAT": "ACTUALIZADO EL",
+    "searchcategory": "Buscar categoría...",
+    "chooseavailibility": "Elegir disponibilidad..."
   },
   "items": {
     "title": "Artículos",
@@ -32,7 +36,7 @@
     "description": "Descripción",
     "price": "Precio",
     "modaltitle": "Agregar artículo",
-    "jainoption": "Opción jainista",
+    "jainoption": "Opción Jain",
     "uploadimage": "Subir imagen",
     "itemname": "Nombre del artículo",
     "status": "Estado",
@@ -43,6 +47,32 @@
     "UPDATEDAT": "ACTUALIZADO EL",
     "IMAGE": "IMAGEN",
     "DESCRIPTION": "DESCRIPCIÓN",
-    "PRICE": "PRECIO"
+    "PRICE": "PRECIO",
+    "searchitem": "Buscar artículo...",
+    "chooseavailibility": "Elegir disponibilidad..."
+  },
+  "navbar": {
+    "profilepage": "Página de perfil",
+    "changepassword": "Cambiar contraseña",
+    "logout": "Cerrar sesión"
+  },
+  "changepassword": {
+    "title": "Cambiar contraseña",
+    "oldpassword": "Contraseña antigua",
+    "password": "Nueva contraseña",
+    "confirmpassword": "Confirmar contraseña",
+    "oldpasswordplaceholder": "Introduce tu contraseña antigua...",
+    "passwordplaceholder": "Introduce tu nueva contraseña...",
+    "confirmpasswordplaceholder": "Confirma tu nueva contraseña...",
+    "changepasswordbutton": "Cambiar contraseña"
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "uploadlogo": "Subir logotipo",
+    "restaurantname": "Nombre del restaurante",
+    "contactnumber": "Número de contacto",
+    "location": "Ubicación",
+    "button": "Guardar perfil",
+    "backtothepage": "Volver a la página"
   }
 }

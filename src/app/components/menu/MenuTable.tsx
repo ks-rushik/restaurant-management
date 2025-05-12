@@ -53,12 +53,12 @@ const MenuTable: FC<IMenuTableProps> = ({
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-          placeholder="Search menu..."
+          placeholder={lang?.menus.searchmenu}
         />
         <FilteredData
           value={filterStatus}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.menus.chooseavailibility}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>

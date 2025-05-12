@@ -9,6 +9,8 @@ import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 
+import Navbar from "@/app/components/navbar/Navbar";
+
 import QueryProvider from "../../components/QueryProvider";
 import RouterTransition from "../../components/RouterTransition";
 import { getDictionary } from "../messages";
@@ -48,6 +50,7 @@ export default async function DashBoardLayout({
             <ModalsProvider>
               <RouterTransition />
               <Notifications position="top-right" />
+              <Navbar />
               {children}
             </ModalsProvider>
           </MantineProvider>

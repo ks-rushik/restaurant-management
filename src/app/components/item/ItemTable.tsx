@@ -7,6 +7,7 @@ import SearchInput from "@components/SearchInput";
 import { Badge } from "@mantine/core";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
@@ -15,7 +16,6 @@ import formatDate from "@/app/utils/formatdate";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
 import { IFilter } from "./ItemPage";
-import { IMessages } from "@/app/[locale]/messages";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -33,7 +33,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filters: IFilter;
   setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
-  lang?: IMessages
+  lang?: IMessages;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -50,7 +50,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filters,
     setFilters,
-    lang
+    lang,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
@@ -62,12 +62,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-          placeholder="Search Item..."
+          placeholder={lang?.items.searchitem}
         />
         <FilteredData
           value={filters.avaibilityStatus}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.items.chooseavailibility}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
           }
