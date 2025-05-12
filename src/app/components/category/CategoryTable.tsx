@@ -1,16 +1,17 @@
 import Image from "next/image";
 import { FC } from "react";
 
-import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
+import { LuFilter } from "react-icons/lu";
 
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
+import BaseSelect from "../ui/BaseSelect";
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
 
@@ -60,8 +61,9 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
         />
-        <FilteredData
+        <BaseSelect
           value={filterStatus}
+          leftSection={<LuFilter size={20} />}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
           placeholder="Choose availability"
           onChange={(value) => setFilterStatus(value || "")}
