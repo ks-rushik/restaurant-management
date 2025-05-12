@@ -206,6 +206,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                   label="Jain option"
                   labelvalue
                   data={[Jainoption.Jain, Jainoption.NotJain]}
+                  placeholder="Enter jain option"
                   {...field}
                 />
               )}

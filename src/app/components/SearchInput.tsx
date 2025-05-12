@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { IoSearch } from "react-icons/io5";
+
 import BaseTextField from "@components/ui/BaseInput";
+import { IoSearch } from "react-icons/io5";
 
 type ISearchInputProps = {
   value: string;
@@ -16,11 +17,8 @@ const SearchInput: FC<ISearchInputProps> = (props) => {
       placeholder={placeholder || "Search..."}
       value={value}
       onChange={onChange}
-      InputWrapperClassNames={{
-        root: " xl:w-3/4 lg:w-3/4 md:3/4",
-      }}
       classNames={{
-        input: "",
+        input: "w-full",
       }}
       leftSection={
         <IoSearch

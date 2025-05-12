@@ -7,7 +7,7 @@ type ISearchFilterProps = {
 const SearchFilter:FC<ISearchFilterProps> = (props) => {
     const {children} = props
   return (
-    <div className=" justify-between items-center mb-3 sm:flex sm:flex-col md:flex md:flex-row lg:flex-row xl:flex-row">
+    <div className=" flex flex-col gap-4 mb-4 justify-end md:flex-row">
       {children}
     </div>
   )
