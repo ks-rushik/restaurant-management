@@ -11,8 +11,7 @@ export const fetchItemdataQuery = (
     "Items",
     categoryId,
     search,
-    filters?.avaibilityStatus,
-    filters?.jainOption,
+    filters
   ],
   queryFn: () => fetchItemdata(categoryId, search, filters),
 });
