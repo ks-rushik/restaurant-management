@@ -15,6 +15,7 @@ import formatDate from "@/app/utils/formatdate";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
 import { IFilter } from "./ItemPage";
+import { IMessages } from "@/app/[locale]/messages";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -32,6 +33,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filters: IFilter;
   setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
+  lang?: IMessages
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -48,6 +50,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filters,
     setFilters,
+    lang
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
@@ -118,7 +121,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               },
             },
             {
-              label: "IMAGE",
+              label: lang?.items.IMAGE!,
               render: (item) =>
                 item.image && (
                   <Image
@@ -131,7 +134,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                 ),
             },
             {
-              label: "ITEM NAME",
+              label: lang?.items.ITEMNAME!,
               render: (item) => (
                 <>
                   {item.name}
@@ -150,7 +153,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
             },
 
             {
-              label: "DESCRIPTION",
+              label: lang?.items.DESCRIPTION!,
               render: (item) => (
                 <span
                   className={`cursor-pointer ${
@@ -167,12 +170,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               ),
             },
             {
-              label: "PRICE",
+              label: lang?.items.PRICE!,
               render: (item) =>
                 ` ${item.category?.menu?.currency || ""} ${item.price}`,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.items.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
                   <p className="text-red-500">{Availablity.NotAvailable}</p>
@@ -182,7 +185,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
             },
 
             {
-              label: "CREATED AT",
+              label: lang?.items.CREATEDAT!,
               render: (item) => formatDate(item.created_at!),
             },
 

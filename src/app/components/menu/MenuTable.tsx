@@ -4,6 +4,7 @@ import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -27,6 +28,7 @@ type IMenuTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
+  lang?: IMessages;
 };
 
 const MenuTable: FC<IMenuTableProps> = ({
@@ -41,6 +43,7 @@ const MenuTable: FC<IMenuTableProps> = ({
   setSearchData,
   filterStatus,
   setFilterStatus,
+  lang,
 }) => {
   return !data ? (
     <Loader />
@@ -68,11 +71,11 @@ const MenuTable: FC<IMenuTableProps> = ({
           getKey={(item) => item.id}
           columns={[
             {
-              label: "MENU NAME",
+              label: lang?.menus.MENUNAME!,
               render: (item) => `${item.menu_name} (${item.currency})`,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.menus.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
                   <p className="text-red-500">{Availablity.NotAvailable}</p>
@@ -81,11 +84,11 @@ const MenuTable: FC<IMenuTableProps> = ({
                 ),
             },
             {
-              label: "CREATED AT",
+              label: lang?.menus.CREATEDAT!,
               render: (item) => formatDate(item.created_at),
             },
             {
-              label: "UPDATED AT",
+              label: lang?.menus.UPDATEDAT!,
               render: (item) => formatDate(item.updated_at),
             },
             {

@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -42,10 +43,11 @@ export type IItemModalProps = {
   onEditItem: (updateditem: IItemdata, file?: File) => Promise<void>;
   selectedItem: IItemdata | null;
   setSelectedItem: (value: IItemdata | null) => void;
+  lang?: IMessages;
 };
 
 const AddItemModal: FC<IItemModalProps> = (props) => {
-  const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
+  const { onAddItem, onEditItem, selectedItem, setSelectedItem, lang } = props;
   const AddItemschema = z.object({
     name: z.string().nonempty(validation("Item name", "required")),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
@@ -152,13 +154,13 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedItem ? "Edit Item" : "Add Item"}
+        title={selectedItem ? "Edit Item" : lang?.items.modaltitle}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
-              label="Item"
+              label={lang?.items.title}
               forceLabelOnTop
               placeholder="Enter Item..."
               {...register("name")}
@@ -166,7 +168,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           </FormField>
           <FormField name="description" error={errors.description?.message}>
             <BaseTextArea
-              label="Description"
+              label={lang?.items.description}
               labelvalue
               {...register("description")}
               placeholder="Enter Description..."
@@ -176,7 +178,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           <FormField name="price" error={errors.price?.message}>
             <BaseInput
               type="text"
-              label="Price"
+              label={lang?.items.price}
               forceLabelOnTop
               placeholder="Enter price..."
               {...register("price")}
@@ -188,7 +190,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Status"
+                  label={lang?.items.status}
                   labelvalue
                   data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
@@ -203,7 +205,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Jain option"
+                  label={lang?.items.jainoption}
                   labelvalue
                   data={[Jainoption.Jain, Jainoption.NotJain]}
                   placeholder="Enter jain option"
@@ -213,7 +215,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             />
           </FormField>
           <FormField
-            label="Upload image"
+            label={lang?.items.uploadimage}
             name="image"
             required
             error={errors.root?.message}
@@ -236,7 +238,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             >
               {(props) => (
                 <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  Upload Image
+                  {lang?.items.uploadimage}
                 </BaseButton>
               )}
             </FileButton>
@@ -248,7 +250,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.items.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>
@@ -266,7 +268,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           inner: "font-bold text-white text-sm sm:text-md md:text-sm",
         }}
       >
-        Add New Item
+        {lang?.items.button}
       </BaseButton>
     </div>
   );

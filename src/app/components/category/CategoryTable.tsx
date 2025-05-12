@@ -13,6 +13,7 @@ import formatDate from "@/app/utils/formatdate";
 
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
+import { IMessages } from "@/app/[locale]/messages";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -31,6 +32,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
+  lang?: IMessages
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -48,6 +50,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filterStatus,
     setFilterStatus,
+    lang
   } = props;
 
   return !data ? (
@@ -106,7 +109,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
               },
             },
             {
-              label: "IMAGE",
+              label: lang?.categories.IMAGE!,
               render: (item) =>
                 item.image && (
                   <Image
@@ -119,11 +122,11 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                 ),
             },
             {
-              label: "CATEGORY NAME",
+              label: lang?.categories.CATEGORYNAME!,
               render: (item) => item.category_name,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.categories.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
                   <p className="text-red-500">{Availablity.NotAvailable}</p>
@@ -132,11 +135,11 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                 ),
             },
             {
-              label: "CREATED AT",
+              label: lang?.categories.CREATEDAT!,
               render: (item) => formatDate(item.create_at!),
             },
             {
-              label: "UPDATED AT",
+              label: lang?.categories.UPDATEDAT!,
               render: (item) => formatDate(item.updated_at!),
             },
             {

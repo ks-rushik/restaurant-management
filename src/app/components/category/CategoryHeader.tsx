@@ -6,17 +6,20 @@ import { FC, ReactNode } from "react";
 import HeaderCss from "@components/HeaderCss";
 import { useQuery } from "@tanstack/react-query";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
+  lang?: IMessages;
 };
 const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
-  const { children } = props;
+  const { children, lang } = props;
   const pathname = usePathname();
-  const segments = pathname.split("/")[1];
+  const segments = pathname.split("/")[2];
   const { data } = useQuery(fetchMenudataQuery("", ""));
-  const menuId = pathname.split("/")[2];
+  const menuId = pathname.split("/")[3];
+
   const menu = data?.find((menu) => menu.id === menuId)?.menu_name;
   if (menu === undefined) {
     return notFound();
@@ -33,10 +36,12 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
       active: true,
     },
   ];
+  console.log(lang);
+  
 
   return (
     <>
-      <HeaderCss headertitle="Categories" item={breadcrumbItems}>
+      <HeaderCss headertitle={lang?.categories.title!} item={breadcrumbItems}>
         {children}
       </HeaderCss>
     </>

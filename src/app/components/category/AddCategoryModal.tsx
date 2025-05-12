@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -34,6 +35,7 @@ export type ICategoryModalProps = {
   onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
+  lang?: IMessages;
 };
 
 const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
@@ -42,6 +44,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     onEditCategory,
     selectedCategory,
     setSelectedCategory,
+    lang,
   } = props;
   const AddCategorychema = z.object({
     category_name: z.string().nonempty(validation("Category", "required")),
@@ -122,13 +125,13 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedCategory ? "Edit Category" : "Add Category"}
+        title={selectedCategory ? "Edit Category" : lang?.categories.modaltitle}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
-              label="Category name"
+              label={lang?.categories.categoryname}
               forceLabelOnTop
               placeholder="Enter category"
               {...register("category_name")}
@@ -140,7 +143,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Status"
+                  label={lang?.categories.status}
                   labelvalue
                   data={[Availablity.Available, Availablity.NotAvailable]}
                   placeholder="Enter status"
@@ -150,7 +153,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             />
           </FormField>
           <FormField
-            label="Upload image"
+            label={lang?.categories.uploadimage}
             name="image"
             required
             error={errors.root?.message}
@@ -185,7 +188,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.categories.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>
@@ -201,7 +204,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
           inner: "font-bold text-white text-md",
         }}
       >
-        Add New Category
+        {lang?.categories.button}
       </BaseButton>
     </div>
   );
