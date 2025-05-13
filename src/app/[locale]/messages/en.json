@@ -87,7 +87,13 @@
     "contactnumber": "Contact number",
     "location": "Location",
     "button": "Save profile",
-    "backtothepage": "Back to the page"
+    "backtothepage": "Back to the page",
+    "name": "Name",
+    "phonenumber": "Phone number",
+    "address": "address",
+    "nameplaceholder": "Enter your restaurant name...",
+    "phonenumberplaceholder": "Enter your phonenumber...",
+    "locationplaceholder": "Enter your location..."
   },
   "validation": {
     "required": "is a required field",

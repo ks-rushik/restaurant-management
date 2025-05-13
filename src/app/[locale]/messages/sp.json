@@ -87,7 +87,13 @@
     "contactnumber": "Número de contacto",
     "location": "Ubicación",
     "button": "Guardar perfil",
-    "backtothepage": "Volver a la página"
+    "backtothepage": "Volver a la página",
+    "name": "Nombre",
+    "phonenumber": "Número de teléfono",
+    "address": "Dirección",
+    "nameplaceholder": "Introduce el nombre de tu restaurante...",
+    "phonenumberplaceholder": "Introduce tu número de teléfono...",
+    "locationplaceholder": "Introduce tu ubicación..."
   },
   "validation": {
     "required": "es un campo obligatorio",

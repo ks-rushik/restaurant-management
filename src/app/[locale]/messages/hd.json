@@ -87,7 +87,13 @@
     "contactnumber": "संपर्क संख्या",
     "location": "स्थान",
     "button": "प्रोफ़ाइल सहेजें",
-    "backtothepage": "पृष्ठ पर वापस जाएं"
+    "backtothepage": "पृष्ठ पर वापस जाएं",
+    "name": "नाम",
+    "phonenumber": "फ़ोन नंबर",
+    "address": "पता",
+    "nameplaceholder": "अपने रेस्टोरेंट का नाम दर्ज करें...",
+    "phonenumberplaceholder": "अपना फ़ोन नंबर दर्ज करें...",
+    "locationplaceholder": "अपना स्थान दर्ज करें..."
   },
   "validation": {
     "required": "यह एक आवश्यक क्षेत्र है",
@@ -97,16 +103,14 @@
     "imagesize": "चित्र का आकार 1 MB से कम होना चाहिए",
     "imagenotvalid": "चित्र का फ़ाइल प्रकार अमान्य है"
   },
-"availableStatus": {
-  "available": "उपलब्ध",
-  "notAvailable": "उपलब्ध नहीं",
-  "all": "सभी"
-},
-"jainOption": {
-  "jain": "जैन",
-  "notjain": "गैर-जैन",
-  "all": "सभी"
-}
-
-
+  "availableStatus": {
+    "available": "उपलब्ध",
+    "notAvailable": "उपलब्ध नहीं",
+    "all": "सभी"
+  },
+  "jainOption": {
+    "jain": "जैन",
+    "notjain": "गैर-जैन",
+    "all": "सभी"
+  }
 }
