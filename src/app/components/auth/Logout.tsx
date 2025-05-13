@@ -1,11 +1,19 @@
-import { useDisclosure } from "@mantine/hooks";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { useState } from "react";
+import { FC, useState } from "react";
+
 import BaseButtonLoader from "@components/ui/BaseButtonLoader";
 import BaseModal from "@components/ui/BaseModal";
-import signout from "@/app/actions/auth/logout-action";
+import { useDisclosure } from "@mantine/hooks";
 
-const LogOut = () => {
+import { IMessages } from "@/app/[locale]/messages";
+import signout from "@/app/actions/auth/logout-action";
+import BaseButton from "@/app/components/ui/BaseButton";
+
+export type ILogoutProps = {
+  lang?: IMessages;
+};
+
+const LogOut: FC<ILogoutProps> = (props) => {
+  const { lang } = props;
   const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(false);
 
@@ -30,13 +38,13 @@ const LogOut = () => {
             classNames={{ root: "w-32 mt-4" }}
             onClick={() => handlelogout()}
           >
-            {loading ? <BaseButtonLoader /> : <p>Logout</p>}
+            {loading ? <BaseButtonLoader /> : <p>{lang?.navbar.logout}</p>}
           </BaseButton>
         </div>
       </BaseModal>
 
       <BaseButton onClick={open} classNames={{ root: "w-full" }}>
-        Logout
+        {lang?.navbar.logout}
       </BaseButton>
     </>
   );

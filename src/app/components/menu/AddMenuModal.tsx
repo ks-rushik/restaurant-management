@@ -150,7 +150,7 @@ const Addmenu: FC<IMenuModalProps> = ({
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.menus.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>

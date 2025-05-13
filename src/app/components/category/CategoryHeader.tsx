@@ -36,8 +36,6 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
       active: true,
     },
   ];
-  console.log(lang);
-  
 
   return (
     <>

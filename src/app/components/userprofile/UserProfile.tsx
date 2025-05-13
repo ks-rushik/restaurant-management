@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Center, FileButton, Loader } from "@mantine/core";
@@ -12,6 +12,7 @@ import { ImSpoonKnife } from "react-icons/im";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { submitUserForm } from "@/app/actions/userprofile/userprofile-action";
 import { fetchprofiledataQuery } from "@/app/actions/userprofile/userprofile-fetch-query";
 import FormField from "@/app/components/forms/FormField";
@@ -32,7 +33,13 @@ export const userformSchema = z.object({
 
 export type IUserFormData = z.infer<typeof userformSchema>;
 
-const UserProfileForm = () => {
+export type IUserProfileForm = {
+  lang?: IMessages;
+};
+
+const UserProfileForm: FC<IUserProfileForm> = (props) => {
+  const { lang } = props;
+
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -106,7 +113,7 @@ const UserProfileForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <FormGroup>
-          <h2 className="text-3xl font-bold mb-10">My profile</h2>
+          <h2 className="text-3xl font-bold mb-10">{lang?.profile.title}</h2>
           <Avatar
             src={preview}
             alt="Uploaded Logo"
@@ -120,12 +127,12 @@ const UserProfileForm = () => {
           <FileButton onChange={handleFileChange} accept="image/png,image/jpeg">
             {(props) => (
               <BaseButton {...props} classNames={{ root: "mb-10 mt-4 ml-4" }}>
-                Upload Logo
+               {lang?.profile.uploadlogo}
               </BaseButton>
             )}
           </FileButton>
           <FormField
-            label="Restaurant Name"
+            label={lang?.profile.restaurantname}
             name="name"
             error={errors.name?.message}
             required
@@ -139,7 +146,7 @@ const UserProfileForm = () => {
             />
           </FormField>
           <FormField
-            label="Contact Number"
+            label={lang?.profile.contactnumber}
             name="phone"
             error={errors.phone?.message}
             required
@@ -152,7 +159,7 @@ const UserProfileForm = () => {
             />
           </FormField>
           <FormField
-            label="Location"
+            label={lang?.profile.location}
             name="address"
             error={errors.address?.message}
             required
@@ -172,14 +179,14 @@ const UserProfileForm = () => {
                 inner: "font-bold text-white text-sm",
               }}
             >
-              Save Profile
+             {lang?.profile.button}
             </BaseButton>
             <div
               onClick={() => handleBack()}
               className="mt-8 flex text-[#737380] dark:text-gray-200 opacity-60"
             >
               <IoMdArrowRoundBack size={20} />
-              Back to the page
+              {lang?.profile.backtothepage}
             </div>
           </div>
         </FormGroup>

@@ -39,6 +39,8 @@ export default async function DashBoardLayout({
   params: Promise<{ locale: "en" | "hd" | "sp" }>;
 }>) {
   const theme = (await cookies()).get("theme");
+  const locale = (await params).locale;
+  const dictionary = await getDictionary(locale);  
 
   return (
     <html lang={(await params).locale} className={`${theme?.value}`}>
@@ -50,7 +52,7 @@ export default async function DashBoardLayout({
             <ModalsProvider>
               <RouterTransition />
               <Notifications position="top-right" />
-              <Navbar />
+              <Navbar lang={dictionary} />
               {children}
             </ModalsProvider>
           </MantineProvider>

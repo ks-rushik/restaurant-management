@@ -13,6 +13,7 @@ import { notifications } from "@mantine/notifications";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import changepassword from "@/app/actions/auth/changepassword-action";
 import { ErrorMessages } from "@/app/utils/authvalidation";
 
@@ -40,10 +41,12 @@ export type IChangePasswordFormData = z.infer<typeof ChanegPasswordSchema>;
 type IChangePasswordProps = {
   modalopened: boolean;
   setModalOpened: (value: SetStateAction<boolean>) => void;
+  lang?: IMessages;
 };
 
 const ChangePassword: FC<IChangePasswordProps> = (props) => {
-  const { modalopened, setModalOpened } = props;
+  const { modalopened, setModalOpened, lang } = props;
+
   const {
     register,
     handleSubmit,
@@ -88,14 +91,14 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
       opened={modalopened}
       size={"md"}
       onClose={() => setModalOpened(false)}
-      title="Change Password"
+      title={lang?.changepassword.title}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-4 pt-4 max-w-sm"
       >
         <FormField
-          label="Old Password"
+          label={lang?.changepassword.oldpassword}
           name="oldpassword"
           error={errors.password?.message}
           required={true}
@@ -105,11 +108,11 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
             {...register("oldpassword")}
             type="password"
             name="oldpassword"
-            placeholder="Enter your old password"
+            placeholder={lang?.changepassword.oldpasswordplaceholder}
           />
         </FormField>
         <FormField
-          label="Password"
+          label={lang?.changepassword.password}
           name="password"
           error={errors.password?.message}
           required={true}
@@ -117,12 +120,12 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
           <BaseTextField
             {...register("password")}
             type="password"
-            placeholder="Enter your password..."
+            placeholder={lang?.changepassword.passwordplaceholder}
             name="password"
           />
         </FormField>
         <FormField
-          label="Confirm Password"
+          label={lang?.changepassword.confirmpassword}
           name="confirmpassword"
           error={errors.confirmpassword?.message}
           required={true}
@@ -130,11 +133,11 @@ const ChangePassword: FC<IChangePasswordProps> = (props) => {
           <BaseTextField
             type="password"
             {...register("confirmpassword")}
-            placeholder="Enter your password..."
+            placeholder={lang?.changepassword.passwordplaceholder}
           />
         </FormField>
         <BaseButton type="submit" loading={isSubmitting}>
-          {isSubmitting ? "Updating..." : "Change Password"}
+          {isSubmitting ? "Updating..." : lang?.changepassword.title}
         </BaseButton>
       </form>
     </BaseModal>
