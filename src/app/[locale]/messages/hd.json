@@ -155,5 +155,14 @@
     "specialCharRequired": "पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए",
     "passwordMismatch": "पासवर्ड मेल नहीं खा रहे हैं",
     "nameMinLength": "कम से कम 4 अक्षर लंबा होना चाहिए"
+  },
+  "sharemenu": {
+    "title": "मेनू लिंक साझा करें",
+    "itembasedmenu": "आइटम आधारित मेनू",
+    "categorybasedmenu": "श्रेणी आधारित मेनू",
+    "innertitle": "मेनू लिंक साझा करें",
+    "copy": "कॉपी करें",
+    "download": "डाउनलोड करें",
+    "copied": "कॉपी किया गया"
   }
 }

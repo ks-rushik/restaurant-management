@@ -79,11 +79,11 @@ const MenuTable: FC<IMenuTableProps> = ({
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
                   <p className="text-red-500">
-                    {lang?.availableStatus.available}
+                    {lang?.availableStatus.notAvailable}
                   </p>
                 ) : (
                   <p className="text-green-600">
-                    {lang?.availableStatus.notAvailable}
+                    {lang?.availableStatus.available}
                   </p>
                 ),
             },
@@ -99,6 +99,7 @@ const MenuTable: FC<IMenuTableProps> = ({
               label: "",
               render: (item) => (
                 <MenuActions
+                  lang={lang}
                   item={item}
                   handleView={handleView}
                   handleSelectMenu={handleSelectMenu}

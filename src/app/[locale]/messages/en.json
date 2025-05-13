@@ -145,7 +145,7 @@
     "enteremail": "Enter email",
     "backtologin": "Back to the login"
   },
-  "authvalidation":{
+  "authvalidation": {
     "required": "This is required field",
     "email": "Enter a valid email address",
     "passwordLength": "Password must be at least 8 characters long",
@@ -154,5 +154,14 @@
     "specialCharRequired": "Include at least one  in your password",
     "passwordMismatch": "Passwords don't match",
     "nameMinLength": "At least 4 characters long"
+  },
+  "sharemenu": {
+    "title": "Share menu link",
+    "itembasedmenu": "Item based menu",
+    "categorybasedmenu": "Category based menu",
+    "innertitle": "Share menu link",
+    "copy": "Copy",
+    "download": "Download",
+    "copied": "Copied"
   }
 }

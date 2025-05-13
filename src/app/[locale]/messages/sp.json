@@ -158,5 +158,14 @@
     "specialCharRequired": "Incluye al menos un carácter especial en tu contraseña",
     "passwordMismatch": "Las contraseñas no coinciden",
     "nameMinLength": "Debe tener al menos 4 caracteres"
+  },
+  "sharemenu": {
+    "title": "Compartir enlace del menú",
+    "itembasedmenu": "Menú basado en elementos",
+    "categorybasedmenu": "Menú basado en categorías",
+    "innertitle": "Compartir enlace del menú",
+    "copy": "Copiar",
+    "download": "Descargar",
+    "copied": "Copiado"
   }
 }

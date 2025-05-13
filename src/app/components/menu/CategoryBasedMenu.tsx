@@ -18,14 +18,14 @@ import { downloadQRCodeWithText } from "@/app/helper/downloadQRCode";
 import getCategorydata from "@/app/helper/getCategorydata";
 import generateQRCode from "@/app/helper/qrcodegenrating";
 
-import { IShareMenuProps } from "./ShareMenu";
+import { IShareMenuProps } from "./ItemBasedMenu";
 
 const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
   const [shortCode, setShortCode] = useState();
   const [profilename, setProfilename] = useState("");
 
   const [qrcode, setQrcode] = useState<string | undefined>();
-  const { item } = props;
+  const { item, lang } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +78,11 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
         classNames={{ root: "w-full h-12 text-base" }}
         title="Share Menu"
       >
-        {loading ? <Loader size={"sm"} color="white" /> : "Category Based Menu"}
+        {loading ? (
+          <Loader size={"sm"} color="white" />
+        ) : (
+          lang?.sharemenu.categorybasedmenu
+        )}
       </BaseButton>
 
       <BaseModal
@@ -88,7 +92,7 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
           opacity: 0.2,
         }}
         onClose={() => setShareModalOpen(false)}
-        title="Share Menu Link"
+        title={lang?.sharemenu.innertitle}
         centered
       >
         {qrcode && (
@@ -118,7 +122,9 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
                   </div>
                 ) : (
                   <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copy</span>
+                    <span className="mr-2 text-white">
+                      {lang?.sharemenu.copy}
+                    </span>
                     <FaCopy />
                   </div>
                 )}
@@ -132,7 +138,7 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
             }
             classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
           >
-            <span className="mr-2 text-white">Download</span>
+            <span className="mr-2 text-white">{lang?.sharemenu.download}</span>
             <RiDownload2Line />
           </BaseButton>
         </div>

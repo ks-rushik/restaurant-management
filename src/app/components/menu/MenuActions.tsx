@@ -6,6 +6,7 @@ import { Loader } from "@mantine/core";
 import { FC } from "react";
 import TypesOfMenu from "./TypesOfMenu";
 import { IMenudata } from "@/app/type/type";
+import { IMessages } from "@/app/[locale]/messages";
 
 type IMenuActionsProps = {
   item: IMenudata;
@@ -18,6 +19,7 @@ type IMenuActionsProps = {
   loading: string;
   opened: boolean;
   close: () => void;
+  lang?:IMessages
 };
 
 const MenuActions: FC<IMenuActionsProps> = (props) => {
@@ -29,6 +31,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
     loading,
     opened,
     close,
+    lang
   } = props;
   return (
     <span className="inline-flex items-center">
@@ -50,7 +53,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
         <MdOutlineModeEdit size={22} className="hover:text-yellow-400  " />
       </div>
      
-      <TypesOfMenu item={item} />
+      <TypesOfMenu item={item} lang={lang} />
       <BaseConfirmation
         opened={opened}
         onClose={close}
