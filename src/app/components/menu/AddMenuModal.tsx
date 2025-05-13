@@ -137,8 +137,14 @@ const Addmenu: FC<IMenuModalProps> = ({
                   label={lang?.menus.status}
                   labelvalue
                   data={[
-                    lang?.availableStatus.available!,
-                    lang?.availableStatus.notAvailable!,
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
                   ]}
                   placeholder={lang?.menus.statusplaceholder}
                   {...field}

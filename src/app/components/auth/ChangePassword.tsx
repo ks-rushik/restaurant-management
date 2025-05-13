@@ -17,27 +17,6 @@ import { IMessages } from "@/app/[locale]/messages";
 import changepassword from "@/app/actions/auth/changepassword-action";
 import { ErrorMessages } from "@/app/utils/authvalidation";
 
-const ChanegPasswordSchema = z
-  .object({
-    oldpassword: z.string().min(1, "Old password required"),
-    password: z
-      .string()
-      .min(8, { message: ErrorMessages.passwordLength })
-      .regex(/[a-zA-Z]/, { message: ErrorMessages.letterRequired })
-      .regex(/[0-9]/, { message: ErrorMessages.numberRequired })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: ErrorMessages.specialCharRequired,
-      }),
-    confirmpassword: z
-      .string()
-      .min(8, { message: ErrorMessages.passwordLength }),
-  })
-  .refine((data) => data.password === data.confirmpassword, {
-    message: ErrorMessages.passwordMismatch,
-    path: ["confirmpassword"],
-  });
-export type IChangePasswordFormData = z.infer<typeof ChanegPasswordSchema>;
-
 type IChangePasswordProps = {
   modalopened: boolean;
   setModalOpened: (value: SetStateAction<boolean>) => void;
@@ -46,6 +25,26 @@ type IChangePasswordProps = {
 
 const ChangePassword: FC<IChangePasswordProps> = (props) => {
   const { modalopened, setModalOpened, lang } = props;
+  const ChanegPasswordSchema = z
+    .object({
+      oldpassword: z.string().min(1, "Old password required"),
+      password: z
+        .string()
+        .min(8, { message: lang?.authvalidation.passwordLength })
+        .regex(/[a-zA-Z]/, { message: lang?.authvalidation.letterRequired })
+        .regex(/[0-9]/, { message: lang?.authvalidation.numberRequired })
+        .regex(/[^a-zA-Z0-9]/, {
+          message: lang?.authvalidation.specialCharRequired,
+        }),
+      confirmpassword: z
+        .string()
+        .min(8, { message: lang?.authvalidation.passwordLength }),
+    })
+    .refine((data) => data.password === data.confirmpassword, {
+      message: lang?.authvalidation.passwordMismatch,
+      path: ["confirmpassword"],
+    });
+  type IChangePasswordFormData = z.infer<typeof ChanegPasswordSchema>;
 
   const {
     register,

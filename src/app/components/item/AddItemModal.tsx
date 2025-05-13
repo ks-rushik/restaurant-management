@@ -197,8 +197,14 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                   label={lang?.items.status}
                   labelvalue
                   data={[
-                    lang?.availableStatus.available!,
-                    lang?.availableStatus.notAvailable!,
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
                   ]}
                   placeholder={lang?.items.itemstatusplaceholder}
                   {...field}

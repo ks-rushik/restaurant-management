@@ -1,9 +1,14 @@
 "use server";
 
-import { IChangePasswordFormData } from "@/app/components/auth/ChangePassword";
 import { createClient } from "@/app/utils/supabase/server";
 
-const changepassword = async (formData: IChangePasswordFormData) => {
+export type IChangepasswordProps = {
+  password: string;
+  confirmpassword: string;
+  oldpassword: string;
+};
+
+const changepassword = async (formData: IChangepasswordProps) => {
   if (!formData.password) return { error: "Password cannot be empty" };
   const supabase = await createClient();
   const {

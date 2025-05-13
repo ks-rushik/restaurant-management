@@ -46,7 +46,7 @@ const SignUpForm: FC<ISignUpFormProps> = (props) => {
         .min(8, { message: lang?.authvalidation.passwordLength }),
     })
     .refine((data) => data.password === data.confirmpassword, {
-      message: ErrorMessages.passwordMismatch,
+      message: lang?.authvalidation.passwordMismatch,
       path: ["confirmpassword"],
     });
 

@@ -152,8 +152,14 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
                   label={lang?.categories.status}
                   labelvalue
                   data={[
-                    lang?.availableStatus.available!,
-                    lang?.availableStatus.notAvailable!,
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
                   ]}
                   placeholder={lang?.categories.categorystatusplaceholder}
                   {...field}
