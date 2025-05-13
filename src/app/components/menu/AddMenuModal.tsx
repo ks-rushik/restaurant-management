@@ -35,12 +35,14 @@ const Addmenu: FC<IMenuModalProps> = ({
   const [opened, { open, close }] = useDisclosure(false);
 
   const AddMenuSchema = z.object({
-    menu_name: z.string().nonempty(validation("Menu name", "required")),
+    menu_name: z
+      .string()
+      .nonempty(validation(lang?.menus.menuname!, "required", lang)),
     currency: z.enum(["$", "₹", "€", "¥"], {
-      errorMap: () => validation("Currency", "required"),
+      errorMap: () => validation(lang?.menus.currency!, "required", lang),
     }),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.menus.status!, "required", lang),
     }),
   });
 
@@ -97,7 +99,7 @@ const Addmenu: FC<IMenuModalProps> = ({
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedMenu ? "Edit Menu" : lang?.menus.modaltitle}
+        title={selectedMenu ? lang?.menus.editmenu : lang?.menus.modaltitle}
         padding="lg"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,7 +108,7 @@ const Addmenu: FC<IMenuModalProps> = ({
               type="text"
               label={lang?.menus.menuname}
               forceLabelOnTop
-              placeholder="Enter menu"
+              placeholder={lang?.menus.menunameplaceholder}
               {...register("menu_name")}
             />
           </FormField>
@@ -118,7 +120,7 @@ const Addmenu: FC<IMenuModalProps> = ({
                 <BaseSelect
                   label={lang?.menus.currency}
                   labelvalue
-                  placeholder="Enter currency"
+                  placeholder={lang?.menus.currencyplaceholder}
                   {...field}
                   classNames={{ dropdown: "" }}
                   data={["$", "₹", "€", "¥"]}
@@ -134,8 +136,11 @@ const Addmenu: FC<IMenuModalProps> = ({
                 <BaseSelect
                   label={lang?.menus.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    lang?.availableStatus.available!,
+                    lang?.availableStatus.notAvailable!,
+                  ]}
+                  placeholder={lang?.menus.statusplaceholder}
                   {...field}
                 />
               )}

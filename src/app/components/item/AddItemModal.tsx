@@ -49,17 +49,21 @@ export type IItemModalProps = {
 const AddItemModal: FC<IItemModalProps> = (props) => {
   const { onAddItem, onEditItem, selectedItem, setSelectedItem, lang } = props;
   const AddItemschema = z.object({
-    name: z.string().nonempty(validation("Item name", "required")),
+    name: z
+      .string()
+      .nonempty(validation(lang?.items.itemname!, "required", lang)),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.items.status!, "required", lang),
     }),
     jain: z.enum([Jainoption.Jain, Jainoption.NotJain], {
-      errorMap: () => validation("Jainoption", "required"),
+      errorMap: () => validation(lang?.items.jainoption!, "required", lang),
     }),
-    description: z.string().min(8, validation("Description", "minLength")),
+    description: z
+      .string()
+      .min(8, validation(lang?.items.description!, "minLength", lang)),
     price: z
       .string()
-      .nonempty(validation("Price", "required"))
+      .nonempty(validation(lang?.items.price!, "required", lang))
       .transform((value) => (value === "" ? "" : Number(value)))
       .refine((value) => !isNaN(Number(value)), validation("Price", "nan")),
   });
@@ -115,7 +119,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       return setError("root", { message: "Image is required" });
     }
     if (file) {
-      setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file, lang).setError });
     }
 
     if (selectedItem) {
@@ -154,7 +158,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedItem ? "Edit Item" : lang?.items.modaltitle}
+        title={selectedItem ? lang?.items.edititem : lang?.items.modaltitle}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="name" error={errors.name?.message}>
@@ -162,7 +166,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               type="text"
               label={lang?.items.title}
               forceLabelOnTop
-              placeholder="Enter Item..."
+              placeholder={lang?.items.itemplaceholder}
               {...register("name")}
             />
           </FormField>
@@ -171,7 +175,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               label={lang?.items.description}
               labelvalue
               {...register("description")}
-              placeholder="Enter Description..."
+              placeholder={lang?.items.itemdescriptionplaceholder}
             />
           </FormField>
 
@@ -180,7 +184,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               type="text"
               label={lang?.items.price}
               forceLabelOnTop
-              placeholder="Enter price..."
+              placeholder={lang?.items.itempriceplaceholder}
               {...register("price")}
             ></BaseInput>
           </FormField>
@@ -192,8 +196,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                 <BaseSelect
                   label={lang?.items.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    lang?.availableStatus.available!,
+                    lang?.availableStatus.notAvailable!,
+                  ]}
+                  placeholder={lang?.items.itemstatusplaceholder}
                   {...field}
                 />
               )}
@@ -208,7 +215,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
                   label={lang?.items.jainoption}
                   labelvalue
                   data={[Jainoption.Jain, Jainoption.NotJain]}
-                  placeholder="Enter jain option"
+                  placeholder={lang?.items.itemsjainoptionplaceholder}
                   {...field}
                 />
               )}

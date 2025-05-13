@@ -129,9 +129,13 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
               label: lang?.categories.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.available}
+                  </p>
                 ),
             },
             {

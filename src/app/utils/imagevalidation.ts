@@ -1,3 +1,5 @@
+import { IMessages } from "../[locale]/messages";
+
 export const MAX_FILE_SIZE = 1000000; // 1 Mb
 export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -6,18 +8,21 @@ export const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-export function ImageError(file: File | null): {
+export function ImageError(
+  file: File | null,
+  lang?: IMessages,
+): {
   setError: string | undefined;
 } {
   if (file?.size! >= MAX_FILE_SIZE) {
     return {
-      setError: "Image file size should be less than 1 Mb",
+      setError: lang?.validation.imagesize,
     };
   }
 
   if (!ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
     return {
-      setError: "Image has not valid file type",
+      setError: lang?.validation.imagenotvalid,
     };
   }
 

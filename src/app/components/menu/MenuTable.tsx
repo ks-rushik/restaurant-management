@@ -78,9 +78,13 @@ const MenuTable: FC<IMenuTableProps> = ({
               label: lang?.menus.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.available}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ),
             },
             {

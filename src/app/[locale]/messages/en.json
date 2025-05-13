@@ -12,7 +12,11 @@
     "CREATEDAT": "CREATED AT",
     "UPDATEDAT": "UPDATED AT",
     "searchmenu": "Search menu...",
-    "chooseavailibility": "Choose availibility..."
+    "chooseavailibility": "Choose availibility...",
+    "editmenu": "Edit menu",
+    "menunameplaceholder": "Enter menu...",
+    "currencyplaceholder": "Enter currency...",
+    "statusplaceholder": "Enter status..."
   },
   "categories": {
     "title": "Categories",
@@ -28,7 +32,10 @@
     "CREATEDAT": "CREATED AT",
     "UPDATEDAT": "UPDATED AT",
     "searchcategory": "Search category...",
-    "chooseavailibility": "Choose availibility..."
+    "editcategory": "Edit category",
+    "chooseavailibility": "Choose availibility...",
+    "categoryplaceholder": "Enter category...",
+    "categorystatusplaceholder": "Enter status..."
   },
   "items": {
     "title": "Items",
@@ -49,7 +56,14 @@
     "DESCRIPTION": "DESCRIPTION",
     "PRICE": "PRICE",
     "searchitem": "Search item...",
-    "chooseavailibility": "Choose availibility..."
+    "chooseavailibility": "Choose availibility...",
+    "edititem": "Edit item",
+    "itemplaceholder": "Enter item...",
+    "itemdescriptionplaceholder": "Enter description...",
+    "itempriceplaceholder": "Enter price...",
+    "itemstatusplaceholder": "Enter status...",
+    "itemsjainoptionplaceholder": "Enter jain option...",
+    "choosejainoption": "Choose jain option"
   },
   "navbar": {
     "profilepage": "Profile page",
@@ -74,5 +88,23 @@
     "location": "Location",
     "button": "Save profile",
     "backtothepage": "Back to the page"
+  },
+  "validation": {
+    "required": "is a required field",
+    "minLength": "must be at least 8 characters long",
+    "nan": "is not a valid number",
+    "notvalid": " must be a number",
+    "imagesize": "Image file size should be less than 1 Mb",
+    "imagenotvalid": "Image has not valid file type"
+  },
+  "availableStatus": {
+    "available": "Available",
+    "notAvailable": "Not Available",
+    "all": "All"
+  },
+  "jainOption": {
+    "jain": "Jain",
+    "notjain": "Not jain",
+    "all": "All"
   }
 }

@@ -47,9 +47,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     lang,
   } = props;
   const AddCategorychema = z.object({
-    category_name: z.string().nonempty(validation("Category", "required")),
+    category_name: z
+      .string()
+      .nonempty(validation(lang?.categories.categoryname!, "required", lang)),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.categories.status!, "required", lang),
     }),
   });
 
@@ -96,7 +98,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     }
 
     if (file) {
-      setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file, lang).setError });
     }
 
     if (selectedCategory) {
@@ -125,7 +127,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedCategory ? "Edit Category" : lang?.categories.modaltitle}
+        title={
+          selectedCategory
+            ? lang?.categories.editcategory
+            : lang?.categories.modaltitle
+        }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
@@ -133,7 +139,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               type="text"
               label={lang?.categories.categoryname}
               forceLabelOnTop
-              placeholder="Enter category"
+              placeholder={lang?.categories.categoryplaceholder}
               {...register("category_name")}
             />
           </FormField>
@@ -145,8 +151,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
                 <BaseSelect
                   label={lang?.categories.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    lang?.availableStatus.available!,
+                    lang?.availableStatus.notAvailable!,
+                  ]}
+                  placeholder={lang?.categories.categorystatusplaceholder}
                   {...field}
                 />
               )}
@@ -176,7 +185,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             >
               {(props) => (
                 <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  Upload Image
+                  {lang?.categories.uploadimage}
                 </BaseButton>
               )}
             </FileButton>

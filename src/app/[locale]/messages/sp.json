@@ -1,23 +1,27 @@
 {
   "menus": {
     "title": "Menús",
-    "button": "Agregar nuevo menú",
-    "modaltitle": "Agregar menú",
+    "button": "Añadir nuevo menú",
+    "modaltitle": "Añadir menú",
     "menuname": "Nombre del menú",
     "currency": "Moneda",
     "status": "Estado",
     "submitbutton": "Enviar",
     "MENUNAME": "NOMBRE DEL MENÚ",
     "AVAILABILITY": "DISPONIBILIDAD",
-    "CREATEDAT": "CREADO EL",
-    "UPDATEDAT": "ACTUALIZADO EL",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
     "searchmenu": "Buscar menú...",
-    "chooseavailibility": "Elegir disponibilidad..."
+    "chooseavailibility": "Elija disponibilidad...",
+    "editmenu": "Editar menú",
+    "menunameplaceholder": "Introduzca el nombre del menú...",
+    "currencyplaceholder": "Introduzca la moneda...",
+    "statusplaceholder": "Introduzca el estado..."
   },
   "categories": {
     "title": "Categorías",
-    "button": "Agregar nueva categoría",
-    "modaltitle": "Agregar categoría",
+    "button": "Añadir nueva categoría",
+    "modaltitle": "Añadir categoría",
     "categoryname": "Nombre de la categoría",
     "status": "Estado",
     "submitbutton": "Enviar",
@@ -25,17 +29,20 @@
     "uploadimage": "Subir imagen",
     "CATEGORYNAME": "NOMBRE DE LA CATEGORÍA",
     "AVAILABILITY": "DISPONIBILIDAD",
-    "CREATEDAT": "CREADO EL",
-    "UPDATEDAT": "ACTUALIZADO EL",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
     "searchcategory": "Buscar categoría...",
-    "chooseavailibility": "Elegir disponibilidad..."
+    "editcategory": "Editar categoría",
+    "chooseavailibility": "Elija disponibilidad...",
+    "categoryplaceholder": "Introduzca la categoría...",
+    "categorystatusplaceholder": "Introduzca el estado..."
   },
   "items": {
     "title": "Artículos",
-    "button": "Agregar nuevo artículo",
+    "button": "Añadir nuevo artículo",
     "description": "Descripción",
     "price": "Precio",
-    "modaltitle": "Agregar artículo",
+    "modaltitle": "Añadir artículo",
     "jainoption": "Opción Jain",
     "uploadimage": "Subir imagen",
     "itemname": "Nombre del artículo",
@@ -43,13 +50,20 @@
     "submitbutton": "Enviar",
     "ITEMNAME": "NOMBRE DEL ARTÍCULO",
     "AVAILABILITY": "DISPONIBILIDAD",
-    "CREATEDAT": "CREADO EL",
-    "UPDATEDAT": "ACTUALIZADO EL",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
     "IMAGE": "IMAGEN",
     "DESCRIPTION": "DESCRIPCIÓN",
     "PRICE": "PRECIO",
     "searchitem": "Buscar artículo...",
-    "chooseavailibility": "Elegir disponibilidad..."
+    "chooseavailibility": "Elija disponibilidad...",
+    "edititem": "Editar artículo",
+    "itemplaceholder": "Introduzca el artículo...",
+    "itemdescriptionplaceholder": "Introduzca la descripción...",
+    "itempriceplaceholder": "Introduzca el precio...",
+    "itemstatusplaceholder": "Introduzca el estado...",
+    "itemsjainoptionplaceholder": "Introduzca la opción Jain...",
+    "choosejainoption": "Elija la opción jainista"
   },
   "navbar": {
     "profilepage": "Página de perfil",
@@ -59,20 +73,42 @@
   "changepassword": {
     "title": "Cambiar contraseña",
     "oldpassword": "Contraseña antigua",
-    "password": "Nueva contraseña",
+    "password": "Contraseña",
     "confirmpassword": "Confirmar contraseña",
-    "oldpasswordplaceholder": "Introduce tu contraseña antigua...",
-    "passwordplaceholder": "Introduce tu nueva contraseña...",
-    "confirmpasswordplaceholder": "Confirma tu nueva contraseña...",
+    "oldpasswordplaceholder": "Introduzca su contraseña antigua...",
+    "passwordplaceholder": "Introduzca su contraseña...",
+    "confirmpasswordplaceholder": "Introduzca su contraseña...",
     "changepasswordbutton": "Cambiar contraseña"
   },
   "profile": {
     "title": "Mi perfil",
-    "uploadlogo": "Subir logotipo",
+    "uploadlogo": "Subir logo",
     "restaurantname": "Nombre del restaurante",
     "contactnumber": "Número de contacto",
     "location": "Ubicación",
     "button": "Guardar perfil",
     "backtothepage": "Volver a la página"
+  },
+  "validation": {
+    "required": "es un campo obligatorio",
+    "minLength": "debe tener al menos 8 caracteres",
+    "nan": "no es un número válido",
+    "notvalid": "debe ser un número",
+    "imagesize": "El tamaño del archivo de imagen debe ser menor a 1 MB",
+    "imagenotvalid": "La imagen no tiene un tipo de archivo válido",
+    "AvailableStatus": {
+      "Available": "Available",
+      "NotAvailable": "Not Available"
+    }
+  },
+  "availableStatus": {
+    "available": "Disponible",
+    "notAvailable": "No disponible",
+    "all": "Todos"
+  },
+  "jainOption": {
+    "jain": "Jainista",
+    "notjain": "No jainista",
+    "all": "Todos"
   }
 }

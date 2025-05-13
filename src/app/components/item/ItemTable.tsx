@@ -76,7 +76,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <FilteredData
           value={filters.jainOption}
           data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
-          placeholder="Choose Jain Option"
+          placeholder={lang?.items.choosejainoption}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, jainOption: value || "" }))
           }
@@ -178,9 +178,9 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               label: lang?.items.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">{lang?.availableStatus.notAvailable}</p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">{lang?.availableStatus.available}</p>
                 ),
             },
 

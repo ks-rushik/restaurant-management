@@ -6,13 +6,17 @@
     "menuname": "मेनू का नाम",
     "currency": "मुद्रा",
     "status": "स्थिति",
-    "submitbutton": "जमा करें",
+    "submitbutton": "सबमिट करें",
     "MENUNAME": "मेनू नाम",
     "AVAILABILITY": "उपलब्धता",
-    "CREATEDAT": "बनाया गया",
-    "UPDATEDAT": "अपडेट किया गया",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
     "searchmenu": "मेनू खोजें...",
-    "chooseavailibility": "उपलब्धता चुनें..."
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "editmenu": "मेनू संपादित करें",
+    "menunameplaceholder": "मेनू दर्ज करें...",
+    "currencyplaceholder": "मुद्रा दर्ज करें...",
+    "statusplaceholder": "स्थिति दर्ज करें..."
   },
   "categories": {
     "title": "श्रेणियाँ",
@@ -20,59 +24,89 @@
     "modaltitle": "श्रेणी जोड़ें",
     "categoryname": "श्रेणी का नाम",
     "status": "स्थिति",
-    "submitbutton": "जमा करें",
-    "IMAGE": "छवि",
-    "uploadimage": "छवि अपलोड करें",
+    "submitbutton": "सबमिट करें",
+    "IMAGE": "चित्र",
+    "uploadimage": "चित्र अपलोड करें",
     "CATEGORYNAME": "श्रेणी नाम",
     "AVAILABILITY": "उपलब्धता",
-    "CREATEDAT": "बनाया गया",
-    "UPDATEDAT": "अपडेट किया गया",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
     "searchcategory": "श्रेणी खोजें...",
-    "chooseavailibility": "उपलब्धता चुनें..."
+    "editcategory": "श्रेणी संपादित करें",
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "categoryplaceholder": "श्रेणी दर्ज करें...",
+    "categorystatusplaceholder": "स्थिति दर्ज करें..."
   },
   "items": {
-    "title": "आइटम्स",
-    "button": "नई आइटम जोड़ें",
+    "title": "वस्तुएं",
+    "button": "नयी वस्तु जोड़ें",
     "description": "विवरण",
-    "price": "मूल्य",
-    "modaltitle": "आइटम जोड़ें",
+    "price": "कीमत",
+    "modaltitle": "वस्तु जोड़ें",
     "jainoption": "जैन विकल्प",
-    "uploadimage": "छवि अपलोड करें",
-    "itemname": "आइटम का नाम",
+    "uploadimage": "चित्र अपलोड करें",
+    "itemname": "वस्तु का नाम",
     "status": "स्थिति",
-    "submitbutton": "जमा करें",
-    "ITEMNAME": "आइटम नाम",
+    "submitbutton": "सबमिट करें",
+    "ITEMNAME": "वस्तु का नाम",
     "AVAILABILITY": "उपलब्धता",
-    "CREATEDAT": "बनाया गया",
-    "UPDATEDAT": "अपडेट किया गया",
-    "IMAGE": "छवि",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
+    "IMAGE": "चित्र",
     "DESCRIPTION": "विवरण",
-    "PRICE": "मूल्य",
-    "searchitem": "आइटम खोजें...",
-    "chooseavailibility": "उपलब्धता चुनें..."
+    "PRICE": "कीमत",
+    "searchitem": "वस्तु खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "edititem": "वस्तु संपादित करें",
+    "itemplaceholder": "वस्तु दर्ज करें...",
+    "itemdescriptionplaceholder": "विवरण दर्ज करें...",
+    "itempriceplaceholder": "कीमत दर्ज करें...",
+    "itemstatusplaceholder": "स्थिति दर्ज करें...",
+    "itemsjainoptionplaceholder": "जैन विकल्प दर्ज करें...",
+    "choosejainoption": "जैन विकल्प चुनें"
   },
   "navbar": {
     "profilepage": "प्रोफ़ाइल पृष्ठ",
     "changepassword": "पासवर्ड बदलें",
-    "logout": "लॉग आउट"
+    "logout": "लॉगआउट"
   },
   "changepassword": {
     "title": "पासवर्ड बदलें",
     "oldpassword": "पुराना पासवर्ड",
-    "password": "नया पासवर्ड",
+    "password": "पासवर्ड",
     "confirmpassword": "पासवर्ड की पुष्टि करें",
     "oldpasswordplaceholder": "अपना पुराना पासवर्ड दर्ज करें...",
     "passwordplaceholder": "अपना पासवर्ड दर्ज करें...",
-    "confirmpasswordplaceholder": "अपना पासवर्ड दोबारा दर्ज करें...",
+    "confirmpasswordplaceholder": "अपना पासवर्ड दर्ज करें...",
     "changepasswordbutton": "पासवर्ड बदलें"
   },
   "profile": {
     "title": "मेरी प्रोफ़ाइल",
     "uploadlogo": "लोगो अपलोड करें",
-    "restaurantname": "रेस्टोरेंट का नाम",
-    "contactnumber": "संपर्क नंबर",
+    "restaurantname": "रेस्तरां का नाम",
+    "contactnumber": "संपर्क संख्या",
     "location": "स्थान",
     "button": "प्रोफ़ाइल सहेजें",
-    "backtothepage": "पृष्ठ पर वापस जाएँ"
-  }
+    "backtothepage": "पृष्ठ पर वापस जाएं"
+  },
+  "validation": {
+    "required": "यह एक आवश्यक क्षेत्र है",
+    "minLength": "कम से कम 8 वर्ण लंबा होना चाहिए",
+    "nan": "यह एक वैध संख्या नहीं है",
+    "notvalid": "यह संख्या होनी चाहिए",
+    "imagesize": "चित्र का आकार 1 MB से कम होना चाहिए",
+    "imagenotvalid": "चित्र का फ़ाइल प्रकार अमान्य है"
+  },
+"availableStatus": {
+  "available": "उपलब्ध",
+  "notAvailable": "उपलब्ध नहीं",
+  "all": "सभी"
+},
+"jainOption": {
+  "jain": "जैन",
+  "notjain": "गैर-जैन",
+  "all": "सभी"
+}
+
+
 }
