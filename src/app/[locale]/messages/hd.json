@@ -112,5 +112,48 @@
     "jain": "जैन",
     "notjain": "गैर-जैन",
     "all": "सभी"
+  },
+  "login": {
+    "appname": "डिजीडाइन में आपका स्वागत है!",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें",
+    "loginbutton": "लॉगिन",
+    "forgotpassword": "पासवर्ड भूल गए?",
+    "notaccountyet": "अभी तक खाता नहीं है?",
+    "signup": "साइन अप करें"
+  },
+  "signup": {
+    "title": "साइन अप करें",
+    "name": "नाम",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmpassword": "पासवर्ड की पुष्टि करें",
+    "nameplaceholder": "अपना नाम दर्ज करें",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें",
+    "signupbutton": "साइन अप करें",
+    "alreadyaccount": "क्या पहले से एक खाता है?",
+    "login": "लॉगिन करें"
+  },
+
+  "forgotpassword": {
+    "title": "पासवर्ड पुनर्प्राप्ति",
+    "description": "अपना पंजीकृत ईमेल पता दर्ज करें। हम आपको पासवर्ड रीसेट करने के लिए एक लिंक या कोड भेजेंगे।",
+    "email": "ईमेल",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "enteremail": "ईमेल दर्ज करें",
+    "backtologin": "लॉगिन पर वापस जाएं"
+  },
+  "authvalidation": {
+    "required": "यह आवश्यक फ़ील्ड है",
+    "email": "कृपया एक मान्य ईमेल पता दर्ज करें",
+    "passwordLength": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "letterRequired": "पासवर्ड में कम से कम एक अक्षर होना चाहिए",
+    "numberRequired": "पासवर्ड में कम से कम एक संख्या होनी चाहिए",
+    "specialCharRequired": "पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए",
+    "passwordMismatch": "पासवर्ड मेल नहीं खा रहे हैं",
+    "nameMinLength": "कम से कम 4 अक्षर लंबा होना चाहिए"
   }
 }

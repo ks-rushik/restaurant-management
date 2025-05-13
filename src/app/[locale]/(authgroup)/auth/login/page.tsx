@@ -1,7 +1,16 @@
-import LoginForm from "../../../../components/auth/LoginForm"
+import { getDictionary } from "@/app/[locale]/messages";
 
-const LoginPage = () => {
-    return <LoginForm/>
-}
+import LoginForm from "@components/auth/LoginForm";
 
-export default LoginPage
+const LoginPage = async ({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: "en" | "hd" | "sp" }>;
+}>) => {
+  const locale = (await params).locale;
+  const dictionary = await getDictionary(locale);
+
+  return <LoginForm lang={dictionary} />;
+};
+
+export default LoginPage;

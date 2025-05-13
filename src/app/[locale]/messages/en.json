@@ -112,5 +112,47 @@
     "jain": "Jain",
     "notjain": "Not jain",
     "all": "All"
+  },
+  "login": {
+    "appname": "Welcome to Digidine!",
+    "email": "Email",
+    "password": "Password",
+    "emailplaceholder": "Enter your email",
+    "passwordplaceholder": "Enter your password",
+    "loginbutton": "Login",
+    "forgotpassword": "Forgot password",
+    "notaccountyet": "Not account yet?",
+    "signup": "Sign up"
+  },
+  "signup": {
+    "title": "Sign up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmpassword": "Confirm password",
+    "nameplaceholder": "Enter your name",
+    "emailplaceholder": "Enter your email",
+    "passwordplaceholder": "Enter your password",
+    "signupbutton": "Sign up",
+    "alreadyaccount": "Already have an account?",
+    "login": "Login"
+  },
+  "forgotpassword": {
+    "title": "Password recovery",
+    "description": "Enter your registered email address. We'll send you a link or code to reset your password.",
+    "email": "Email",
+    "emailplaceholder": "Enter your email",
+    "enteremail": "Enter email",
+    "backtologin": "Back to the login"
+  },
+  "authvalidation":{
+    "required": "This is required field",
+    "email": "Enter a valid email address",
+    "passwordLength": "Password must be at least 8 characters long",
+    "letterRequired": "Include at least one letter in your password",
+    "numberRequired": "Include at least one number in your password",
+    "specialCharRequired": "Include at least one  in your password",
+    "passwordMismatch": "Passwords don't match",
+    "nameMinLength": "At least 4 characters long"
   }
 }

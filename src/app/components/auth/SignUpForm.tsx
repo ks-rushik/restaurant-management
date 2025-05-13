@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { FC } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
@@ -14,34 +16,42 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import { ErrorMessages } from "@/app/utils/authvalidation";
 
 import { signUp } from "../../actions/auth/signup-action";
+import LanguageSelectorWrapper from "../LanguageSelectorWrapper";
+import LanguageSelector from "./LanguageSelector";
 
-const SignUpSchema = z
-  .object({
-    name: z.string().min(4, { message: ErrorMessages.nameMinLength }),
-    email: z
-      .string()
-      .nonempty(ErrorMessages.required)
-      .email(ErrorMessages.email),
-    password: z
-      .string()
-      .min(8, { message: ErrorMessages.passwordLength })
-      .regex(/[a-zA-Z]/, { message: ErrorMessages.letterRequired })
-      .regex(/[0-9]/, { message: ErrorMessages.numberRequired })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: ErrorMessages.specialCharRequired,
-      }),
-    confirmpassword: z
-      .string()
-      .min(8, { message: ErrorMessages.passwordLength }),
-  })
-  .refine((data) => data.password === data.confirmpassword, {
-    message: ErrorMessages.passwordMismatch,
-    path: ["confirmpassword"],
-  });
+export type ISignUpFormProps = {
+  lang?: IMessages;
+};
 
-export type ISignUpFormData = z.infer<typeof SignUpSchema>;
+const SignUpForm: FC<ISignUpFormProps> = (props) => {
+  const { lang } = props;
 
-const SignUpForm = () => {
+  const SignUpSchema = z
+    .object({
+      name: z.string().min(4, { message: lang?.authvalidation.nameMinLength }),
+      email: z
+        .string()
+        .nonempty(lang?.authvalidation.required)
+        .email(lang?.authvalidation.email),
+      password: z
+        .string()
+        .min(8, { message: lang?.authvalidation.passwordLength })
+        .regex(/[a-zA-Z]/, { message: lang?.authvalidation.letterRequired })
+        .regex(/[0-9]/, { message: lang?.authvalidation.numberRequired })
+        .regex(/[^a-zA-Z0-9]/, {
+          message: lang?.authvalidation.specialCharRequired,
+        }),
+      confirmpassword: z
+        .string()
+        .min(8, { message: lang?.authvalidation.passwordLength }),
+    })
+    .refine((data) => data.password === data.confirmpassword, {
+      message: ErrorMessages.passwordMismatch,
+      path: ["confirmpassword"],
+    });
+
+  type ISignUpFormData = z.infer<typeof SignUpSchema>;
+
   const {
     register,
     handleSubmit,
@@ -64,9 +74,12 @@ const SignUpForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <h2 className="text-3xl font-bold mb-8">Sign Up</h2>
+          <LanguageSelectorWrapper>
+            <LanguageSelector />
+          </LanguageSelectorWrapper>
+          <h2 className="text-3xl font-bold mb-8">{lang?.signup.title}</h2>
           <FormField
-            label="Name"
+            label={lang?.signup.name}
             name="name"
             error={errors.name?.message}
             required={true}
@@ -74,12 +87,12 @@ const SignUpForm = () => {
             <BaseInput
               {...register("name")}
               type="text"
-              placeholder="Enter your name..."
+              placeholder={lang?.signup.nameplaceholder}
               name="name"
             />
           </FormField>
           <FormField
-            label="Email"
+            label={lang?.signup.email}
             name="email"
             error={errors.email?.message}
             required={true}
@@ -87,12 +100,12 @@ const SignUpForm = () => {
             <BaseInput
               {...register("email")}
               type="email"
-              placeholder="Enter your email..."
+              placeholder={lang?.signup.emailplaceholder}
               name="email"
             />
           </FormField>
           <FormField
-            label="Password"
+            label={lang?.signup.password}
             name="password"
             error={errors.password?.message}
             required={true}
@@ -100,12 +113,12 @@ const SignUpForm = () => {
             <BaseInput
               {...register("password")}
               type="password"
-              placeholder="Enter your password..."
+              placeholder={lang?.signup.passwordplaceholder}
               name="password"
             />
           </FormField>
           <FormField
-            label="Confirm Password"
+            label={lang?.signup.confirmpassword}
             name="confirmpassword"
             error={errors.confirmpassword?.message}
             required={true}
@@ -113,7 +126,7 @@ const SignUpForm = () => {
             <BaseInput
               type="password"
               {...register("confirmpassword")}
-              placeholder="Enter your password..."
+              placeholder={lang?.signup.passwordplaceholder}
             />
           </FormField>
           <BaseButton
@@ -124,15 +137,15 @@ const SignUpForm = () => {
             }}
             loading={isSubmitting}
           >
-            Sign Up
+            {lang?.signup.signupbutton}
           </BaseButton>
           <div className="flex gap-2 justify-end mb-4 mt-6 text-[#737373] text-md  font-medium">
-            <span> Already have an account?</span>
+            <span> {lang?.signup.alreadyaccount}</span>
             <Link
               href="/auth/login"
               className="text-[#171717] font-bold  hover:underline"
             >
-              Login
+              {lang?.signup.login}
             </Link>
           </div>
         </FormGroup>

@@ -22,16 +22,7 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import validation from "@/app/utils/validation";
 
-export const userformSchema = z.object({
-  name: z.string().nonempty(validation("Name", "required")),
-  phone: z
-    .string()
-    .nonempty(validation("Phone number", "required"))
-    .length(10, validation("Phone number", "notvalid")),
-  address: z.string().min(8, validation("Address", "minLength")),
-});
 
-export type IUserFormData = z.infer<typeof userformSchema>;
 
 export type IUserProfileForm = {
   lang?: IMessages;
@@ -39,7 +30,16 @@ export type IUserProfileForm = {
 
 const UserProfileForm: FC<IUserProfileForm> = (props) => {
   const { lang } = props;
-
+  
+  const userformSchema = z.object({
+    name: z.string().nonempty(validation(lang?.profile.name!, "required" ,lang)),
+    phone: z
+    .string()
+    .nonempty(validation(lang?.profile.phonenumber!, "required" ,lang))
+    .length(10, validation(lang?.profile.phonenumber!, "notvalid" ,lang)),
+    address: z.string().min(8, validation(lang?.profile.location!, "minLength" ,lang)),
+  });
+ type IUserFormData = z.infer<typeof userformSchema>;
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -141,7 +141,7 @@ const UserProfileForm: FC<IUserProfileForm> = (props) => {
             <BaseInput
               {...register("name")}
               type="text"
-              placeholder="Enter your restaurant name..."
+              placeholder={lang?.profile.nameplaceholder}
               defaultValue={userData?.name}
             />
           </FormField>
@@ -154,7 +154,7 @@ const UserProfileForm: FC<IUserProfileForm> = (props) => {
             <BaseInput
               {...register("phone")}
               type="text"
-              placeholder="Enter your Phone number..."
+              placeholder={lang?.profile.phonenumberplaceholder}
               defaultValue={userData?.phone}
             />
           </FormField>
@@ -166,7 +166,7 @@ const UserProfileForm: FC<IUserProfileForm> = (props) => {
           >
             <BaseTextArea
               {...register("address")}
-              placeholder="Enter your Location..."
+              placeholder={lang?.profile.locationplaceholder}
               defaultValue={userData?.address}
             />
           </FormField>
