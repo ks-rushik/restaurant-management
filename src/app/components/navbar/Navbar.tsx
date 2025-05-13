@@ -3,57 +3,62 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import ChangePassword from "@components/auth/ChangePassword";
 import LogOut from "@components/auth/Logout";
 import ThemeButton from "@components/ui/ThemeButton";
 import { Avatar, Menu } from "@mantine/core";
+import Cookies from "js-cookie";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { useThemeToggle } from "@/app/hook/useThemetoggle";
 import logo3 from "@/app/images/logo3.png";
 
 import BaseSelect from "../ui/BaseSelect";
 
-const languageMap: Record<string, string> = {
-  English: "en",
-  Hindi: "hd",
-  Spanish: "sp",
+export type INavbarProps = {
+  lang: IMessages;
 };
 
-const Navbar = () => {
+const Navbar: FC<INavbarProps> = (props) => {
+  const { lang } = props;
   const [opened, setOpened] = useState(false);
   const [modalopened, setModalOpened] = useState(false);
   const { theme, toggleTheme, mounted } = useThemeToggle();
   const [selectedLanguage, setSelectedLanguage] = useState("English");
 
-  const router = useRouter();
   const pathname = usePathname();
-  
+  const router = useRouter();
+
+  const localeList = ["en", "hd", "sp"];
+  const labelList = ["English", "Hindi", "Spanish"];
+
+  useEffect(() => {
+    const currentLocale = pathname.split("/")[1];
+    const index = localeList.indexOf(currentLocale);
+    setSelectedLanguage(index !== -1 ? labelList[index] : "English");
+  }, [pathname]);
 
   const handleLanguageChange = (value: string | null) => {
     if (!value) return;
 
+    const index = labelList.indexOf(value);
+    const newLocale = localeList[index];
     setSelectedLanguage(value);
 
-    const locale = languageMap[value];
-    console.log(locale ,'locale');
-    
-    const segments = pathname.split("/").filter(Boolean);
-    console.log(segments ,'segments');
-    
+    Cookies.set("preferred_locale", newLocale, { expires: 365 });
 
-    if (["en", "hd", "sp"].includes(segments[0])) {
-      segments[0] = locale;
+    const segments = pathname.split("/").filter(Boolean);
+
+    if (localeList.includes(segments[0])) {
+      segments[0] = newLocale;
     } else {
-      segments.unshift(locale);
+      segments.unshift(newLocale);
     }
 
-    const newPath = "/" + segments.join("/");
-    router.push(newPath);
+    router.push("/" + segments.join("/"));
   };
-  console.log(selectedLanguage ,'selected value');
-  
 
   return (
     <nav className="bg-white dark:bg-black/90 shadow-lg sticky top-0 z-20 py-2 px-4 flex justify-between items-center">
@@ -107,21 +112,24 @@ const Navbar = () => {
               }}
             >
               <Link href="/userprofile" className="block px-3 py-1">
-                Profile Page
+                {lang.navbar.profilepage}
               </Link>
             </Menu.Item>
             <Menu.Item
               onClick={() => setModalOpened(true)}
               classNames={{ item: "dark:bg-gray-800 dark:text-white" }}
             >
-              Change Password
+              {lang.navbar.changepassword}
             </Menu.Item>
-            <Menu.Item component={LogOut}>LogOut</Menu.Item>
+            <Menu.Item component={() => <LogOut lang={lang} />}>
+              {lang.navbar.logout}
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
         <ChangePassword
           modalopened={modalopened}
           setModalOpened={setModalOpened}
+          lang={lang}
         />
       </div>
     </nav>

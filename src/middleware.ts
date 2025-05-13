@@ -6,19 +6,25 @@ import Negotiator from "negotiator";
 import { updateSession } from "./app/utils/supabase/middleware";
 
 const locales = ["en", "hd", "sp"];
-
 function getLocale(request: NextRequest): string {
+  const cookieLocale = request.cookies.get("preferred_locale")?.value;
+  const defaultLocale = "en";
+
+  if (cookieLocale && locales.includes(cookieLocale)) {
+    return cookieLocale;
+  }
+
   const negotiator = new Negotiator({
     headers: {
       "accept-language": request.headers.get("accept-language") || "",
     },
   });
   const languages = negotiator.languages();
-  const defaultLocale = "en";
 
   const matchedLocale =
     languages.find((language: string) => locales.includes(language)) ||
     defaultLocale;
+
   return matchedLocale;
 }
 
