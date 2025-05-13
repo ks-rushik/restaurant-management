@@ -18,18 +18,27 @@ import AddItemModal, { IItemdata } from "./AddItemModal";
 import ItemHeader from "./ItemHeader";
 import ItemTable from "./ItemTable";
 
+export type IFilter = {
+  avaibilityStatus: string;
+  jainOption: string;
+};
+
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[4];
   const [Item, setItem] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
   const [debouncedSearch] = useDebounce(searchData, 500);
-  const [filterStatus, setFilterStatus] = useState<string>("");
+  const [filters, setFilters] = useState<IFilter>({
+    avaibilityStatus: "",
+    jainOption: "",
+  });
+
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
   const { data } = useQuery(
-    fetchItemdataQuery(categoryId, debouncedSearch, filterStatus),
+    fetchItemdataQuery(categoryId, debouncedSearch, filters),
   );
 
   useEffect(() => {
@@ -149,8 +158,8 @@ const ItemPage = () => {
         close={close}
         searchData={searchData}
         setSearchData={setSearchData}
-        filterStatus={filterStatus}
-        setFilterStatus={setFilterStatus}
+        filters={filters}
+        setFilters={setFilters}
       />
     </div>
   );

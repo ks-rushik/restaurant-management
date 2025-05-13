@@ -1,10 +1,13 @@
 "use server";
+
+import { IFilter } from "@/app/components/item/ItemPage";
+import { Availablity, Jainoption } from "@/app/constants/common";
 import { createClient } from "@/app/utils/supabase/server";
 
 const fetchItemdata = async (
   categoryId: string,
   search?: string,
-  status?: string
+  filters?: IFilter,
 ) => {
   const supabase = await createClient();
   let query = supabase
@@ -13,18 +16,28 @@ const fetchItemdata = async (
     .eq("category_id", categoryId)
     .order("position", { ascending: true });
 
-    if (search) {
-      query = query.ilike("name", `%${search}%`);
-    }
-  
-    if (status === "Available" || status === "Not Available") {
-      query = query.eq("status", status);
-    }
-  
-    const { data, error } = await query;
-  
-    if (error) throw error;
-  
+  if (search) {
+    query = query.ilike("name", `%${search}%`);
+  }
+
+  if (
+    filters?.avaibilityStatus === Availablity.Available ||
+    filters?.avaibilityStatus === Availablity.NotAvailable
+  ) {
+    query = query.eq("status", filters.avaibilityStatus);
+  }
+
+  if (
+    filters?.jainOption === Jainoption.Jain ||
+    filters?.jainOption === Jainoption.NotJain
+  ) {
+    query = query.eq("jain", filters?.jainOption);
+  }
+
+  const { data, error } = await query;
+
+  if (error) throw error;
+
   return data;
 };
 export default fetchItemdata;

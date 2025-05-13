@@ -1,9 +1,10 @@
-import { Select, SelectProps, SelectStylesNames } from "@mantine/core";
-import { cva, VariantProps } from "class-variance-authority";
-import clsx from "clsx";
 import React, { FC } from "react";
 
-type IBaseSelectProps = SelectProps &
+import { Select, SelectProps, SelectStylesNames } from "@mantine/core";
+import { VariantProps, cva } from "class-variance-authority";
+import clsx from "clsx";
+
+export type IBaseSelectProps = SelectProps &
   VariantProps<typeof SelectVariants> & {
     classNames?: Partial<Record<SelectStylesNames, string>> | undefined;
     labelvalue?: boolean;
@@ -36,32 +37,29 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
   const { label, input, dropdown, option, ...otherElements } = classNames ?? {};
   return (
     <Select
-    withCheckIcon={false}
+      withCheckIcon={false}
       classNames={{
         root: "relative group",
         label: `${
           !labelvalue
             ? clsx(
                 "absolute left-3 transform -translate-y-1/2 text-sm transition-all group-focus-within:text-xs group-focus-within:top-0 group-focus-within:bg-gray-100 duration-200 ease-in-out z-10 px-1  top-1/2 ",
-                label
+                label,
               )
             : clsx(
                 "absolute left-3 transform -translate-y-1/2 z-10 bg-gray-100 px-1 dark:bg-white dark:rounded-full !font-bold   text-md",
-                label
+                label,
               )
         } text-sm font-normal text-gray-600`,
         input: clsx(
           SelectVariants({ size, filled, standard }),
           "rounded-lg focus-within:border-2 focus-within:border-black dark:bg-gray-700 dark:border-none dark:focus-within:ring-0 dark:text-white",
-          input
+          input,
         ),
-        dropdown: clsx(
-          "dark:border-gray-700 dark:bg-gray-700",
-          dropdown
-        ),
+        dropdown: clsx("dark:border-gray-700 dark:bg-gray-700", dropdown),
         option: clsx(
           "font-semibold text-sm hover:bg-linear-to-tr from-red-200 via-gray-50 to-blue-100 hover:dark:bg-gray-500 ",
-          option
+          option,
         ),
         ...otherElements,
       }}

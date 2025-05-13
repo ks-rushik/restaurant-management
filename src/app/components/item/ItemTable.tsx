@@ -1,19 +1,21 @@
 import Image from "next/legacy/image";
 import { FC, useState } from "react";
 
-import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { Badge } from "@mantine/core";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
+import { LuFilter } from "react-icons/lu";
 
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
+import BaseSelect from "../ui/BaseSelect";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
+import { IFilter } from "./ItemPage";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -29,8 +31,8 @@ type ICategoryTableProps = {
   close: () => void;
   searchData: string;
   setSearchData: (val: string) => void;
-  filterStatus: string;
-  setFilterStatus: (val: string) => void;
+  filters: IFilter;
+  setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -45,8 +47,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     close,
     searchData,
     setSearchData,
-    filterStatus,
-    setFilterStatus,
+    filters,
+    setFilters,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
@@ -60,9 +62,23 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           onChange={(e) => setSearchData(e.target.value)}
           placeholder="Search Item..."
         />
-        <FilteredData
-          value={filterStatus}
-          onChange={(value) => setFilterStatus(value || "")}
+        <BaseSelect
+          value={filters.avaibilityStatus}
+          leftSection={<LuFilter size={20} />}
+          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
+          placeholder="Choose availability"
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
+          }
+        />
+        <BaseSelect
+          value={filters.jainOption}
+          leftSection={<LuFilter size={20} />}
+          data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
+          placeholder="Choose Jain Option"
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, jainOption: value || "" }))
+          }
         />
       </SearchFilter>
 
@@ -122,7 +138,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                 <>
                   {item.name}
                   {item.jain === Jainoption.Jain && (
-                    <Badge classNames={{ root: "bg-primary-main text-sm h-6 opacity-90 ml-2" }} title="Jain">
+                    <Badge
+                      classNames={{
+                        root: "bg-primary-main text-sm h-6 opacity-90 ml-2",
+                      }}
+                      title="Jain"
+                    >
                       J
                     </Badge>
                   )}

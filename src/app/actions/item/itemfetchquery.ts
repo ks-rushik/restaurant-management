@@ -1,10 +1,17 @@
+import { IFilter } from "@/app/components/item/ItemPage";
+
 import fetchItemdata from "./item-fetch";
 
 export const fetchItemdataQuery = (
   categoryId: string,
   search?: string,
-  status?: string,
+  filters?: IFilter,
 ) => ({
-  queryKey: ["Items", categoryId, search, status],
-  queryFn: () => fetchItemdata(categoryId, search, status),
+  queryKey: [
+    "Items",
+    categoryId,
+    search,
+    filters
+  ],
+  queryFn: () => fetchItemdata(categoryId, search, filters),
 });
