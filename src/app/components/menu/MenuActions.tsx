@@ -1,12 +1,15 @@
+import { FC } from "react";
+
+import { Loader } from "@mantine/core";
 import { BiCategory } from "react-icons/bi";
 import { MdOutlineModeEdit } from "react-icons/md";
-import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { Loader } from "@mantine/core";
-import { FC } from "react";
-import TypesOfMenu from "./TypesOfMenu";
-import { IMenudata } from "@/app/type/type";
+import { RiDeleteBinLine } from "react-icons/ri";
+
 import { IMessages } from "@/app/[locale]/messages";
+import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
+import { IMenudata } from "@/app/type/type";
+
+import TypesOfMenu from "./TypesOfMenu";
 
 type IMenuActionsProps = {
   item: IMenudata;
@@ -14,12 +17,12 @@ type IMenuActionsProps = {
   handleSelectMenu: (item: IMenudata) => void;
   handleDelete: (
     id: string,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void;
   loading: string;
   opened: boolean;
   close: () => void;
-  lang?:IMessages
+  lang?: IMessages;
 };
 
 const MenuActions: FC<IMenuActionsProps> = (props) => {
@@ -29,10 +32,11 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
     handleSelectMenu,
     handleDelete,
     loading,
-    opened,
-    close,
-    lang
+    opened: confimationopen,
+    close: confirmationclose,
+    lang,
   } = props;
+
   return (
     <span className="inline-flex items-center">
       <div
@@ -52,19 +56,22 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       >
         <MdOutlineModeEdit size={22} className="hover:text-yellow-400  " />
       </div>
-     
+
       <TypesOfMenu item={item} lang={lang} />
+
       <BaseConfirmation
-        opened={opened}
-        onClose={close}
+        opened={confimationopen}
+        onClose={confirmationclose}
+        btnProps={{
+          onClick: (event) => handleDelete(item.id, event),
+          children: loading === item.id ? <Loader size={23} /> : "Delete",
+        }}
         text="Are you sure you want to delete this item?"
       >
-        <BaseButton
-          onClick={(event) => handleDelete(item.id, event)}
-          classNames={{ root: "w-1/3 mt-6 " }}
-        >
-          {loading === item.id ? <Loader size={23} /> : "Delete"}
-        </BaseButton>
+        <RiDeleteBinLine
+          size={22}
+          className="hover:text-red-500 cursor-pointer "
+        />
       </BaseConfirmation>
     </span>
   );
