@@ -88,8 +88,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
       ) : (
         <BaseTable
           classNames={{
-            th: "[&:first-child]:w-[60px] ",
-            td: "[&:first-child]:w-[60px] ",
+            th: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+            td: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
           }}
           data={data}
           getKey={(item) => item.id!}
@@ -178,9 +178,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               label: lang?.items.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{lang?.availableStatus.notAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{lang?.availableStatus.available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.available}
+                  </p>
                 ),
             },
 
