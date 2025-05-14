@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { FaChevronDown } from "react-icons/fa";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { login } from "@/app/actions/auth/login-action";
 import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
@@ -15,18 +17,26 @@ import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import { ErrorMessages } from "@/app/utils/authvalidation";
 
-const loginSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .nonempty(ErrorMessages.required)
-    .email(ErrorMessages.email),
-  password: z.string().nonempty(ErrorMessages.required),
-});
+import LanguageSelectorWrapper from "../LanguageSelectorWrapper";
+import LanguageSelector from "./LanguageSelector";
 
-export type ILoginFormData = z.infer<typeof loginSchema>;
+export type ILoginFormProps = {
+  lang?: IMessages;
+};
 
-const LoginForm = () => {
+const LoginForm: FC<ILoginFormProps> = (props) => {
+  const { lang } = props;
+
+  const loginSchema = z.object({
+    email: z
+      .string()
+      .trim()
+      .nonempty(lang?.authvalidation.required)
+      .email(lang?.authvalidation.email),
+    password: z.string().nonempty(lang?.authvalidation.required),
+  });
+
+  type ILoginFormData = z.infer<typeof loginSchema>;
   const {
     register,
     handleSubmit,
@@ -47,11 +57,15 @@ const LoginForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative">
         <FormGroup>
-          <h2 className="text-3xl font-bold mb-10">Welcome to Digidine!</h2>
+          <LanguageSelectorWrapper>
+            <LanguageSelector />
+          </LanguageSelectorWrapper>
+          <h2 className="text-3xl font-bold mb-10">{lang?.login.appname}</h2>
+
           <FormField
-            label="Email"
+            label={lang?.login.email}
             name="email"
             error={errors.email?.message}
             required={true}
@@ -61,11 +75,11 @@ const LoginForm = () => {
               {...register("email")}
               type="email"
               name="email"
-              placeholder="Enter your email"
+              placeholder={lang?.login.emailplaceholder}
             />
           </FormField>
           <FormField
-            label="Password"
+            label={lang?.login.password}
             name="password"
             error={errors.password?.message}
             required={true}
@@ -75,7 +89,7 @@ const LoginForm = () => {
               {...register("password")}
               type="password"
               name="password"
-              placeholder="Enter your Password"
+              placeholder={lang?.login.passwordplaceholder}
               classNames={{ input: "focus-within " }}
             />
           </FormField>
@@ -89,22 +103,22 @@ const LoginForm = () => {
             }}
             loading={isSubmitting}
           >
-            Login
+            {lang?.login.loginbutton}
           </BaseButton>
-          <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:text-md md:mt-2 md:text-center text-md mb-4 mt-2 text-center  sm:text-left ">
+          <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:text-md md:mt-2 md:text-center text-md  mt-2 text-center  sm:text-left ">
             <Link
               href="/auth/resetpassword"
               className="mb-2 sm:mb-0 underline font-semibold text-gray-900 text-sm md:mb-2"
             >
-              Forgot password
+              {lang?.login.forgotpassword}
             </Link>
             <div className="flex gap-1 justify-center sm:justify-end text-[#737373] text-md  md:justify-center md:gap-1 font-medium ">
-              <span>Not account yet?</span>
+              <span>{lang?.login.notaccountyet}</span>
               <Link
                 href="/auth/signup"
                 className="text-[#171717] font-bold hover:underline"
               >
-                Sign up
+                {lang?.login.signup}
               </Link>
             </div>
           </div>

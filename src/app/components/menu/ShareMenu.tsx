@@ -9,6 +9,7 @@ import { FaPaste } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
 import { RiDownload2Line } from "react-icons/ri";
 
+import { IMessages } from "@/app/[locale]/messages";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import { getProfileData } from "@/app/actions/customer/getProfileData";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
@@ -22,6 +23,8 @@ import { IMenudata } from "@/app/type/type";
 
 export type IShareMenuProps = {
   item: IMenudata;
+  lang?: IMessages;
+  keyword: string;
 };
 
 const ShareMenu: FC<IShareMenuProps> = (props) => {
@@ -29,7 +32,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [profilename, setProfilename] = useState("");
 
   const [qrcode, setQrcode] = useState<string | undefined>();
-  const { item } = props;
+  const { item, lang, keyword } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +70,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
     });
   };
 
-  const shareableLink = `http://localhost:3000/m/${shortCode}`;
+  const shareableLink = `http:/localhost:3000/${keyword}/${shortCode}`;
 
   return (
     <>
@@ -82,7 +85,11 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         title="Share Menu"
         classNames={{ root: "w-full h-12 text-base" }}
       >
-        {loading ? <Loader size={"sm"} color="white" /> : " Item Based Menu"}
+        {loading ? (
+          <Loader size={"sm"} color="white" />
+        ) : (
+          lang?.sharemenu.itembasedmenu
+        )}
       </BaseButton>
 
       <BaseModal
@@ -92,7 +99,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
         }}
         opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
-        title="Share Menu Link"
+        title={lang?.sharemenu.innertitle}
         centered
       >
         {qrcode && (
@@ -117,12 +124,16 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
               >
                 {copied ? (
                   <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copied</span>
+                    <span className="mr-2 text-white">
+                      {lang?.sharemenu.copied}
+                    </span>
                     <FaPaste />
                   </div>
                 ) : (
                   <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copy</span>
+                    <span className="mr-2 text-white">
+                      {lang?.sharemenu.copy}
+                    </span>
                     <FaCopy />
                   </div>
                 )}
@@ -136,7 +147,7 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
             }
             classNames={{ root: "h-10 w-full sm:w-auto text-white" }}
           >
-            <span className="mr-2 text-white">Download</span>
+            <span className="mr-2 text-white">{lang?.sharemenu.download}</span>
             <RiDownload2Line />
           </BaseButton>
         </div>
@@ -168,4 +179,3 @@ const ShareMenu: FC<IShareMenuProps> = (props) => {
 };
 
 export default ShareMenu;
-//here

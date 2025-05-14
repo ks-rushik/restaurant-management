@@ -1,14 +1,12 @@
 // 'use client'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@mantine/core/styles.css";
+
 import { MantineProvider } from "@mantine/core";
-import "./../globals.css";
-import QueryProvider from "../components/QueryProvider";
+import "@mantine/core/styles.css";
 
-import { NavigationProgress } from "@mantine/nprogress";
-import RouterTransition from "../components/RouterTransition";
-
+import QueryProvider from "@components/QueryProvider";
+import "@/app/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

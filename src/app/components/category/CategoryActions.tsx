@@ -1,18 +1,21 @@
+import { FC } from "react";
+
+import { Loader } from "@mantine/core";
 import { BiCategory } from "react-icons/bi";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
+
 import BaseConfirmation from "@/app/components/ui/BaseConfirmation";
-import BaseButton from "@/app/components/ui/BaseButton";
-import { Loader } from "@mantine/core";
-import { FC } from "react";
+
 import { ICategorydata } from "./AddCategoryModal";
 
 type IMenuActionsProps = {
   item: ICategorydata;
-  handleView: ( id: string) => void;
+  handleView: (id: string) => void;
   handleSelectCategory: (item: ICategorydata) => void;
   handleDelete: (
     id: string,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => void;
   loading: string;
   opened: boolean;
@@ -31,7 +34,7 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   } = props;
   return (
     <span className="inline-flex items-center">
-      <div onClick={() => handleView( item.id!)} title="Items">
+      <div onClick={() => handleView(item.id!)} title="Items">
         <BiCategory
           size={22}
           className="mr-6 cursor-pointer hover:text-gray-700  dark:hover:text-gray-400 "
@@ -42,23 +45,21 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
         className="mr-6 cursor-pointer"
         title="Edit Category"
       >
-        <MdOutlineModeEdit
-          size={22}
-          className="hover:text-yellow-500 "
-        />
+        <MdOutlineModeEdit size={22} className="hover:text-yellow-500 " />
       </div>
       <BaseConfirmation
         opened={opened}
         onClose={close}
+        btnProps={{
+          onClick: (event) => handleDelete(item.id ?? "", event),
+          children: loading === item.id ? <Loader size={23} /> : "Delete",
+        }}
         text="Are you sure you want to delete this item?"
       >
-        <BaseButton
-         
-          onClick={(event) => handleDelete(item.id!, event)}
-          classNames={{ root: "w-1/3 mt-6" }}
-        >
-          {loading === item.id ? <Loader size={23} /> : "Delete"}
-        </BaseButton>
+        <RiDeleteBinLine
+          size={22}
+          className="hover:text-red-500 cursor-pointer "
+        />
       </BaseConfirmation>
     </span>
   );

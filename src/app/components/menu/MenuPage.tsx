@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MouseEvent, useEffect, useState } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { menu } from "@/app/actions/menu/addmenu-action";
 import deletemenu from "@/app/actions/menu/deletemenu-action";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
@@ -18,7 +19,13 @@ import Addmenu from "./AddMenuModal";
 import MenuHeader from "./MenuHeader";
 import MenuTable from "./MenuTable";
 
-const Menupage = () => {
+export type ILanguageProps = {
+  lang?: IMessages;
+};
+
+const Menupage: FC<ILanguageProps> = (props) => {
+  const { lang } = props;
+
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
@@ -74,10 +81,12 @@ const Menupage = () => {
     };
     setSelectedMenu(modaldata);
   };
+
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <MenuHeader>
+      <MenuHeader lang={lang}>
         <Addmenu
+          lang={lang}
           onAddMenu={handleAddMenu}
           onEditMenu={handleEditMenu}
           selectedMenu={selectedMenu}
@@ -85,6 +94,7 @@ const Menupage = () => {
         />
       </MenuHeader>
       <MenuTable
+        lang={lang}
         data={MenuItem}
         handleView={handleView}
         handleSelectMenu={handleSelectMenu}

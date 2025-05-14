@@ -1,14 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
+import BaseDropzone from "@components/ui/BaseDropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton } from "@mantine/core";
+import { Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
+import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -42,22 +46,27 @@ export type IItemModalProps = {
   onEditItem: (updateditem: IItemdata, file?: File) => Promise<void>;
   selectedItem: IItemdata | null;
   setSelectedItem: (value: IItemdata | null) => void;
+  lang?: IMessages;
 };
 
 const AddItemModal: FC<IItemModalProps> = (props) => {
-  const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
+  const { onAddItem, onEditItem, selectedItem, setSelectedItem, lang } = props;
   const AddItemschema = z.object({
-    name: z.string().nonempty(validation("Item name", "required")),
+    name: z
+      .string()
+      .nonempty(validation(lang?.items.itemname!, "required", lang)),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.items.status!, "required", lang),
     }),
     jain: z.enum([Jainoption.Jain, Jainoption.NotJain], {
-      errorMap: () => validation("Jainoption", "required"),
+      errorMap: () => validation(lang?.items.jainoption!, "required", lang),
     }),
-    description: z.string().min(8, validation("Description", "minLength")),
+    description: z
+      .string()
+      .min(8, validation(lang?.items.description!, "minLength", lang)),
     price: z
       .string()
-      .nonempty(validation("Price", "required"))
+      .nonempty(validation(lang?.items.price!, "required", lang))
       .transform((value) => (value === "" ? "" : Number(value)))
       .refine((value) => !isNaN(Number(value)), validation("Price", "nan")),
   });
@@ -78,10 +87,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handleFileChange = (newFile: File | null) => {
-    setFile(newFile);
+  const handleFileChange = (newFile: FileWithPath[] | null) => {
+    if (!newFile) return;
+    setFile(newFile[0]);
+
     if (newFile) {
-      setPreview(URL.createObjectURL(newFile));
+      setPreview(URL.createObjectURL(newFile[0]));
     }
   };
 
@@ -107,15 +118,16 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       });
     }
   }, [selectedItem, reset, open]);
-
-  const onSubmit = async (data: IAddItemData) => {
+  const onError = () => {
     if (!selectedItem?.image && !file) {
-      return setError("root", { message: "Image is required" });
+      return setError("root", { message: ImageError(file ,lang).setError });
     }
     if (file) {
-      setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file, lang).setError });
     }
+  };
 
+  const onSubmit = async (data: IAddItemData) => {
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
       await onEditItem(updatedItem, file ?? undefined);
@@ -152,33 +164,33 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedItem ? "Edit Item" : "Add Item"}
+        title={selectedItem ? lang?.items.edititem : lang?.items.modaltitle}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
-              label="Item"
+              label={lang?.items.title}
               forceLabelOnTop
-              placeholder="Enter Item..."
+              placeholder={lang?.items.itemplaceholder}
               {...register("name")}
             />
           </FormField>
           <FormField name="description" error={errors.description?.message}>
             <BaseTextArea
-              label="Description"
+              label={lang?.items.description}
               labelvalue
               {...register("description")}
-              placeholder="Enter Description..."
+              placeholder={lang?.items.itemdescriptionplaceholder}
             />
           </FormField>
 
           <FormField name="price" error={errors.price?.message}>
             <BaseInput
               type="text"
-              label="Price"
+              label={lang?.items.price}
               forceLabelOnTop
-              placeholder="Enter price..."
+              placeholder={lang?.items.itempriceplaceholder}
               {...register("price")}
             ></BaseInput>
           </FormField>
@@ -188,10 +200,19 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Status"
+                  label={lang?.items.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
+                  ]}
+                  placeholder={lang?.items.itemstatusplaceholder}
                   {...field}
                 />
               )}
@@ -203,43 +224,46 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Jain option"
+                  label={lang?.items.jainoption}
                   labelvalue
                   data={[Jainoption.Jain, Jainoption.NotJain]}
-                  placeholder="Enter jain option"
+                  placeholder={lang?.items.itemsjainoptionplaceholder}
                   {...field}
                 />
               )}
             />
           </FormField>
+
           <FormField
-            label="Upload image"
+            label={lang?.categories.uploadimage}
             name="image"
             required
             error={errors.root?.message}
           >
-            <Avatar
-              src={preview}
-              alt="Uploaded Logo"
-              radius={"sm"}
-              size={"xl"}
-              className="mb-4 w-32 h-32 dark:bg-white"
-            >
-              <IoFastFoodOutline className="dark:text-black" />
-            </Avatar>
-
-            <FileButton
-              onChange={(file) => {
+            <BaseDropzone
+              onDrop={(file) => {
                 handleFileChange(file);
               }}
-              accept="image/png,image/jpeg"
             >
-              {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  Upload Image
-                </BaseButton>
+              {preview ? (
+                <Image src={preview} alt="Preview" width={350} height={350} />
+              ) : (
+                <>
+                  <RxImage
+                    size={34}
+                    color="gray"
+                    className="flex justify-self-center mb-2"
+                  />
+                  <Text size="lg" classNames={{ root: "text-center" }}>
+                    {lang?.items.dragimagehere}
+                    <b>{lang?.items.browsefile}</b>
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    {lang?.items.attachfile}
+                  </Text>
+                </>
               )}
-            </FileButton>
+            </BaseDropzone>
           </FormField>
           <BaseButton
             type="submit"
@@ -248,7 +272,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.items.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>
@@ -266,7 +290,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
           inner: "font-bold text-white text-sm sm:text-md md:text-sm",
         }}
       >
-        Add New Item
+        {lang?.items.button}
       </BaseButton>
     </div>
   );

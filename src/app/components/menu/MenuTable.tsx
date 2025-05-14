@@ -4,6 +4,7 @@ import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { LuFilter } from "react-icons/lu";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -28,6 +29,7 @@ type IMenuTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
+  lang?: IMessages;
 };
 
 const MenuTable: FC<IMenuTableProps> = ({
@@ -42,6 +44,7 @@ const MenuTable: FC<IMenuTableProps> = ({
   setSearchData,
   filterStatus,
   setFilterStatus,
+  lang,
 }) => {
   return !data ? (
     <Loader />
@@ -51,13 +54,13 @@ const MenuTable: FC<IMenuTableProps> = ({
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-          placeholder="Search menu..."
+          placeholder={lang?.menus.searchmenu}
         />
         <BaseSelect
           value={filterStatus}
           leftSection={<LuFilter size={20} />}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.menus.chooseavailibility}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
@@ -70,30 +73,35 @@ const MenuTable: FC<IMenuTableProps> = ({
           getKey={(item) => item.id}
           columns={[
             {
-              label: "MENU NAME",
+              label: lang?.menus.MENUNAME!,
               render: (item) => `${item.menu_name} (${item.currency})`,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.menus.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.available}
+                  </p>
                 ),
             },
             {
-              label: "CREATED AT",
+              label: lang?.menus.CREATEDAT!,
               render: (item) => formatDate(item.created_at),
             },
             {
-              label: "UPDATED AT",
+              label: lang?.menus.UPDATEDAT!,
               render: (item) => formatDate(item.updated_at),
             },
             {
               label: "",
               render: (item) => (
                 <MenuActions
+                  lang={lang}
                   item={item}
                   handleView={handleView}
                   handleSelectMenu={handleSelectMenu}

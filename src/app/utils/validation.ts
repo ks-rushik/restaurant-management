@@ -1,15 +1,17 @@
+import { IMessages } from "../[locale]/messages";
+
 type ValidationType = "required" | "minLength" | "nan" | "notvalid";
 
-const validation = (name: string, type: ValidationType) => {
+const validation = (name: string, type: ValidationType, lang?: IMessages) => {
   switch (type) {
     case "required":
-      return { message: `${name} is a required field` };
+      return { message: `${name} ${lang?.validation.required}` };
     case "minLength":
-      return { message: `${name} must be at least 8 characters long` };
+      return { message: `${name} ${lang?.validation.minLength}` };
     case "nan":
-      return { message: `${name} must be a number` };
+      return { message: `${name} ${lang?.validation.nan}` };
     case "notvalid":
-      return { message: `${name} is not a valid number` };
+      return { message: `${name} ${lang?.validation.notvalid}` };
   }
 };
 

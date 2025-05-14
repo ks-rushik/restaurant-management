@@ -2,12 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 
-import { ISignUpFormData } from "@components/auth/SignUpForm";
-
-import { createClient } from "@/app/utils/supabase/server";
 import { handleSupabaseError } from "@/app/utils/signuperror";
+import { createClient } from "@/app/utils/supabase/server";
 
-export async function signUp(formData: ISignUpFormData) {
+export type signUpProps = {
+  name: string;
+  email: string;
+  password: string;
+  confirmpassword: string;
+};
+
+export async function signUp(formData: signUpProps) {
   const supabase = await createClient();
 
   if (formData.password !== formData.confirmpassword) {

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FC } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text, Title } from "@mantine/core";
@@ -8,6 +9,7 @@ import { notifications } from "@mantine/notifications";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormGroup from "@/app/components/forms/AuthFormGroup";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
@@ -15,14 +17,23 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import { ErrorMessages } from "@/app/utils/authvalidation";
 
 import { resetPassword } from "../../actions/auth/resetpassword-action";
+import LanguageSelectorWrapper from "../LanguageSelectorWrapper";
+import LanguageSelector from "./LanguageSelector";
 
-const resetPasswordSchema = z.object({
-  email: z.string().nonempty(ErrorMessages.required).email(ErrorMessages.email),
-});
+export type IResetPasswordFormProps = {
+  lang?: IMessages;
+};
 
-export type IResetPasswordData = z.infer<typeof resetPasswordSchema>;
+const ResetPasswordForm: FC<IResetPasswordFormProps> = (props) => {
+  const { lang } = props;
+  const resetPasswordSchema = z.object({
+    email: z
+      .string()
+      .nonempty(lang?.authvalidation.required)
+      .email(lang?.authvalidation.email),
+  });
 
-const ResetPasswordForm = () => {
+  type IResetPasswordData = z.infer<typeof resetPasswordSchema>;
   const {
     register,
     handleSubmit,
@@ -40,16 +51,18 @@ const ResetPasswordForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <FormGroup>
+          <LanguageSelectorWrapper>
+            <LanguageSelector />
+          </LanguageSelectorWrapper>
           <Title order={2} ta="center" mt="lg" mb={50}>
-            Password recovery
+            {lang?.forgotpassword.title}
           </Title>
           <Text size="md" className="pt-2 pr-2 pb-8">
-            Enter your registered email address. We'll send you a link or code
-            to reset your password.
+            {lang?.forgotpassword.description}
           </Text>
 
           <FormField
-            label="Email"
+            label={lang?.forgotpassword.email}
             name="email"
             error={errors.email?.message}
             required={true}
@@ -58,7 +71,7 @@ const ResetPasswordForm = () => {
               {...register("email")}
               type="email"
               name="email"
-              placeholder="Enter your email..."
+              placeholder={lang?.forgotpassword.emailplaceholder}
             />
           </FormField>
           <div className="flex flex-col sm:flex-row sm:justify-between  text-md mb-4 text-center sm:text-left">
@@ -70,14 +83,14 @@ const ResetPasswordForm = () => {
               }}
               loading={isSubmitting}
             >
-              Enter Email
+              {lang?.forgotpassword.enteremail}
             </BaseButton>
 
             <Link
               href="/auth/login"
               className="mt-3  sm:justify-start opacity-50"
             >
-              Back to the login
+              {lang?.forgotpassword.backtologin}
             </Link>
           </div>
         </FormGroup>

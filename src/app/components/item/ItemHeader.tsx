@@ -5,19 +5,21 @@ import { FC, ReactNode } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { fetchcategoryitemdataQuery } from "@/app/actions/item/categorymenufetchquery";
 
 import HeaderCss from "../HeaderCss";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
+  lang?: IMessages;
 };
 
-const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
+const ItemHeader: FC<ICategoryHeaderProps> = ({ children, lang }) => {
   const pathname = usePathname();
-  const segments = pathname.split("/")[1];
-  const menuId = pathname.split("/")[2];
-  const categoryId = pathname.split("/")[4];
+  const segments = pathname.split("/")[2];
+  const menuId = pathname.split("/")[3];
+  const categoryId = pathname.split("/")[5];
   const { data: items } = useQuery(fetchcategoryitemdataQuery(categoryId));
 
   const itemname = items?.[0].category_name;
@@ -45,7 +47,7 @@ const ItemHeader: FC<ICategoryHeaderProps> = ({ children }) => {
 
   return (
     <>
-      <HeaderCss item={breadcrumbItems} headertitle="Items">
+      <HeaderCss item={breadcrumbItems} headertitle={lang?.items.title!}>
         {children}
       </HeaderCss>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Center, FileButton, Loader } from "@mantine/core";
@@ -12,6 +12,7 @@ import { ImSpoonKnife } from "react-icons/im";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { submitUserForm } from "@/app/actions/userprofile/userprofile-action";
 import { fetchprofiledataQuery } from "@/app/actions/userprofile/userprofile-fetch-query";
 import FormField from "@/app/components/forms/FormField";
@@ -21,18 +22,24 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import validation from "@/app/utils/validation";
 
-export const userformSchema = z.object({
-  name: z.string().nonempty(validation("Name", "required")),
-  phone: z
+
+
+export type IUserProfileForm = {
+  lang?: IMessages;
+};
+
+const UserProfileForm: FC<IUserProfileForm> = (props) => {
+  const { lang } = props;
+  
+  const userformSchema = z.object({
+    name: z.string().nonempty(validation(lang?.profile.name!, "required" ,lang)),
+    phone: z
     .string()
-    .nonempty(validation("Phone number", "required"))
-    .length(10, validation("Phone number", "notvalid")),
-  address: z.string().min(8, validation("Address", "minLength")),
-});
-
-export type IUserFormData = z.infer<typeof userformSchema>;
-
-const UserProfileForm = () => {
+    .nonempty(validation(lang?.profile.phonenumber!, "required" ,lang))
+    .length(10, validation(lang?.profile.phonenumber!, "notvalid" ,lang)),
+    address: z.string().min(8, validation(lang?.profile.location!, "minLength" ,lang)),
+  });
+ type IUserFormData = z.infer<typeof userformSchema>;
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -106,7 +113,7 @@ const UserProfileForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <FormGroup>
-          <h2 className="text-3xl font-bold mb-10">My profile</h2>
+          <h2 className="text-3xl font-bold mb-10">{lang?.profile.title}</h2>
           <Avatar
             src={preview}
             alt="Uploaded Logo"
@@ -120,12 +127,12 @@ const UserProfileForm = () => {
           <FileButton onChange={handleFileChange} accept="image/png,image/jpeg">
             {(props) => (
               <BaseButton {...props} classNames={{ root: "mb-10 mt-4 ml-4" }}>
-                Upload Logo
+               {lang?.profile.uploadlogo}
               </BaseButton>
             )}
           </FileButton>
           <FormField
-            label="Restaurant Name"
+            label={lang?.profile.restaurantname}
             name="name"
             error={errors.name?.message}
             required
@@ -134,12 +141,12 @@ const UserProfileForm = () => {
             <BaseInput
               {...register("name")}
               type="text"
-              placeholder="Enter your restaurant name..."
+              placeholder={lang?.profile.nameplaceholder}
               defaultValue={userData?.name}
             />
           </FormField>
           <FormField
-            label="Contact Number"
+            label={lang?.profile.contactnumber}
             name="phone"
             error={errors.phone?.message}
             required
@@ -147,19 +154,19 @@ const UserProfileForm = () => {
             <BaseInput
               {...register("phone")}
               type="text"
-              placeholder="Enter your Phone number..."
+              placeholder={lang?.profile.phonenumberplaceholder}
               defaultValue={userData?.phone}
             />
           </FormField>
           <FormField
-            label="Location"
+            label={lang?.profile.location}
             name="address"
             error={errors.address?.message}
             required
           >
             <BaseTextArea
               {...register("address")}
-              placeholder="Enter your Location..."
+              placeholder={lang?.profile.locationplaceholder}
               defaultValue={userData?.address}
             />
           </FormField>
@@ -172,14 +179,14 @@ const UserProfileForm = () => {
                 inner: "font-bold text-white text-sm",
               }}
             >
-              Save Profile
+             {lang?.profile.button}
             </BaseButton>
             <div
               onClick={() => handleBack()}
               className="mt-8 flex text-[#737380] dark:text-gray-200 opacity-60"
             >
               <IoMdArrowRoundBack size={20} />
-              Back to the page
+              {lang?.profile.backtothepage}
             </div>
           </div>
         </FormGroup>

@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { item } from "@/app/actions/item/additem-action";
 import deleteitem from "@/app/actions/item/deleteitem-action";
 import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
@@ -23,9 +24,9 @@ export type IFilter = {
   jainOption: string;
 };
 
-const ItemPage = () => {
+const ItemPage = ({ lang }: { lang: IMessages }) => {
   const pathname = usePathname();
-  const categoryId = pathname.split("/")[4];
+  const categoryId = pathname.split("/")[5];
   const [Item, setItem] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
   const [debouncedSearch] = useDebounce(searchData, 500);
@@ -139,8 +140,9 @@ const ItemPage = () => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <ItemHeader>
+      <ItemHeader lang={lang}>
         <AddItemModal
+          lang={lang}
           onAddItem={handleAddItem}
           onEditItem={handleEditItem}
           selectedItem={selectedItem}
@@ -148,6 +150,7 @@ const ItemPage = () => {
         />
       </ItemHeader>
       <ItemTable
+        lang={lang}
         data={Item}
         handleMoveUp={handleMoveUp}
         handleSelectItem={handleSelectedItem}

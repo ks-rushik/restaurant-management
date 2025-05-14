@@ -2,11 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 
-import { ILoginFormData } from "@components/auth/LoginForm";
-
 import { createClient } from "@/app/utils/supabase/server";
 
-export async function login(formData: ILoginFormData) {
+export type loginProps = {
+  email: string;
+  password: string;
+};
+
+export async function login(formData: loginProps) {
   const supabase = await createClient();
 
   const data = {
