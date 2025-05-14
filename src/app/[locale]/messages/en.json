@@ -35,7 +35,10 @@
     "editcategory": "Edit category",
     "chooseavailibility": "Choose availibility...",
     "categoryplaceholder": "Enter category...",
-    "categorystatusplaceholder": "Enter status..."
+    "categorystatusplaceholder": "Enter status...",
+    "dragimagehere": " Drag images here or",
+    "browsefile": " Browse file",
+    "attachfile": " Attach file as you like, file should not exceed 5mb"
   },
   "items": {
     "title": "Items",
@@ -63,7 +66,10 @@
     "itempriceplaceholder": "Enter price...",
     "itemstatusplaceholder": "Enter status...",
     "itemsjainoptionplaceholder": "Enter jain option...",
-    "choosejainoption": "Choose jain option"
+    "choosejainoption": "Choose jain option",
+    "dragimagehere": " Drag images here or",
+    "browsefile": " Browse file",
+    "attachfile": " Attach file as you like, file should not exceed 5mb"
   },
   "navbar": {
     "profilepage": "Profile page",
@@ -101,7 +107,8 @@
     "nan": "is not a valid number",
     "notvalid": " must be a number",
     "imagesize": "Image file size should be less than 1 Mb",
-    "imagenotvalid": "Image has not valid file type"
+    "imagenotvalid": "Image has not valid file type",
+    "imagerequired":"Image is required"
   },
   "availableStatus": {
     "available": "Available",

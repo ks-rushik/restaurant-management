@@ -35,7 +35,10 @@
     "editcategory": "Editar categoría",
     "chooseavailibility": "Elija disponibilidad...",
     "categoryplaceholder": "Introduzca la categoría...",
-    "categorystatusplaceholder": "Introduzca el estado..."
+    "categorystatusplaceholder": "Introduzca el estado...",
+    "dragimagehere": "Arrastra las imágenes aquí o",
+    "browsefile": "Buscar archivo",
+    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB"
   },
   "items": {
     "title": "Artículos",
@@ -63,7 +66,10 @@
     "itempriceplaceholder": "Introduzca el precio...",
     "itemstatusplaceholder": "Introduzca el estado...",
     "itemsjainoptionplaceholder": "Introduzca la opción Jain...",
-    "choosejainoption": "Elija la opción jainista"
+    "choosejainoption": "Elija la opción jainista",
+    "dragimagehere": "Arrastra las imágenes aquí o",
+    "browsefile": "Buscar archivo",
+    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB"
   },
   "navbar": {
     "profilepage": "Página de perfil",
@@ -102,6 +108,7 @@
     "notvalid": "debe ser un número",
     "imagesize": "El tamaño del archivo de imagen debe ser menor a 1 MB",
     "imagenotvalid": "La imagen no tiene un tipo de archivo válido",
+    "imagerequired": "छवि आवश्यक है",
     "AvailableStatus": {
       "Available": "Available",
       "NotAvailable": "Not Available"
