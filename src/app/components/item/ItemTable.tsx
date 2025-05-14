@@ -16,7 +16,7 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
-import SearchFilter from "../SearchFilter";
+import SearchFilterWrapper from "../SearchFilter";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
 import { IFilter } from "./ItemPage";
@@ -65,7 +65,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     <Loader />
   ) : (
     <>
-      <SearchFilter>
+      <SearchFilterWrapper>
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
@@ -108,7 +108,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         >
           {lang.items.filters}
         </BaseButton>
-      </SearchFilter>
+      </SearchFilterWrapper>
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">No Item found.</p>
