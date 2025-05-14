@@ -69,7 +69,9 @@
     "choosejainoption": "Choose jain option",
     "dragimagehere": " Drag images here or",
     "browsefile": " Browse file",
-    "attachfile": " Attach file as you like, file should not exceed 5mb"
+    "attachfile": " Attach file as you like, file should not exceed 5mb",
+    "filters":"Filter",
+    "cancel":"Cancel"
   },
   "navbar": {
     "profilepage": "Profile page",

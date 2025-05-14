@@ -69,7 +69,9 @@
     "choosejainoption": "Elija la opción jainista",
     "dragimagehere": "Arrastra las imágenes aquí o",
     "browsefile": "Buscar archivo",
-    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB"
+    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB",
+    "filters": "Filtro",
+    "cancel": "Cancelar"
   },
   "navbar": {
     "profilepage": "Página de perfil",
