@@ -9,8 +9,8 @@ import {
 import { IMessages, getDictionary } from "@/app/[locale]/messages";
 import { fetchcategoryitemdataQuery } from "@/app/actions/item/categorymenufetchquery";
 import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
+import DictionaryProvider from "@/app/components/context/Dictionary";
 import ItemPage from "@/app/components/item/ItemPage";
-import Navbar from "@/app/components/navbar/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +32,9 @@ const page = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ItemPage lang={dictionary} />
+      <DictionaryProvider value={dictionary}>
+        <ItemPage />
+      </DictionaryProvider>
     </HydrationBoundary>
   );
 };

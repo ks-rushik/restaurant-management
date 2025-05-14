@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
+import { useDictionary } from "@components/context/Dictionary";
 import BaseDropzone from "@components/ui/BaseDropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text } from "@mantine/core";
@@ -12,7 +13,6 @@ import { Controller, useForm } from "react-hook-form";
 import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
-import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -46,11 +46,12 @@ export type IItemModalProps = {
   onEditItem: (updateditem: IItemdata, file?: File) => Promise<void>;
   selectedItem: IItemdata | null;
   setSelectedItem: (value: IItemdata | null) => void;
-  lang?: IMessages;
 };
 
 const AddItemModal: FC<IItemModalProps> = (props) => {
-  const { onAddItem, onEditItem, selectedItem, setSelectedItem, lang } = props;
+  const { onAddItem, onEditItem, selectedItem, setSelectedItem } = props;
+  const lang = useDictionary();
+
   const AddItemschema = z.object({
     name: z
       .string()
@@ -120,7 +121,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   }, [selectedItem, reset, open]);
   const onError = () => {
     if (!selectedItem?.image && !file) {
-      return setError("root", { message: ImageError(file ,lang).setError });
+      return setError("root", { message: ImageError(file, lang).setError });
     }
     if (file) {
       setError("root", { message: ImageError(file, lang).setError });
