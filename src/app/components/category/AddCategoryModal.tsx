@@ -1,14 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
+import BaseDropzone from "@components/ui/BaseDropzone";
 import BaseModal from "@components/ui/BaseModal";
 import BaseSelect from "@components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton } from "@mantine/core";
+import { Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
+import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -72,10 +75,12 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const handleFileChange = (newFile: File | null) => {
-    setFile(newFile);
+  const handleFileChange = (newFile: FileWithPath[] | null) => {
+    if (!newFile) return;
+    setFile(newFile[0]);
+
     if (newFile) {
-      setPreview(URL.createObjectURL(newFile));
+      setPreview(URL.createObjectURL(newFile[0]));
     }
   };
 
@@ -92,15 +97,16 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     }
   }, [selectedCategory, reset]);
 
-  const onSubmit = async (data: IAddCategoryData) => {
+  const onError = () => {
     if (!selectedCategory?.image && !file) {
-      return setError("root", { message: "Image is required" });
+      return setError("root", { message: ImageError(file ,lang).setError });
     }
-
     if (file) {
       setError("root", { message: ImageError(file, lang).setError });
     }
+  };
 
+  const onSubmit = async (data: IAddCategoryData) => {
     if (selectedCategory) {
       const updatedItem = { ...selectedCategory, ...data };
       await onEditCategory(updatedItem, file ?? undefined);
@@ -133,7 +139,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             : lang?.categories.modaltitle
         }
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
@@ -173,28 +179,30 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             required
             error={errors.root?.message}
           >
-            <Avatar
-              src={preview}
-              alt="Uploaded Logo"
-              radius={"sm"}
-              size={"xl"}
-              className="mb-4 w-32 h-32 dark:bg-white"
-            >
-              <IoFastFoodOutline className="dark:text-black" />
-            </Avatar>
-
-            <FileButton
-              onChange={(file) => {
+            <BaseDropzone
+              onDrop={(file) => {
                 handleFileChange(file);
               }}
-              accept="image/jpeg ,image/png"
             >
-              {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  {lang?.categories.uploadimage}
-                </BaseButton>
+              {preview ? (
+                <Image src={preview} alt="Preview" width={350} height={350} />
+              ) : (
+                <>
+                  <RxImage
+                    size={34}
+                    color="gray"
+                    className="flex justify-self-center mb-2"
+                  />
+                  <Text size="lg" classNames={{ root: "text-center" }}>
+                    {lang?.categories.dragimagehere}
+                    <b> {lang?.categories.browsefile}</b>
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    {lang?.categories.attachfile}
+                  </Text>
+                </>
               )}
-            </FileButton>
+            </BaseDropzone>
           </FormField>
           <BaseButton
             type="submit"
