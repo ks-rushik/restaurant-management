@@ -2,9 +2,10 @@ import Image from "next/image";
 import { FC } from "react";
 
 import FilteredData from "@components/FilterData";
-import SearchFilter from "@components/SearchFilter";
+import SearchFilterWrapper from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { useDictionary } from "@components/context/Dictionary";
+import { CiFilter } from "react-icons/ci";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
 import Loader from "@/app/components/ui/BaseLoader";
@@ -12,8 +13,12 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
+import BaseButton from "../ui/BaseButton";
+import BaseModal from "../ui/BaseModal";
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
+import ModalFilter from "./ModalFilter";
+import { useDisclosure } from "@mantine/hooks";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -43,32 +48,52 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     handleMoveUp,
     handleMoveDown,
     loading,
-    opened,
-    close,
+    opened: ModalOpened,
+    close: ModalClose,
     searchData,
     setSearchData,
     filterStatus,
     setFilterStatus,
   } = props;
   const lang = useDictionary();
+  const [opened, { open, close }] = useDisclosure(false);
 
   return !data ? (
     <Loader />
   ) : (
     <>
-      <SearchFilter>
+      <SearchFilterWrapper>
         <SearchInput
           placeholder={lang?.categories.searchcategory}
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
         />
-        <FilteredData
-          value={filterStatus}
-          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder={lang?.categories.chooseavailibility}
-          onChange={(value) => setFilterStatus(value || "")}
-        />
-      </SearchFilter>
+        <div className="hidden sm:flex flex-row gap-4">
+          <FilteredData
+            value={filterStatus}
+            data={[Availablity.Available, Availablity.NotAvailable, "All"]}
+            placeholder={lang?.items.chooseavailibility}
+            onChange={(value) => setFilterStatus(value || "")}
+          />
+        </div>
+        <BaseModal opened={opened} onClose={close} title={"Filter data"}>
+          <ModalFilter
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+            close={close}
+          />
+        </BaseModal>
+
+        <BaseButton
+          className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
+          leftSection={<CiFilter size={24} />}
+          onClick={() => {
+            open();
+          }}
+        >
+          {lang.items.filters}
+        </BaseButton>
+      </SearchFilterWrapper>
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">No Category found.</p>
@@ -154,8 +179,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                   handleSelectCategory={handleSelectCategory}
                   handleDelete={handleDelete}
                   loading={loading}
-                  opened={opened}
-                  close={close}
+                  opened={ModalOpened}
+                  close={ModalClose}
                 />
               ),
             },
