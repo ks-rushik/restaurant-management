@@ -69,7 +69,12 @@ const ModalFilter: FC<IModalFilterProps> = (props) => {
         </div>
       </div>
       <div className="flex  flex-row gap-4">
-        <BaseButton onClick={handleClear} classNames={{ root: "h-12 w-full" }}>
+        <BaseButton
+          onClick={handleClear}
+          classNames={{ root: "h-12 w-full" }}
+          intent={"primary"}
+          outline
+        >
           {lang.items.cancel}
         </BaseButton>
         <BaseButton onClick={handleFilter} classNames={{ root: "h-12 w-full" }}>
