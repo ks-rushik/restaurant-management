@@ -2,10 +2,13 @@ import Image from "next/legacy/image";
 import { FC, useState } from "react";
 
 import FilteredData from "@components/FilterData";
-import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { useDictionary } from "@components/context/Dictionary";
+import BaseButton from "@components/ui/BaseButton";
+import BaseModal from "@components/ui/BaseModal";
 import { Badge } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { CiFilter } from "react-icons/ci";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
 import Loader from "@/app/components/ui/BaseLoader";
@@ -13,9 +16,11 @@ import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
+import SearchFilter from "../SearchFilter";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
 import { IFilter } from "./ItemPage";
+import ModalFilter from "./ModalFilter";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
@@ -43,14 +48,21 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     handleMoveUp,
     handleMoveDown,
     loading,
-    opened,
-    close,
+    opened: ModalOpened,
+    close: ModalClose,
     searchData,
     setSearchData,
     filters,
     setFilters,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [modalFilters, setModalFilters] = useState({
+    avaibilityStatus: filters.avaibilityStatus,
+    jainOption: filters.jainOption,
+  });
+
+  const [opened, { open, close }] = useDisclosure(false);
+
   const lang = useDictionary();
 
   return !data ? (
@@ -63,23 +75,43 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           onChange={(e) => setSearchData(e.target.value)}
           placeholder={lang?.items.searchitem}
         />
-        <FilteredData
-          value={filters.avaibilityStatus}
-          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder={lang?.items.chooseavailibility}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
-          }
-        />
 
-        <FilteredData
-          value={filters.jainOption}
-          data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
-          placeholder={lang?.items.choosejainoption}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, jainOption: value || "" }))
-          }
-        />
+        <div className="hidden sm:flex flex-row gap-4">
+          <FilteredData
+            value={filters.avaibilityStatus}
+            data={[Availablity.Available, Availablity.NotAvailable, "All"]}
+            placeholder={lang?.items.chooseavailibility}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
+            }
+          />
+          <FilteredData
+            value={filters.jainOption}
+            data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
+            placeholder={lang?.items.choosejainoption}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, jainOption: value || "" }))
+            }
+          />
+        </div>
+
+        <BaseModal opened={opened} onClose={close} title={"Filter data"}>
+          <ModalFilter
+            filters={filters}
+            setFilters={setFilters}
+            close={close}
+          />
+        </BaseModal>
+
+        <BaseButton
+          className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
+          leftSection={<CiFilter size={24} />}
+          onClick={() => {
+            open();
+          }}
+        >
+          {lang.items.filters}
+        </BaseButton>
       </SearchFilter>
 
       {data.length === 0 ? (
@@ -200,8 +232,8 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                   handleDelete={handleDelete}
                   handleSelectItem={handleSelectItem}
                   loading={loading}
-                  opened={opened}
-                  close={close}
+                  opened={ModalOpened}
+                  close={ModalClose}
                 />
               ),
             },
