@@ -56,10 +56,6 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setFilters,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
-  const [modalFilters, setModalFilters] = useState({
-    avaibilityStatus: filters.avaibilityStatus,
-    jainOption: filters.jainOption,
-  });
 
   const [opened, { open, close }] = useDisclosure(false);
 
