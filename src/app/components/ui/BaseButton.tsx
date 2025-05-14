@@ -20,7 +20,7 @@ const buttonVariants = cva(
         themeColor: "bg-blue-700 hover:bg-blue-600 text-white",
         default: "bg-gray-800 hover:bg-gray-700 text-white",
         secondary: "bg-secondary-main hover:bg-secondary-dark text-white",
-        primary: "bg-primay-main hover:bg-primary-dark text-white",
+        primary: " bg-primary-main hover:bg-primary-dark text-white",
         info: "bg-info-main hover:bg-info-dark text-white",
         sucess: "bg-sucess-main hover:bg-sucess-dark text-white",
         error: "bg-error-main hover:bg-error-dark text-white",

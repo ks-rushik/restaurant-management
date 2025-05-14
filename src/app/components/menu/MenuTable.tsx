@@ -2,8 +2,13 @@ import { FC } from "react";
 
 import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
+import SearchFilterWrapper from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { useDictionary } from "@components/context/Dictionary";
+import BaseButton from "@components/ui/BaseButton";
+import BaseModal from "@components/ui/BaseModal";
+import { useDisclosure } from "@mantine/hooks";
+import { CiFilter } from "react-icons/ci";
 
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
@@ -12,6 +17,7 @@ import { IMenudata } from "@/app/type/type";
 import formatDate from "@/app/utils/formatdate";
 
 import MenuActions from "./MenuActions";
+import ModalFilter from "./ModalFilter";
 
 type IMenuTableProps = {
   data: IMenudata[] | undefined | null;
@@ -36,32 +42,53 @@ const MenuTable: FC<IMenuTableProps> = ({
   handleSelectMenu,
   handleDelete,
   loading,
-  opened,
-  close,
+  opened: ModalOpen,
+  close: ModalClose,
   searchData,
   setSearchData,
   filterStatus,
   setFilterStatus,
 }) => {
   const lang = useDictionary();
+  const [opened, { open, close }] = useDisclosure(false);
 
   return !data ? (
     <Loader />
   ) : (
     <>
-      <SearchFilter>
+      <SearchFilterWrapper>
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
           placeholder={lang?.menus.searchmenu}
         />
-        <FilteredData
-          value={filterStatus}
-          data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder={lang?.menus.chooseavailibility}
-          onChange={(value) => setFilterStatus(value || "")}
-        />
-      </SearchFilter>
+        <div className="hidden sm:flex flex-row">
+          <FilteredData
+            value={filterStatus}
+            data={[Availablity.Available, Availablity.NotAvailable, "All"]}
+            placeholder={lang?.items.chooseavailibility}
+            onChange={(value) => setFilterStatus(value || "")}
+          />
+        </div>
+        <BaseModal opened={opened} onClose={close} title={"Filter data"}>
+          <ModalFilter
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+            close={close}
+          />
+        </BaseModal>
+
+        <BaseButton
+          className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
+          leftSection={<CiFilter size={24} />}
+          onClick={() => {
+            open();
+          }}
+        >
+          {lang.items.filters}
+        </BaseButton>
+      </SearchFilterWrapper>
+     
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">No menus found.</p>
@@ -105,8 +132,8 @@ const MenuTable: FC<IMenuTableProps> = ({
                   handleSelectMenu={handleSelectMenu}
                   handleDelete={handleDelete}
                   loading={loading}
-                  opened={opened}
-                  close={close}
+                  opened={ModalOpen}
+                  close={ModalClose}
                 />
               ),
             },
