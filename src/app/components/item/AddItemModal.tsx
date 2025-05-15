@@ -119,8 +119,8 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     }
   }, [selectedItem, reset, open]);
   const onError = () => {
-    if (!selectedItem?.image && !file) {
-      return setError("root", { message: ImageError(file ,lang).setError });
+    if (!selectedItem?.image) {
+      return setError("root", { message: ImageError(file, lang).setError });
     }
     if (file) {
       setError("root", { message: ImageError(file, lang).setError });
@@ -241,29 +241,16 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             error={errors.root?.message}
           >
             <BaseDropzone
+              preview={preview}
               onDrop={(file) => {
                 handleFileChange(file);
               }}
-            >
-              {preview ? (
-                <Image src={preview} alt="Preview" width={350} height={350} />
-              ) : (
-                <>
-                  <RxImage
-                    size={34}
-                    color="gray"
-                    className="flex justify-self-center mb-2"
-                  />
-                  <Text size="lg" classNames={{ root: "text-center" }}>
-                    {lang?.items.dragimagehere}
-                    <b>{lang?.items.browsefile}</b>
-                  </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    {lang?.items.attachfile}
-                  </Text>
-                </>
-              )}
-            </BaseDropzone>
+              text={{
+                attachtext: lang?.common.attachfile,
+                browsetext: lang?.common.browsefile,
+                imagetext: lang?.common.dragimagehere,
+              }}
+            />
           </FormField>
           <BaseButton
             type="submit"

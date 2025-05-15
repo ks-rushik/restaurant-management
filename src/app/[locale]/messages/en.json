@@ -170,5 +170,10 @@
     "copy": "Copy",
     "download": "Download",
     "copied": "Copied"
+  },
+  "common": {
+    "dragimagehere": " Drag images here or",
+    "browsefile": " Browse file",
+    "attachfile": " Attach file as you like, file should not exceed 1mb"
   }
 }

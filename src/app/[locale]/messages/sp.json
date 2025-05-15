@@ -174,5 +174,10 @@
     "copy": "Copiar",
     "download": "Descargar",
     "copied": "Copiado"
+  },
+  "common": {
+    "dragimagehere": "Arrastra las imágenes aquí o",
+    "browsefile": " Buscar archivo",
+    "attachfile": " Adjunta el archivo como desees, el archivo no debe exceder los 1MB"
   }
 }

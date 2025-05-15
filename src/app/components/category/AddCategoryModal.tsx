@@ -98,8 +98,8 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   }, [selectedCategory, reset]);
 
   const onError = () => {
-    if (!selectedCategory?.image && !file) {
-      return setError("root", { message: ImageError(file ,lang).setError });
+    if (!selectedCategory?.image) {
+      return setError("root", { message: ImageError(file, lang).setError });
     }
     if (file) {
       setError("root", { message: ImageError(file, lang).setError });
@@ -183,26 +183,13 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               onDrop={(file) => {
                 handleFileChange(file);
               }}
-            >
-              {preview ? (
-                <Image src={preview} alt="Preview" width={350} height={350} />
-              ) : (
-                <>
-                  <RxImage
-                    size={34}
-                    color="gray"
-                    className="flex justify-self-center mb-2"
-                  />
-                  <Text size="lg" classNames={{ root: "text-center" }}>
-                    {lang?.categories.dragimagehere}
-                    <b> {lang?.categories.browsefile}</b>
-                  </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    {lang?.categories.attachfile}
-                  </Text>
-                </>
-              )}
-            </BaseDropzone>
+              preview={preview}
+              text={{
+                attachtext: lang?.common.attachfile,
+                browsetext: lang?.common.browsefile,
+                imagetext: lang?.common.dragimagehere,
+              }}
+            />
           </FormField>
           <BaseButton
             type="submit"
