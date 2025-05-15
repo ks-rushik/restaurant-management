@@ -102,7 +102,7 @@ const buttonVariants = cva(
         intent: "default",
         outline: true,
         class:
-          "box-border !border border-gray-400 !text-gray-800 !font-bold bg-transparent hover:!bg-gray-700/8",
+          "box-border !border border-gray-400 !text-gray-800 !font-bold !bg-transparent hover:!bg-gray-700/8",
       },
       {
         intent: "error",

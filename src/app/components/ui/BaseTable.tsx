@@ -63,7 +63,7 @@ const BaseTable = <T,>({
                 "h-[55px] dark:border-gray-600",
                 tr
               ),
-              th: clsx("min-w-24 dark:text-white ", th),
+              th: clsx("sm:min-w-24 min-w-48 dark:text-white ", th),
               td: clsx(" ", td),
               table: clsx("", table),
               ...otherElements,
