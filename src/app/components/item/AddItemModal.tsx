@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
+import BaseDropzone from "@components/ui/BaseDropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton } from "@mantine/core";
+import { Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
+import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -84,10 +87,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handleFileChange = (newFile: File | null) => {
-    setFile(newFile);
+  const handleFileChange = (newFile: FileWithPath[] | null) => {
+    if (!newFile) return;
+    setFile(newFile[0]);
+
     if (newFile) {
-      setPreview(URL.createObjectURL(newFile));
+      setPreview(URL.createObjectURL(newFile[0]));
     }
   };
 
@@ -113,15 +118,16 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       });
     }
   }, [selectedItem, reset, open]);
-
-  const onSubmit = async (data: IAddItemData) => {
-    if (!selectedItem?.image && !file) {
-      return setError("root", { message: "Image is required" });
+  const onError = () => {
+    if (!selectedItem?.image) {
+      return setError("root", { message: ImageError(file, lang).setError });
     }
     if (file) {
       setError("root", { message: ImageError(file, lang).setError });
     }
+  };
 
+  const onSubmit = async (data: IAddItemData) => {
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
       await onEditItem(updatedItem, file ?? undefined);
@@ -160,7 +166,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         onClose={handleClose}
         title={selectedItem ? lang?.items.edititem : lang?.items.modaltitle}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
@@ -227,34 +233,24 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
               )}
             />
           </FormField>
+
           <FormField
-            label={lang?.items.uploadimage}
+            label={lang?.categories.uploadimage}
             name="image"
             required
             error={errors.root?.message}
           >
-            <Avatar
-              src={preview}
-              alt="Uploaded Logo"
-              radius={"sm"}
-              size={"xl"}
-              className="mb-4 w-32 h-32 dark:bg-white"
-            >
-              <IoFastFoodOutline className="dark:text-black" />
-            </Avatar>
-
-            <FileButton
-              onChange={(file) => {
+            <BaseDropzone
+              preview={preview}
+              onDrop={(file) => {
                 handleFileChange(file);
               }}
-              accept="image/png,image/jpeg"
-            >
-              {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  {lang?.items.uploadimage}
-                </BaseButton>
-              )}
-            </FileButton>
+              text={{
+                attachtext: lang?.common.attachfile,
+                browsetext: lang?.common.browsefile,
+                imagetext: lang?.common.dragimagehere,
+              }}
+            />
           </FormField>
           <BaseButton
             type="submit"
