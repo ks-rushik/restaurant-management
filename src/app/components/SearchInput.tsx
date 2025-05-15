@@ -18,7 +18,7 @@ const SearchInput: FC<ISearchInputProps> = (props) => {
       value={value}
       onChange={onChange}
       classNames={{
-        input: "w-full",
+        input: "w-[304px]",
       }}
       leftSection={
         <IoSearch
