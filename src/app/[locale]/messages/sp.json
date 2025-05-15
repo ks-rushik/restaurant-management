@@ -171,7 +171,7 @@
   },
   "common": {
     "dragimagehere": "Arrastra las imágenes aquí o",
-    "browsefile": " Buscar archivo",
-    "attachfile": " Adjunta el archivo como desees, el archivo no debe exceder los 1MB"
+    "browsefile": "Buscar archivo",
+    "attachfile": "Adjunta el archivo como desees, el archivo debe ser uno de (jpeg, jpg, png, webp) y no debe exceder 1MB"
   }
 }

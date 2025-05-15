@@ -102,7 +102,7 @@
     "notvalid": " must be a number",
     "imagesize": "Image file size should be less than 1 Mb",
     "imagenotvalid": "Image has not valid file type",
-    "imagerequired":"Image is required"
+    "imagerequired": "Image is required"
   },
   "availableStatus": {
     "available": "Available",
@@ -166,8 +166,8 @@
     "copied": "Copied"
   },
   "common": {
-    "dragimagehere": " Drag images here or",
+    "dragimagehere": "Drag images here or",
     "browsefile": " Browse file",
-    "attachfile": " Attach file as you like, file should not exceed 1mb"
+    "attachfile": "Attach file as you like, file should be one of (jpeg, jpg, png, webp) and should not exceed 1MB"
   }
 }
