@@ -35,10 +35,7 @@
     "editcategory": "Editar categoría",
     "chooseavailibility": "Elija disponibilidad...",
     "categoryplaceholder": "Introduzca la categoría...",
-    "categorystatusplaceholder": "Introduzca el estado...",
-    "dragimagehere": "Arrastra las imágenes aquí o",
-    "browsefile": "Buscar archivo",
-    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB"
+    "categorystatusplaceholder": "Introduzca el estado..."
   },
   "items": {
     "title": "Artículos",
@@ -66,10 +63,7 @@
     "itempriceplaceholder": "Introduzca el precio...",
     "itemstatusplaceholder": "Introduzca el estado...",
     "itemsjainoptionplaceholder": "Introduzca la opción Jain...",
-    "choosejainoption": "Elija la opción jainista",
-    "dragimagehere": "Arrastra las imágenes aquí o",
-    "browsefile": "Buscar archivo",
-    "attachfile": "Adjunta el archivo como desees, el archivo no debe exceder los 5MB"
+    "choosejainoption": "Elija la opción jainista"
   },
   "navbar": {
     "profilepage": "Página de perfil",
