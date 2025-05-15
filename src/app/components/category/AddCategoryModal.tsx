@@ -1,17 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
 import BaseDropzone from "@components/ui/BaseDropzone";
 import BaseModal from "@components/ui/BaseModal";
 import BaseSelect from "@components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -19,7 +15,6 @@ import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import { Availablity } from "@/app/constants/common";
-import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
@@ -30,11 +25,14 @@ export type ICategorydata = {
   menu_id?: string | null;
   status: string | null;
   position?: number | null | undefined;
-  image?: File | undefined;
+  image: string | undefined;
 };
 
 export type ICategoryModalProps = {
-  onAddCategory: (data: ICategorydata, file?: File) => Promise<void>;
+  onAddCategory: (
+    data: Pick<ICategorydata, "category_name" | "status">,
+    file?: File,
+  ) => Promise<void>;
   onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
@@ -65,6 +63,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     formState: { errors },
     handleSubmit,
     setError,
+    clearErrors,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -75,18 +74,9 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const handleFileChange = (newFile: FileWithPath[] | null) => {
-    if (!newFile) return;
-    setFile(newFile[0]);
-
-    if (newFile) {
-      setPreview(URL.createObjectURL(newFile[0]));
-    }
-  };
-
   useEffect(() => {
     if (selectedCategory) {
-      setPreview(selectedCategory.image as unknown as string);
+      setPreview(selectedCategory.image ?? "");
       reset({
         category_name: selectedCategory.category_name!,
         status: selectedCategory.status as keyof typeof Availablity,
@@ -96,15 +86,6 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       reset({ category_name: "", status: "" as keyof typeof Availablity });
     }
   }, [selectedCategory, reset]);
-
-  const onError = () => {
-    if (!selectedCategory?.image) {
-      return setError("root", { message: ImageError(file, lang).setError });
-    }
-    if (file) {
-      setError("root", { message: ImageError(file, lang).setError });
-    }
-  };
 
   const onSubmit = async (data: IAddCategoryData) => {
     if (selectedCategory) {
@@ -127,6 +108,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   };
 
   const [opened, { open, close }] = useDisclosure(false);
+  const editModalImage = selectedCategory?.image;
 
   return (
     <div>
@@ -139,7 +121,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             : lang?.categories.modaltitle
         }
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
@@ -180,15 +162,11 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             error={errors.root?.message}
           >
             <BaseDropzone
-              onDrop={(file) => {
-                handleFileChange(file);
-              }}
-              preview={preview}
-              text={{
-                attachtext: lang?.common.attachfile,
-                browsetext: lang?.common.browsefile,
-                imagetext: lang?.common.dragimagehere,
-              }}
+              clearErrors={clearErrors}
+              setFile={setFile}
+              setError={setError}
+              editModalImage={editModalImage}
+              language={lang}
             />
           </FormField>
           <BaseButton

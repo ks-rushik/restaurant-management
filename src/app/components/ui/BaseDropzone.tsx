@@ -69,11 +69,6 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
       setError("root", { message: ImageError(file, language).setError });
     }
   };
-  useEffect(() => {
-    if (editModalImage) {
-      setPreview(editModalImage);
-    }
-  }, [editModalImage]);
 
   const handleFileChange = (newFile: FileWithPath[] | null) => {
     if (!newFile) return;
@@ -87,7 +82,7 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
       {preview ? (
         <div className="relative w-[470px] h-[350px] border border-dashed border-gray-400 rounded-md">
           <Image
-            src={preview}
+            src={editModalImage ? editModalImage : preview}
             alt="Preview"
             width={470}
             height={350}

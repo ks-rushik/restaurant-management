@@ -1,15 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
 import BaseDropzone from "@components/ui/BaseDropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -20,13 +16,12 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { Availablity, Jainoption } from "@/app/constants/common";
-import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type IItemdata = {
   created_at?: string;
   id?: string;
-  image?: File | undefined;
+  image: string | undefined;
   name: string | null;
   description: string | null;
   category_id?: string | null;
@@ -42,7 +37,13 @@ export type IItemdata = {
 };
 
 export type IItemModalProps = {
-  onAddItem: (newItem: IItemdata, file?: File) => Promise<void>;
+  onAddItem: (
+    newItem: Pick<
+      IItemdata,
+      "name" | "status" | "jain" | "description" | "price"
+    >,
+    file?: File,
+  ) => Promise<void>;
   onEditItem: (updateditem: IItemdata, file?: File) => Promise<void>;
   selectedItem: IItemdata | null;
   setSelectedItem: (value: IItemdata | null) => void;
@@ -78,6 +79,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     setError,
     formState: { errors },
     handleSubmit,
+    clearErrors,
     reset,
     control,
   } = useForm<IAddItemData>({
@@ -86,19 +88,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
-
-  const handleFileChange = (newFile: FileWithPath[] | null) => {
-    if (!newFile) return;
-    setFile(newFile[0]);
-
-    if (newFile) {
-      setPreview(URL.createObjectURL(newFile[0]));
-    }
-  };
+  console.log(selectedItem?.image);
 
   useEffect(() => {
     if (selectedItem) {
-      setPreview(selectedItem.image as unknown as string);
+      setPreview(selectedItem.image ?? "");
       reset({
         name: selectedItem.name!,
         description: selectedItem.description!,
@@ -118,20 +112,13 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       });
     }
   }, [selectedItem, reset, open]);
-  const onError = () => {
-    if (!selectedItem?.image) {
-      return setError("root", { message: ImageError(file, lang).setError });
-    }
-    if (file) {
-      setError("root", { message: ImageError(file, lang).setError });
-    }
-  };
 
   const onSubmit = async (data: IAddItemData) => {
     if (selectedItem) {
       const updatedItem = { ...selectedItem, ...data };
       await onEditItem(updatedItem, file ?? undefined);
     } else {
+      
       await onAddItem(data, file ?? undefined);
     }
     close();
@@ -159,6 +146,8 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     setFile(null);
   };
 
+  const editModalImage = selectedItem?.image;
+
   return (
     <div>
       <BaseModal
@@ -166,7 +155,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         onClose={handleClose}
         title={selectedItem ? lang?.items.edititem : lang?.items.modaltitle}
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
@@ -241,15 +230,11 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             error={errors.root?.message}
           >
             <BaseDropzone
-              preview={preview}
-              onDrop={(file) => {
-                handleFileChange(file);
-              }}
-              text={{
-                attachtext: lang?.common.attachfile,
-                browsetext: lang?.common.browsefile,
-                imagetext: lang?.common.dragimagehere,
-              }}
+              clearErrors={clearErrors}
+              setFile={setFile}
+              setError={setError}
+              editModalImage={editModalImage!}
+              language={lang}
             />
           </FormField>
           <BaseButton
