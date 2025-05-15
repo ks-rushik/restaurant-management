@@ -1,0 +1,168 @@
+{
+  "menus": {
+    "title": "मेनू",
+    "button": "नया मेनू जोड़ें",
+    "modaltitle": "मेनू जोड़ें",
+    "menuname": "मेनू का नाम",
+    "currency": "मुद्रा",
+    "status": "स्थिति",
+    "submitbutton": "सबमिट करें",
+    "MENUNAME": "मेनू नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
+    "searchmenu": "मेनू खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "editmenu": "मेनू संपादित करें",
+    "menunameplaceholder": "मेनू दर्ज करें...",
+    "currencyplaceholder": "मुद्रा दर्ज करें...",
+    "statusplaceholder": "स्थिति दर्ज करें..."
+  },
+  "categories": {
+    "title": "श्रेणियाँ",
+    "button": "नई श्रेणी जोड़ें",
+    "modaltitle": "श्रेणी जोड़ें",
+    "categoryname": "श्रेणी का नाम",
+    "status": "स्थिति",
+    "submitbutton": "सबमिट करें",
+    "IMAGE": "चित्र",
+    "uploadimage": "चित्र अपलोड करें",
+    "CATEGORYNAME": "श्रेणी नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
+    "searchcategory": "श्रेणी खोजें...",
+    "editcategory": "श्रेणी संपादित करें",
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "categoryplaceholder": "श्रेणी दर्ज करें...",
+    "categorystatusplaceholder": "स्थिति दर्ज करें..."
+  },
+  "items": {
+    "title": "वस्तुएं",
+    "button": "नयी वस्तु जोड़ें",
+    "description": "विवरण",
+    "price": "कीमत",
+    "modaltitle": "वस्तु जोड़ें",
+    "jainoption": "जैन विकल्प",
+    "uploadimage": "चित्र अपलोड करें",
+    "itemname": "वस्तु का नाम",
+    "status": "स्थिति",
+    "submitbutton": "सबमिट करें",
+    "ITEMNAME": "वस्तु का नाम",
+    "AVAILABILITY": "उपलब्धता",
+    "CREATEDAT": "निर्मित किया गया",
+    "UPDATEDAT": "अद्यतन किया गया",
+    "IMAGE": "चित्र",
+    "DESCRIPTION": "विवरण",
+    "PRICE": "कीमत",
+    "searchitem": "वस्तु खोजें...",
+    "chooseavailibility": "उपलब्धता चुनें...",
+    "edititem": "वस्तु संपादित करें",
+    "itemplaceholder": "वस्तु दर्ज करें...",
+    "itemdescriptionplaceholder": "विवरण दर्ज करें...",
+    "itempriceplaceholder": "कीमत दर्ज करें...",
+    "itemstatusplaceholder": "स्थिति दर्ज करें...",
+    "itemsjainoptionplaceholder": "जैन विकल्प दर्ज करें...",
+    "choosejainoption": "जैन विकल्प चुनें"
+  },
+  "navbar": {
+    "profilepage": "प्रोफ़ाइल पृष्ठ",
+    "changepassword": "पासवर्ड बदलें",
+    "logout": "लॉगआउट"
+  },
+  "changepassword": {
+    "title": "पासवर्ड बदलें",
+    "oldpassword": "पुराना पासवर्ड",
+    "password": "पासवर्ड",
+    "confirmpassword": "पासवर्ड की पुष्टि करें",
+    "oldpasswordplaceholder": "अपना पुराना पासवर्ड दर्ज करें...",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें...",
+    "confirmpasswordplaceholder": "अपना पासवर्ड दर्ज करें...",
+    "changepasswordbutton": "पासवर्ड बदलें"
+  },
+  "profile": {
+    "title": "मेरी प्रोफ़ाइल",
+    "uploadlogo": "लोगो अपलोड करें",
+    "restaurantname": "रेस्तरां का नाम",
+    "contactnumber": "संपर्क संख्या",
+    "location": "स्थान",
+    "button": "प्रोफ़ाइल सहेजें",
+    "backtothepage": "पृष्ठ पर वापस जाएं",
+    "name": "नाम",
+    "phonenumber": "फ़ोन नंबर",
+    "address": "पता",
+    "nameplaceholder": "अपने रेस्टोरेंट का नाम दर्ज करें...",
+    "phonenumberplaceholder": "अपना फ़ोन नंबर दर्ज करें...",
+    "locationplaceholder": "अपना स्थान दर्ज करें..."
+  },
+  "validation": {
+    "required": "यह एक आवश्यक क्षेत्र है",
+    "minLength": "कम से कम 8 वर्ण लंबा होना चाहिए",
+    "nan": "यह एक वैध संख्या नहीं है",
+    "notvalid": "यह संख्या होनी चाहिए",
+    "imagesize": "चित्र का आकार 1 MB से कम होना चाहिए",
+    "imagenotvalid": "चित्र का फ़ाइल प्रकार अमान्य है"
+  },
+  "availableStatus": {
+    "available": "उपलब्ध",
+    "notAvailable": "उपलब्ध नहीं",
+    "all": "सभी"
+  },
+  "jainOption": {
+    "jain": "जैन",
+    "notjain": "गैर-जैन",
+    "all": "सभी"
+  },
+  "login": {
+    "appname": "डिजीडाइन में आपका स्वागत है!",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें",
+    "loginbutton": "लॉगिन",
+    "forgotpassword": "पासवर्ड भूल गए?",
+    "notaccountyet": "अभी तक खाता नहीं है?",
+    "signup": "साइन अप करें"
+  },
+  "signup": {
+    "title": "साइन अप करें",
+    "name": "नाम",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmpassword": "पासवर्ड की पुष्टि करें",
+    "nameplaceholder": "अपना नाम दर्ज करें",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "passwordplaceholder": "अपना पासवर्ड दर्ज करें",
+    "signupbutton": "साइन अप करें",
+    "alreadyaccount": "क्या पहले से एक खाता है?",
+    "login": "लॉगिन करें"
+  },
+
+  "forgotpassword": {
+    "title": "पासवर्ड पुनर्प्राप्ति",
+    "description": "अपना पंजीकृत ईमेल पता दर्ज करें। हम आपको पासवर्ड रीसेट करने के लिए एक लिंक या कोड भेजेंगे।",
+    "email": "ईमेल",
+    "emailplaceholder": "अपना ईमेल दर्ज करें",
+    "enteremail": "ईमेल दर्ज करें",
+    "backtologin": "लॉगिन पर वापस जाएं"
+  },
+  "authvalidation": {
+    "required": "यह आवश्यक फ़ील्ड है",
+    "email": "कृपया एक मान्य ईमेल पता दर्ज करें",
+    "passwordLength": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "letterRequired": "पासवर्ड में कम से कम एक अक्षर होना चाहिए",
+    "numberRequired": "पासवर्ड में कम से कम एक संख्या होनी चाहिए",
+    "specialCharRequired": "पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए",
+    "passwordMismatch": "पासवर्ड मेल नहीं खा रहे हैं",
+    "nameMinLength": "कम से कम 4 अक्षर लंबा होना चाहिए"
+  },
+  "sharemenu": {
+    "title": "मेनू लिंक साझा करें",
+    "itembasedmenu": "आइटम आधारित मेनू",
+    "categorybasedmenu": "श्रेणी आधारित मेनू",
+    "innertitle": "मेनू लिंक साझा करें",
+    "copy": "कॉपी करें",
+    "download": "डाउनलोड करें",
+    "copied": "कॉपी किया गया"
+  }
+}

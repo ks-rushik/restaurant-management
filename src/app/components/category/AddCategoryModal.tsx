@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -34,6 +35,7 @@ export type ICategoryModalProps = {
   onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
+  lang?: IMessages;
 };
 
 const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
@@ -42,11 +44,14 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     onEditCategory,
     selectedCategory,
     setSelectedCategory,
+    lang,
   } = props;
   const AddCategorychema = z.object({
-    category_name: z.string().nonempty(validation("Category", "required")),
+    category_name: z
+      .string()
+      .nonempty(validation(lang?.categories.categoryname!, "required", lang)),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.categories.status!, "required", lang),
     }),
   });
 
@@ -93,7 +98,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     }
 
     if (file) {
-      setError("root", { message: ImageError(file).setError });
+      setError("root", { message: ImageError(file, lang).setError });
     }
 
     if (selectedCategory) {
@@ -122,15 +127,19 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedCategory ? "Edit Category" : "Add Category"}
+        title={
+          selectedCategory
+            ? lang?.categories.editcategory
+            : lang?.categories.modaltitle
+        }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
-              label="Category name"
+              label={lang?.categories.categoryname}
               forceLabelOnTop
-              placeholder="Enter category"
+              placeholder={lang?.categories.categoryplaceholder}
               {...register("category_name")}
             />
           </FormField>
@@ -140,17 +149,26 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Status"
+                  label={lang?.categories.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
+                  ]}
+                  placeholder={lang?.categories.categorystatusplaceholder}
                   {...field}
                 />
               )}
             />
           </FormField>
           <FormField
-            label="Upload image"
+            label={lang?.categories.uploadimage}
             name="image"
             required
             error={errors.root?.message}
@@ -173,7 +191,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             >
               {(props) => (
                 <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  Upload Image
+                  {lang?.categories.uploadimage}
                 </BaseButton>
               )}
             </FileButton>
@@ -185,7 +203,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.categories.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>
@@ -201,7 +219,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
           inner: "font-bold text-white text-md",
         }}
       >
-        Add New Category
+        {lang?.categories.button}
       </BaseButton>
     </div>
   );

@@ -1,0 +1,171 @@
+{
+  "menus": {
+    "title": "Menús",
+    "button": "Añadir nuevo menú",
+    "modaltitle": "Añadir menú",
+    "menuname": "Nombre del menú",
+    "currency": "Moneda",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "MENUNAME": "NOMBRE DEL MENÚ",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
+    "searchmenu": "Buscar menú...",
+    "chooseavailibility": "Elija disponibilidad...",
+    "editmenu": "Editar menú",
+    "menunameplaceholder": "Introduzca el nombre del menú...",
+    "currencyplaceholder": "Introduzca la moneda...",
+    "statusplaceholder": "Introduzca el estado..."
+  },
+  "categories": {
+    "title": "Categorías",
+    "button": "Añadir nueva categoría",
+    "modaltitle": "Añadir categoría",
+    "categoryname": "Nombre de la categoría",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "IMAGE": "IMAGEN",
+    "uploadimage": "Subir imagen",
+    "CATEGORYNAME": "NOMBRE DE LA CATEGORÍA",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
+    "searchcategory": "Buscar categoría...",
+    "editcategory": "Editar categoría",
+    "chooseavailibility": "Elija disponibilidad...",
+    "categoryplaceholder": "Introduzca la categoría...",
+    "categorystatusplaceholder": "Introduzca el estado..."
+  },
+  "items": {
+    "title": "Artículos",
+    "button": "Añadir nuevo artículo",
+    "description": "Descripción",
+    "price": "Precio",
+    "modaltitle": "Añadir artículo",
+    "jainoption": "Opción Jain",
+    "uploadimage": "Subir imagen",
+    "itemname": "Nombre del artículo",
+    "status": "Estado",
+    "submitbutton": "Enviar",
+    "ITEMNAME": "NOMBRE DEL ARTÍCULO",
+    "AVAILABILITY": "DISPONIBILIDAD",
+    "CREATEDAT": "CREADO EN",
+    "UPDATEDAT": "ACTUALIZADO EN",
+    "IMAGE": "IMAGEN",
+    "DESCRIPTION": "DESCRIPCIÓN",
+    "PRICE": "PRECIO",
+    "searchitem": "Buscar artículo...",
+    "chooseavailibility": "Elija disponibilidad...",
+    "edititem": "Editar artículo",
+    "itemplaceholder": "Introduzca el artículo...",
+    "itemdescriptionplaceholder": "Introduzca la descripción...",
+    "itempriceplaceholder": "Introduzca el precio...",
+    "itemstatusplaceholder": "Introduzca el estado...",
+    "itemsjainoptionplaceholder": "Introduzca la opción Jain...",
+    "choosejainoption": "Elija la opción jainista"
+  },
+  "navbar": {
+    "profilepage": "Página de perfil",
+    "changepassword": "Cambiar contraseña",
+    "logout": "Cerrar sesión"
+  },
+  "changepassword": {
+    "title": "Cambiar contraseña",
+    "oldpassword": "Contraseña antigua",
+    "password": "Contraseña",
+    "confirmpassword": "Confirmar contraseña",
+    "oldpasswordplaceholder": "Introduzca su contraseña antigua...",
+    "passwordplaceholder": "Introduzca su contraseña...",
+    "confirmpasswordplaceholder": "Introduzca su contraseña...",
+    "changepasswordbutton": "Cambiar contraseña"
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "uploadlogo": "Subir logo",
+    "restaurantname": "Nombre del restaurante",
+    "contactnumber": "Número de contacto",
+    "location": "Ubicación",
+    "button": "Guardar perfil",
+    "backtothepage": "Volver a la página",
+    "name": "Nombre",
+    "phonenumber": "Número de teléfono",
+    "address": "Dirección",
+    "nameplaceholder": "Introduce el nombre de tu restaurante...",
+    "phonenumberplaceholder": "Introduce tu número de teléfono...",
+    "locationplaceholder": "Introduce tu ubicación..."
+  },
+  "validation": {
+    "required": "es un campo obligatorio",
+    "minLength": "debe tener al menos 8 caracteres",
+    "nan": "no es un número válido",
+    "notvalid": "debe ser un número",
+    "imagesize": "El tamaño del archivo de imagen debe ser menor a 1 MB",
+    "imagenotvalid": "La imagen no tiene un tipo de archivo válido",
+    "AvailableStatus": {
+      "Available": "Available",
+      "NotAvailable": "Not Available"
+    }
+  },
+  "availableStatus": {
+    "available": "Disponible",
+    "notAvailable": "No disponible",
+    "all": "All"
+  },
+  "jainOption": {
+    "jain": "Jainista",
+    "notjain": "No jainista",
+    "all": "All"
+  },
+  "login": {
+    "appname": "¡Bienvenido a Digidine!",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "emailplaceholder": "Introduce tu correo electrónico",
+    "passwordplaceholder": "Introduce tu contraseña",
+    "loginbutton": "Iniciar sesión",
+    "forgotpassword": "¿Olvidaste tu contraseña?",
+    "notaccountyet": "¿Aún no tienes una cuenta?",
+    "signup": "Regístrate"
+  },
+  "signup": {
+    "title": "Registrarse",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmpassword": "Confirmar contraseña",
+    "nameplaceholder": "Ingresa tu nombre",
+    "emailplaceholder": "Ingresa tu correo electrónico",
+    "passwordplaceholder": "Ingresa tu contraseña",
+    "signupbutton": "Registrarse",
+    "alreadyaccount": "¿Ya tienes una cuenta?",
+    "login": "Iniciar sesión"
+  },
+  "forgotpassword": {
+    "title": "Recuperación de contraseña",
+    "description": "Ingresa tu correo electrónico registrado. Te enviaremos un enlace o código para restablecer tu contraseña.",
+    "email": "Correo electrónico",
+    "emailplaceholder": "Ingresa tu correo electrónico",
+    "enteremail": "Ingresar correo",
+    "backtologin": "Volver al inicio de sesión"
+  },
+  "authvalidation": {
+    "required": "Este campo es obligatorio",
+    "email": "Ingresa una dirección de correo válida",
+    "passwordLength": "La contraseña debe tener al menos 8 caracteres",
+    "letterRequired": "Incluye al menos una letra en tu contraseña",
+    "numberRequired": "Incluye al menos un número en tu contraseña",
+    "specialCharRequired": "Incluye al menos un carácter especial en tu contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "nameMinLength": "Debe tener al menos 4 caracteres"
+  },
+  "sharemenu": {
+    "title": "Compartir enlace del menú",
+    "itembasedmenu": "Menú basado en elementos",
+    "categorybasedmenu": "Menú basado en categorías",
+    "innertitle": "Compartir enlace del menú",
+    "copy": "Copiar",
+    "download": "Descargar",
+    "copied": "Copiado"
+  }
+}

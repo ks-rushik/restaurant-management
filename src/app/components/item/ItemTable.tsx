@@ -7,6 +7,7 @@ import { Badge } from "@mantine/core";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { LuFilter } from "react-icons/lu";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
@@ -33,6 +34,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filters: IFilter;
   setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
+  lang?: IMessages;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -49,6 +51,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filters,
     setFilters,
+    lang,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
@@ -60,13 +63,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <SearchInput
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
-          placeholder="Search Item..."
+          placeholder={lang?.items.searchitem}
         />
         <BaseSelect
           value={filters.avaibilityStatus}
           leftSection={<LuFilter size={20} />}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.items.chooseavailibility}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
           }
@@ -75,7 +78,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           value={filters.jainOption}
           leftSection={<LuFilter size={20} />}
           data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
-          placeholder="Choose Jain Option"
+          placeholder={lang?.items.choosejainoption}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, jainOption: value || "" }))
           }
@@ -120,7 +123,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               },
             },
             {
-              label: "IMAGE",
+              label: lang?.items.IMAGE!,
               render: (item) =>
                 item.image && (
                   <Image
@@ -133,7 +136,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
                 ),
             },
             {
-              label: "ITEM NAME",
+              label: lang?.items.ITEMNAME!,
               render: (item) => (
                 <>
                   {item.name}
@@ -152,7 +155,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
             },
 
             {
-              label: "DESCRIPTION",
+              label: lang?.items.DESCRIPTION!,
               render: (item) => (
                 <span
                   className={`cursor-pointer ${
@@ -169,22 +172,22 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               ),
             },
             {
-              label: "PRICE",
+              label: lang?.items.PRICE!,
               render: (item) =>
                 ` ${item.category?.menu?.currency || ""} ${item.price}`,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.items.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">{lang?.availableStatus.notAvailable}</p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">{lang?.availableStatus.available}</p>
                 ),
             },
 
             {
-              label: "CREATED AT",
+              label: lang?.items.CREATEDAT!,
               render: (item) => formatDate(item.created_at!),
             },
 

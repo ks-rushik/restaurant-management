@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -14,11 +14,13 @@ import deletecategory from "@/app/actions/category/deletecategory-action";
 import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 
+import { ILanguageProps } from "../menu/MenuPage";
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
 import CategoryHeader from "./CategoryHeader";
 import CategoryTable from "./CategoryTable";
 
-function CategoryPage() {
+const CategoryPage: FC<ILanguageProps> = (props) => {
+  const { lang } = props;
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
   const [selectedCategory, setSelectedCategory] =
     useState<ICategorydata | null>(null);
@@ -29,7 +31,8 @@ function CategoryPage() {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
-  const menuId = pathname.split("/")[2];
+  const menuId = pathname.split("/")[3];
+
   const { data } = useQuery(
     fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
   );
@@ -136,8 +139,9 @@ function CategoryPage() {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <CategoryHeader>
+      <CategoryHeader lang={lang}>
         <AddCategoryModal
+          lang={lang}
           onAddCategory={handleAddCategory}
           onEditCategory={handleEditCategory}
           selectedCategory={selectedCategory}
@@ -146,6 +150,7 @@ function CategoryPage() {
       </CategoryHeader>
 
       <CategoryTable
+        lang={lang}
         data={CategoryItem}
         handleView={handleView}
         handleSelectCategory={handleSelectCategory}
@@ -162,6 +167,6 @@ function CategoryPage() {
       />
     </div>
   );
-}
+};
 
 export default CategoryPage;

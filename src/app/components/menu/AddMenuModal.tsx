@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -21,6 +22,7 @@ export type IMenuModalProps = {
   onEditMenu: (data: IModalData) => Promise<void>;
   selectedMenu?: IModalData | null;
   setSelectedMenu: (menu: IModalData | null) => void;
+  lang?: IMessages;
 };
 
 const Addmenu: FC<IMenuModalProps> = ({
@@ -28,16 +30,19 @@ const Addmenu: FC<IMenuModalProps> = ({
   onEditMenu,
   selectedMenu,
   setSelectedMenu,
+  lang,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const AddMenuSchema = z.object({
-    menu_name: z.string().nonempty(validation("Menu name", "required")),
+    menu_name: z
+      .string()
+      .nonempty(validation(lang?.menus.menuname!, "required", lang)),
     currency: z.enum(["$", "₹", "€", "¥"], {
-      errorMap: () => validation("Currency", "required"),
+      errorMap: () => validation(lang?.menus.currency!, "required", lang),
     }),
     status: z.enum([Availablity.Available, Availablity.NotAvailable], {
-      errorMap: () => validation("Status", "required"),
+      errorMap: () => validation(lang?.menus.status!, "required", lang),
     }),
   });
 
@@ -94,16 +99,16 @@ const Addmenu: FC<IMenuModalProps> = ({
       <BaseModal
         opened={opened}
         onClose={handleClose}
-        title={selectedMenu ? "Edit Menu" : "Add Menu"}
+        title={selectedMenu ? lang?.menus.editmenu : lang?.menus.modaltitle}
         padding="lg"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="menu_name" error={errors.menu_name?.message}>
             <BaseInput
               type="text"
-              label="Menu Name"
+              label={lang?.menus.menuname}
               forceLabelOnTop
-              placeholder="Enter menu"
+              placeholder={lang?.menus.menunameplaceholder}
               {...register("menu_name")}
             />
           </FormField>
@@ -113,9 +118,9 @@ const Addmenu: FC<IMenuModalProps> = ({
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Currency"
+                  label={lang?.menus.currency}
                   labelvalue
-                  placeholder="Enter currency"
+                  placeholder={lang?.menus.currencyplaceholder}
                   {...field}
                   classNames={{ dropdown: "" }}
                   data={["$", "₹", "€", "¥"]}
@@ -129,10 +134,19 @@ const Addmenu: FC<IMenuModalProps> = ({
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  label="Status"
+                  label={lang?.menus.status}
                   labelvalue
-                  data={[Availablity.Available, Availablity.NotAvailable]}
-                  placeholder="Enter status"
+                  data={[
+                    {
+                      label: lang?.availableStatus.available!,
+                      value: Availablity.Available,
+                    },
+                    {
+                      label: lang?.availableStatus.notAvailable!,
+                      value: Availablity.NotAvailable,
+                    },
+                  ]}
+                  placeholder={lang?.menus.statusplaceholder}
                   {...field}
                 />
               )}
@@ -147,7 +161,7 @@ const Addmenu: FC<IMenuModalProps> = ({
               inner: "font-bold text-white text-sm",
             }}
           >
-            Submit
+            {lang?.menus.submitbutton}
           </BaseButton>
         </form>
       </BaseModal>
@@ -162,7 +176,7 @@ const Addmenu: FC<IMenuModalProps> = ({
           inner: "font-bold text-white text-md",
         }}
       >
-        Add New Menu
+        {lang?.menus.button}
       </BaseButton>
     </>
   );

@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
-import "@mantine/notifications/styles.css";
-import { Notifications } from "@mantine/notifications";
-import "./../globals.css";
-import QueryProvider from "../components/QueryProvider";
-
-import RouterTransition from "../components/RouterTransition";
-import "@mantine/nprogress/styles.css";
 import { cookies } from "next/headers";
-import { ModalsProvider } from "@mantine/modals";
 
+import { MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
+import "@mantine/nprogress/styles.css";
+
+import Navbar from "@/app/components/navbar/Navbar";
+
+import QueryProvider from "../../components/QueryProvider";
+import RouterTransition from "../../components/RouterTransition";
+import { getDictionary } from "../messages";
+import "./../../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,25 +33,28 @@ export const metadata: Metadata = {
 
 export default async function DashBoardLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: "en" | "hd" | "sp" }>;
 }>) {
   const theme = (await cookies()).get("theme");
+  const locale = (await params).locale;
+  const dictionary = await getDictionary(locale);  
+
   return (
-    <html lang="en" className={`${theme?.value}`}>
+    <html lang={(await params).locale} className={`${theme?.value}`}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-backgroundColor `}
       >
         <QueryProvider>
-
           <MantineProvider defaultColorScheme="auto">
-
             <ModalsProvider>
               <RouterTransition />
               <Notifications position="top-right" />
+              <Navbar lang={dictionary} />
               {children}
             </ModalsProvider>
-
           </MantineProvider>
         </QueryProvider>
       </body>

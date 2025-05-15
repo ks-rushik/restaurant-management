@@ -5,30 +5,32 @@ import BaseModal from "@components/ui/BaseModal";
 import { notifications } from "@mantine/notifications";
 import { RiShareLine } from "react-icons/ri";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { Availablity } from "@/app/constants/common";
 import categorymenu from "@/app/images/category-based-menu.png";
 import itemmenu from "@/app/images/item-based-menu.png";
 import { IMenudata } from "@/app/type/type";
 
 import CategoryBasedMenu from "./CategoryBasedMenu";
-import ShareMenu from "./ShareMenu";
+import ItemBasedMenu from "./ItemBasedMenu";
 
 type ITypesOfMenuProps = {
   item: IMenudata;
+  lang?: IMessages;
 };
 
 const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
-  const { item } = props;
+  const { item, lang } = props;
   const [shareModalOpen, setModalOpen] = useState(false);
 
   const handleClick = () => {
     if (item.status !== Availablity.NotAvailable) {
       setModalOpen(true);
     }
-    if(item.status === Availablity.NotAvailable)
-    notifications.show({
-      message: `${item.menu_name} is not active to share this menu active the status`,
-    });
+    if (item.status === Availablity.NotAvailable)
+      notifications.show({
+        message: `${item.menu_name} is not active to share this menu active the status`,
+      });
   };
 
   return (
@@ -43,7 +45,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
       <BaseModal
         opened={shareModalOpen}
         onClose={() => setModalOpen(false)}
-        title="Share Menu Link"
+        title={lang?.sharemenu.title}
         centered
       >
         <div className="flex justify-around py-10 gap-4">
@@ -55,7 +57,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
               alt="Item-menu"
               className="h-56 pb-4"
             />
-            <ShareMenu item={item} />
+            <ItemBasedMenu item={item} lang={lang} />
           </div>
 
           <div className="flex flex-col justify-center items-center ">
@@ -66,7 +68,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
               alt="Category-menu"
               className="h-56 pb-4"
             />
-            <CategoryBasedMenu item={item} />
+            <CategoryBasedMenu item={item} lang={lang} />
           </div>
         </div>
       </BaseModal>

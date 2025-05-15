@@ -6,6 +6,7 @@ import SearchInput from "@components/SearchInput";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { LuFilter } from "react-icons/lu";
 
+import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -32,6 +33,7 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
+  lang?: IMessages;
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -49,6 +51,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filterStatus,
     setFilterStatus,
+    lang,
   } = props;
 
   return !data ? (
@@ -57,7 +60,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     <>
       <SearchFilter>
         <SearchInput
-          placeholder="Search Category"
+          placeholder={lang?.categories.searchcategory}
           value={searchData}
           onChange={(e) => setSearchData(e.target.value)}
         />
@@ -65,7 +68,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           value={filterStatus}
           leftSection={<LuFilter size={20} />}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
-          placeholder="Choose availability"
+          placeholder={lang?.categories.chooseavailibility}
           onChange={(value) => setFilterStatus(value || "")}
         />
       </SearchFilter>
@@ -108,7 +111,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
               },
             },
             {
-              label: "IMAGE",
+              label: lang?.categories.IMAGE!,
               render: (item) =>
                 item.image && (
                   <Image
@@ -121,24 +124,28 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
                 ),
             },
             {
-              label: "CATEGORY NAME",
+              label: lang?.categories.CATEGORYNAME!,
               render: (item) => item.category_name,
             },
             {
-              label: "AVAILABILITY",
+              label: lang?.categories.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{Availablity.NotAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{Availablity.Available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.available}
+                  </p>
                 ),
             },
             {
-              label: "CREATED AT",
+              label: lang?.categories.CREATEDAT!,
               render: (item) => formatDate(item.create_at!),
             },
             {
-              label: "UPDATED AT",
+              label: lang?.categories.UPDATEDAT!,
               render: (item) => formatDate(item.updated_at!),
             },
             {

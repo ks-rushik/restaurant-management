@@ -1,21 +1,32 @@
 "use client";
 
+import { Langar } from "next/font/google";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
 
 import ChangePassword from "@components/auth/ChangePassword";
 import LogOut from "@components/auth/Logout";
 import ThemeButton from "@components/ui/ThemeButton";
 import { Avatar, Menu } from "@mantine/core";
+import Cookies from "js-cookie";
 
+import { IMessages } from "@/app/[locale]/messages";
 import { useThemeToggle } from "@/app/hook/useThemetoggle";
 import logo3 from "@/app/images/logo3.png";
 
-const Navbar = () => {
+import LanguageSelector from "../auth/LanguageSelector";
+import BaseSelect from "../ui/BaseSelect";
+
+export type INavbarProps = {
+  lang: IMessages;
+};
+
+const Navbar: FC<INavbarProps> = (props) => {
+  const { lang } = props;
   const [opened, setOpened] = useState(false);
   const [modalopened, setModalOpened] = useState(false);
-
   const { theme, toggleTheme, mounted } = useThemeToggle();
 
   return (
@@ -31,6 +42,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex flex-row items-center gap-4">
+        <LanguageSelector />
         {mounted && <ThemeButton theme={theme!} onChange={toggleTheme} />}
 
         <Menu
@@ -43,7 +55,7 @@ const Navbar = () => {
             <Avatar
               src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
               alt="User Avatar"
-              size={"lg"}
+              size="lg"
               classNames={{
                 root: "transition cursor-pointer delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 xl:mr-1",
               }}
@@ -61,21 +73,24 @@ const Navbar = () => {
               }}
             >
               <Link href="/userprofile" className="block px-3 py-1">
-                Profile Page
+                {lang.navbar.profilepage}
               </Link>
             </Menu.Item>
             <Menu.Item
               onClick={() => setModalOpened(true)}
               classNames={{ item: "dark:bg-gray-800 dark:text-white" }}
             >
-              Change Password
+              {lang.navbar.changepassword}
             </Menu.Item>
-            <Menu.Item component={LogOut}>LogOut</Menu.Item>
+            <Menu.Item component={() => <LogOut lang={lang} />}>
+              {lang.navbar.logout}
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
         <ChangePassword
           modalopened={modalopened}
           setModalOpened={setModalOpened}
+          lang={lang}
         />
       </div>
     </nav>
