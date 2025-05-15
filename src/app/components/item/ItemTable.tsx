@@ -101,12 +101,11 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
 
         <BaseButton
           className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
-          leftSection={<CiFilter size={24} />}
           onClick={() => {
             open();
           }}
         >
-          {lang.items.filters}
+          <CiFilter size={28} />
         </BaseButton>
       </SearchFilterWrapper>
 

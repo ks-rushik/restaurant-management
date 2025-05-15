@@ -79,16 +79,14 @@ const MenuTable: FC<IMenuTableProps> = ({
         </BaseModal>
 
         <BaseButton
-          className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
-          leftSection={<CiFilter size={24} />}
+          className="sm:hidden  px-4  h-[54px] font-normal text-lg rounded-lg"
           onClick={() => {
             open();
           }}
         >
-          {lang.items.filters}
+          <CiFilter size={28} />
         </BaseButton>
       </SearchFilterWrapper>
-     
 
       {data.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">No menus found.</p>

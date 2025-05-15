@@ -5,6 +5,7 @@ import FilteredData from "@components/FilterData";
 import SearchFilterWrapper from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { useDictionary } from "@components/context/Dictionary";
+import { useDisclosure } from "@mantine/hooks";
 import { CiFilter } from "react-icons/ci";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 
@@ -18,7 +19,6 @@ import BaseModal from "../ui/BaseModal";
 import { ICategorydata } from "./AddCategoryModal";
 import CategoryActions from "./CategoryActions";
 import ModalFilter from "./ModalFilter";
-import { useDisclosure } from "@mantine/hooks";
 
 type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
@@ -86,12 +86,11 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
 
         <BaseButton
           className="sm:hidden  px-4  h-[54px] font-normal text-lg w-36 rounded-lg"
-          leftSection={<CiFilter size={24} />}
           onClick={() => {
             open();
           }}
         >
-          {lang.items.filters}
+          <CiFilter size={28} />
         </BaseButton>
       </SearchFilterWrapper>
 
