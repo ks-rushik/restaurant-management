@@ -3,7 +3,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 import React, { ButtonHTMLAttributes, FC } from "react";
 
-type IBaseButtonProps = ButtonProps &
+export type IBaseButtonProps = ButtonProps &
   ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
     classNames?: Partial<Record<ButtonStylesNames, string>>;

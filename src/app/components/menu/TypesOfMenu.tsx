@@ -11,8 +11,7 @@ import categorymenu from "@/app/images/category-based-menu.png";
 import itemmenu from "@/app/images/item-based-menu.png";
 import { IMenudata } from "@/app/type/type";
 
-import CategoryBasedMenu from "./CategoryBasedMenu";
-import ItemBasedMenu from "./ItemBasedMenu";
+import ShareMenu from "./ShareMenu";
 
 type ITypesOfMenuProps = {
   item: IMenudata;
@@ -57,7 +56,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
               alt="Item-menu"
               className="h-56 pb-4"
             />
-            <ItemBasedMenu item={item} lang={lang} />
+            <ShareMenu item={item} lang={lang} keyword="m" />
           </div>
 
           <div className="flex flex-col justify-center items-center ">
@@ -68,7 +67,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
               alt="Category-menu"
               className="h-56 pb-4"
             />
-            <CategoryBasedMenu item={item} lang={lang} />
+            <ShareMenu item={item} lang={lang} keyword="k" />
           </div>
         </div>
       </BaseModal>

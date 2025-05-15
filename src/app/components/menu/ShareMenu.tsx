@@ -1,31 +1,38 @@
 "use client";
 
-import Image from "next/image";
-import React, { FC, useState } from "react";
+import Image from "next/legacy/image";
+import { FC, useState } from "react";
 
-import BaseButton from "@components/ui/BaseButton";
-import BaseModal from "@components/ui/BaseModal";
 import { CopyButton, Loader, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { FaCopy, FaPaste } from "react-icons/fa";
+import { FaPaste } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import { RiDownload2Line } from "react-icons/ri";
 
+import { IMessages } from "@/app/[locale]/messages";
 import shortLink from "@/app/actions/customer/addshortlink-action";
 import { getProfileData } from "@/app/actions/customer/getProfileData";
 import fetchshortUrl from "@/app/actions/customer/getUrl";
+import BaseButton from "@/app/components/ui/BaseButton";
+import BaseModal from "@/app/components/ui/BaseModal";
 import { Availablity } from "@/app/constants/common";
 import { downloadQRCodeWithText } from "@/app/helper/downloadQRCode";
 import getCategorydata from "@/app/helper/getCategorydata";
 import generateQRCode from "@/app/helper/qrcodegenrating";
+import { IMenudata } from "@/app/type/type";
 
-import { IShareMenuProps } from "./ItemBasedMenu";
+export type IShareMenuProps = {
+  item: IMenudata;
+  lang?: IMessages;
+  keyword: string;
+};
 
-const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
+const ShareMenu: FC<IShareMenuProps> = (props) => {
   const [shortCode, setShortCode] = useState();
   const [profilename, setProfilename] = useState("");
 
   const [qrcode, setQrcode] = useState<string | undefined>();
-  const { item, lang } = props;
+  const { item, lang, keyword } = props;
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -63,7 +70,7 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
     });
   };
 
-  const shareableLink = `http://localhost:3000/k/${shortCode}`;
+  const shareableLink = `http:/localhost:3000/${keyword}/${shortCode}`;
 
   return (
     <>
@@ -75,38 +82,38 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
             handleInActiveMenu();
           }
         }}
-        classNames={{ root: "w-full h-12 text-base" }}
         title="Share Menu"
+        classNames={{ root: "w-full h-12 text-base" }}
       >
         {loading ? (
           <Loader size={"sm"} color="white" />
         ) : (
-          lang?.sharemenu.categorybasedmenu
+          lang?.sharemenu.itembasedmenu
         )}
       </BaseButton>
 
       <BaseModal
-        opened={shareModalOpen}
         classNames={{ content: "h-[424px]" }}
         overlayProps={{
           opacity: 0.2,
         }}
+        opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
         title={lang?.sharemenu.innertitle}
         centered
       >
         {qrcode && (
-          <div className="flex justify-center ">
+          <div className="flex justify-center  ">
             <Image
               src={qrcode}
               alt="qrcode"
               width={200}
-              height={150}
+              height={200}
               className="border-2  rounded-lg"
             ></Image>
           </div>
         )}
-        <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-2 gap-2 sm:gap-4">
+        <div className="mx-4 sm:mx-20 flex flex-col sm:flex-row justify-between pt-4 gap-2 sm:gap-4">
           <CopyButton value={qrcode!} timeout={2000}>
             {({ copied, copy }) => (
               <BaseButton
@@ -117,7 +124,9 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
               >
                 {copied ? (
                   <div className="inline-flex items-center">
-                    <span className="mr-2 text-white">Copied</span>
+                    <span className="mr-2 text-white">
+                      {lang?.sharemenu.copied}
+                    </span>
                     <FaPaste />
                   </div>
                 ) : (
@@ -169,4 +178,4 @@ const CategoryBasedMenu: FC<IShareMenuProps> = (props) => {
   );
 };
 
-export default CategoryBasedMenu;
+export default ShareMenu;
