@@ -28,9 +28,6 @@ const ModalFilter: FC<IModalFilterProps> = (props) => {
   };
 
   const handleClear = () => {
-    const clearedFilters = { avaibilityStatus: "", jainOption: "" };
-    setModalFilters(clearedFilters);
-    setFilters(clearedFilters);
     close();
   };
 
@@ -72,7 +69,7 @@ const ModalFilter: FC<IModalFilterProps> = (props) => {
         <BaseButton
           onClick={handleClear}
           classNames={{ root: "h-12 w-full" }}
-          intent={"primary"}
+          intent={"default"}
           outline
         >
           {lang.items.cancel}

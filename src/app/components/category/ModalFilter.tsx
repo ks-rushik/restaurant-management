@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import FilteredData from "@components/FilterData";
 import { useDictionary } from "@components/context/Dictionary";
 import BaseButton from "@components/ui/BaseButton";
+import { root } from "postcss";
 
 import { Availablity } from "@/app/constants/common";
 
@@ -23,8 +24,6 @@ const ModalFilter: FC<IModalFilterProps> = (props) => {
   };
 
   const handleClear = () => {
-    setModalFilters("");
-    setFilterStatus("");
     close();
   };
 
@@ -43,12 +42,7 @@ const ModalFilter: FC<IModalFilterProps> = (props) => {
         </div>
       </div>
       <div className="flex  flex-row gap-4">
-        <BaseButton
-          onClick={handleClear}
-          classNames={{ root: "h-12 w-full" }}
-          intent={"primary"}
-          outline
-        >
+        <BaseButton onClick={handleClear} classNames={{ root: "h-12 w-full" }} intent={"default"} outline>
           {lang.items.cancel}
         </BaseButton>
         <BaseButton onClick={handleFilter} classNames={{ root: "h-12 w-full" }}>
