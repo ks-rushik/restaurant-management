@@ -13,7 +13,6 @@ import { item } from "@/app/actions/item/additem-action";
 import deleteitem from "@/app/actions/item/deleteitem-action";
 import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
 import { updateItem } from "@/app/actions/item/updateitem-action";
-import { updateItemOrder } from "@/app/actions/item/updateposition-action";
 
 import AddItemModal, { IItemdata } from "./AddItemModal";
 import ItemHeader from "./ItemHeader";
@@ -63,55 +62,6 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
     });
   };
 
-  const handleMoveUp = async (index: number) => {
-    if (!Item || index === 0) return;
-
-    const newMenuItem = [...Item];
-    [newMenuItem[index - 1].position, newMenuItem[index].position] = [
-      newMenuItem[index].position,
-      newMenuItem[index - 1].position,
-    ];
-    [newMenuItem[index - 1], newMenuItem[index]] = [
-      newMenuItem[index],
-      newMenuItem[index - 1],
-    ];
-
-    setItem(newMenuItem);
-
-    await updateItemOrder({
-      id: newMenuItem[index].id!,
-      position: newMenuItem[index].position!,
-    });
-    await updateItemOrder({
-      id: newMenuItem[index - 1].id!,
-      position: newMenuItem[index - 1].position!,
-    });
-  };
-
-  const handleMoveDown = async (index: number) => {
-    if (!Item || index === Item.length - 1) return;
-
-    const newMenuItem = [...Item];
-    [newMenuItem[index + 1].position, newMenuItem[index].position] = [
-      newMenuItem[index].position,
-      newMenuItem[index + 1].position,
-    ];
-    [newMenuItem[index + 1], newMenuItem[index]] = [
-      newMenuItem[index],
-      newMenuItem[index + 1],
-    ];
-    setItem(newMenuItem);
-
-    await updateItemOrder({
-      id: newMenuItem[index].id!,
-      position: newMenuItem[index].position!,
-    });
-    await updateItemOrder({
-      id: newMenuItem[index + 1].id!,
-      position: newMenuItem[index + 1].position!,
-    });
-  };
-
   const handleDelete = async (id: string) => {
     setItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
@@ -152,9 +102,7 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
       <ItemTable
         lang={lang}
         data={Item}
-        handleMoveUp={handleMoveUp}
         handleSelectItem={handleSelectedItem}
-        handleMoveDown={handleMoveDown}
         handleDelete={handleDelete}
         loading={loading}
         opened={opened}

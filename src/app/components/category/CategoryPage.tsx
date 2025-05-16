@@ -48,56 +48,6 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
     }
   }, [data]);
 
-  const handleMoveUp = async (index: number) => {
-    if (!CategoryItem || index === 0) return;
-
-    const newCategoryItem = [...CategoryItem];
-    [newCategoryItem[index - 1].position, newCategoryItem[index].position] = [
-      newCategoryItem[index].position,
-      newCategoryItem[index - 1].position,
-    ];
-    [newCategoryItem[index - 1], newCategoryItem[index]] = [
-      newCategoryItem[index],
-      newCategoryItem[index - 1],
-    ];
-
-    setCategoryItem(newCategoryItem);
-
-    await updateCategoryOrder({
-      id: newCategoryItem[index].id!,
-      position: newCategoryItem[index].position!,
-    });
-    await updateCategoryOrder({
-      id: newCategoryItem[index - 1].id!,
-      position: newCategoryItem[index - 1].position!,
-    });
-  };
-
-  const handleMoveDown = async (index: number) => {
-    if (!CategoryItem || index === CategoryItem.length - 1) return;
-
-    const newCategoryItem = [...CategoryItem];
-    [newCategoryItem[index + 1].position, newCategoryItem[index].position] = [
-      newCategoryItem[index].position,
-      newCategoryItem[index + 1].position,
-    ];
-    [newCategoryItem[index + 1], newCategoryItem[index]] = [
-      newCategoryItem[index],
-      newCategoryItem[index + 1],
-    ];
-
-    setCategoryItem(newCategoryItem);
-
-    await updateCategoryOrder({
-      id: newCategoryItem[index].id!,
-      position: newCategoryItem[index].position!,
-    });
-    await updateCategoryOrder({
-      id: newCategoryItem[index + 1].id!,
-      position: newCategoryItem[index + 1].position!,
-    });
-  };
-
   const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
@@ -154,8 +104,6 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
         data={CategoryItem}
         handleView={handleView}
         handleSelectCategory={handleSelectCategory}
-        handleMoveUp={handleMoveUp}
-        handleMoveDown={handleMoveDown}
         handleDelete={handleDelete}
         loading={loading}
         opened={opened}
