@@ -38,10 +38,10 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
   } = props;
 
   return (
-    <span className="inline-flex items-center">
+    <span className="inline-flex items-center gap-6">
       <div
         onClick={() => handleView(item.menu_name!, item.id)}
-        className="mr-6 cursor-pointer"
+        className=" cursor-pointer"
         title="Categories"
       >
         <BiCategory
@@ -51,7 +51,7 @@ const MenuActions: FC<IMenuActionsProps> = (props) => {
       </div>
       <div
         onClick={() => handleSelectMenu(item)}
-        className="mr-6 cursor-pointer"
+        className=" cursor-pointer"
         title="Edit Menu"
       >
         <MdOutlineModeEdit size={22} className="hover:text-yellow-400  " />
