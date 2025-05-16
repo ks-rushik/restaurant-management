@@ -17,20 +17,6 @@ import { TiDelete } from "react-icons/ti";
 import { IMessages } from "@/app/[locale]/messages";
 import { ACCEPTED_IMAGE_TYPES, ImageError } from "@/app/utils/imagevalidation";
 
-export type IFormAFields = {
-  status: string;
-  category_name: string;
-};
-
-export type IFormBFields = {
-  name: string;
-  status: string;
-  jain: string;
-  description: string;
-  price: number | "";
-  category_name: string;
-};
-
 type IUseRootClearErrors = (name?: "root") => void;
 
 export type IBaseDropzoneProps = Omit<DropzoneProps, "onDrop"> & {
@@ -39,6 +25,7 @@ export type IBaseDropzoneProps = Omit<DropzoneProps, "onDrop"> & {
   language: IMessages | undefined;
   editModalImage?: string | undefined;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  maxSizeInKb?: number;
   clearErrors: IUseRootClearErrors;
   setError: UseFormSetError<{
     name: string;
@@ -57,6 +44,7 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
   setError,
   setFile,
   clearErrors,
+  maxSizeInKb = 1024,
   ...other
 }) => {
   const [preview, setPreview] = useState<string | null>("");
@@ -77,24 +65,26 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
     clearErrors("root");
   };
 
+  useEffect(() => {
+    if (editModalImage) {
+      setPreview(editModalImage);
+      setFile(null);
+    }
+  }, [editModalImage, setFile]);
+
+  const handledelete = () => {
+    setPreview(null), setFile(null);
+  };
+
   return (
     <>
       {preview ? (
-        <div className="relative w-[470px] h-[350px] border border-dashed border-gray-400 rounded-md">
-          <Image
-            src={editModalImage ? editModalImage : preview}
-            alt="Preview"
-            width={470}
-            height={350}
-            className="object-cover rounded-md"
-          />
+        <div className="relative bg-gray-100">
+          <Image src={preview} alt="Preview" width={470} height={300} />
           <TiDelete
-            onClick={() => {
-              setPreview(null);
-              setFile(null);
-            }}
-            size={24}
-            className="absolute top-2 right-2 bg-red-400 rounded-full "
+            onClick={handledelete}
+            size={28}
+            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-0.5 cursor-pointer hover:bg-red-600 "
           />
         </div>
       ) : (
@@ -103,7 +93,7 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
           onDrop={handleFileChange}
           multiple={false}
           accept={ACCEPTED_IMAGE_TYPES}
-          maxSize={1 * 1024 ** 2}
+          maxSize={maxSizeInKb * 1024}
           mih={300}
           w={470}
           radius="md"
@@ -132,7 +122,7 @@ const BaseDropzone: FC<IBaseDropzoneProps> = ({
             mt={7}
             classNames={{ root: "text-center px-8" }}
           >
-            {language?.common.attachfile}
+            {language?.common.attachfile} {(maxSizeInKb / 1024).toFixed(0)} MB
           </Text>
         </Dropzone>
       )}
