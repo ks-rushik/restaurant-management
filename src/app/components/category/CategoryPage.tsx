@@ -116,8 +116,13 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
     updatedmenu: ICategorydata,
     file?: File,
   ) => {
-    await updateCategory(updatedmenu, menuId, file);
-    notifications.show({ message: "Category updated", color: "green" });
+    const savedItem = await updateCategory(updatedmenu, menuId, file);
+    if (savedItem) {
+      setCategoryItem((prev) =>
+        prev?.map((item) => (item.id === savedItem.id ? savedItem : item)),
+      );
+      notifications.show({ message: "Category updated", color: "green" });
+    }
   };
 
   const handleDelete = async (id: string) => {

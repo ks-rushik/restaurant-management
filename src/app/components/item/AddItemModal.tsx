@@ -21,7 +21,7 @@ import validation from "@/app/utils/validation";
 export type IItemdata = {
   created_at?: string;
   id?: string;
-  image: string | undefined;
+  image?: string | undefined;
   name: string | null;
   description: string | null;
   category_id?: string | null;
@@ -37,13 +37,7 @@ export type IItemdata = {
 };
 
 export type IItemModalProps = {
-  onAddItem: (
-    newItem: Pick<
-      IItemdata,
-      "name" | "status" | "jain" | "description" | "price"
-    >,
-    file?: File,
-  ) => Promise<void>;
+  onAddItem: (newItem: IItemdata, file?: File) => Promise<void>;
   onEditItem: (updateditem: IItemdata, file?: File) => Promise<void>;
   selectedItem: IItemdata | null;
   setSelectedItem: (value: IItemdata | null) => void;
@@ -86,19 +80,17 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     resolver: zodResolver(AddItemschema),
   });
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
   console.log(selectedItem?.image);
 
   useEffect(() => {
     if (selectedItem) {
-      setPreview(selectedItem.image ?? "");
       reset({
-        name: selectedItem.name!,
-        description: selectedItem.description!,
-        price: selectedItem.price!,
-        status: selectedItem.status as keyof typeof Availablity,
-        jain: selectedItem.jain as keyof typeof Jainoption,
+        name: selectedItem.name ?? "",
+        description: selectedItem.description ?? "",
+        price: selectedItem.price,
+        status: selectedItem.status ?? "",
+        jain: selectedItem.jain ?? "",
       });
 
       open();
@@ -118,7 +110,6 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       const updatedItem = { ...selectedItem, ...data };
       await onEditItem(updatedItem, file ?? undefined);
     } else {
-      
       await onAddItem(data, file ?? undefined);
     }
     close();
@@ -130,7 +121,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       status: undefined,
       jain: undefined,
     });
-    setFile(null), setPreview(null);
+    setFile(null);
   };
 
   const handleClose = () => {
@@ -254,8 +245,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             status: undefined,
             jain: undefined,
           });
-          setFile(null), setPreview(null);
-          open();
+          setFile(null), open();
         }}
         classNames={{
           root: "rounded-md h-10 sm:h-11 md:h-12 lg:h-10 xl:h-12 px-4 sm:px-6",

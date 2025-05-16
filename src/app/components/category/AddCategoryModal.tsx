@@ -25,14 +25,11 @@ export type ICategorydata = {
   menu_id?: string | null;
   status: string | null;
   position?: number | null | undefined;
-  image: string | undefined;
+  image?: string | undefined;
 };
 
 export type ICategoryModalProps = {
-  onAddCategory: (
-    data: Pick<ICategorydata, "category_name" | "status">,
-    file?: File,
-  ) => Promise<void>;
+  onAddCategory: (data: ICategorydata, file?: File) => Promise<void>;
   onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
@@ -72,18 +69,16 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   });
 
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (selectedCategory) {
-      setPreview(selectedCategory.image ?? "");
       reset({
-        category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as keyof typeof Availablity,
+        category_name: selectedCategory.category_name ?? "",
+        status: selectedCategory.status ?? "",
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as keyof typeof Availablity });
+      reset({ category_name: "", status: "" });
     }
   }, [selectedCategory, reset]);
 
@@ -97,7 +92,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
-    setFile(null), setPreview(null);
+    setFile(null);
   };
 
   const handleClose = () => {
@@ -183,8 +178,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseButton
         onClick={() => {
           setSelectedCategory(null);
-          setFile(null), setPreview(null);
-          reset({ category_name: "", status: undefined });
+          setFile(null), reset({ category_name: "", status: undefined });
           open();
         }}
         classNames={{
