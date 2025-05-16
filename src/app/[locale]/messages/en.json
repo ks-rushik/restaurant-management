@@ -168,6 +168,6 @@
   "common": {
     "dragimagehere": "Drag images here or",
     "browsefile": " Browse file",
-    "attachfile": "Attach file as you like, file should be one of (jpeg, jpg, png, webp) and should not exceed 1MB"
+    "attachfile": "Attach file as you like, file should be one of (jpeg, jpg, png, webp) and should not exceed"
   }
 }
