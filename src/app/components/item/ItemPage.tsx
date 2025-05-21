@@ -25,7 +25,7 @@ export type IFilter = {
 const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[5];
-  const [Item, setItem] = useState<IItemdata[]>();
+  const [itemdata, setItemdata] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
   const [debouncedSearch] = useDebounce(searchData, 500);
   const [filters, setFilters] = useState<IFilter>({
@@ -41,20 +41,18 @@ const ItemPage = () => {
     data: alldata,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   } = useInfiniteQuery(
     fetchItemdataQuery(categoryId, debouncedSearch, filters),
   );
   const paginationProps = {
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   };
-  const data = alldata?.pages.flat()
+  const data = alldata?.pages.flat();
 
   useEffect(() => {
     if (data) {
-      setItem(
+      setItemdata(
         data.map((item) => ({
           ...item,
           position: item.position || 0,
@@ -66,7 +64,7 @@ const ItemPage = () => {
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
     const addedItem = await item(newItem, categoryId, file);
     if (addedItem)
-      setItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+      setItemdata((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.name} added to item`,
       color: "green",
@@ -74,10 +72,12 @@ const ItemPage = () => {
   };
 
   const handleDelete = async (id: string) => {
-    setItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deleteitem(id);
+    const { error } = await deleteitem(id);
     setLoading("");
+    if (error) return;
+    const filterdata = itemdata?.filter((item) => item.id !== id);
+    setItemdata(filterdata);
     notifications.show({ message: "Category deleted", color: "green" });
   };
 
@@ -110,8 +110,8 @@ const ItemPage = () => {
         />
       </ItemHeader>
       <ItemTable
-        pagination = {paginationProps}
-        data={Item}
+        pagination={paginationProps}
+        data={itemdata}
         handleSelectItem={handleSelectedItem}
         handleDelete={handleDelete}
         loading={loading}
