@@ -2,7 +2,13 @@
 
 import { createClient } from "@/app/utils/supabase/server";
 
-const fetchMenudata = async (search?: string, status?: string) => {
+import { PAGE_SIZE } from "@/app/actions/menu/menufetchquery";
+
+const fetchMenudata = async (
+  search?: string,
+  status?: string,
+  pageParam: number = 0,
+) => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -13,7 +19,8 @@ const fetchMenudata = async (search?: string, status?: string) => {
     .from("menus")
     .select("*")
     .eq("restaurant_id", userId!)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: true })
+    .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1);
 
   if (search) {
     query = query.ilike("menu_name", `%${search}%`);
@@ -23,7 +30,11 @@ const fetchMenudata = async (search?: string, status?: string) => {
     query = query.eq("status", status);
   }
 
-  const { data } = await query;
+  const { data, error } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   return data;
 };

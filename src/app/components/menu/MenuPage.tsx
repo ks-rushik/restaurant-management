@@ -5,7 +5,7 @@ import { FC, MouseEvent, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -34,13 +34,24 @@ const Menupage: FC<ILanguageProps> = (props) => {
   const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
-  const { data } = useQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
+  const {
+    data: alldata,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+  const data = alldata?.pages.flat();
 
   useEffect(() => {
     if (data) {
       setMenuItem(data);
     }
-  }, [data]);
+  }, [alldata]);
 
   const handleAddMenu = async (newItem: IModalData) => {
     const addedItem = await menu(newItem);
@@ -107,6 +118,11 @@ const Menupage: FC<ILanguageProps> = (props) => {
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          Load more
+        </button>
+      )}
     </div>
   );
 };
