@@ -52,7 +52,6 @@ type IBaseTableProps<T> = TableProps & {
       InfiniteQueryObserverResult<InfiniteData<T[], unknown>, Error>
     >;
     hasNextPage: boolean;
-    isFetchingNextPage: boolean;
   };
 };
 
@@ -61,21 +60,17 @@ const BaseTable = <T,>({
   columns,
   data = [],
   getKey,
-  initialSize = 7,
-  loadMoreSize = 7,
   drag = false,
   DragOn,
   pagination,
   draggableId = "droppable-list",
   ...other
 }: IBaseTableProps<T>) => {
-  console.log(pagination.hasNextPage);
-  const { hasNextPage, isFetchingNextPage, fetchNextPage } = pagination;
+  const { hasNextPage, fetchNextPage } = pagination;
   const lang = useDictionary();
 
   const { table, th, td, thead, tbody, tr, ...otherElements } =
     classNames || {};
-  // const [visibleCount, setVisibleCount] = useState(initialSize);
   const [state, handlers] = useListState<T>(data);
   useEffect(() => {
     handlers.setState(data);
@@ -83,10 +78,6 @@ const BaseTable = <T,>({
   useEffect(() => {
     DragOn && DragOn(state);
   }, [state]);
-
-  // const handleLoadMore = () => {
-  //   setVisibleCount((prev) => Math.min(prev + loadMoreSize, data.length));
-  // };
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -105,7 +96,6 @@ const BaseTable = <T,>({
       </TableTr>
     </TableTbody>
   );
-  console.log(state.map((row, index) => renderRow(row, index)));
 
   return (
     <>
