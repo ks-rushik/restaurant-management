@@ -18,7 +18,7 @@ import CategoryHeader from "./CategoryHeader";
 import CategoryTable from "./CategoryTable";
 
 const CategoryPage = () => {
-  const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
+  const [categoryItem, setCategoryItem] = useState<ICategorydata[]>();
   const [selectedCategory, setSelectedCategory] =
     useState<ICategorydata | null>(null);
   const [loading, setLoading] = useState("");
@@ -34,14 +34,12 @@ const CategoryPage = () => {
     data: alldata,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   } = useInfiniteQuery(
     fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
   );
   const paginationProps = {
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   };
   const data = alldata?.pages.flat();
 
@@ -79,10 +77,12 @@ const CategoryPage = () => {
   };
 
   const handleDelete = async (id: string) => {
-    setCategoryItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletecategory(id);
+    const { error } = await deletecategory(id);
     setLoading("");
+    if (error) return;
+    const filterdata = categoryItem?.filter((item) => item.id !== id);
+    setCategoryItem(filterdata);
     notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {
@@ -107,7 +107,7 @@ const CategoryPage = () => {
       </CategoryHeader>
 
       <CategoryTable
-        data={CategoryItem}
+        data={categoryItem}
         handleView={handleView}
         handleSelectCategory={handleSelectCategory}
         handleDelete={handleDelete}

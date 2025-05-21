@@ -45,7 +45,6 @@ type ICategoryTableProps = {
       InfiniteQueryObserverResult<InfiniteData<ICategorydata[], unknown>, Error>
     >;
     hasNextPage: boolean;
-    isFetchingNextPage: boolean;
   };};
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
