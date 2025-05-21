@@ -2,12 +2,12 @@
 
 import { FC, useEffect } from "react";
 
+import { useDictionary } from "@components/context/Dictionary";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { IMessages } from "@/app/[locale]/messages";
 import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
@@ -22,7 +22,6 @@ export type IMenuModalProps = {
   onEditMenu: (data: IModalData) => Promise<void>;
   selectedMenu?: IModalData | null;
   setSelectedMenu: (menu: IModalData | null) => void;
-  lang?: IMessages;
 };
 
 const Addmenu: FC<IMenuModalProps> = ({
@@ -30,9 +29,9 @@ const Addmenu: FC<IMenuModalProps> = ({
   onEditMenu,
   selectedMenu,
   setSelectedMenu,
-  lang,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const lang = useDictionary();
 
   const AddMenuSchema = z.object({
     menu_name: z

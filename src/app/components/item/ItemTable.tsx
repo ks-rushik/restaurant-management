@@ -3,8 +3,11 @@ import { FC, useState } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import { useDictionary } from "@components/context/Dictionary";
+
+import { Badge } from "@mantine/core";
+import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { DraggableLocation } from "@hello-pangea/dnd";
-import { Badge, Pagination } from "@mantine/core";
 import {
   FetchNextPageOptions,
   InfiniteData,
@@ -12,8 +15,10 @@ import {
 } from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
+
 import { IMessages } from "@/app/[locale]/messages";
 import updateOrder from "@/app/actions/order/update-order";
+
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
@@ -63,16 +68,15 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filters,
     setFilters,
-    lang,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const lang = useDictionary();
 
   const handledrag = async (state: IItemdata[]) => {
     const isNotChange = state.every((item, index) => item.position === index);
     if (isNotChange) return;
     await updateOrder(state, "Items");
   };
-
   return !data ? (
     <Loader />
   ) : (
@@ -107,8 +111,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <p className="text-center text-gray-500 mt-4">No Item found.</p>
       ) : (
         <BaseTable
-          pagination={pagination}
-          DragOn={handledrag}
+        classNames={{
+          th: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+          td: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+        }}
+        pagination={pagination}
+        DragOn={handledrag}
           data={data}
           getKey={(item) => item.id!}
           drag

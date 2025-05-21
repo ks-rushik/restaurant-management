@@ -4,10 +4,10 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 
+import { getDictionary } from "@/app/[locale]/messages";
 import { fetchprofiledataQuery } from "@/app/actions/userprofile/userprofile-fetch-query";
+import DictionaryProvider from "@/app/components/context/Dictionary";
 import UserProfileForm from "@/app/components/userprofile/UserProfile";
-
-import { getDictionary } from "../../messages";
 
 const UserProfilePage = async ({
   params,
@@ -22,7 +22,9 @@ const UserProfilePage = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <UserProfileForm lang={dictionary} />
+      <DictionaryProvider value={dictionary}>
+        <UserProfileForm />
+      </DictionaryProvider>
     </HydrationBoundary>
   );
 };

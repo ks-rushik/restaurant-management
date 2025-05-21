@@ -23,9 +23,7 @@ export type ILanguageProps = {
   lang?: IMessages;
 };
 
-const Menupage: FC<ILanguageProps> = (props) => {
-  const { lang } = props;
-
+const Menupage: FC<ILanguageProps> = () => {
   const [MenuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
@@ -95,9 +93,8 @@ const Menupage: FC<ILanguageProps> = (props) => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <MenuHeader lang={lang}>
+      <MenuHeader>
         <Addmenu
-          lang={lang}
           onAddMenu={handleAddMenu}
           onEditMenu={handleEditMenu}
           selectedMenu={selectedMenu}
@@ -105,7 +102,6 @@ const Menupage: FC<ILanguageProps> = (props) => {
         />
       </MenuHeader>
       <MenuTable
-        lang={lang}
         data={MenuItem}
         handleView={handleView}
         pagination={paginationProps}

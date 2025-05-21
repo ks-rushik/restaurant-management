@@ -16,6 +16,8 @@ import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
+import { useDictionary } from "@components/context/Dictionary";
+
 
 import BaseSelect from "../ui/BaseSelect";
 import { ICategorydata } from "./AddCategoryModal";
@@ -36,7 +38,6 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
-  lang?: IMessages;
   pagination: {
     fetchNextPage: (
       options?: FetchNextPageOptions,
@@ -45,8 +46,7 @@ type ICategoryTableProps = {
     >;
     hasNextPage: boolean;
     isFetchingNextPage: boolean;
-  };
-};
+  };};
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
   const {
@@ -62,9 +62,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filterStatus,
     setFilterStatus,
-    lang,
   } = props;
-
+  const lang = useDictionary();
   const handledrag = async (state: ICategorydata[]) => {
     const isNotChange = state.every((item, index) => item.position === index);
     if (isNotChange) return;
@@ -97,8 +96,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
           pagination={pagination}
           data={data}
           classNames={{
-            th: "[&:first-child]:w-[70px] ",
-            td: "[&:first-child]:w-[70px] ",
+            th: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+            td: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
           }}
           getKey={(item) => item.id!}
           DragOn={handledrag}

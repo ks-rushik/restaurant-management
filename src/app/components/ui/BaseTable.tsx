@@ -108,6 +108,7 @@ const BaseTable = <T,>({
     <>
       <div className="w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600 bg-white">
         <div className="w-full overflow-x-auto">
+<<<<<<< HEAD
           <DragDropContext onDragEnd={handleDragEnd}>
             <Table
               {...other}
@@ -130,6 +131,39 @@ const BaseTable = <T,>({
               <TableThead>
                 <TableTr>
                   <TableTh></TableTh>
+=======
+          <Table
+            {...other}
+            classNames={{
+              thead: clsx(
+                "font-semibold text-gray-600 text-sm bg-gray-300 dark:bg-gray-700  dak:!text-gray-200 h-14 ",
+                thead
+              ),
+              tbody: clsx(
+                "text-sm font-normal bg-white dark:text-white dark:bg-gray-700 ",
+                tbody
+              ),
+              tr: clsx(
+                "h-[55px] dark:border-gray-600",
+                tr
+              ),
+              th: clsx("min-w-24 dark:text-white ", th),
+              td: clsx(" ", td),
+              table: clsx("", table),
+              ...otherElements,
+            }}
+          >
+            <TableThead>
+              <TableTr>
+                {columns.map((col, index) => (
+                  <TableTh key={index}>{col.label}</TableTh>
+                ))}
+              </TableTr>
+            </TableThead>
+            <TableTbody>
+              {data?.map((row, index) => (
+                <TableTr key={index}>
+>>>>>>> feature/use-context-instead-of-passing-props-unnecessary
                   {columns.map((col, index) => (
                     <TableTh key={index}>{col.label}</TableTh>
                   ))}

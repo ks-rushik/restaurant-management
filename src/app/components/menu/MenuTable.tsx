@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import { useDictionary } from "@components/context/Dictionary";
 import {
   FetchNextPageOptions,
   InfiniteData,
@@ -9,7 +10,6 @@ import {
 } from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
-import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -34,7 +34,6 @@ type IMenuTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
-  lang?: IMessages;
   pagination: {
     fetchNextPage: (
       options?: FetchNextPageOptions,
@@ -50,6 +49,7 @@ const MenuTable: FC<IMenuTableProps> = ({
   data,
   handleView,
   handleSelectMenu,
+  pagination,
   handleDelete,
   loading,
   opened,
@@ -58,9 +58,9 @@ const MenuTable: FC<IMenuTableProps> = ({
   setSearchData,
   filterStatus,
   setFilterStatus,
-  pagination,
-  lang,
 }) => {
+  const lang = useDictionary();
+
   return !data ? (
     <Loader />
   ) : (

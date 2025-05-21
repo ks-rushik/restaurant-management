@@ -5,16 +5,17 @@ import { FC, ReactNode } from "react";
 
 import HeaderCss from "@components/HeaderCss";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useDictionary } from "@components/context/Dictionary";
 
-import { IMessages } from "@/app/[locale]/messages";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
-  lang?: IMessages;
 };
 const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
-  const { children, lang } = props;
+  const { children } = props;
+  const lang = useDictionary();
+
   const pathname = usePathname();
   const segments = pathname.split("/")[2];
   const { data } = useInfiniteQuery(fetchMenudataQuery("", ""));

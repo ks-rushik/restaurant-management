@@ -1,15 +1,14 @@
 import { FC, ReactNode } from "react";
 
 import HeaderCss from "@components/HeaderCss";
-
-import { IMessages } from "@/app/[locale]/messages";
+import { useDictionary } from "@components/context/Dictionary";
 
 type IMenuHeaderProps = {
   children: ReactNode;
-  lang?: IMessages;
 };
 const MenuHeader: FC<IMenuHeaderProps> = (props) => {
-  const { children, lang } = props;
+  const { children } = props;
+  const lang = useDictionary();
 
   const item = [{ title: "Menu", href: "/menu", active: true }];
 
