@@ -5,13 +5,12 @@ import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import categories from "@/app/actions/category/addcategory-action";
 import { fetchCategorydataQuery } from "@/app/actions/category/categoryfetchquery";
 import deletecategory from "@/app/actions/category/deletecategory-action";
-import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
@@ -119,6 +118,7 @@ const CategoryPage = () => {
         setSearchData={setSearchData}
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
+        pagination={paginationProps}
       />
     </div>
   );
