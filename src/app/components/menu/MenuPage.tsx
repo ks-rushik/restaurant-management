@@ -41,8 +41,10 @@ const Menupage: FC<ILanguageProps> = () => {
     fetchNextPage,
     hasNextPage,
   };
+  console.log(alldata.pages[0].data ,'this is alldata');
+  
 
-  const data = alldata?.pages.flat();
+  const data = alldata?.pages[0].data;
 
   useEffect(() => {
     if (data) {
