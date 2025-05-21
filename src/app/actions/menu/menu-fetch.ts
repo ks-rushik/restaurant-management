@@ -8,7 +8,7 @@ const fetchMenudata = async (
   pageParam: number,
   search?: string,
   status?: string,
-): Promise<IMenudata[]> => {
+): Promise<{ data: IMenudata[]; count: number | null }> => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -18,7 +18,7 @@ const fetchMenudata = async (
 
   let query = supabase
     .from("menus")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("restaurant_id", userId!)
     .order("created_at", { ascending: true });
 
@@ -32,13 +32,13 @@ const fetchMenudata = async (
 
   query = query.range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1);
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data;
+  return { data, count };
 };
 
 export default fetchMenudata;
