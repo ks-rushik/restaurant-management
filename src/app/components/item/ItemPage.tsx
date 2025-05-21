@@ -5,7 +5,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -37,9 +37,21 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
-  const { data } = useQuery(
+
+  const {
+    data: alldata,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
     fetchItemdataQuery(categoryId, debouncedSearch, filters),
   );
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+  const data = alldata?.pages.flat()
 
   useEffect(() => {
     if (data) {
@@ -50,7 +62,7 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
         })),
       );
     }
-  }, [data]);
+  }, [alldata]);
 
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
     const addedItem = await item(newItem, categoryId, file);
@@ -100,6 +112,7 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
         />
       </ItemHeader>
       <ItemTable
+        pagination = {paginationProps}
         lang={lang}
         data={Item}
         handleSelectItem={handleSelectedItem}

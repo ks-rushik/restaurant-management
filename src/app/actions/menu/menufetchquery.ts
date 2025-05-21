@@ -2,7 +2,7 @@
 import fetchMenudata from "@/app/actions/menu/menu-fetch";
 import { IMenudata } from "@/app/type/type";
 
-export const PAGE_SIZE = 2;
+export const PAGE_SIZE = 5;
 
 export const fetchMenudataQuery = (search?: string, status?: string) => ({
   queryKey: ["menu", search, status],

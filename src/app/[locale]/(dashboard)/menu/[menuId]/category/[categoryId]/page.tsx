@@ -10,7 +10,6 @@ import { IMessages, getDictionary } from "@/app/[locale]/messages";
 import { fetchcategoryitemdataQuery } from "@/app/actions/item/categorymenufetchquery";
 import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
 import ItemPage from "@/app/components/item/ItemPage";
-import Navbar from "@/app/components/navbar/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -24,9 +23,9 @@ const page = async ({
 }) => {
   const { categoryId } = await params;
 
-  await queryClient.prefetchQuery(fetchItemdataQuery(categoryId, ""));
+  await queryClient.prefetchInfiniteQuery(fetchItemdataQuery(categoryId, ""));
 
-  await queryClient.prefetchQuery(fetchcategoryitemdataQuery(categoryId));
+  await queryClient.prefetchQuery(fetchcategoryitemdataQuery(categoryId)); // prefetch menu and category name for breadcrumb
   const locale = (await params).locale;
   const dictionary: IMessages = await getDictionary(locale);
 

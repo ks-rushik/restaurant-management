@@ -4,7 +4,12 @@ import { FC, useState } from "react";
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { DraggableLocation } from "@hello-pangea/dnd";
-import { Badge } from "@mantine/core";
+import { Badge, Pagination } from "@mantine/core";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -34,6 +39,15 @@ type ICategoryTableProps = {
   filters: IFilter;
   setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
   lang?: IMessages;
+  pagination: {
+    fetchNextPage: (
+      options?: FetchNextPageOptions,
+    ) => Promise<
+      InfiniteQueryObserverResult<InfiniteData<IItemdata[], unknown>, Error>
+    >;
+    hasNextPage: boolean;
+    isFetchingNextPage: boolean;
+  };
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -43,6 +57,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     handleSelectItem,
     loading,
     opened,
+    pagination,
     close,
     searchData,
     setSearchData,
@@ -92,6 +107,7 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <p className="text-center text-gray-500 mt-4">No Item found.</p>
       ) : (
         <BaseTable
+          pagination={pagination}
           DragOn={handledrag}
           data={data}
           getKey={(item) => item.id!}

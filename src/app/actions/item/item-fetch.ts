@@ -3,8 +3,10 @@
 import { IFilter } from "@/app/components/item/ItemPage";
 import { Availablity, Jainoption } from "@/app/constants/common";
 import { createClient } from "@/app/utils/supabase/server";
+import { PAGE_SIZE } from "@/app/actions/menu/menufetchquery";
 
 const fetchItemdata = async (
+  pageParam: number, 
   categoryId: string,
   search?: string,
   filters?: IFilter,
@@ -14,7 +16,8 @@ const fetchItemdata = async (
     .from("Items")
     .select("*, category:category_id(menu:menu_id!inner(currency))")
     .eq("category_id", categoryId)
-    .order("position", { ascending: true });
+    .order("position", { ascending: true })
+    .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1)
 
   if (search) {
     query = query.ilike("name", `%${search}%`);
