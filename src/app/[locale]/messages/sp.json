@@ -167,5 +167,8 @@
     "copy": "Copiar",
     "download": "Descargar",
     "copied": "Copiado"
+  },
+  "table": {
+    "loadmore": "Cargar más"
   }
 }
