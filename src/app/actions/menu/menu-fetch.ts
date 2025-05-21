@@ -3,12 +3,13 @@
 import { createClient } from "@/app/utils/supabase/server";
 
 import { PAGE_SIZE } from "@/app/actions/menu/menufetchquery";
+import { IMenudata } from "@/app/type/type";
 
 const fetchMenudata = async (
+  pageParam: number,
   search?: string,
   status?: string,
-  pageParam: number = 0,
-) => {
+):Promise<IMenudata[]> => {
   const supabase = await createClient();
   const {
     data: { user },

@@ -2,6 +2,11 @@ import { FC } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -30,6 +35,15 @@ type IMenuTableProps = {
   filterStatus: string;
   setFilterStatus: (val: string) => void;
   lang?: IMessages;
+  pagination: {
+    fetchNextPage: (
+      options?: FetchNextPageOptions,
+    ) => Promise<
+      InfiniteQueryObserverResult<InfiniteData<IMenudata[], unknown>, Error>
+    >;
+    hasNextPage: boolean;
+    isFetchingNextPage: boolean;
+  };
 };
 
 const MenuTable: FC<IMenuTableProps> = ({
@@ -44,6 +58,7 @@ const MenuTable: FC<IMenuTableProps> = ({
   setSearchData,
   filterStatus,
   setFilterStatus,
+  pagination,
   lang,
 }) => {
   return !data ? (
@@ -70,6 +85,7 @@ const MenuTable: FC<IMenuTableProps> = ({
       ) : (
         <BaseTable
           data={data}
+          pagination={pagination}
           getKey={(item) => item.id}
           columns={[
             {

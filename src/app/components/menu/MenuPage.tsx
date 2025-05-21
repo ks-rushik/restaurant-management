@@ -108,6 +108,7 @@ const Menupage: FC<ILanguageProps> = (props) => {
         lang={lang}
         data={MenuItem}
         handleView={handleView}
+        pagination={paginationProps}
         handleSelectMenu={handleSelectMenu}
         handleDelete={handleDelete}
         loading={loading}
@@ -118,11 +119,6 @@ const Menupage: FC<ILanguageProps> = (props) => {
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
-      {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-          Load more
-        </button>
-      )}
     </div>
   );
 };

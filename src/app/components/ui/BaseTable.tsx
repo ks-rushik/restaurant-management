@@ -17,6 +17,11 @@ import {
   TableTr,
 } from "@mantine/core";
 import { useListState } from "@mantine/hooks";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import clsx from "clsx";
 import { MdOutlineDragIndicator } from "react-icons/md";
 
@@ -38,6 +43,15 @@ type IBaseTableProps<T> = TableProps & {
   drag?: boolean;
   draggableId?: string;
   DragOn?: (state: T[]) => void;
+  pagination: {
+    fetchNextPage: (
+      options?: FetchNextPageOptions,
+    ) => Promise<
+      InfiniteQueryObserverResult<InfiniteData<T[], unknown>, Error>
+    >;
+    hasNextPage: boolean;
+    isFetchingNextPage: boolean;
+  };
 };
 
 const BaseTable = <T,>({
@@ -49,12 +63,16 @@ const BaseTable = <T,>({
   loadMoreSize = 7,
   drag = false,
   DragOn,
+  pagination,
   draggableId = "droppable-list",
   ...other
 }: IBaseTableProps<T>) => {
+  console.log(pagination.hasNextPage);
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = pagination;
+
   const { table, th, td, thead, tbody, tr, ...otherElements } =
     classNames || {};
-  const [visibleCount, setVisibleCount] = useState(initialSize);
+  // const [visibleCount, setVisibleCount] = useState(initialSize);
   const [state, handlers] = useListState<T>(data);
   useEffect(() => {
     handlers.setState(data);
@@ -63,9 +81,9 @@ const BaseTable = <T,>({
     DragOn && DragOn(state);
   }, [state]);
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + loadMoreSize, data.length));
-  };
+  // const handleLoadMore = () => {
+  //   setVisibleCount((prev) => Math.min(prev + loadMoreSize, data.length));
+  // };
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -84,6 +102,7 @@ const BaseTable = <T,>({
       </TableTr>
     </TableTbody>
   );
+  console.log(state.map((row, index) => renderRow(row, index)));
 
   return (
     <>
@@ -124,7 +143,7 @@ const BaseTable = <T,>({
                       ref={provided.innerRef}
                       {...provided.droppableProps}
                     >
-                      {state.slice(0, visibleCount).map((row, index) => (
+                      {state.map((row, index) => (
                         <Draggable
                           key={getKey(row).toString()}
                           draggableId={getKey(row).toString()}
@@ -159,18 +178,16 @@ const BaseTable = <T,>({
                   )}
                 </Droppable>
               ) : (
-                state
-                  .slice(0, visibleCount)
-                  .map((row, index) => renderRow(row, index))
+                state.map((row, index) => renderRow(row, index))
               )}
             </Table>
           </DragDropContext>
         </div>
       </div>
 
-      {visibleCount < data.length && (
+      {hasNextPage && (
         <div className="flex justify-center">
-          <BaseButton onClick={handleLoadMore} className="mt-4">
+          <BaseButton onClick={() => fetchNextPage()} className="mt-4">
             Load More
           </BaseButton>
         </div>
