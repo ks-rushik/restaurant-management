@@ -24,10 +24,10 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
   const { item, handleDelete, handleSelectItem, loading, opened, close } =
     props;
   return (
-    <span className="inline-flex items-center">
+    <span className="inline-flex items-center gap-6">
       <div
         onClick={() => handleSelectItem(item)}
-        className="mr-6 cursor-pointer"
+        className=" cursor-pointer"
         title="Edit Item"
       >
         <MdOutlineModeEdit size={22} className="hover:text-yellow-500 " />

@@ -3,11 +3,12 @@ import { FC, useState } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import { DraggableLocation } from "@hello-pangea/dnd";
 import { Badge } from "@mantine/core";
-import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { LuFilter } from "react-icons/lu";
 
 import { IMessages } from "@/app/[locale]/messages";
+import updateOrder from "@/app/actions/order/update-order";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
@@ -20,9 +21,7 @@ import { IFilter } from "./ItemPage";
 
 type ICategoryTableProps = {
   data: IItemdata[] | undefined | null;
-  handleMoveUp: (index: number) => void;
   handleSelectItem: (item: IItemdata) => void;
-  handleMoveDown: (index: number) => void;
   handleDelete: (
     id: string,
     event: React.MouseEvent<HTMLButtonElement>,
@@ -42,8 +41,6 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     data,
     handleDelete,
     handleSelectItem,
-    handleMoveUp,
-    handleMoveDown,
     loading,
     opened,
     close,
@@ -54,6 +51,12 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     lang,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+
+  const handledrag = async (state: IItemdata[]) => {
+    const isNotChange = state.every((item, index) => item.position === index);
+    if (isNotChange) return;
+    await updateOrder(state, "Items");
+  };
 
   return !data ? (
     <Loader />
@@ -89,39 +92,11 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
         <p className="text-center text-gray-500 mt-4">No Item found.</p>
       ) : (
         <BaseTable
-          classNames={{
-            th: "[&:first-child]:w-[60px] ",
-            td: "[&:first-child]:w-[60px] ",
-          }}
+          DragOn={handledrag}
           data={data}
           getKey={(item) => item.id!}
+          drag
           columns={[
-            {
-              label: "",
-              render: (item) => {
-                const index = data!.findIndex(
-                  (dataItem) => dataItem.id === item.id,
-                );
-                return (
-                  <div className="flex gap-1">
-                    <button
-                      onClick={() => handleMoveUp(index)}
-                      disabled={index === 0}
-                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
-                    >
-                      <FaUpLong />
-                    </button>
-                    <button
-                      onClick={() => handleMoveDown(index)}
-                      disabled={index === data!.length - 1}
-                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
-                    >
-                      <FaDownLong />
-                    </button>
-                  </div>
-                );
-              },
-            },
             {
               label: lang?.items.IMAGE!,
               render: (item) =>
@@ -180,9 +155,13 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
               label: lang?.items.AVAILABILITY!,
               render: (item) =>
                 item.status === Availablity.NotAvailable ? (
-                  <p className="text-red-500">{lang?.availableStatus.notAvailable}</p>
+                  <p className="text-red-500">
+                    {lang?.availableStatus.notAvailable}
+                  </p>
                 ) : (
-                  <p className="text-green-600">{lang?.availableStatus.available}</p>
+                  <p className="text-green-600">
+                    {lang?.availableStatus.available}
+                  </p>
                 ),
             },
 
