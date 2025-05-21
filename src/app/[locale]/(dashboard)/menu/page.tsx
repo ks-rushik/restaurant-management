@@ -16,7 +16,7 @@ const Menupage = async ({
 }: Readonly<{
   params: { locale: "en" | "hd" | "sp" };
 }>) => {
-  await queryClient.prefetchQuery(fetchMenudataQuery("", ""));
+  await queryClient.prefetchInfiniteQuery(fetchMenudataQuery("", ""));
 
   const locale = (await params).locale;
   const dictionary = await getDictionary(locale);
