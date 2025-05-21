@@ -5,7 +5,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import categories from "@/app/actions/category/addcategory-action";
@@ -33,9 +33,20 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
   const pathname = usePathname();
   const menuId = pathname.split("/")[3];
 
-  const { data } = useQuery(
+  const {
+    data: alldata,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
     fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
   );
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+  const data = alldata?.pages.flat();
 
   useEffect(() => {
     if (data) {
@@ -46,7 +57,7 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
         })),
       );
     }
-  }, [data]);
+  }, [alldata]);
 
   const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
@@ -100,6 +111,7 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
       </CategoryHeader>
 
       <CategoryTable
+        pagination={paginationProps}
         lang={lang}
         data={CategoryItem}
         handleView={handleView}

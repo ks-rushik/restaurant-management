@@ -3,6 +3,11 @@ import { FC } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -32,6 +37,15 @@ type ICategoryTableProps = {
   filterStatus: string;
   setFilterStatus: (val: string) => void;
   lang?: IMessages;
+  pagination: {
+    fetchNextPage: (
+      options?: FetchNextPageOptions,
+    ) => Promise<
+      InfiniteQueryObserverResult<InfiniteData<ICategorydata[], unknown>, Error>
+    >;
+    hasNextPage: boolean;
+    isFetchingNextPage: boolean;
+  };
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -40,7 +54,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     handleView,
     handleSelectCategory,
     handleDelete,
-
+    pagination,
     loading,
     opened,
     close,
@@ -80,6 +94,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         <p className="text-center text-gray-500 mt-4">No Category found.</p>
       ) : (
         <BaseTable
+          pagination={pagination}
           data={data}
           classNames={{
             th: "[&:first-child]:w-[70px] ",

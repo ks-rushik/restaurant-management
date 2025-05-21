@@ -21,8 +21,8 @@ const page = async ({
 }) => {
   const { menuId } = await params;
 
-  await queryClient.prefetchQuery(fetchCategorydataQuery(menuId, "", ""));
-  await queryClient.prefetchQuery(fetchMenudataQuery("", ""));
+  await queryClient.prefetchInfiniteQuery(fetchCategorydataQuery(menuId, "", ""));
+  await queryClient.prefetchInfiniteQuery(fetchMenudataQuery("", ""));
 
   const locale = (await params).locale;
   const dictionary: IMessages = await getDictionary(locale);
