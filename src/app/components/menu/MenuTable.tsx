@@ -41,7 +41,6 @@ type IMenuTableProps = {
       InfiniteQueryObserverResult<InfiniteData<IMenudata[], unknown>, Error>
     >;
     hasNextPage: boolean;
-    isFetchingNextPage: boolean;
   };
 };
 

@@ -24,7 +24,7 @@ export type ILanguageProps = {
 };
 
 const Menupage: FC<ILanguageProps> = () => {
-  const [MenuItem, setMenuItem] = useState<IMenudata[]>();
+  const [menuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
   const [loading, setLoading] = useState("");
@@ -36,13 +36,12 @@ const Menupage: FC<ILanguageProps> = () => {
     data: alldata,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   } = useInfiniteQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
   const paginationProps = {
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   };
+
   const data = alldata?.pages.flat();
 
   useEffect(() => {
@@ -52,13 +51,13 @@ const Menupage: FC<ILanguageProps> = () => {
   }, [alldata]);
 
   const handleAddMenu = async (newItem: IModalData) => {
-    const addedItem = await menu(newItem);
+    const addedItem = await menu(newItem); 
+    if (addedItem)
+      setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
     notifications.show({
       message: `${newItem.menu_name} added to menus`,
       color: "green",
     });
-    if (addedItem)
-      setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
   };
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
@@ -71,10 +70,12 @@ const Menupage: FC<ILanguageProps> = () => {
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     event.stopPropagation();
-    setMenuItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletemenu(id);
+    const { error } = await deletemenu(id);
     setLoading("");
+    if (error) return;
+    const filterdata = menuItem?.filter((item) => item.id !== id);
+    setMenuItem(filterdata);
   };
 
   const handleView = (menu_name: string, id: string) => {
@@ -102,7 +103,7 @@ const Menupage: FC<ILanguageProps> = () => {
         />
       </MenuHeader>
       <MenuTable
-        data={MenuItem}
+        data={menuItem}
         handleView={handleView}
         pagination={paginationProps}
         handleSelectMenu={handleSelectMenu}

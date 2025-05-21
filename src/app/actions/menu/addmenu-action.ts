@@ -1,8 +1,9 @@
 "use server";
 
-import { createClient } from "@/app/utils/supabase/server";
-import { IModalData } from "@/app/type/type";
 import { revalidatePath } from "next/cache";
+
+import { IModalData } from "@/app/type/type";
+import { createClient } from "@/app/utils/supabase/server";
 
 export async function menu(MenuData: IModalData) {
   const supabase = await createClient();
@@ -10,7 +11,7 @@ export async function menu(MenuData: IModalData) {
     data: { user },
   } = await supabase.auth.getUser();
   const userId = user?.id;
-  
+
   const menudata = {
     restaurant_id: userId,
     menu_name: MenuData.menu_name,
@@ -57,8 +58,6 @@ export async function menu(MenuData: IModalData) {
     // ];
     
     // Menus(newItems)
-
-  revalidatePath("/menu", "page");
 
   return InsertData?.[0];
 }
