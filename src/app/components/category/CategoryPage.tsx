@@ -74,6 +74,7 @@ const CategoryPage = () => {
     file?: File,
   ) => {
     await updateCategory(updatedmenu, menuId, file);
+    queryClient.invalidateQueries({ queryKey: ["category"] });
     notifications.show({ message: "Category updated", color: "green" });
   };
 
