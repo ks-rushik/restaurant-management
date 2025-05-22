@@ -62,7 +62,7 @@ const Menupage: FC<ILanguageProps> = () => {
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
     await updateMenu(updatedmenu);
-    queryClient.invalidateQueries({queryKey: ["menu"]})
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
     notifications.show({ message: "Menu updated", color: "green" });
   };
 
@@ -74,9 +74,8 @@ const Menupage: FC<ILanguageProps> = () => {
     setLoading(id);
     const { error } = await deletemenu(id);
     setLoading("");
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
     if (error) return;
-    const filterdata = menuItem?.filter((item) => item.id !== id);
-    setMenuItem(filterdata);
   };
 
   const handleView = (menu_name: string, id: string) => {

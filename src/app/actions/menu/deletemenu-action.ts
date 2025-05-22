@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import { createClient } from "@/app/utils/supabase/server";
 
 const deletemenu = async (id: string) => {

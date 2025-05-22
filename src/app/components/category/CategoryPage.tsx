@@ -83,8 +83,7 @@ const CategoryPage = () => {
     const { error } = await deletecategory(id);
     setLoading("");
     if (error) return;
-    const filterdata = categoryItem?.filter((item) => item.id !== id);
-    setCategoryItem(filterdata);
+    queryClient.invalidateQueries({ queryKey: ["category"] });
     notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {

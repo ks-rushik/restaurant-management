@@ -77,6 +77,7 @@ const ItemPage = () => {
     setLoading(id);
     const { error } = await deleteitem(id);
     setLoading("");
+    queryClient.invalidateQueries({ queryKey: ["Items"] });
     if (error) return;
     notifications.show({ message: "Category deleted", color: "green" });
   };
