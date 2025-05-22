@@ -4,23 +4,26 @@ import { notFound, usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 import HeaderCss from "@components/HeaderCss";
-import { useQuery } from "@tanstack/react-query";
+import { useDictionary } from "@components/context/Dictionary";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-import { IMessages } from "@/app/[locale]/messages";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
 
 type ICategoryHeaderProps = {
   children: ReactNode;
-  lang?: IMessages;
 };
 const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
-  const { children, lang } = props;
+  const { children } = props;
+  const lang = useDictionary();
+
   const pathname = usePathname();
   const segments = pathname.split("/")[2];
-  const { data } = useQuery(fetchMenudataQuery("", ""));
+  const { data } = useInfiniteQuery(fetchMenudataQuery("", ""));
   const menuId = pathname.split("/")[3];
 
-  const menu = data?.find((menu) => menu.id === menuId)?.menu_name;
+  const menu = data?.pages
+    .flatMap((page) => page.data)
+    .find((menu) => menu.id === menuId)?.menu_name;
   if (menu === undefined) {
     return notFound();
   }
@@ -31,7 +34,7 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
       href: `/${segments}`,
     },
     {
-      title: menu?.[0].toUpperCase() + menu?.slice(1),
+      title: menu?.[0].toUpperCase()! + menu?.slice(1),
       href: `#`,
       active: true,
     },

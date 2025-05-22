@@ -5,23 +5,21 @@ import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import categories from "@/app/actions/category/addcategory-action";
 import { fetchCategorydataQuery } from "@/app/actions/category/categoryfetchquery";
 import deletecategory from "@/app/actions/category/deletecategory-action";
-import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 
-import { ILanguageProps } from "../menu/MenuPage";
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
 import CategoryHeader from "./CategoryHeader";
 import CategoryTable from "./CategoryTable";
 
-const CategoryPage: FC<ILanguageProps> = (props) => {
-  const { lang } = props;
-  const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
+const CategoryPage = () => {
+  const queryClient = useQueryClient();
+  const [categoryItem, setCategoryItem] = useState<ICategorydata[]>();
   const [selectedCategory, setSelectedCategory] =
     useState<ICategorydata | null>(null);
   const [loading, setLoading] = useState("");
@@ -33,9 +31,19 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
   const pathname = usePathname();
   const menuId = pathname.split("/")[3];
 
-  const { data } = useQuery(
+  const {
+    data: flatData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     fetchCategorydataQuery(menuId, debouncedSearch, filterStatus),
   );
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+  };
+
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (data) {
@@ -46,66 +54,15 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
         })),
       );
     }
-  }, [data]);
-
-  const handleMoveUp = async (index: number) => {
-    if (!CategoryItem || index === 0) return;
-
-    const newCategoryItem = [...CategoryItem];
-    [newCategoryItem[index - 1].position, newCategoryItem[index].position] = [
-      newCategoryItem[index].position,
-      newCategoryItem[index - 1].position,
-    ];
-    [newCategoryItem[index - 1], newCategoryItem[index]] = [
-      newCategoryItem[index],
-      newCategoryItem[index - 1],
-    ];
-
-    setCategoryItem(newCategoryItem);
-
-    await updateCategoryOrder({
-      id: newCategoryItem[index].id!,
-      position: newCategoryItem[index].position!,
-    });
-    await updateCategoryOrder({
-      id: newCategoryItem[index - 1].id!,
-      position: newCategoryItem[index - 1].position!,
-    });
-  };
-
-  const handleMoveDown = async (index: number) => {
-    if (!CategoryItem || index === CategoryItem.length - 1) return;
-
-    const newCategoryItem = [...CategoryItem];
-    [newCategoryItem[index + 1].position, newCategoryItem[index].position] = [
-      newCategoryItem[index].position,
-      newCategoryItem[index + 1].position,
-    ];
-    [newCategoryItem[index + 1], newCategoryItem[index]] = [
-      newCategoryItem[index],
-      newCategoryItem[index + 1],
-    ];
-
-    setCategoryItem(newCategoryItem);
-
-    await updateCategoryOrder({
-      id: newCategoryItem[index].id!,
-      position: newCategoryItem[index].position!,
-    });
-    await updateCategoryOrder({
-      id: newCategoryItem[index + 1].id!,
-      position: newCategoryItem[index + 1].position!,
-    });
-  };
+  }, [flatData]);
 
   const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
 
   const handleAddCategory = async (newItem: ICategorydata, file?: File) => {
-    const addedItem = await categories(newItem, menuId, file);
-    if (addedItem)
-      setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    await categories(newItem, menuId, file);
+    queryClient.invalidateQueries({ queryKey: ["category"] });
     notifications.show({
       message: `${newItem.category_name} added to category`,
       color: "green",
@@ -121,10 +78,12 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
   };
 
   const handleDelete = async (id: string) => {
-    setCategoryItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletecategory(id);
+    const { error } = await deletecategory(id);
     setLoading("");
+    if (error) return;
+    const filterdata = categoryItem?.filter((item) => item.id !== id);
+    setCategoryItem(filterdata);
     notifications.show({ message: "Category deleted", color: "green" });
   };
   const handleSelectCategory = (item: ICategorydata) => {
@@ -139,9 +98,8 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <CategoryHeader lang={lang}>
+      <CategoryHeader>
         <AddCategoryModal
-          lang={lang}
           onAddCategory={handleAddCategory}
           onEditCategory={handleEditCategory}
           selectedCategory={selectedCategory}
@@ -150,12 +108,9 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
       </CategoryHeader>
 
       <CategoryTable
-        lang={lang}
-        data={CategoryItem}
+        data={categoryItem}
         handleView={handleView}
         handleSelectCategory={handleSelectCategory}
-        handleMoveUp={handleMoveUp}
-        handleMoveDown={handleMoveDown}
         handleDelete={handleDelete}
         loading={loading}
         opened={opened}
@@ -164,6 +119,7 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
         setSearchData={setSearchData}
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
+        pagination={paginationProps}
       />
     </div>
   );

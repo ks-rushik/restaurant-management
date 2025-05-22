@@ -14,6 +14,11 @@ export function ImageError(
 ): {
   setError: string | undefined;
 } {
+  if (!file) {
+    return {
+      setError: lang?.validation.imagerequired,
+    };
+  }
   if (file?.size! >= MAX_FILE_SIZE) {
     return {
       setError: lang?.validation.imagesize,

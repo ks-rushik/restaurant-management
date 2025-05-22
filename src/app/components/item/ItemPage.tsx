@@ -1,19 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
-import { IMessages } from "@/app/[locale]/messages";
 import { item } from "@/app/actions/item/additem-action";
 import deleteitem from "@/app/actions/item/deleteitem-action";
 import { fetchItemdataQuery } from "@/app/actions/item/itemfetchquery";
 import { updateItem } from "@/app/actions/item/updateitem-action";
-import { updateItemOrder } from "@/app/actions/item/updateposition-action";
 
 import AddItemModal, { IItemdata } from "./AddItemModal";
 import ItemHeader from "./ItemHeader";
@@ -24,10 +22,10 @@ export type IFilter = {
   jainOption: string;
 };
 
-const ItemPage = ({ lang }: { lang: IMessages }) => {
+const ItemPage = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[5];
-  const [Item, setItem] = useState<IItemdata[]>();
+  const [itemdata, setItemdata] = useState<IItemdata[]>();
   const [searchData, setSearchData] = useState("");
   const [debouncedSearch] = useDebounce(searchData, 500);
   const [filters, setFilters] = useState<IFilter>({
@@ -38,85 +36,52 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
   const [selectedItem, setSelectedItem] = useState<IItemdata | null>(null);
   const [loading, setLoading] = useState("");
   const [opened, { close }] = useDisclosure(false);
-  const { data } = useQuery(
+
+  const {
+    data: flatData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     fetchItemdataQuery(categoryId, debouncedSearch, filters),
   );
 
+  const queryClient = useQueryClient();
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+  };
+
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
+
   useEffect(() => {
     if (data) {
-      setItem(
+      setItemdata(
         data.map((item) => ({
           ...item,
           position: item.position || 0,
         })),
       );
     }
-  }, [data]);
+  }, [flatData]);
 
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
-    const addedItem = await item(newItem, categoryId, file);
-    if (addedItem)
-      setItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    const newitem = await item(newItem, categoryId, file);
+    console.log(newitem ,'this is new item');
+    
     notifications.show({
       message: `${newItem.name} added to item`,
       color: "green",
     });
-  };
-
-  const handleMoveUp = async (index: number) => {
-    if (!Item || index === 0) return;
-
-    const newMenuItem = [...Item];
-    [newMenuItem[index - 1].position, newMenuItem[index].position] = [
-      newMenuItem[index].position,
-      newMenuItem[index - 1].position,
-    ];
-    [newMenuItem[index - 1], newMenuItem[index]] = [
-      newMenuItem[index],
-      newMenuItem[index - 1],
-    ];
-
-    setItem(newMenuItem);
-
-    await updateItemOrder({
-      id: newMenuItem[index].id!,
-      position: newMenuItem[index].position!,
-    });
-    await updateItemOrder({
-      id: newMenuItem[index - 1].id!,
-      position: newMenuItem[index - 1].position!,
-    });
-  };
-
-  const handleMoveDown = async (index: number) => {
-    if (!Item || index === Item.length - 1) return;
-
-    const newMenuItem = [...Item];
-    [newMenuItem[index + 1].position, newMenuItem[index].position] = [
-      newMenuItem[index].position,
-      newMenuItem[index + 1].position,
-    ];
-    [newMenuItem[index + 1], newMenuItem[index]] = [
-      newMenuItem[index],
-      newMenuItem[index + 1],
-    ];
-    setItem(newMenuItem);
-
-    await updateItemOrder({
-      id: newMenuItem[index].id!,
-      position: newMenuItem[index].position!,
-    });
-    await updateItemOrder({
-      id: newMenuItem[index + 1].id!,
-      position: newMenuItem[index + 1].position!,
-    });
+    queryClient.invalidateQueries({ queryKey: ["Items"] });
   };
 
   const handleDelete = async (id: string) => {
-    setItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deleteitem(id);
+    const { error } = await deleteitem(id);
     setLoading("");
+    if (error) return;
+    const filterdata = itemdata?.filter((item) => item.id !== id);
+    setItemdata(filterdata);
     notifications.show({ message: "Category deleted", color: "green" });
   };
 
@@ -140,9 +105,8 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <ItemHeader lang={lang}>
+      <ItemHeader>
         <AddItemModal
-          lang={lang}
           onAddItem={handleAddItem}
           onEditItem={handleEditItem}
           selectedItem={selectedItem}
@@ -150,11 +114,9 @@ const ItemPage = ({ lang }: { lang: IMessages }) => {
         />
       </ItemHeader>
       <ItemTable
-        lang={lang}
-        data={Item}
-        handleMoveUp={handleMoveUp}
+        pagination={paginationProps}
+        data={itemdata}
         handleSelectItem={handleSelectedItem}
-        handleMoveDown={handleMoveDown}
         handleDelete={handleDelete}
         loading={loading}
         opened={opened}
