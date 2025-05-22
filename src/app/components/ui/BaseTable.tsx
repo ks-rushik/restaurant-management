@@ -49,7 +49,10 @@ type IBaseTableProps<T> = TableProps & {
     fetchNextPage: (
       options?: FetchNextPageOptions,
     ) => Promise<
-      InfiniteQueryObserverResult<InfiniteData<T[], unknown>, Error>
+      InfiniteQueryObserverResult<
+        InfiniteData<{ data: T[]; count: number | null }, unknown>,
+        Error
+      >
     >;
     hasNextPage: boolean;
   };
