@@ -80,6 +80,7 @@ export async function item(
     .from("Items")
     .insert(ItemSupabaseData)
     .select();
+  revalidatePath("/", "page");
 
   return InsertData?.[0];
 }

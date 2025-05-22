@@ -45,7 +45,10 @@ type ICategoryTableProps = {
     fetchNextPage: (
       options?: FetchNextPageOptions,
     ) => Promise<
-      InfiniteQueryObserverResult<InfiniteData<IItemdata[], unknown>, Error>
+      InfiniteQueryObserverResult<
+        InfiniteData<{ data: IItemdata[]; count: number | null }, unknown>,
+        Error
+      >
     >;
     hasNextPage: boolean;
   };

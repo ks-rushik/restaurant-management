@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import { item } from "@/app/actions/item/additem-action";
@@ -38,17 +38,20 @@ const ItemPage = () => {
   const [opened, { close }] = useDisclosure(false);
 
   const {
-    data: alldata,
+    data: flatData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
     fetchItemdataQuery(categoryId, debouncedSearch, filters),
   );
+
+  const queryClient = useQueryClient();
   const paginationProps = {
     fetchNextPage,
     hasNextPage,
   };
-  const data = alldata?.pages.flat();
+
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (data) {
@@ -59,16 +62,15 @@ const ItemPage = () => {
         })),
       );
     }
-  }, [alldata]);
+  }, [flatData]);
 
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
-    const addedItem = await item(newItem, categoryId, file);
-    if (addedItem)
-      setItemdata((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    await item(newItem, categoryId, file);
     notifications.show({
       message: `${newItem.name} added to item`,
       color: "green",
     });
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
   };
 
   const handleDelete = async (id: string) => {

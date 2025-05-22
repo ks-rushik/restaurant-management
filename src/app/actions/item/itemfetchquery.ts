@@ -1,8 +1,8 @@
+import fetchItemdata from "@/app/actions/item/item-fetch";
 import { IItemdata } from "@/app/components/item/AddItemModal";
 import { IFilter } from "@/app/components/item/ItemPage";
 
-import { PAGE_SIZE } from "@/app/actions/menu/menufetchquery";
-import fetchItemdata from "@/app/actions/item/item-fetch";
+export type IPage = { data: IItemdata[]; count: number | null };
 
 export const fetchItemdataQuery = (
   categoryId: string,
@@ -12,10 +12,19 @@ export const fetchItemdataQuery = (
   queryKey: ["Items", categoryId, search, filters],
   queryFn: ({ pageParam = 0 }) =>
     fetchItemdata(pageParam, categoryId, search, filters),
-  getNextPageParam: (lastPage: IItemdata[], allPages: IItemdata[][]) => {
-    if (lastPage.length < PAGE_SIZE) return undefined;
+  getNextPageParam: (lastPage: IPage, allPages: IPage[]) => {
+    const totalFetched = allPages.reduce(
+      (sum, page) => sum + page.data.length,
+      0,
+    );
+    const totalAvailable = lastPage.count ?? 0;
+    console.log(
+      totalAvailable,
+      totalFetched,
+      "this is available and totalfetched",
+    );
 
-    return allPages.length;
+    return totalFetched < totalAvailable ? allPages.length : undefined;
   },
   initialPageParam: 0,
 });
