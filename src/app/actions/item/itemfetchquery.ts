@@ -18,11 +18,6 @@ export const fetchItemdataQuery = (
       0,
     );
     const totalAvailable = lastPage.count ?? 0;
-    console.log(
-      totalAvailable,
-      totalFetched,
-      "this is available and totalfetched",
-    );
 
     return totalFetched < totalAvailable ? allPages.length : undefined;
   },
