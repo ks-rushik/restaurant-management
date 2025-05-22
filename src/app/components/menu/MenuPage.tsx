@@ -5,7 +5,7 @@ import { FC, MouseEvent, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -24,6 +24,7 @@ export type ILanguageProps = {
 };
 
 const Menupage: FC<ILanguageProps> = () => {
+  const queryClient = useQueryClient();
   const [menuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
@@ -33,7 +34,7 @@ const Menupage: FC<ILanguageProps> = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
   const {
-    data: alldata,
+    data: flatData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
@@ -41,25 +42,22 @@ const Menupage: FC<ILanguageProps> = () => {
     fetchNextPage,
     hasNextPage,
   };
-  console.log(alldata.pages[0].data ,'this is alldata');
-  
 
-  const data = alldata?.pages[0].data;
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (data) {
       setMenuItem(data);
     }
-  }, [alldata]);
+  }, [flatData]);
 
   const handleAddMenu = async (newItem: IModalData) => {
-    const addedItem = await menu(newItem); 
-    if (addedItem)
-      setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    await menu(newItem);
     notifications.show({
       message: `${newItem.menu_name} added to menus`,
       color: "green",
     });
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
   };
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
