@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 
+import { useDictionary } from "@components/context/Dictionary";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Center, FileButton, Loader } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -12,7 +13,6 @@ import { ImSpoonKnife } from "react-icons/im";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { z } from "zod";
 
-import { IMessages } from "@/app/[locale]/messages";
 import { submitUserForm } from "@/app/actions/userprofile/userprofile-action";
 import { fetchprofiledataQuery } from "@/app/actions/userprofile/userprofile-fetch-query";
 import FormField from "@/app/components/forms/FormField";
@@ -22,24 +22,21 @@ import BaseInput from "@/app/components/ui/BaseInput";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import validation from "@/app/utils/validation";
 
-
-
-export type IUserProfileForm = {
-  lang?: IMessages;
-};
-
-const UserProfileForm: FC<IUserProfileForm> = (props) => {
-  const { lang } = props;
-  
+const UserProfileForm = () => {
+  const lang = useDictionary();
   const userformSchema = z.object({
-    name: z.string().nonempty(validation(lang?.profile.name!, "required" ,lang)),
+    name: z
+      .string()
+      .nonempty(validation(lang?.profile.name!, "required", lang)),
     phone: z
-    .string()
-    .nonempty(validation(lang?.profile.phonenumber!, "required" ,lang))
-    .length(10, validation(lang?.profile.phonenumber!, "notvalid" ,lang)),
-    address: z.string().min(8, validation(lang?.profile.location!, "minLength" ,lang)),
+      .string()
+      .nonempty(validation(lang?.profile.phonenumber!, "required", lang))
+      .length(10, validation(lang?.profile.phonenumber!, "notvalid", lang)),
+    address: z
+      .string()
+      .min(8, validation(lang?.profile.location!, "minLength", lang)),
   });
- type IUserFormData = z.infer<typeof userformSchema>;
+  type IUserFormData = z.infer<typeof userformSchema>;
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -127,7 +124,7 @@ const UserProfileForm: FC<IUserProfileForm> = (props) => {
           <FileButton onChange={handleFileChange} accept="image/png,image/jpeg">
             {(props) => (
               <BaseButton {...props} classNames={{ root: "mb-10 mt-4 ml-4" }}>
-               {lang?.profile.uploadlogo}
+                {lang?.profile.uploadlogo}
               </BaseButton>
             )}
           </FileButton>
@@ -179,7 +176,7 @@ const UserProfileForm: FC<IUserProfileForm> = (props) => {
                 inner: "font-bold text-white text-sm",
               }}
             >
-             {lang?.profile.button}
+              {lang?.profile.button}
             </BaseButton>
             <div
               onClick={() => handleBack()}

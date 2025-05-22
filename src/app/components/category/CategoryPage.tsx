@@ -14,13 +14,11 @@ import deletecategory from "@/app/actions/category/deletecategory-action";
 import { updateCategoryOrder } from "@/app/actions/category/updatePosition-action";
 import { updateCategory } from "@/app/actions/category/updatecategory-action";
 
-import { ILanguageProps } from "../menu/MenuPage";
 import AddCategoryModal, { ICategorydata } from "./AddCategoryModal";
 import CategoryHeader from "./CategoryHeader";
 import CategoryTable from "./CategoryTable";
 
-const CategoryPage: FC<ILanguageProps> = (props) => {
-  const { lang } = props;
+const CategoryPage = () => {
   const [CategoryItem, setCategoryItem] = useState<ICategorydata[]>();
   const [selectedCategory, setSelectedCategory] =
     useState<ICategorydata | null>(null);
@@ -144,9 +142,8 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <CategoryHeader lang={lang}>
+      <CategoryHeader>
         <AddCategoryModal
-          lang={lang}
           onAddCategory={handleAddCategory}
           onEditCategory={handleEditCategory}
           selectedCategory={selectedCategory}
@@ -155,7 +152,6 @@ const CategoryPage: FC<ILanguageProps> = (props) => {
       </CategoryHeader>
 
       <CategoryTable
-        lang={lang}
         data={CategoryItem}
         handleView={handleView}
         handleSelectCategory={handleSelectCategory}

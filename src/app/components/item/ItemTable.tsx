@@ -3,11 +3,11 @@ import { FC, useState } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import { useDictionary } from "@components/context/Dictionary";
 import { Badge } from "@mantine/core";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
 import { LuFilter } from "react-icons/lu";
 
-import { IMessages } from "@/app/[locale]/messages";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
@@ -34,7 +34,6 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filters: IFilter;
   setFilters: React.Dispatch<React.SetStateAction<IFilter>>;
-  lang?: IMessages;
 };
 
 const ItemTable: FC<ICategoryTableProps> = (props) => {
@@ -51,9 +50,9 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filters,
     setFilters,
-    lang,
   } = props;
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const lang = useDictionary();
 
   return !data ? (
     <Loader />

@@ -10,7 +10,7 @@ import { IMessages, getDictionary } from "@/app/[locale]/messages";
 import { fetchCategorydataQuery } from "@/app/actions/category/categoryfetchquery";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
 import CategoryPage from "@/app/components/category/CategoryPage";
-import Navbar from "@/app/components/navbar/Navbar";
+import DictionaryProvider from "@/app/components/context/Dictionary";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +29,9 @@ const page = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <CategoryPage lang={dictionary} />
+      <DictionaryProvider value={dictionary}>
+        <CategoryPage />
+      </DictionaryProvider>
     </HydrationBoundary>
   );
 };

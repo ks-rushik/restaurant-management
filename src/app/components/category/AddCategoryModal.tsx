@@ -2,6 +2,7 @@
 
 import React, { FC, useEffect, useState } from "react";
 
+import { useDictionary } from "@components/context/Dictionary";
 import BaseDropzone from "@components/ui/BaseDropzone";
 import BaseModal from "@components/ui/BaseModal";
 import BaseSelect from "@components/ui/BaseSelect";
@@ -33,7 +34,6 @@ export type ICategoryModalProps = {
   onEditCategory: (updatedmenu: ICategorydata, file?: File) => Promise<void>;
   selectedCategory?: ICategorydata | null;
   setSelectedCategory: (value: ICategorydata | null) => void;
-  lang?: IMessages;
 };
 
 const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
@@ -42,8 +42,9 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     onEditCategory,
     selectedCategory,
     setSelectedCategory,
-    lang,
   } = props;
+  const lang = useDictionary();
+
   const AddCategorychema = z.object({
     category_name: z
       .string()
@@ -81,6 +82,15 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       reset({ category_name: "", status: "" });
     }
   }, [selectedCategory, reset]);
+
+  const onError = () => {
+    if (!selectedCategory?.image && !file) {
+      return setError("root", { message: ImageError(file, lang).setError });
+    }
+    if (file) {
+      setError("root", { message: ImageError(file, lang).setError });
+    }
+  };
 
   const onSubmit = async (data: IAddCategoryData) => {
     if (selectedCategory) {
