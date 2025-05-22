@@ -24,9 +24,14 @@ const page = async ({
 }) => {
   const { categoryId } = await params;
 
-  await queryClient.prefetchInfiniteQuery(fetchItemdataQuery(categoryId, ""));
-
   await queryClient.prefetchQuery(fetchcategoryitemdataQuery(categoryId)); // prefetch menu and category name for breadcrumb
+  await queryClient.prefetchInfiniteQuery(
+    fetchItemdataQuery(categoryId, "", {
+      avaibilityStatus: "",
+      jainOption: "",
+    }),
+  );
+
   const locale = (await params).locale;
   const dictionary: IMessages = await getDictionary(locale);
 
