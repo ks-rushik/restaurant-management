@@ -102,6 +102,7 @@
     "notvalid": "debe ser un número",
     "imagesize": "El tamaño del archivo de imagen debe ser menor a 1 MB",
     "imagenotvalid": "La imagen no tiene un tipo de archivo válido",
+    "imagerequired": "छवि आवश्यक है",
     "AvailableStatus": {
       "Available": "Available",
       "NotAvailable": "Not Available"
@@ -167,5 +168,10 @@
     "copy": "Copiar",
     "download": "Descargar",
     "copied": "Copiado"
+  },
+  "common": {
+    "dragimagehere": "Arrastra las imágenes aquí o",
+    "browsefile": "Buscar archivo",
+    "attachfile": "Adjunta el archivo como desees, el archivo debe ser uno de (jpeg, jpg, png, webp) y no debe exceder"
   }
 }

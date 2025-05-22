@@ -2,19 +2,20 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 
+import QueryProvider from "@components/QueryProvider";
+import RouterTransition from "@components/RouterTransition";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/dropzone/styles.css";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 
 import Navbar from "@/app/components/navbar/Navbar";
+import "@/app/globals.css";
 
-import QueryProvider from "../../components/QueryProvider";
-import RouterTransition from "../../components/RouterTransition";
 import { getDictionary } from "../messages";
-import "./../../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,7 @@ export default async function DashBoardLayout({
 }>) {
   const theme = (await cookies()).get("theme");
   const locale = (await params).locale;
-  const dictionary = await getDictionary(locale);  
+  const dictionary = await getDictionary(locale);
 
   return (
     <html lang={(await params).locale} className={`${theme?.value}`}>

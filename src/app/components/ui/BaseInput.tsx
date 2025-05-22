@@ -128,6 +128,7 @@ const BaseTextField: FC<IBaseTextFieldProps> = (props) => {
 
   return (
     <InputWrapper
+    withAsterisk
       label={label}
       error={error}
       classNames={{

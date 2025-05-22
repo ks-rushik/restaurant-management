@@ -2,13 +2,12 @@
 
 import React, { FC, useEffect, useState } from "react";
 
+import BaseDropzone from "@components/ui/BaseDropzone";
 import BaseModal from "@components/ui/BaseModal";
 import BaseSelect from "@components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, FileButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { IoFastFoodOutline } from "react-icons/io5";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -16,7 +15,6 @@ import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import { Availablity } from "@/app/constants/common";
-import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
@@ -27,7 +25,7 @@ export type ICategorydata = {
   menu_id?: string | null;
   status: string | null;
   position?: number | null | undefined;
-  image?: File | undefined;
+  image?: string | undefined;
 };
 
 export type ICategoryModalProps = {
@@ -62,6 +60,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     formState: { errors },
     handleSubmit,
     setError,
+    clearErrors,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -70,37 +69,20 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   });
 
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-
-  const handleFileChange = (newFile: File | null) => {
-    setFile(newFile);
-    if (newFile) {
-      setPreview(URL.createObjectURL(newFile));
-    }
-  };
 
   useEffect(() => {
     if (selectedCategory) {
-      setPreview(selectedCategory.image as unknown as string);
       reset({
-        category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as keyof typeof Availablity,
+        category_name: selectedCategory.category_name ?? "",
+        status: selectedCategory.status ?? "",
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as keyof typeof Availablity });
+      reset({ category_name: "", status: "" });
     }
   }, [selectedCategory, reset]);
 
   const onSubmit = async (data: IAddCategoryData) => {
-    if (!selectedCategory?.image && !file) {
-      return setError("root", { message: "Image is required" });
-    }
-
-    if (file) {
-      setError("root", { message: ImageError(file, lang).setError });
-    }
-
     if (selectedCategory) {
       const updatedItem = { ...selectedCategory, ...data };
       await onEditCategory(updatedItem, file ?? undefined);
@@ -110,7 +92,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
-    setFile(null), setPreview(null);
+    setFile(null);
   };
 
   const handleClose = () => {
@@ -121,6 +103,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   };
 
   const [opened, { open, close }] = useDisclosure(false);
+  const editModalImage = selectedCategory?.image;
 
   return (
     <div>
@@ -173,28 +156,13 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             required
             error={errors.root?.message}
           >
-            <Avatar
-              src={preview}
-              alt="Uploaded Logo"
-              radius={"sm"}
-              size={"xl"}
-              className="mb-4 w-32 h-32 dark:bg-white"
-            >
-              <IoFastFoodOutline className="dark:text-black" />
-            </Avatar>
-
-            <FileButton
-              onChange={(file) => {
-                handleFileChange(file);
-              }}
-              accept="image/jpeg ,image/png"
-            >
-              {(props) => (
-                <BaseButton {...props} classNames={{ root: "text-white" }}>
-                  {lang?.categories.uploadimage}
-                </BaseButton>
-              )}
-            </FileButton>
+            <BaseDropzone
+              clearErrors={clearErrors}
+              setFile={setFile}
+              setError={setError}
+              editModalImage={editModalImage}
+              language={lang}
+            />
           </FormField>
           <BaseButton
             type="submit"
@@ -210,8 +178,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseButton
         onClick={() => {
           setSelectedCategory(null);
-          setFile(null), setPreview(null);
-          reset({ category_name: "", status: undefined });
+          setFile(null), reset({ category_name: "", status: undefined });
           open();
         }}
         classNames={{
