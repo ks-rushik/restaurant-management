@@ -25,7 +25,5 @@ export async function updateMenu(MenuData: IModalData) {
     .eq("id", MenuData.id!)
     .select();
 
-  revalidatePath("/menu");
-
   return UpdatedData?.[0];
 }

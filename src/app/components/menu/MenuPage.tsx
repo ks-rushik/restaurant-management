@@ -62,6 +62,7 @@ const Menupage: FC<ILanguageProps> = () => {
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
     await updateMenu(updatedmenu);
+    queryClient.invalidateQueries({queryKey: ["menu"]})
     notifications.show({ message: "Menu updated", color: "green" });
   };
 
