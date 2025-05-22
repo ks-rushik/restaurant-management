@@ -79,8 +79,8 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         <BaseTable
           data={data}
           classNames={{
-            th: "[&:first-child]:w-[70px] ",
-            td: "[&:first-child]:w-[70px] ",
+            th: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+            td: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
           }}
           getKey={(item) => item.id!}
           columns={[
