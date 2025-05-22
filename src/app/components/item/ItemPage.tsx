@@ -65,9 +65,7 @@ const ItemPage = () => {
   }, [flatData]);
 
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
-    const newitem = await item(newItem, categoryId, file);
-    console.log(newitem ,'this is new item');
-    
+    await item(newItem, categoryId, file);
     notifications.show({
       message: `${newItem.name} added to item`,
       color: "green",
@@ -80,13 +78,12 @@ const ItemPage = () => {
     const { error } = await deleteitem(id);
     setLoading("");
     if (error) return;
-    const filterdata = itemdata?.filter((item) => item.id !== id);
-    setItemdata(filterdata);
     notifications.show({ message: "Category deleted", color: "green" });
   };
 
   const handleEditItem = async (updateditem: IItemdata, file?: File) => {
     await updateItem(updateditem, categoryId, file);
+    queryClient.invalidateQueries({ queryKey: ["Items"] });
     notifications.show({ message: "Category updated", color: "green" });
   };
 

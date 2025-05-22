@@ -39,7 +39,6 @@ export async function updateItem(
       .update(ItemSupabaseData)
       .eq("id", ItemData.id)
       .select();
-    revalidatePath("/", "page");
 
     return UpdatedData?.[0];
   }
@@ -57,7 +56,6 @@ export async function updateItem(
     .update(ItemSupabaseData)
     .eq("id", ItemData.id)
     .select();
-  revalidatePath("/", "page");
 
   return UpdatedData?.[0];
 }
