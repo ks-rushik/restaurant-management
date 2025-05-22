@@ -62,8 +62,7 @@ const CategoryPage = () => {
 
   const handleAddCategory = async (newItem: ICategorydata, file?: File) => {
     await categories(newItem, menuId, file);
-    queryClient.invalidateQueries({ queryKey: ["menu"] });
-
+    queryClient.invalidateQueries({ queryKey: ["category"] });
     notifications.show({
       message: `${newItem.category_name} added to category`,
       color: "green",

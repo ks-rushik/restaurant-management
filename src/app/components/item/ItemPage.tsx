@@ -65,12 +65,14 @@ const ItemPage = () => {
   }, [flatData]);
 
   const handleAddItem = async (newItem: IItemdata, file?: File) => {
-    await item(newItem, categoryId, file);
+    const newitem = await item(newItem, categoryId, file);
+    console.log(newitem ,'this is new item');
+    
     notifications.show({
       message: `${newItem.name} added to item`,
       color: "green",
     });
-    queryClient.invalidateQueries({ queryKey: ["menu"] });
+    queryClient.invalidateQueries({ queryKey: ["Items"] });
   };
 
   const handleDelete = async (id: string) => {
