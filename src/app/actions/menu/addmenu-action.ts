@@ -57,6 +57,5 @@ export async function menu(MenuData: IModalData) {
   // ];
 
   // Menus(newItems)
-  revalidatePath("/menu", "page");
   return InsertData?.[0];
 }

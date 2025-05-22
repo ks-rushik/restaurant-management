@@ -30,6 +30,7 @@ const categories = async (
       .select("position")
       .eq("menu_id", menuId)
       .order("position", { ascending: false })
+      .limit(1)
       .single();
 
     const newPosition = maxPositionData
@@ -47,7 +48,6 @@ const categories = async (
       .from("category")
       .insert(categorydata)
       .select();
-    revalidatePath("/", "page");
 
     return UpdatedData?.[0];
   }
@@ -111,7 +111,6 @@ const categories = async (
 
   // Categories(newItems)
 
-  revalidatePath("/", "page");
   return InsertData?.[0];
 };
 
