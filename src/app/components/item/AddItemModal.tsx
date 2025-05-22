@@ -1,16 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
 import { useDictionary } from "@components/context/Dictionary";
 import BaseDropzone from "@components/ui/BaseDropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import FormField from "@/app/components/forms/FormField";
@@ -20,13 +16,12 @@ import BaseModal from "@/app/components/ui/BaseModal";
 import BaseSelect from "@/app/components/ui/BaseSelect";
 import BaseTextArea from "@/app/components/ui/BaseTextArea";
 import { Availablity, Jainoption } from "@/app/constants/common";
-import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type IItemdata = {
   created_at?: string;
   id?: string;
-  image?: File | undefined;
+  image?: string | undefined;
   name: string | null;
   description: string | null;
   category_id?: string | null;
@@ -79,33 +74,24 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     setError,
     formState: { errors },
     handleSubmit,
+    clearErrors,
     reset,
     control,
   } = useForm<IAddItemData>({
     resolver: zodResolver(AddItemschema),
   });
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
-
-  const handleFileChange = (newFile: FileWithPath[] | null) => {
-    if (!newFile) return;
-    setFile(newFile[0]);
-
-    if (newFile) {
-      setPreview(URL.createObjectURL(newFile[0]));
-    }
-  };
+  console.log(selectedItem?.image);
 
   useEffect(() => {
     if (selectedItem) {
-      setPreview(selectedItem.image as unknown as string);
       reset({
-        name: selectedItem.name!,
-        description: selectedItem.description!,
-        price: selectedItem.price!,
-        status: selectedItem.status as keyof typeof Availablity,
-        jain: selectedItem.jain as keyof typeof Jainoption,
+        name: selectedItem.name ?? "",
+        description: selectedItem.description ?? "",
+        price: selectedItem.price,
+        status: selectedItem.status ?? "",
+        jain: selectedItem.jain ?? "",
       });
 
       open();
@@ -119,6 +105,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       });
     }
   }, [selectedItem, reset, open]);
+  
   const onError = () => {
     if (!selectedItem?.image && !file) {
       return setError("root", { message: ImageError(file, lang).setError });
@@ -144,7 +131,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
       status: undefined,
       jain: undefined,
     });
-    setFile(null), setPreview(null);
+    setFile(null);
   };
 
   const handleClose = () => {
@@ -160,6 +147,8 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
     setFile(null);
   };
 
+  const editModalImage = selectedItem?.image;
+
   return (
     <div>
       <BaseModal
@@ -167,7 +156,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
         onClose={handleClose}
         title={selectedItem ? lang?.items.edititem : lang?.items.modaltitle}
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="name" error={errors.name?.message}>
             <BaseInput
               type="text"
@@ -242,29 +231,12 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             error={errors.root?.message}
           >
             <BaseDropzone
-              onDrop={(file) => {
-                handleFileChange(file);
-              }}
-            >
-              {preview ? (
-                <Image src={preview} alt="Preview" width={350} height={350} />
-              ) : (
-                <>
-                  <RxImage
-                    size={34}
-                    color="gray"
-                    className="flex justify-self-center mb-2"
-                  />
-                  <Text size="lg" classNames={{ root: "text-center" }}>
-                    {lang?.items.dragimagehere}
-                    <b>{lang?.items.browsefile}</b>
-                  </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    {lang?.items.attachfile}
-                  </Text>
-                </>
-              )}
-            </BaseDropzone>
+              clearErrors={clearErrors}
+              setFile={setFile}
+              setError={setError}
+              editModalImage={editModalImage!}
+              language={lang}
+            />
           </FormField>
           <BaseButton
             type="submit"
@@ -283,8 +255,7 @@ const AddItemModal: FC<IItemModalProps> = (props) => {
             status: undefined,
             jain: undefined,
           });
-          setFile(null), setPreview(null);
-          open();
+          setFile(null), open();
         }}
         classNames={{
           root: "rounded-md h-10 sm:h-11 md:h-12 lg:h-10 xl:h-12 px-4 sm:px-6",

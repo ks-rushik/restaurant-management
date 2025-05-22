@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
 import { useDictionary } from "@components/context/Dictionary";
@@ -8,11 +7,8 @@ import BaseDropzone from "@components/ui/BaseDropzone";
 import BaseModal from "@components/ui/BaseModal";
 import BaseSelect from "@components/ui/BaseSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { useDisclosure } from "@mantine/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { RxImage } from "react-icons/rx";
 import { z } from "zod";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -20,7 +16,6 @@ import FormField from "@/app/components/forms/FormField";
 import BaseButton from "@/app/components/ui/BaseButton";
 import BaseInput from "@/app/components/ui/BaseInput";
 import { Availablity } from "@/app/constants/common";
-import { ImageError } from "@/app/utils/imagevalidation";
 import validation from "@/app/utils/validation";
 
 export type ICategorydata = {
@@ -31,7 +26,7 @@ export type ICategorydata = {
   menu_id?: string | null;
   status: string | null;
   position?: number | null | undefined;
-  image?: File | undefined;
+  image?: string | undefined;
 };
 
 export type ICategoryModalProps = {
@@ -66,6 +61,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     formState: { errors },
     handleSubmit,
     setError,
+    clearErrors,
     reset,
     control,
   } = useForm<IAddCategoryData>({
@@ -74,27 +70,16 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   });
 
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-
-  const handleFileChange = (newFile: FileWithPath[] | null) => {
-    if (!newFile) return;
-    setFile(newFile[0]);
-
-    if (newFile) {
-      setPreview(URL.createObjectURL(newFile[0]));
-    }
-  };
 
   useEffect(() => {
     if (selectedCategory) {
-      setPreview(selectedCategory.image as unknown as string);
       reset({
-        category_name: selectedCategory.category_name!,
-        status: selectedCategory.status as keyof typeof Availablity,
+        category_name: selectedCategory.category_name ?? "",
+        status: selectedCategory.status ?? "",
       });
       open();
     } else {
-      reset({ category_name: "", status: "" as keyof typeof Availablity });
+      reset({ category_name: "", status: "" });
     }
   }, [selectedCategory, reset]);
 
@@ -117,7 +102,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
     close();
     setSelectedCategory(null);
     reset({ category_name: "", status: undefined });
-    setFile(null), setPreview(null);
+    setFile(null);
   };
 
   const handleClose = () => {
@@ -128,6 +113,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
   };
 
   const [opened, { open, close }] = useDisclosure(false);
+  const editModalImage = selectedCategory?.image;
 
   return (
     <div>
@@ -140,7 +126,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             : lang?.categories.modaltitle
         }
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormField name="category_name" error={errors.category_name?.message}>
             <BaseInput
               type="text"
@@ -181,29 +167,12 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
             error={errors.root?.message}
           >
             <BaseDropzone
-              onDrop={(file) => {
-                handleFileChange(file);
-              }}
-            >
-              {preview ? (
-                <Image src={preview} alt="Preview" width={350} height={350} />
-              ) : (
-                <>
-                  <RxImage
-                    size={34}
-                    color="gray"
-                    className="flex justify-self-center mb-2"
-                  />
-                  <Text size="lg" classNames={{ root: "text-center" }}>
-                    {lang?.categories.dragimagehere}
-                    <b> {lang?.categories.browsefile}</b>
-                  </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    {lang?.categories.attachfile}
-                  </Text>
-                </>
-              )}
-            </BaseDropzone>
+              clearErrors={clearErrors}
+              setFile={setFile}
+              setError={setError}
+              editModalImage={editModalImage}
+              language={lang}
+            />
           </FormField>
           <BaseButton
             type="submit"
@@ -219,8 +188,7 @@ const AddCategoryModal: FC<ICategoryModalProps> = (props) => {
       <BaseButton
         onClick={() => {
           setSelectedCategory(null);
-          setFile(null), setPreview(null);
-          reset({ category_name: "", status: undefined });
+          setFile(null), reset({ category_name: "", status: undefined });
           open();
         }}
         classNames={{

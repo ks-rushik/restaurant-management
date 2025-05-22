@@ -1,3 +1,5 @@
+import { FileRejection } from "@mantine/dropzone";
+
 import { IMessages } from "../[locale]/messages";
 
 export const MAX_FILE_SIZE = 1000000; // 1 Mb
@@ -9,23 +11,24 @@ export const ACCEPTED_IMAGE_TYPES = [
 ];
 
 export function ImageError(
-  file: File | null,
+  file: FileRejection[] | null,
   lang?: IMessages,
 ): {
   setError: string | undefined;
 } {
+
   if (!file) {
     return {
       setError: lang?.validation.imagerequired,
     };
   }
-  if (file?.size! >= MAX_FILE_SIZE) {
+  if (file?.[0].errors[0].code === "file-too-large") {
     return {
       setError: lang?.validation.imagesize,
     };
   }
 
-  if (!ACCEPTED_IMAGE_TYPES.includes(file?.type!)) {
+  if (file?.[0].errors[0].code === "file-invalid-type") {
     return {
       setError: lang?.validation.imagenotvalid,
     };

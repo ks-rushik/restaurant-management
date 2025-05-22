@@ -37,6 +37,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
   const { label, input, dropdown, option, ...otherElements } = classNames ?? {};
   return (
     <Select
+      withAsterisk
       withCheckIcon={false}
       classNames={{
         root: "relative group",

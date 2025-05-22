@@ -120,8 +120,13 @@ const ItemPage = () => {
   };
 
   const handleEditItem = async (updateditem: IItemdata, file?: File) => {
-    await updateItem(updateditem, categoryId, file);
-    notifications.show({ message: "Category updated", color: "green" });
+    const savedItem = await updateItem(updateditem, categoryId, file);
+    if (savedItem) {
+      setItem((prev) =>
+        prev?.map((item) => (item.id === savedItem.id ? savedItem : item)),
+      );
+      notifications.show({ message: "Item updated", color: "green" });
+    }
   };
 
   const handleSelectedItem = (item: IItemdata) => {

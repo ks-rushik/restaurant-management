@@ -1,18 +1,19 @@
 import Image from "next/legacy/image";
 import { FC, useState } from "react";
 
-import FilteredData from "@components/FilterData";
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
 import { useDictionary } from "@components/context/Dictionary";
 import { Badge } from "@mantine/core";
 import { FaDownLong, FaUpLong } from "react-icons/fa6";
+import { LuFilter } from "react-icons/lu";
 
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity, Jainoption } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
 
+import BaseSelect from "../ui/BaseSelect";
 import { IItemdata } from "./AddItemModal";
 import ItemActions from "./ItemActions";
 import { IFilter } from "./ItemPage";
@@ -63,17 +64,18 @@ const ItemTable: FC<ICategoryTableProps> = (props) => {
           onChange={(e) => setSearchData(e.target.value)}
           placeholder={lang?.items.searchitem}
         />
-        <FilteredData
+        <BaseSelect
           value={filters.avaibilityStatus}
+          leftSection={<LuFilter size={20} />}
           data={[Availablity.Available, Availablity.NotAvailable, "All"]}
           placeholder={lang?.items.chooseavailibility}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, avaibilityStatus: value || "" }))
           }
         />
-
-        <FilteredData
+        <BaseSelect
           value={filters.jainOption}
+          leftSection={<LuFilter size={20} />}
           data={[Jainoption.Jain, Jainoption.NotJain, "All"]}
           placeholder={lang?.items.choosejainoption}
           onChange={(value) =>
