@@ -38,7 +38,10 @@ type IMenuTableProps = {
     fetchNextPage: (
       options?: FetchNextPageOptions,
     ) => Promise<
-      InfiniteQueryObserverResult<InfiniteData<IMenudata[], unknown>, Error>
+      InfiniteQueryObserverResult<
+        InfiniteData<{ data: IMenudata[]; count: number | null }, unknown>,
+        Error
+      >
     >;
     hasNextPage: boolean;
   };
