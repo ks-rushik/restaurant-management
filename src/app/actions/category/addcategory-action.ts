@@ -111,7 +111,7 @@ const categories = async (
 
   // Categories(newItems)
 
-
+  revalidatePath("/", "page");
   return InsertData?.[0];
 };
 

@@ -1,7 +1,8 @@
 import { ICategorydata } from "@/app/components/category/AddCategoryModal";
 
 import fetchCategorydata from "./category-fetch";
-import { PAGE_SIZE } from "@/app/actions/menu/menufetchquery";
+
+export type IPage = { data: ICategorydata[]; count: number | null };
 
 export const fetchCategorydataQuery = (
   menuId: string,
@@ -11,12 +12,14 @@ export const fetchCategorydataQuery = (
   queryKey: ["category", menuId, search, status],
   queryFn: ({ pageParam = 0 }) =>
     fetchCategorydata(pageParam, menuId, search, status),
-  getNextPageParam: (
-    lastpage: ICategorydata[],
-    allPages: ICategorydata[][],
-  ) => {
-    if (lastpage.length < PAGE_SIZE) return undefined;
-    return allPages.length;
+  getNextPageParam: (lastPage: IPage, allPages: IPage[]) => {
+    const totalFetched = allPages.reduce(
+      (sum, page) => sum + page.data.length,
+      0,
+    );
+    const totalAvailable = lastPage.count ?? 0;
+
+    return totalFetched < totalAvailable ? allPages.length : undefined;
   },
   initialPageParam: 0,
 });

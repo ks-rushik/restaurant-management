@@ -9,12 +9,12 @@ const fetchCategorydata = async (
   menuId: string,
   search?: string,
   status?: string,
-): Promise<ICategorydata[]> => {
+): Promise<{data: ICategorydata[] , count: number | null}> => {
   const supabase = await createClient();
 
   let query = supabase
     .from("category")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("menu_id", menuId)
     .order("position", { ascending: true });
 
@@ -28,11 +28,11 @@ const fetchCategorydata = async (
 
   query = query.range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1);
 
-  const { data, error } = await query;
+  const { data, error , count } = await query;
 
   if (error) throw error;
 
-  return data;
+  return {data ,count};
 };
 
 export default fetchCategorydata;

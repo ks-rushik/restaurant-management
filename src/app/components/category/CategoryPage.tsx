@@ -5,7 +5,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import categories from "@/app/actions/category/addcategory-action";
@@ -18,6 +18,7 @@ import CategoryHeader from "./CategoryHeader";
 import CategoryTable from "./CategoryTable";
 
 const CategoryPage = () => {
+  const queryClient = useQueryClient();
   const [categoryItem, setCategoryItem] = useState<ICategorydata[]>();
   const [selectedCategory, setSelectedCategory] =
     useState<ICategorydata | null>(null);
@@ -31,7 +32,7 @@ const CategoryPage = () => {
   const menuId = pathname.split("/")[3];
 
   const {
-    data: alldata,
+    data: flatData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
@@ -41,7 +42,8 @@ const CategoryPage = () => {
     fetchNextPage,
     hasNextPage,
   };
-  const data = alldata?.pages.flat();
+
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (data) {
@@ -52,16 +54,16 @@ const CategoryPage = () => {
         })),
       );
     }
-  }, [alldata]);
+  }, [flatData]);
 
   const handleView = (category_id: string) => {
     router.push(`/menu/${menuId}/category/${category_id}`);
   };
 
   const handleAddCategory = async (newItem: ICategorydata, file?: File) => {
-    const addedItem = await categories(newItem, menuId, file);
-    if (addedItem)
-      setCategoryItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    await categories(newItem, menuId, file);
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
+
     notifications.show({
       message: `${newItem.category_name} added to category`,
       color: "green",

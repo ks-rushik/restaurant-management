@@ -4,8 +4,8 @@ import { notFound, usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 import HeaderCss from "@components/HeaderCss";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useDictionary } from "@components/context/Dictionary";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
 
@@ -21,7 +21,9 @@ const CategoryHeader: FC<ICategoryHeaderProps> = (props) => {
   const { data } = useInfiniteQuery(fetchMenudataQuery("", ""));
   const menuId = pathname.split("/")[3];
 
-  const menu = data?.pages.flat().find((menu) => menu.id === menuId)?.menu_name;
+  const menu = data?.pages
+    .flatMap((page) => page.data)
+    .find((menu) => menu.id === menuId)?.menu_name;
   if (menu === undefined) {
     return notFound();
   }

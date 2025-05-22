@@ -3,6 +3,7 @@ import { FC } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
+import { useDictionary } from "@components/context/Dictionary";
 import {
   FetchNextPageOptions,
   InfiniteData,
@@ -10,14 +11,11 @@ import {
 } from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
-import { IMessages } from "@/app/[locale]/messages";
 import updateOrder from "@/app/actions/order/update-order";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
 import formatDate from "@/app/utils/formatdate";
-import { useDictionary } from "@components/context/Dictionary";
-
 
 import BaseSelect from "../ui/BaseSelect";
 import { ICategorydata } from "./AddCategoryModal";
@@ -42,10 +40,14 @@ type ICategoryTableProps = {
     fetchNextPage: (
       options?: FetchNextPageOptions,
     ) => Promise<
-      InfiniteQueryObserverResult<InfiniteData<ICategorydata[], unknown>, Error>
+      InfiniteQueryObserverResult<
+        InfiniteData<{ data: ICategorydata[]; count: number | null }, unknown>,
+        Error
+      >
     >;
     hasNextPage: boolean;
-  };};
+  };
+};
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
   const {
