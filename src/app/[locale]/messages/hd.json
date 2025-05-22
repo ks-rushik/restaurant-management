@@ -35,7 +35,10 @@
     "editcategory": "श्रेणी संपादित करें",
     "chooseavailibility": "उपलब्धता चुनें...",
     "categoryplaceholder": "श्रेणी दर्ज करें...",
-    "categorystatusplaceholder": "स्थिति दर्ज करें..."
+    "categorystatusplaceholder": "स्थिति दर्ज करें...",
+    "dragimagehere": "यहाँ छवि खींचें या",
+    "browsefile": "फ़ाइल ब्राउज़ करें",
+    "attachfile": "अपनी सुविधा अनुसार फ़ाइल संलग्न करें, फ़ाइल 5MB से अधिक नहीं होनी चाहिए"
   },
   "items": {
     "title": "वस्तुएं",
@@ -63,7 +66,10 @@
     "itempriceplaceholder": "कीमत दर्ज करें...",
     "itemstatusplaceholder": "स्थिति दर्ज करें...",
     "itemsjainoptionplaceholder": "जैन विकल्प दर्ज करें...",
-    "choosejainoption": "जैन विकल्प चुनें"
+    "choosejainoption": "जैन विकल्प चुनें",
+    "dragimagehere": "यहाँ छवि खींचें या",
+    "browsefile": "फ़ाइल ब्राउज़ करें",
+    "attachfile": "अपनी सुविधा अनुसार फ़ाइल संलग्न करें, फ़ाइल 5MB से अधिक नहीं होनी चाहिए"
   },
   "navbar": {
     "profilepage": "प्रोफ़ाइल पृष्ठ",
@@ -101,7 +107,8 @@
     "nan": "यह एक वैध संख्या नहीं है",
     "notvalid": "यह संख्या होनी चाहिए",
     "imagesize": "चित्र का आकार 1 MB से कम होना चाहिए",
-    "imagenotvalid": "चित्र का फ़ाइल प्रकार अमान्य है"
+    "imagenotvalid": "चित्र का फ़ाइल प्रकार अमान्य है",
+     "imagerequired": "छवि आवश्यक है"
   },
   "availableStatus": {
     "available": "उपलब्ध",
@@ -164,5 +171,8 @@
     "copy": "कॉपी करें",
     "download": "डाउनलोड करें",
     "copied": "कॉपी किया गया"
+  },
+  "table":{
+    "loadmore": "और लोड करें"
   }
 }

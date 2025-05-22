@@ -33,16 +33,16 @@ const CategoryActions: FC<IMenuActionsProps> = (props) => {
     close,
   } = props;
   return (
-    <span className="inline-flex items-center">
+    <span className="inline-flex items-center gap-6">
       <div onClick={() => handleView(item.id!)} title="Items">
         <BiCategory
           size={22}
-          className="mr-6 cursor-pointer hover:text-gray-700  dark:hover:text-gray-400 "
+          className=" cursor-pointer hover:text-gray-700  dark:hover:text-gray-400 "
         />
       </div>
       <div
         onClick={() => handleSelectCategory(item)}
-        className="mr-6 cursor-pointer"
+        className=" cursor-pointer"
         title="Edit Category"
       >
         <MdOutlineModeEdit size={22} className="hover:text-yellow-500 " />

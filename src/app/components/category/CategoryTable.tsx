@@ -3,10 +3,15 @@ import { FC } from "react";
 
 import SearchFilter from "@components/SearchFilter";
 import SearchInput from "@components/SearchInput";
-import { FaDownLong, FaUpLong } from "react-icons/fa6";
+import { useDictionary } from "@components/context/Dictionary";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
 import { LuFilter } from "react-icons/lu";
 
-import { IMessages } from "@/app/[locale]/messages";
+import updateOrder from "@/app/actions/order/update-order";
 import Loader from "@/app/components/ui/BaseLoader";
 import BaseTable from "@/app/components/ui/BaseTable";
 import { Availablity } from "@/app/constants/common";
@@ -20,8 +25,6 @@ type ICategoryTableProps = {
   data: ICategorydata[] | undefined | null;
   handleSelectCategory: (item: ICategorydata) => void;
   handleView: (id: string) => void;
-  handleMoveUp: (index: number) => void;
-  handleMoveDown: (index: number) => void;
   handleDelete: (
     id: string,
     event: React.MouseEvent<HTMLButtonElement>,
@@ -33,7 +36,17 @@ type ICategoryTableProps = {
   setSearchData: (val: string) => void;
   filterStatus: string;
   setFilterStatus: (val: string) => void;
-  lang?: IMessages;
+  pagination: {
+    fetchNextPage: (
+      options?: FetchNextPageOptions,
+    ) => Promise<
+      InfiniteQueryObserverResult<
+        InfiniteData<{ data: ICategorydata[]; count: number | null }, unknown>,
+        Error
+      >
+    >;
+    hasNextPage: boolean;
+  };
 };
 
 const CategoryTable: FC<ICategoryTableProps> = (props) => {
@@ -42,8 +55,7 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     handleView,
     handleSelectCategory,
     handleDelete,
-    handleMoveUp,
-    handleMoveDown,
+    pagination,
     loading,
     opened,
     close,
@@ -51,8 +63,13 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
     setSearchData,
     filterStatus,
     setFilterStatus,
-    lang,
   } = props;
+  const lang = useDictionary();
+  const handledrag = async (state: ICategorydata[]) => {
+    const isNotChange = state.every((item, index) => item.position === index);
+    if (isNotChange) return;
+    await updateOrder(state, "category");
+  };
 
   return !data ? (
     <Loader />
@@ -77,39 +94,16 @@ const CategoryTable: FC<ICategoryTableProps> = (props) => {
         <p className="text-center text-gray-500 mt-4">No Category found.</p>
       ) : (
         <BaseTable
+          pagination={pagination}
           data={data}
           classNames={{
-            th: "[&:first-child]:w-[70px] ",
-            td: "[&:first-child]:w-[70px] ",
+            th: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
+            td: "[&:first-child]:!min-w-[70px] [&:first-child]:!w-[70px]",
           }}
           getKey={(item) => item.id!}
+          DragOn={handledrag}
+          drag
           columns={[
-            {
-              label: "",
-              render: (item) => {
-                const index = data!.findIndex(
-                  (dataItem) => dataItem.id === item.id,
-                );
-                return (
-                  <div className="flex gap-1">
-                    <button
-                      onClick={() => handleMoveUp(index)}
-                      disabled={index === 0}
-                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
-                    >
-                      <FaUpLong />
-                    </button>
-                    <button
-                      onClick={() => handleMoveDown(index)}
-                      disabled={index === data!.length - 1}
-                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 dark:text-white dark:hover:text-gray-500"
-                    >
-                      <FaDownLong />
-                    </button>
-                  </div>
-                );
-              },
-            },
             {
               label: lang?.categories.IMAGE!,
               render: (item) =>

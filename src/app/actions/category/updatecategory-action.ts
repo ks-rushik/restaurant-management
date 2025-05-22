@@ -1,10 +1,15 @@
 "use server";
 
-import { ICategorydata } from "@/app/components/category/AddCategoryModal";
-import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export async function updateCategory(CategoryData: ICategorydata , menuId : string ,file?:File) {
+import { ICategorydata } from "@/app/components/category/AddCategoryModal";
+import { createClient } from "@/app/utils/supabase/server";
+
+export async function updateCategory(
+  CategoryData: ICategorydata,
+  menuId: string,
+  file?: File,
+) {
   const supabase = await createClient();
 
   if (file && file.size > 0) {
@@ -22,7 +27,7 @@ export async function updateCategory(CategoryData: ICategorydata , menuId : stri
     const CategorySupabaseData = {
       menu_id: menuId,
       category_name: CategoryData.category_name,
-      status:CategoryData.status,
+      status: CategoryData.status,
       image: imageUrl,
     };
     const { data: UpdatedData, error: UpdateError } = await supabase
@@ -30,7 +35,6 @@ export async function updateCategory(CategoryData: ICategorydata , menuId : stri
       .update(CategorySupabaseData)
       .eq("id", CategoryData.id)
       .select();
-    revalidatePath("/", "page");
 
     return UpdatedData?.[0];
   }
@@ -38,7 +42,7 @@ export async function updateCategory(CategoryData: ICategorydata , menuId : stri
   const categorydata = {
     menu_id: menuId,
     category_name: CategoryData.category_name,
-    status:CategoryData.status
+    status: CategoryData.status,
   };
 
   const { data: UpdatedData } = await supabase
@@ -46,8 +50,6 @@ export async function updateCategory(CategoryData: ICategorydata , menuId : stri
     .update(categorydata)
     .eq("id", CategoryData.id!)
     .select();
-  
-  revalidatePath("/", "page");
 
   return UpdatedData?.[0];
 }

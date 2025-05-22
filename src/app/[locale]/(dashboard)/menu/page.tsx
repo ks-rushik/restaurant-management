@@ -4,10 +4,10 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 
+import { getDictionary } from "@/app/[locale]/messages";
 import { fetchMenudataQuery } from "@/app/actions/menu/menufetchquery";
+import DictionaryProvider from "@/app/components/context/Dictionary";
 import Menu from "@/app/components/menu/MenuPage";
-
-import { getDictionary } from "../../messages";
 
 const queryClient = new QueryClient();
 
@@ -16,14 +16,16 @@ const Menupage = async ({
 }: Readonly<{
   params: { locale: "en" | "hd" | "sp" };
 }>) => {
-  await queryClient.prefetchQuery(fetchMenudataQuery("", ""));
+  await queryClient.prefetchInfiniteQuery(fetchMenudataQuery("", ""));
 
   const locale = (await params).locale;
   const dictionary = await getDictionary(locale);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Menu lang={dictionary} />
+      <DictionaryProvider value={dictionary}>
+        <Menu />
+      </DictionaryProvider>
     </HydrationBoundary>
   );
 };

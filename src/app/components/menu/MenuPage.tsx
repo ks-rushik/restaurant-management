@@ -5,7 +5,7 @@ import { FC, MouseEvent, useEffect, useState } from "react";
 
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 
 import { IMessages } from "@/app/[locale]/messages";
@@ -23,10 +23,9 @@ export type ILanguageProps = {
   lang?: IMessages;
 };
 
-const Menupage: FC<ILanguageProps> = (props) => {
-  const { lang } = props;
-
-  const [MenuItem, setMenuItem] = useState<IMenudata[]>();
+const Menupage: FC<ILanguageProps> = () => {
+  const queryClient = useQueryClient();
+  const [menuItem, setMenuItem] = useState<IMenudata[]>();
   const [selectedMenu, setSelectedMenu] = useState<IModalData | null>(null);
   const [opened, { close }] = useDisclosure(false);
   const [loading, setLoading] = useState("");
@@ -34,26 +33,36 @@ const Menupage: FC<ILanguageProps> = (props) => {
   const [debouncedSearch] = useDebounce(searchData, 500);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const router = useRouter();
-  const { data } = useQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
+  const {
+    data: flatData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(fetchMenudataQuery(debouncedSearch, filterStatus));
+  const paginationProps = {
+    fetchNextPage,
+    hasNextPage,
+  };
+
+  const data = flatData?.pages.flatMap((page) => page.data) ?? [];
 
   useEffect(() => {
     if (data) {
       setMenuItem(data);
     }
-  }, [data]);
+  }, [flatData]);
 
   const handleAddMenu = async (newItem: IModalData) => {
-    const addedItem = await menu(newItem);
+    await menu(newItem);
     notifications.show({
       message: `${newItem.menu_name} added to menus`,
       color: "green",
     });
-    if (addedItem)
-      setMenuItem((prev) => (prev ? [...prev, addedItem] : [addedItem]));
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
   };
 
   const handleEditMenu = async (updatedmenu: IModalData) => {
     await updateMenu(updatedmenu);
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
     notifications.show({ message: "Menu updated", color: "green" });
   };
 
@@ -62,10 +71,11 @@ const Menupage: FC<ILanguageProps> = (props) => {
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     event.stopPropagation();
-    setMenuItem((prev) => prev?.filter((item) => item.id !== id));
     setLoading(id);
-    await deletemenu(id);
+    const { error } = await deletemenu(id);
     setLoading("");
+    queryClient.invalidateQueries({ queryKey: ["menu"] });
+    if (error) return;
   };
 
   const handleView = (menu_name: string, id: string) => {
@@ -84,9 +94,8 @@ const Menupage: FC<ILanguageProps> = (props) => {
 
   return (
     <div className="items-center px-4 pb-10 sm:px-12 md:px-16 lg:px-20 xl:px-32">
-      <MenuHeader lang={lang}>
+      <MenuHeader>
         <Addmenu
-          lang={lang}
           onAddMenu={handleAddMenu}
           onEditMenu={handleEditMenu}
           selectedMenu={selectedMenu}
@@ -94,9 +103,9 @@ const Menupage: FC<ILanguageProps> = (props) => {
         />
       </MenuHeader>
       <MenuTable
-        lang={lang}
-        data={MenuItem}
+        data={menuItem}
         handleView={handleView}
+        pagination={paginationProps}
         handleSelectMenu={handleSelectMenu}
         handleDelete={handleDelete}
         loading={loading}

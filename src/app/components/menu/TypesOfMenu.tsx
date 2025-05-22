@@ -38,7 +38,7 @@ const TypesOfMenu: FC<ITypesOfMenuProps> = (props) => {
         <RiShareLine
           size={22}
           onClick={handleClick}
-          className="mr-6 hover:text-blue-500"
+          className=" hover:text-blue-500"
         />
       </button>
       <BaseModal

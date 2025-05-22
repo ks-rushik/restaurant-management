@@ -81,7 +81,5 @@ export async function item(
     .insert(ItemSupabaseData)
     .select();
 
-  revalidatePath("/", "layout");
-
   return InsertData?.[0];
 }

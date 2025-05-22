@@ -48,7 +48,6 @@ const categories = async (
       .from("category")
       .insert(categorydata)
       .select();
-    revalidatePath("/", "page");
 
     return UpdatedData?.[0];
   }
@@ -111,8 +110,6 @@ const categories = async (
   // ];
 
   // Categories(newItems)
-
-  revalidatePath("/", "layout");
 
   return InsertData?.[0];
 };
